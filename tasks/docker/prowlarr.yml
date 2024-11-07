@@ -1,0 +1,30 @@
+---
+- name: PROWLARR - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0777"
+  loop:
+    - "{{ base_dir }}/prowlarr"
+
+- name: PROWLARR - Create container
+  community.docker.docker_container:
+    name: prowlarr
+    image: lscr.io/linuxserver/prowlarr
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    ports:
+      - 9696:9696
+    volumes:
+      - "{{ base_dir }}/prowlarr:/config"
+    env:
+      PUID={{ puid }}
+      PGID={{ pgid }}
+      TZ={{ timezone }}

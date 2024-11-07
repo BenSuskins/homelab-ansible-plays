@@ -1,0 +1,32 @@
+---
+- name: SONARR - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0777"
+  loop:
+    - "{{ base_dir }}/sonarr"
+
+- name: SONARR - Create container
+  community.docker.docker_container:
+    name: sonarr
+    image: lscr.io/linuxserver/sonarr
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    ports:
+      - '8989:8989'
+    volumes:
+      - "{{ base_dir }}/sonarr:/config"
+      - '/mnt/media/tv:/tv'
+      - '/mnt/media/downloads:/data'
+    env:
+      PUID={{ puid }}
+      PGID={{ pgid }}
+      TZ={{ timezone }}

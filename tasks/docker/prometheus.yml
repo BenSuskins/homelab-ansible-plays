@@ -1,0 +1,33 @@
+---
+- name: PROMETHEUS - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0777"
+  loop:
+    - "{{ base_dir }}/prometheus"
+
+- name: PROMETHEUS - Create scrape config
+  ansible.builtin.template:
+    src: ../config/prometheus/config.yml.j2
+    dest: "{{ base_dir }}/prometheus/config/prometheus.yml"
+  with_items: "{{ ansible_play_batch }}"
+
+- name: PROMETHEUS - Create container
+  community.docker.docker_container:
+    name: prometheus
+    image: prom/prometheus
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    ports:
+      - "9090:9090"
+    volumes:
+      - "{{ base_dir }}/prometheus/config:/etc/prometheus"
+      - "{{ base_dir }}/prometheus/data:/prometheus"

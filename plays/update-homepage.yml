@@ -1,0 +1,12 @@
+---
+- name: UPDATE-HOMEPAGE - Update Homepage config
+  hosts: docker
+  vars_files:
+    - ../vault.yml
+
+  tasks:
+    - name: UPDATE-HOMEPAGE - Redeploy
+      ansible.builtin.include_tasks: "../tasks/docker/{{ item }}.yml"
+      with_items:
+        - homepage
+

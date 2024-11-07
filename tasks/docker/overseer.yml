@@ -1,0 +1,30 @@
+---
+- name: OVERSEERR - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0777"
+  loop:
+    - "{{ base_dir }}/overseerr"
+
+- name: OVERSEERR - Create container
+  community.docker.docker_container:
+    name: overseerr
+    image: sctx/overseerr
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    ports:
+      - 5055:5055
+    volumes:
+      - "{{ base_dir }}/overseerr:/app/config"
+    env:
+      PUID={{ puid }}
+      PGID={{ pgid }}
+      TZ={{ timezone }}

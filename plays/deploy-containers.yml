@@ -1,0 +1,15 @@
+---
+- name: DEPLOY - Deploy containers
+  hosts: all
+  become: true
+  become_method: ansible.builtin.su
+  become_user: root
+  vars_files:
+    - ../vault.yml
+
+  tasks:
+    - name: DEPLOY - Deploy containers
+      ansible.builtin.include_tasks: "../tasks/docker/{{ item }}.yml"
+      with_items:
+        - "{{ containers }}"
+

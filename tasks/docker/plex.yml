@@ -1,0 +1,31 @@
+---
+- name: PLEX - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0777"
+  loop:
+    - "{{ base_dir }}/plex"
+
+- name: PLEX - Create container
+  community.docker.docker_container:
+    name: plex
+    image: lscr.io/linuxserver/plex
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    network_mode: host
+    volumes:
+      - "{{ base_dir }}/plex:/config"
+      - '/mnt/media/tv:/tv'
+      - '/mnt/media/movies:/movies'
+      - '/mnt/media/other:/other'
+    env:
+      PUID={{ puid }}
+      PGID={{ pgid }}
+      TZ={{ timezone }}
+      VERSION=docker

@@ -1,0 +1,28 @@
+---
+- name: TRANSMISSION - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0777"
+  loop:
+    - "{{ base_dir }}/transmission"
+
+- name: TRANSMISSION - Create container
+  community.docker.docker_container:
+    name: transmission
+    image: lscr.io/linuxserver/transmission
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    network_mode: container:gluetun
+    volumes:
+      - "{{ base_dir }}/transmission:/config"
+      - '/mnt/media/downloads:/downloads'
+    env:
+      PUID={{ puid }}
+      PGID={{ pgid }}
+      TZ={{ timezone }}

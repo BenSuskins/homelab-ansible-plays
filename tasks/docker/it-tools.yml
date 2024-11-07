@@ -1,0 +1,13 @@
+---
+- name: IT-TOOLS - Create container
+  community.docker.docker_container:
+    name: it-tools
+    image: corentinth/it-tools
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    ports:
+      - 83:80

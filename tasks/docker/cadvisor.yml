@@ -1,0 +1,19 @@
+---
+- name: CADVISOR - Create container
+  community.docker.docker_container:
+    name: cadvisor
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    ports:
+      - "9098:8080"
+    networks:
+      - name: homelab
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro

@@ -1,0 +1,19 @@
+---
+- name: SETUP - Setup homeserver
+  hosts: all
+  become: true
+  become_method: ansible.builtin.su
+  become_user: root
+  vars_files:
+    - ../vault.yml
+
+  tasks:
+    - name: SETUP - Update server and install base packages
+      ansible.builtin.include_tasks: "../tasks/core/base.yml"
+
+    - name: SETUP - Install docker
+      ansible.builtin.include_tasks: "../tasks/core/docker.yml"
+
+    - name: SETUP - Reboot server
+      ansible.builtin.reboot:
+        msg: "Rebooting server after setup"

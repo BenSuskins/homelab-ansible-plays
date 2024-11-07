@@ -1,0 +1,39 @@
+---
+- name: GLUETUN - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0777"
+  loop:
+    - "{{ base_dir }}/gluetun"
+
+- name: GLUETUN - Create container
+  community.docker.docker_container:
+    name: gluetun
+    image: qmcgaw/gluetun
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    capabilities:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      - 8888:8888/tcp # HTTP proxy
+      - 8388:8388/tcp # Shadowsocks
+      - 8388:8388/udp # Shadowsocks
+      - '9091:9091' # Transmission
+      - '51413:51413'
+      - '51413:51413/udp'
+    volumes:
+      - "{{ base_dir }}/gluetun:/gluetun"
+    env:
+      VPN_SERVICE_PROVIDER=windscribe
+      VPN_TYPE=openvpn
+      OPENVPN_USER={{ OPENVPN_USER }}
+      OPENVPN_PASSWORD={{ OPENVPN_PASSWORD }}
+      SERVER_REGIONS=Netherlands

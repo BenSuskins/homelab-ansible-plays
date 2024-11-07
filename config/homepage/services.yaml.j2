@@ -1,0 +1,202 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/services
+###########################
+#        Docker           #
+###########################
+- Docker Server:
+    - Pi Hole:
+        href: http://192.168.0.102:82/admin
+        icon: pi-hole
+        description: Fuck ads!
+        # siteMonitor: http://192.168.0.102:82/admin
+        widget:
+          type: pihole
+          url: http://192.168.0.102:82
+          fields: ["blocked_percent"]
+          key: {{ pihole_api_key }}
+    - Nginx Proxy Manager:
+        href: http://192.168.0.102:81
+        icon: nginx-proxy-manager
+        description: Access me outside the house
+        # siteMonitor: http://192.168.0.102:81
+    - Grocy:
+        href: http://192.168.0.102:9283
+        icon: grocy
+        description: All about them chores
+        # siteMonitor: http://192.168.0.102:9283
+    - Mealie:
+        href: http://192.168.0.102:9925/
+        icon: mealie
+        description: Meal plan!
+        # siteMonitor: http://192.168.0.102:9925/
+        widget:
+            type: mealie
+            url: http://192.168.0.102:9925
+            key: {{ mealie_api_key }}
+    - IT Tools:
+        href: http://192.168.0.102:83/
+        icon: it-tools
+        description: Nerd.
+        # siteMonitor: http://192.168.0.102:83/
+    - Ghost:
+        href: http://192.168.0.102:2368/
+        icon: ghost
+        description: Blog it
+        # siteMonitor: http://192.168.0.102:2368/
+###########################
+#         Media           #
+###########################
+- Media Server:
+    - Plex:
+        href: http://192.168.0.101:32400
+        icon: plex
+        description: Watch all our TV / Film
+        # siteMonitor: http://192.168.0.101:32400
+        widget:
+            type: plex
+            fields: ["streams", "movies", "tv"]
+            url: http://192.168.0.101:32400
+            key: {{ plex_api_key }}
+    - Overseer:
+        href: http://192.168.0.101:5055
+        icon: overseerr
+        description: Request new TV / Film
+        # siteMonitor: http://192.168.0.101:5055
+        widget:
+            type: overseerr
+            url: http://192.168.0.101:5055
+            key: {{ overseer_api_key }}
+    - Sonarr:
+        href: http://192.168.0.101:8989
+        icon: sonarr
+        description: Manage TV Requests
+        # siteMonitor: http://192.168.0.101:8989
+        widget:
+          type: sonarr
+          url: http://192.168.0.101:8989
+          key: {{ sonarr_api_key }}
+    - Radarr:
+        href: http://192.168.0.101:7878
+        icon: radarr
+        description: Manage Film Requests
+        # siteMonitor: http://192.168.0.101:7878
+        widget:
+          type: radarr
+          url: http://192.168.0.101:7878
+          key: {{ radarr_api_key }}
+    - Prowlarr:
+        href: http://192.168.0.101:9696
+        icon: prowlarr
+        description: Manage Indexers
+        # siteMonitor: http://192.168.0.101:9696
+        widget:
+            type: prowlarr
+            url: http://192.168.0.101:9696
+            key: {{ prowlarr_api_key }}
+    - Bazarr:
+        href: http://192.168.0.101:6767
+        icon: bazarr
+        description: Manage Subtitles
+        # siteMonitor: http://192.168.0.101:6767
+        widget:
+            type: bazarr
+            url: http://192.168.0.101:6767
+            key: {{ bazarr_api_key }}
+    - Transmission:
+        href: http://192.168.0.101:9091
+        icon: transmission
+        description: Manage Downloads
+        # siteMonitor: http://192.168.0.101:9091
+        widget:
+            type: transmission
+            url: http://192.168.0.101:9091
+            username: {{ transmission_username }}
+            password: {{ transmission_password }}
+    - Metube:
+        href: http://192.168.0.101:8081
+        icon: metube
+        description: Download Youtube
+        # siteMonitor: http://192.168.0.101:8081
+
+###########################
+#        Monitor          #
+###########################
+- Monitoring Server:
+    - Uptime Kuma:
+        href: http://192.168.0.104:3001
+        icon: uptime-kuma
+        description: Is something down?
+        # siteMonitor:  http://192.168.0.104:3001
+        widget:
+            type: uptimekuma
+            url: http://192.168.0.104:3001
+            slug: default
+    - Grafana:
+        href: http://192.168.0.104:3000/?orgId=1
+        icon: grafana
+        description: Monitor services
+        # siteMonitor: http://192.168.0.104:3000/?orgId=1
+        widget:
+            type: grafana
+            url: http://192.168.0.104:3000
+            username: {{ grafana_username }}
+            password: {{ grafana_password }}
+            fields: ["dashboards", "datasources"]
+    - Prometheus:
+        href: http://192.168.0.104:9090
+        icon: prometheus
+        description: Manage metrics
+        # siteMonitor:http://192.168.0.104:9090
+        widget:
+            type: prometheus
+            url: http://192.168.0.104:9090
+
+###########################
+#        General          #
+###########################
+- General:
+    - Proxmox:
+        href: https://192.168.0.253:8006
+        icon: proxmox
+        description: Manage Server
+        # sitemonitor: http://192.168.0.253:8006
+        widget:
+            type: proxmox
+            url: https://192.168.0.253:8006
+            username: {{ proxmox_username }}
+            password: {{ proxmox_api_key }}
+            fields: ["vms", "resources.cpu", "resources.mem"]
+    - Truenas:
+        href: http://192.168.0.100
+        icon: truenas
+        description: Manage NAS
+        # siteMonitor: http://192.168.0.100
+        widget:
+            type: truenas
+            url: http://192.168.0.100
+            key: {{ truenas_api_key }}
+    - Unifi:
+        href: https://192.168.0.1
+        icon: unifi
+        description: Manage Network
+        # sitemonitor: http://192.168.0.1
+        widget:
+            type: unifi
+            url: https://192.168.0.1
+            username: {{ unifi_username }}
+            password: {{ unifi_password }}
+    - Pterodactyl:
+        href: http://192.168.0.103
+        icon: pterodactyl
+        description: Manage Games
+        # sitemonitor: http://192.168.0.103
+        widget:
+            type: pterodactyl
+            url: http://192.168.0.103
+            key: {{ pterodactyl_api_key }}
+    - Home Assistant:
+        href: http://192.168.0.65:8123
+        icon: home-assistant
+        description: Manage House
+        # sitemonitor: http://192.168.0.65:8123

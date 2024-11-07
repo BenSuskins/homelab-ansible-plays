@@ -1,0 +1,33 @@
+---
+- name: LOKI - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0777"
+  loop:
+    - "{{ base_dir }}/loki"
+
+- name: LOKI - Create config
+  ansible.builtin.copy:
+    src: ../config/loki/config.yaml
+    dest: "{{ base_dir }}/loki/config/local-config.yaml"
+
+- name: LOKI - Create container
+  community.docker.docker_container:
+    name: loki
+    image: grafana/loki
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    ports:
+      - "3100:3100"
+    networks:
+      - name: homelab
+    volumes:
+      - "{{ base_dir }}/loki/config:/etc/loki"
+
+# Todo Create file using wget or echo for Loki / Promtail / Prometheus

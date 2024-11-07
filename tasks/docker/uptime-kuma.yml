@@ -1,0 +1,26 @@
+---
+- name: UPTIME-KUMA - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0777"
+  loop:
+    - "{{ base_dir }}/uptime-kuma"
+
+- name: UPTIME-KUMA - Create container
+  community.docker.docker_container:
+    name: uptime-kuma
+    image: louislam/uptime-kuma:1
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    ports:
+      - "3001:3001"
+    networks:
+      - name: homelab
+    volumes:
+      - "{{ base_dir }}/uptime-kuma/data:/app/data"   

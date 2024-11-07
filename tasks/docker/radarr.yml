@@ -1,0 +1,32 @@
+---
+- name: RADARR - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0777"
+  loop:
+    - "{{ base_dir }}/radarr"
+
+- name: RADARR - Create container
+  community.docker.docker_container:
+    name: radarr
+    image: lscr.io/linuxserver/radarr
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    ports:
+      - '7878:7878'
+    volumes:
+      - "{{ base_dir }}/radarr:/config"
+      - '/mnt/media/movies:/movies'
+      - '/mnt/media/downloads:/data'
+    env:
+      PUID={{ puid }}
+      PGID={{ pgid }}
+      TZ={{ timezone }}

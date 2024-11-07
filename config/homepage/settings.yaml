@@ -1,0 +1,61 @@
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/settings
+###########################
+#        General          #
+###########################
+title: Suskins Services
+favicon: null
+headerStyle: underlined
+hideVersion: true
+hideHeader: true
+statusStyle: dot
+useEqualHeights: false
+hideErrors: false
+target: _blank
+cardBlur: xl
+iconStyle: theme
+color: slate
+
+###########################
+#        Background          #
+###########################
+background:
+  image: https://source.unsplash.com/random/?night,dark
+  blur: md
+  brightness: 25
+  opacity: 50
+
+###########################
+#      QuickLaunch        #
+###########################
+quicklaunch:
+  searchDescriptions: true
+  hideInternetSearch: false
+  showSearchSuggestions: true
+  hideVisitURL: false
+
+###########################
+#         Layout          #
+###########################
+layout:
+  Developer:
+    icon: mdi-code-json
+    header: false
+    style: row
+    columns: 6       
+  Media Server:
+    icon: mdi-play-pause
+    style: row
+    columns: 4
+  Docker Server:
+    icon: si-docker
+    style: row
+    columns: 4
+  Monitoring Server:
+    icon: mdi-chart-multiple
+    style: row
+    columns: 4    
+  General:
+    icon: mdi-server
+    style: row
+    columns: 4    

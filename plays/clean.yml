@@ -1,0 +1,24 @@
+---
+- name: CLEAN - Clean up system
+  hosts: all
+  become: true
+  become_method: ansible.builtin.su
+  become_user: root
+
+  tasks:
+    - name: CLEAN - Run cleanup script
+      script: ../scripts/cleanup_linux.sh
+
+    - name: CLEAN - Prune docker images
+      community.docker.docker_prune:
+        containers: false
+        images: true
+        images_filters:
+          dangling: true
+        networks: false
+        volumes: false
+        builder_cache: false
+
+    - name: SETUP - Reboot server
+      ansible.builtin.reboot:
+        msg: "Rebooting server after setup"

@@ -1,0 +1,20 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/service-widgets
+###########################
+#        Date Time        #
+###########################
+- datetime:
+    text_size: xl
+    locale: gb
+    format:
+      dateStyle: short
+      timeStyle: short
+      timeZone: Europe/London
+
+###########################
+#        Greeting         #
+###########################
+- greeting:
+    text_size: xl
+    text: Suskins Services

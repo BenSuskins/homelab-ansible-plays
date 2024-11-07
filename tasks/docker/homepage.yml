@@ -1,0 +1,46 @@
+---
+- name: HOMEPAGE - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0777"
+  loop:
+    - "{{ base_dir }}/homepage"
+
+- name: HOMEPAGE - Create bookmarks
+  ansible.builtin.copy:
+    src: ../config/homepage/bookmarks.yaml
+    dest: "{{ base_dir }}/homepage/bookmarks.yaml"
+
+- name: HOMEPAGE - Create services
+  ansible.builtin.template:
+    src: ../config/homepage/services.yaml.j2
+    dest: "{{ base_dir }}/homepage/services.yaml"
+
+- name: HOMEPAGE - Create settings
+  ansible.builtin.copy:
+    src: ../config/homepage/settings.yaml
+    dest: "{{ base_dir }}/homepage/settings.yaml"
+
+- name: HOMEPAGE - Create widgets
+  ansible.builtin.copy:
+    src: ../config/homepage/widgets.yaml
+    dest: "{{ base_dir }}/homepage/widgets.yaml"
+
+- name: HOMEPAGE - Create container
+  community.docker.docker_container:
+    name: homepage
+    image: ghcr.io/gethomepage/homepage
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    ports:
+      - 3000:3000
+    volumes:
+      - '{{ base_dir }}/homepage:/app/config'

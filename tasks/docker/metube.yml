@@ -1,0 +1,29 @@
+---
+- name: METUBE - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0777"
+  loop:
+    - "{{ base_dir }}/metube"
+
+- name: METUBE - Create container
+  community.docker.docker_container:
+    name: metube
+    image: ghcr.io/alexta69/metube
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    ports:
+      - '8081:8081'
+    volumes:
+      - '/mnt/media/other:/downloads'
+    env:
+      UID={{ puid }}
+      GID={{ pgid }}

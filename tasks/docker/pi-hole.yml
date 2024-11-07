@@ -1,0 +1,32 @@
+---
+- name: PI-HOLE - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0777"
+  loop:
+    - "{{ base_dir }}/pi-hole"
+
+- name: PI-HOLE - Create container
+  community.docker.docker_container:
+    name: pi-hole
+    image: pihole/pihole
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "82:80/tcp"
+    volumes:
+      - '{{ base_dir }}/pi-hole/data:/etc/pihole'
+      - '{{ base_dir }}/pi-hole/dns:/etc/dnsmasq.d'
+    env:
+      TZ={{ timezone }}
+      WEBPASSWORD={{ pihole_password }}

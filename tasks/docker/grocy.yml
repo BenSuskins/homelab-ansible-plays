@@ -1,0 +1,30 @@
+---
+- name: GROCY - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0777"
+  loop:
+    - "{{ base_dir }}/grocy"
+
+- name: GROCY - Create container
+  community.docker.docker_container:
+    name: grocy
+    image: lscr.io/linuxserver/grocy
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    ports:
+      - 9283:80
+    volumes:
+      - '{{ base_dir }}/grocy:/config'
+    env:
+      PUID={{ puid }}
+      PGID={{ pgid }}
+      TZ={{ timezone }}
