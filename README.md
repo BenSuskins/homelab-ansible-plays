@@ -1,14 +1,14 @@
-# Server
+# Homelab Ansible Plays
 
-Suskins Homelab managed via Ansible.
+# Ansible Vault
 
-# Ansible
-
-## Vault
 Edit Vault
+
 ```bash
 ansible-vault edit vault.yml
 ````
+
+# Ansible Plays
 
 ## Setup
 
@@ -40,7 +40,7 @@ Updates Homepage config.
 ansible-playbook plays/update.yml -K --ask-vault-pass
 ```
 
-Updates / Upgrades all packages, scripts repo and docker containers as per group vars.
+Updates / Upgrades all packages and docker containers as per group vars.
 
 ## Cleanup system
 
