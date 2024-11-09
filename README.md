@@ -6,6 +6,7 @@ Edit Vault
 
 ```bash
 ansible-vault edit vault.yml
+cp vault.yml ../secrets
 ````
 
 # SSH Keys
