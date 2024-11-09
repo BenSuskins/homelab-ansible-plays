@@ -29,5 +29,3 @@
       - name: homelab
     volumes:
       - "{{ base_dir }}/loki/config:/etc/loki"
-
-# Todo Create file using wget or echo for Loki / Promtail / Prometheus
