@@ -1,0 +1,32 @@
+---
+- name: HARNESS - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0777"
+  loop:
+    - "{{ base_dir }}/harness"
+
+- name: HARNESS - Create container
+  community.docker.docker_container:
+    name: harness
+    image: harness/harness
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    ports:
+      - '3000:3000'
+      - '3022:3022'
+    volumes:
+      - "{{ base_dir }}/harness:/data"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    env:
+      PUID={{ puid }}
+      PGID={{ pgid }}
+      TZ={{ timezone }}
