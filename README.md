@@ -8,6 +8,14 @@ Edit Vault
 ansible-vault edit vault.yml
 ````
 
+# SSH Keys
+
+```bash
+ssh-copy-id -i ~/.ssh/homelab.pub <user>@<host>
+```
+
+Copy SSH key to host.
+
 # Ansible Plays
 
 ## Setup
