@@ -28,6 +28,9 @@
       - "/var/run/docker.sock:/var/run/docker.sock"
     env:
       GITNESS_URL_BASE=http://192.168.0.105:3000
+      GITNESS_PRINCIPAL_ADMIN_EMAIL={{ HARNESS_USERNAME }}
+      GITNESS_PRINCIPAL_ADMIN_PASSWORD={{ HARNESS_PASSWORD }}
+      GITNESS_USER_SIGNUP_ENABLED=false
       PUID={{ puid }}
       PGID={{ pgid }}
       TZ={{ timezone }}
