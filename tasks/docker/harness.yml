@@ -27,6 +27,7 @@
       - "{{ base_dir }}/harness:/data"
       - "/var/run/docker.sock:/var/run/docker.sock"
     env:
+      GITNESS_URL_BASE=http://192.168.0.105:3000
       PUID={{ puid }}
       PGID={{ pgid }}
       TZ={{ timezone }}
