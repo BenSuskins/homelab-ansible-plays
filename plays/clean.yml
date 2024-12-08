@@ -24,6 +24,6 @@
         volumes: false
         builder_cache: false
 
-    - name: CLEAN - Reboot server if required
+    - name: CLEAN - Reboot server
       ansible.builtin.reboot:
         msg: "Rebooting server after cleanup"
