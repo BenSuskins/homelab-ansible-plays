@@ -22,9 +22,7 @@ Ensure you have the following installed on your control machine:
 - SSH access to all target hosts.
 - Ansible Vault set up for secrets management.
 
----
-
-###Ansible Vault set up for secrets management
+## Ansible Vault set up for secrets management
 
 Edit Vault:
 
@@ -46,6 +44,7 @@ Copy SSH key to host:
 ```bash
 ssh-copy-id -i ~/.ssh/homelab.pub <user>@<host>
 ```
+---
 
 # Playbooks
 
@@ -90,6 +89,8 @@ Cleanup docker and system files.
 ```bash
 ansible-playbook plays/clean.yml -K --ask-vault-pass
 ```
+
+---
 
 # Hosts
 
