@@ -74,7 +74,7 @@
     state: present
     driver: bridge
 
-- name: DEPLOY - Deploy core containers
+- name: DOCKER - Deploy core containers
   ansible.builtin.include_tasks: "../docker/{{ item }}.yml"
   with_items:
     - "{{ core_containers }}"
