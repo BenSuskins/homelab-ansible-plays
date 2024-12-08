@@ -2,6 +2,7 @@
 - name: CLEAN - Perform system cleanup
   hosts: all
   become: true
+  become_method: ansible.builtin.su
   tasks:
     - name: Remove unused packages
       apt:
