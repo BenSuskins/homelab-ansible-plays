@@ -99,7 +99,6 @@ ansible-playbook plays/clean.yml -K --ask-vault-pass
 - grocy
 - it-tools
 - mealie
-- ghost
 
 # Todo
 
