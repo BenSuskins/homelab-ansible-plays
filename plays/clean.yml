@@ -4,15 +4,12 @@
   become: true
   become_method: ansible.builtin.su
   tasks:
-    - name: Remove unused packages
-      apt:
+    - name: Remove unused packages and clear apt cache
+      ansible.builtin.apt:
         autoremove: yes
         autoclean: yes
-
-    - name: Clear apt cache
-      shell: apt-get clean
-      args:
-        warn: false
+        clean: yes
+        purge: true
 
     - name: Clean journal logs older than 30 days
       command: journalctl --vacuum-time=30d
