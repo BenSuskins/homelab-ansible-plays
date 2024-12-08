@@ -6,13 +6,13 @@
   tasks:
     - name: Remove unused packages and clear apt cache
       ansible.builtin.apt:
-        autoremove: yes
-        autoclean: yes
-        clean: yes
+        autoremove: true
+        autoclean: true
+        clean: true
         purge: true
 
     - name: Clean journal logs older than 30 days
-      command: journalctl --vacuum-time=30d
+      ansible.builtin.command: journalctl --vacuum-time=30d
 
     - name: CLEAN - Prune unused Docker resources
       community.docker.docker_prune:
