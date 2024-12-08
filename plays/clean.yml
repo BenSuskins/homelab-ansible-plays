@@ -1,15 +1,22 @@
 ---
-- name: CLEAN - Clean up system
+- name: CLEAN - Perform system cleanup
   hosts: all
   become: true
-  become_method: ansible.builtin.su
-  become_user: root
-
   tasks:
-    - name: CLEAN - Run cleanup script
-      script: ../scripts/cleanup_linux.sh
+    - name: Remove unused packages
+      apt:
+        autoremove: yes
+        autoclean: yes
 
-    - name: CLEAN - Prune docker images
+    - name: Clear apt cache
+      shell: apt-get clean
+      args:
+        warn: false
+
+    - name: Clean journal logs older than 30 days
+      command: journalctl --vacuum-time=30d
+
+    - name: CLEAN - Prune unused Docker resources
       community.docker.docker_prune:
         containers: false
         images: true
@@ -19,6 +26,6 @@
         volumes: false
         builder_cache: false
 
-    - name: SETUP - Reboot server
+    - name: CLEAN - Reboot server if required
       ansible.builtin.reboot:
-        msg: "Rebooting server after setup"
+        msg: "Rebooting server after cleanup"
