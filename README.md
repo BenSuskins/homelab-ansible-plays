@@ -133,3 +133,11 @@ Details of the services running on each host.
 # Planned Improvements
 
 These are tracked in [GitHub Issues](https://github.com/BenSuskins/homelab-ansible-plays/issues):
+
+# Acknowledgments
+
+This repo was inspired by and has drawn from the following repositories and resources:
+
+- [Homelab Subreddit](http://reddit.com/r/homelab)
+- [Selfhosted Subreddit](http://reddit.com/r/selfhosted)
+- [Ansible Homelab](https://github.com/rishavnandi/ansible_homelab)
