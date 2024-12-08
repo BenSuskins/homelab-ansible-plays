@@ -93,6 +93,7 @@ ansible-playbook plays/clean.yml -K --ask-vault-pass
 ---
 
 # Hosts
+Details of the services running on each host.
 
 ## All
 
@@ -127,6 +128,8 @@ ansible-playbook plays/clean.yml -K --ask-vault-pass
 - it-tools
 - mealie
 
-## Planned Improvements
+---
+
+# Planned Improvements
 
 These are tracked in [GitHub Issues](https://github.com/BenSuskins/homelab-ansible-plays/issues):
