@@ -12,4 +12,3 @@
       ansible.builtin.include_tasks: "../tasks/docker/{{ item }}.yml"
       with_items:
         - "{{ containers }}"
-

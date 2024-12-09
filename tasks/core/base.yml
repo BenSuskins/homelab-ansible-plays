@@ -38,7 +38,7 @@
 
 - name: BASE - Mount network drive
   when: name == "mediaserver"
-  mount:
+  ansible.posix.moun:
     src: //{{ nas_ip }}/media
     path: /mnt/media
     fstype: cifs

@@ -9,27 +9,12 @@
 
   tasks:
     - name: UPDATE - Update packages with apt
-      when: ansible_pkg_mgr == 'apt'
       ansible.builtin.apt:
         update_cache: true
 
-    - name: UPDATE - Update packages with yum
-      when: ansible_pkg_mgr == 'yum'
-      ansible.builtin.yum:
-        name: '*'
-        state: latest
-
     - name: UPDATE - Upgrade packages with apt
-      when: ansible_pkg_mgr == 'apt'
       ansible.builtin.apt:
         upgrade: dist
-
-    - name: UPDATE - Upgrade packages with yum
-      when: ansible_pkg_mgr == 'yum'
-      ansible.builtin.yum:
-        name: '*'
-        state: latest
-        exclude: kernel*
 
     - name: UPDATE - Update Docker Containers
       ansible.builtin.include_tasks: "../tasks/docker/{{ item }}.yml"
