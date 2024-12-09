@@ -9,5 +9,6 @@ containers:
   - grafana
   - loki
   - uptime-kuma
+  - graphite-exporter
   - prometheus
   

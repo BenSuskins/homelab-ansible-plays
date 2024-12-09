@@ -1,0 +1,26 @@
+---
+- name: GRAPHITE-EXPORTER - Create container
+  community.docker.docker_container:
+    name: graphite-exporter
+    image: prom/graphite-exporter
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    ports:
+      - "9108:9108"
+      - "9109:9109"
+      - "9109:9109/udp"
+
+- name: GRAPHITE-EXPORTER - Add to scrape configs
+  set_fact:
+    prometheus_scrape_configs: >-
+      {{
+        (prometheus_scrape_configs | default([])) +
+        [ {
+          'job_name': 'graphite-exporter',
+          'static_configs': [ { 'targets': [ ansible_host ~ ':9108' ] } ]
+        } ]
+      }}
