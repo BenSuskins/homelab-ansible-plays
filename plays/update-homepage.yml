@@ -6,6 +6,5 @@
 
   tasks:
     - name: UPDATE-HOMEPAGE - Redeploy
-      ansible.builtin.include_tasks: "../tasks/docker/{{ item }}.yml"
-      with_items:
-        - homepage
+      ansible.builtin.include_tasks: "../tasks/docker/homepage.yml"
+

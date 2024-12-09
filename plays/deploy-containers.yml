@@ -8,6 +8,6 @@
 
   tasks:
     - name: DEPLOY - Deploy containers
-      ansible.builtin.include_tasks: "../tasks/docker/{{ item }}.yml"
-      with_items:
-        - "{{ containers }}"
+      ansible.builtin.include_tasks:
+        file: "../tasks/docker/{{ item }}.yml"
+      loop: "{{ containers }}"

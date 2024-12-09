@@ -37,7 +37,7 @@
     access_time: preserve
 
 - name: BASE - Mount network drive
-  when: name == "mediaserver"
+  when: mount_nas|bool
   ansible.posix.moun:
     src: //{{ nas_ip }}/media
     path: /mnt/media

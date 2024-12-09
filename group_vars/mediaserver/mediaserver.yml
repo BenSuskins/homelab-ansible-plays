@@ -5,6 +5,7 @@ pgid: 1000
 default_pass: mediaserver
 base_dir: /home/mediaserver/server-mediaserver
 nas_ip: 192.168.0.100
+mount_nas: true
 
 containers:
   - plex

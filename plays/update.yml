@@ -7,23 +7,23 @@
     - ../vault.yml
 
   tasks:
-    - name: UPDATE - Update packages with apt
+    - name: UPDATE - Update packages
       ansible.builtin.apt:
         update_cache: true
 
-    - name: UPDATE - Upgrade packages with apt
+    - name: UPDATE - Upgrade packages
       ansible.builtin.apt:
         upgrade: dist
 
     - name: UPDATE - Update Docker Containers
-      ansible.builtin.include_tasks: "../tasks/docker/{{ item }}.yml"
-      with_items:
-        - "{{ containers }}"
+      ansible.builtin.include_tasks:
+        file: "../tasks/docker/{{ item }}.yml"
+      loop: "{{ containers }}"
 
     - name: UPDATE - Update Core Docker Containers
-      ansible.builtin.include_tasks: "../tasks/docker/{{ item }}.yml"
-      with_items:
-        - "{{ core_containers }}"
+      ansible.builtin.include_tasks:
+        file: "../tasks/docker/{{ item }}.yml"
+      loop: "{{ core_containers }}"
 
     - name: SETUP - Reboot server
       ansible.builtin.reboot:

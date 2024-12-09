@@ -1,5 +1,6 @@
 monitor_ip: 192.168.0.104
 timezone: Europe/London
+mount_nas: false
 
 packages:
   - wget
