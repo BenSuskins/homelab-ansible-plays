@@ -6,7 +6,7 @@ scrape_configs:
   - job_name: "{{ scrape_config.job_name }}"
     static_configs:
 {% for static_config in scrape_config.static_configs %}
-      - targets: {{ static_config.targets | to_nice_yaml }}
+      - targets: [{{ static_config.targets[0] }}]
 {% endfor %}
 {% endfor %}
   - job_name: "prometheus"
