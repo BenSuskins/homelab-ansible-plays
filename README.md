@@ -122,11 +122,15 @@ Details of the services running on each host.
 ## Docker Server
 
 - pi-hole
+- pi-hole-exporter
 - homepage
-- nginx-proxy-manager
 - grocy
 - it-tools
 - mealie
+
+## Development
+
+- TBD
 
 ---
 
