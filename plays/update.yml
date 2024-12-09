@@ -25,6 +25,11 @@
         state: stopped
       loop: "{{ docker_containers.stdout_lines }}"
 
+    - name: UPDATE - Update Core Docker Containers
+      ansible.builtin.include_tasks:
+        file: "../tasks/docker/{{ item }}.yml"
+      loop: "{{ core_containers }}"
+
     - name: UPDATE - Update Docker Containers
       ansible.builtin.include_tasks:
         file: "../tasks/docker/{{ item }}.yml"
@@ -37,11 +42,6 @@
       loop: "{{ docker_containers.stdout_lines }}"
       when: item not in (containers + core_containers)
 
-    - name: UPDATE - Update Core Docker Containers
-      ansible.builtin.include_tasks:
-        file: "../tasks/docker/{{ item }}.yml"
-      loop: "{{ core_containers }}"
-
-    - name: SETUP - Reboot server
-      ansible.builtin.reboot:
-        msg: "Rebooting server after setup"
+    # - name: SETUP - Reboot server
+    #   ansible.builtin.reboot:
+    #     msg: "Rebooting server after setup"

@@ -17,3 +17,14 @@
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
       - /dev/disk/:/dev/disk:ro
+
+- name: CADVISOR - Add to scrape configs
+  set_fact:
+    prometheus_scrape_configs: >-
+      {{
+        (prometheus_scrape_configs | default([])) +
+        [ {
+          'job_name': '{{ inventory_hostname }}',
+          'static_configs': [ { 'targets': [ ansible_host ~ ':9098' ] } ]
+        } ]
+      }}

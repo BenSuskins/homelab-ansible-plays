@@ -14,3 +14,14 @@
     env:
       PIHOLE_HOSTNAME=pi-hole
       PIHOLE_PASSWORD={{ pihole_password }}
+
+- name: PI-HOLE-EXPORTER  - Add to scrape configs
+  set_fact:
+    prometheus_scrape_configs: >-
+      {{
+        (prometheus_scrape_configs | default([])) +
+        [ {
+          'job_name': 'pihole',
+          'static_configs': [ { 'targets': [ ansible_host ~ ':9617' ] } ]
+        } ]
+      }}
