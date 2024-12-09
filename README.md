@@ -145,3 +145,4 @@ This repo was inspired by and has drawn from the following repositories and reso
 - [Homelab Subreddit](http://reddit.com/r/homelab)
 - [Selfhosted Subreddit](http://reddit.com/r/selfhosted)
 - [Ansible Homelab](https://github.com/rishavnandi/ansible_homelab)
+- [truenas-grafana](https://github.com/mazay/truenas-grafana)
