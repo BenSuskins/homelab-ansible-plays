@@ -9,7 +9,6 @@ containers:
   - pi-hole
   - pi-hole-exporter
   - homepage
-  - nginx-proxy-manager
   - grocy
   - it-tools
   - mealie
