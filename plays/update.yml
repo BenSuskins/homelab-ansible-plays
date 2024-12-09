@@ -15,10 +15,27 @@
       ansible.builtin.apt:
         upgrade: dist
 
+    - name: UPDATE - Gather Docker container facts
+      ansible.builtin.command: docker ps -a --format '{% raw %}{{.Names}}{% endraw %}'
+      register: docker_containers
+
+    - name: UPDATE - Stop all running containers
+      community.docker.docker_container:
+        name: "{{ item }}"
+        state: stopped
+      loop: "{{ docker_containers.stdout_lines }}"
+
     - name: UPDATE - Update Docker Containers
       ansible.builtin.include_tasks:
         file: "../tasks/docker/{{ item }}.yml"
       loop: "{{ containers }}"
+
+    - name: UPDATE - Remove stopped containers not wanted
+      community.docker.docker_container:
+        name: "{{ item }}"
+        state: absent
+      loop: "{{ docker_containers.stdout_lines }}"
+      when: item not in (containers + core_containers)
 
     - name: UPDATE - Update Core Docker Containers
       ansible.builtin.include_tasks:
