@@ -111,6 +111,7 @@
         (prometheus_scrape_configs | default([])) +
         [ {
           'job_name': 'graphite-exporter',
+          'scrape_interval': '60s',
           'static_configs': [ { 'targets': [ ansible_host ~ ':9108' ] } ]
         } ]
       }}

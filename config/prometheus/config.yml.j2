@@ -4,6 +4,7 @@ global:
 scrape_configs:
 {% for scrape_config in aggregated_scrape_configs %}
   - job_name: "{{ scrape_config.job_name }}"
+    scrape_interval: {{ scrape_config.scrape_interval }}
     static_configs:
 {% for static_config in scrape_config.static_configs %}
       - targets: [{{ static_config.targets[0] }}]

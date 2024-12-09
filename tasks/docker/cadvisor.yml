@@ -25,6 +25,7 @@
         (prometheus_scrape_configs | default([])) +
         [ {
           'job_name': '{{ inventory_hostname }}',
+          'scrape_interval': '30s',
           'static_configs': [ { 'targets': [ ansible_host ~ ':9098' ] } ]
         } ]
       }}
