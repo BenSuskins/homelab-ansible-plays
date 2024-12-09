@@ -30,19 +30,3 @@
     env:
       TZ={{ timezone }}
       WEBPASSWORD={{ pihole_password }}
-
-- name: PI-HOLE - Create exporter container
-  community.docker.docker_container:
-    name: pi-hole-exporter
-    image: ekofr/pihole-exporter
-    restart_policy: always
-    restart: true
-    state: started
-    pull: true
-    networks:
-      - name: homelab
-    ports:
-      - "9617:9617"
-    env:
-      PIHOLE_HOSTNAME=pi-hole
-      PIHOLE_PASSWORD={{ pihole_password }}
