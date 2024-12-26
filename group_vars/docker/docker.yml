@@ -12,3 +12,5 @@ containers:
   - grocy
   - it-tools
   - mealie
+  - postgres
+  - linkwarden
