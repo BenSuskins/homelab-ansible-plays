@@ -1,0 +1,31 @@
+---
+- name: MAGIC-MIRROR - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0777"
+  loop:
+    - "{{ base_dir }}/magic-mirror"
+    - "{{ base_dir }}/magic-mirror/config"
+    - "{{ base_dir }}/magic-mirror/modules"
+    - "{{ base_dir }}/magic-mirror/css"
+
+- name: MAGIC-MIRROR - Create container
+  community.docker.docker_container:
+    name: magic-mirror
+    image: karsten13/magicmirror
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    volumes:
+      - '{{ base_dir }}/magic-mirror/config:/opt/magic_mirror/config'
+      - '{{ base_dir }}/magic-mirror/modules:/opt/magic_mirror/modules'
+      - '{{ base_dir }}/magic-mirror/css:/opt/magic_mirror/css'
+    ports:
+      - 9926:8080

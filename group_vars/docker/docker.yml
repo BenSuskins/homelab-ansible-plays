@@ -13,4 +13,5 @@ containers:
   - it-tools
   - mealie
   - postgres
+  - magic-mirror
   - linkwarden
