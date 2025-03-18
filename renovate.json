@@ -9,16 +9,17 @@
         "docker"
       ],
       "matchManagers": [
-        "regex"
+        "custom.regex"
       ],
-      "matchPaths": [
+      "matchFileNames": [
         "tasks/docker/**/*.yml"
       ],
       "groupName": "Ansible Docker Images"
     }
   ],
-  "regexManagers": [
+  "customManagers": [
     {
+      "customType": "regex",
       "fileMatch": [
         "tasks/docker/.*\\.yml$"
       ],
