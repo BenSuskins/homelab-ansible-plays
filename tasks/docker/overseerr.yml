@@ -13,7 +13,7 @@
 - name: OVERSEERR - Create container
   community.docker.docker_container:
     name: overseerr
-    image: sctx/overseerr
+    image: sctx/overseerr:1.33.2
     restart_policy: always
     restart: true
     state: started
