@@ -13,7 +13,7 @@
 - name: TRANSMISSION - Create container
   community.docker.docker_container:
     name: transmission
-    image: lscr.io/linuxserver/transmission
+    image: ghcr.io/linuxserver/transmission
     restart_policy: always
     restart: true
     state: started
