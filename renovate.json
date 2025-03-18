@@ -16,7 +16,9 @@
     }
   ],
   "ansible": {
-    "fileMatch": ["tasks/docker/**/*.yml"]
+    "fileMatch": [
+      "tasks/docker/.+\\.ya?ml$"
+    ]
   },
   "hostRules": [
     {
