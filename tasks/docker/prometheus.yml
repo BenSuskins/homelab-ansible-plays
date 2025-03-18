@@ -29,7 +29,7 @@
 - name: PROMETHEUS - Create container
   community.docker.docker_container:
     name: prometheus
-    image: prom/prometheus
+    image: prom/prometheus@sha256:502ad90314c7485892ce696cb14a99fceab9fc27af29f4b427f41bd39701a199
     restart_policy: always
     restart: true
     state: started

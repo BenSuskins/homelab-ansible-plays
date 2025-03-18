@@ -51,7 +51,7 @@
 - name: LOKI - Create container
   community.docker.docker_container:
     name: loki
-    image: grafana/loki
+    image: grafana/loki@sha256:58a6c186ce78ba04d58bfe2a927eff296ba733a430df09645d56cdc158f3ba08
     restart_policy: always
     restart: true
     state: started

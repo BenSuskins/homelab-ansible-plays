@@ -13,7 +13,7 @@
 - name: PI-HOLE - Create container
   community.docker.docker_container:
     name: pi-hole
-    image: pihole/pihole
+    image: pihole/pihole@sha256:6c872c3f8f1954423dbd1c7db661719b447e7b890e231489ada2a6a2904342ff
     restart_policy: always
     restart: true
     state: started

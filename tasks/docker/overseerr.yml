@@ -13,7 +13,7 @@
 - name: OVERSEERR - Create container
   community.docker.docker_container:
     name: overseerr
-    image: sctx/overseerr
+    image: sctx/overseerr@sha256:714ea6db2bc007a2262d112bef7eec74972eb33d9c72bddb9cbd98b8742de950
     restart_policy: always
     restart: true
     state: started
