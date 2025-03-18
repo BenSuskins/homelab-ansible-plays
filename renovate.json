@@ -25,7 +25,7 @@
         "tasks/docker/.*\\.yml$"
       ],
       "matchStrings": [
-        "image: ['\"]?(?<depName>[^'\"]+)['\"]?:['\"]?(?<currentValue>[^'\"]+)['\"]?"
+        "image: ['\"]?(?<depName>[^'\"]+)['\"]?:['\"]?(?<currentValue>[^'\"]+)['\"]?$"
       ],
       "datasourceTemplate": "docker",
       "currentValueTemplate": "{{currentValue}}"
