@@ -14,6 +14,7 @@
           type: pihole
           url: http://192.168.0.102:82
           fields: ["blocked_percent"]
+          version: 6
           key: {{ pihole_api_key }}
     - Linkawrden:
         href: http://192.168.0.102:84
@@ -31,6 +32,7 @@
         description: Meal plan!
         # siteMonitor: http://192.168.0.102:9925/
         widget:
+            version: 2
             type: mealie
             url: http://192.168.0.102:9925
             key: {{ mealie_api_key }}
@@ -41,7 +43,7 @@
         # siteMonitor: http://192.168.0.102:83/
     - Magic Mirror:
         href: http://192.168.0.102:9926/
-        icon: magic-mirror
+        icon: booklogr
         description: Dashyyy.
         # siteMonitor: http://192.168.0.102:9926/       
 ###########################
