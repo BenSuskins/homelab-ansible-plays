@@ -13,7 +13,7 @@
 - name: GROCY - Create container
   community.docker.docker_container:
     name: grocy
-    image: ghcr.io/linuxserver/grocy
+    image: ghcr.io/linuxserver/grocy:4.4.2
     restart_policy: always
     restart: true
     state: started
