@@ -24,14 +24,14 @@
     {
       "hostType": "docker",
       "matchHost": "docker.io",
-      "username": "{{env:MEND_DOCKER_USERNAME}}",
-      "password": "{{env:MEND_DOCKER_TOKEN}}"
+      "username": "{{ secrets.MEND_DOCKER_USERNAME }}",
+      "password": "{{ secrets.MEND_DOCKER_TOKEN }}"
     },
     {
       "hostType": "docker",
       "matchHost": "ghcr.io",
-      "username": "{{env:MEND_GITHUB_USERNAME}}",
-      "password": "{{env:MEND_GITHUB_TOKEN}}"
+      "username": "{{ secrets.MEND_GITHUB_USERNAME }}",
+      "password": "{{ secrets.MEND_GITHUB_TOKEN }}"
     }
   ]
 }
