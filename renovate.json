@@ -23,14 +23,15 @@
   "hostRules": [
     {
       "hostType": "docker",
-      "matchHost": "ghcr.io",
-      "username": "{{env:MEND_GITHUB_USERNAME}}",
-      "password": "{{env:MEND_GITHUB_TOKEN}}"
+      "matchHost": "docker.io",
+      "username": "{{env:MEND_DOCKER_USERNAME}}",
+      "password": "{{env:MEND_DOCKER_TOKEN}}"
     },
     {
       "hostType": "docker",
-      "username": "{{env:MEND_DOCKER_USERNAME}}",
-      "password": "{{env:MEND_DOCKER_TOKEN}}"
+      "matchHost": "ghcr.io",
+      "username": "{{env:MEND_GITHUB_USERNAME}}",
+      "password": "{{env:MEND_GITHUB_TOKEN}}"
     }
   ]
 }
