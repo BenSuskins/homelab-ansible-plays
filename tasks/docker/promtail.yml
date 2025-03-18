@@ -41,7 +41,7 @@
 - name: PROMTAIL - Create container
   community.docker.docker_container:
     name: promtail
-    image: grafana/promtail:3.2.1
+    image: grafana/promtail:3.4.2
     restart_policy: always
     restart: true
     state: started
