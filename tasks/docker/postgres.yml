@@ -13,7 +13,7 @@
 - name: POSTGRES - Create Container
   community.docker.docker_container:
     name: postgres
-    image: postgres:16-alpine
+    image: postgres:16-alpine@sha256:3b057e1c2c6dfee60a30950096f3fab33be141dbb0fdd7af3d477083de94166c
     restart_policy: always
     restart: true
     state: started
