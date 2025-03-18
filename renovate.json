@@ -11,13 +11,13 @@
       "matchManagers": [
         "ansible"
       ],
-      "fileMatch": [
-        "tasks/docker/**/*.yml"
-      ],
       "pinDigests": true,
       "groupName": "Ansible Docker Images"
     }
   ],
+  "ansible": {
+    "fileMatch": ["tasks/docker/**/*.yml"]
+  },
   "hostRules": [
     {
       "hostType": "docker",
