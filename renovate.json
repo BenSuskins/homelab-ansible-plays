@@ -30,5 +30,12 @@
       "datasourceTemplate": "docker",
       "currentValueTemplate": "{{currentValue}}"
     }
+  ],
+  "hostRules": [
+    {
+      "hostType": "docker",
+      "username": "{{env:MEND_DOCKER_USERNAME}}",
+      "password": "{{env:MEND_DOCKER_TOKEN}}"
+    }
   ]
 }
