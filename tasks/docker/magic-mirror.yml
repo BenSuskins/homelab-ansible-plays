@@ -16,7 +16,7 @@
 - name: MAGIC-MIRROR - Create container
   community.docker.docker_container:
     name: magic-mirror
-    image: karsten13/magicmirror@sha256:3f0cd3bcff6680a2dce3b6ed274a9d3718686382c86d8b8a2bb100d9597a1d35
+    image: karsten13/magicmirror:v2.30.0
     restart_policy: always
     restart: true
     state: started

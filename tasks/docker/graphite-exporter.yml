@@ -89,7 +89,7 @@
 - name: GRAPHITE-EXPORTER - Create container
   community.docker.docker_container:
     name: graphite-exporter
-    image: prom/graphite-exporter@sha256:e54bca6645ea8a9e8c52312a8540de98ad08819d38476c021d77a0eae75bc797
+    image: prom/graphite-exporter:v0.16.0
     restart_policy: always
     restart: true
     state: started
