@@ -1,0 +1,35 @@
+---
+- name: TRAEFIK - Create directories and set permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0777"
+  loop:
+    - "{{ base_dir }}/traefik"
+
+- name: TRAEFIK - Create config
+  ansible.builtin.copy:
+    src: ../config/traefik/traefik.toml
+    dest: "{{ base_dir }}/traefik/traefik.toml"
+
+- name: TRAEFIK - Deploy container
+  community.docker.docker_container:
+    name: traefik
+    image: "traefik:v3.3"
+    restart_policy: always
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    command: >
+      --configFile=/config/traefik.yml
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "{{ base_dir }}/traefik/traefik.toml:/etc/traefik/traefik.toml"
+    env:
+      TZ: "{{ timezone }}"
