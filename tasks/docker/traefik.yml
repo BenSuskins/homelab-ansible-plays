@@ -9,6 +9,7 @@
     mode: "0777"
   loop:
     - "{{ base_dir }}/traefik"
+    - "{{ base_dir }}/traefik/dynamic"
 
 - name: TRAEFIK - Create config
   ansible.builtin.copy:
@@ -38,6 +39,7 @@
       --configFile=/config/traefik.yml
     ports:
       - "80:80"
+      - "443:443"
       - "8080:8080"
     volumes:
       - "{{ base_dir }}/traefik:/etc/traefik"
