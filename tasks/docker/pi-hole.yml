@@ -21,12 +21,17 @@
     networks:
       - name: homelab
     ports:
+      # DNS Ports
       - "53:53/tcp"
       - "53:53/udp"
-      - "82:80/tcp"
+      # Default HTTP Port
+      - "80:80/tcp"
+      # Default HTTPs Port. FTL will generate a self-signed certificate
+      - "443:443/tcp"
     volumes:
       - '{{ base_dir }}/pi-hole/data:/etc/pihole'
-      - '{{ base_dir }}/pi-hole/dns:/etc/dnsmasq.d'
     env:
       TZ={{ timezone }}
-      WEBPASSWORD={{ pihole_password }}
+      FTLCONF_webserver_api_password={{ pihole_password }}
+      FTLCONF_dns_revServers="true,192.168.0.0/24,192.168.0.1"
+      FTLCONF_dns_upstreams="1.1.1.1;8.8.8.8;8.8.4.4"
