@@ -1,0 +1,24 @@
+---
+- name: AUTHENTIK WORKER - Create container
+  community.docker.docker_container:
+    name: authentik_worker
+    image: ghcr.io/goauthentik/server:2025.2.2
+    restart_policy: always
+    state: started
+    pull: true
+    networks:
+      - name: homelab    
+    command: worker
+    env:
+      AUTHENTIK_REDIS__HOST=authentik_redis
+      AUTHENTIK_POSTGRESQL__HOST=authentik_postgres
+      AUTHENTIK_POSTGRESQL__USER=authentik
+      AUTHENTIK_POSTGRESQL__NAME=authentik
+      AUTHENTIK_POSTGRESQL__PASSWORD={{ PG_PASS }}
+      AUTHENTIK_SECRET_KEY={{ AUTHENTIK_SECRET_KEY }}
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "{{ base_dir }}/authentik/media:/media"
+      - "{{ base_dir }}/authentik/certs:/certs"
+      - "{{ base_dir }}/authentik/custom-templates:/templates"
+    user: root

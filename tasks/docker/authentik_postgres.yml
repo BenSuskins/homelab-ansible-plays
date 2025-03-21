@@ -1,0 +1,23 @@
+---
+- name: POSTGRES - Create container
+  community.docker.docker_container:
+    name: authentik_postgres
+    image: postgres:16-alpine
+    restart_policy: always
+    state: started
+    pull: true
+    networks:
+      - name: homelab    
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    ports:
+      - "5432:5432"
+    volumes:
+      - "{{ base_dir }}/authentik/postgres/pgdata:/var/lib/postgresql/data"
+    env:
+      POSTGRES_PASSWORD={{ PG_PASS }}
+      POSTGRES_USER=authentik
+      POSTGRES_DB=authentik

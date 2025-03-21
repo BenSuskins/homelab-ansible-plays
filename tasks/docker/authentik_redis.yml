@@ -1,0 +1,20 @@
+---
+- name: REDIS - Create container
+  community.docker.docker_container:
+    name: authentik_redis
+    image: redis:alpine
+    command: --save 60 1 --loglevel warning
+    restart_policy: always
+    state: started
+    pull: true
+    networks:
+      - name: homelab    
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      interval: 30s
+      retries: 5
+      timeout: 3s
+    ports:
+      - "6379:6379"
+    volumes:
+      - "{{ base_dir }}/authentik/redis:/data"
