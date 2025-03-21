@@ -14,9 +14,6 @@
 
   [entryPoints.websecure]
     address = ":443"
-    [entryPoints.websecure.transport.tls]
-      certFile = "/etc/traefik/certs/cert.pem"
-      keyFile = "/etc/traefik/certs/key.pem"
 
 ################################################################
 # Logging Configuration
@@ -31,7 +28,7 @@
 ################################################################
 [api]
   dashboard = true
-  insecure = false
+  insecure = true
 
 ################################################################
 # Ping Configuration
@@ -39,19 +36,11 @@
 [ping]
 
 ################################################################
+# Metrics
+################################################################
+[metrics]
+  [metrics.prometheus]
+
+################################################################
 # HTTP Configuration (Routers & Services)
 ################################################################
-[http]
-  [http.routers]
-    # Router for Authentik
-    [http.routers.authentik]
-      rule = "Host(`auth.suskins.co.uk`)"
-      service = "authentik"
-      entryPoints = ["websecure"]
-      tls = true  # No need for certResolver since we're using static certs
-
-  [http.services]
-    # Service for Authentik
-    [http.services.authentik.loadBalancer]
-      [[http.services.authentik.loadBalancer.servers]]
-        url = "http://192.168.1.101:9000"
