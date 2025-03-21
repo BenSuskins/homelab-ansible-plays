@@ -8,11 +8,6 @@
     pull: true
     networks:
       - name: homelab    
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
-      interval: 30s
-      retries: 5
-      timeout: 5s
     ports:
       - "5432:5432"
     volumes:
