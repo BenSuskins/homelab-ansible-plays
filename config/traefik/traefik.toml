@@ -42,5 +42,8 @@
   [metrics.prometheus]
 
 ################################################################
-# HTTP Configuration (Routers & Services)
+# Providers
 ################################################################
+[providers]
+  [providers.file]
+    directory = "/etc/traefik/dynamic"

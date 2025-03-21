@@ -15,6 +15,16 @@
     src: ../config/traefik/traefik.toml
     dest: "{{ base_dir }}/traefik/traefik.toml"
 
+- name: TRAEFIK - Create ssl config
+  ansible.builtin.copy:
+    src: ../config/traefik/ssl.toml
+    dest: "{{ base_dir }}/traefik/dynamic/ssl.toml"    
+
+- name: TRAEFIK - Create http config
+  ansible.builtin.copy:
+    src: ../config/traefik/http.toml
+    dest: "{{ base_dir }}/traefik/dynamic/http.toml"    
+
 - name: TRAEFIK - Deploy container
   community.docker.docker_container:
     name: traefik

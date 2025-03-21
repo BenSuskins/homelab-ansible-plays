@@ -1,0 +1,15 @@
+################################################################
+# HTTP Configuration (Routers & Services)
+################################################################
+[http]
+  [http.routers]
+    [http.routers.authentik]
+      rule = "Host(`auth.suskins.co.uk`)"
+      service = "authentik"
+      entryPoints = ["websecure"]
+      tls = true  # No need for certResolver since we're using static certs
+
+  [http.services]
+    [http.services.authentik.loadBalancer]
+      [[http.services.authentik.loadBalancer.servers]]
+        url = "http://192.168.1.105:9000"
