@@ -30,6 +30,6 @@
       - "80:80"
       - "8080:8080"
     volumes:
-      - "{{ base_dir }}/traefik/traefik.toml:/etc/traefik/traefik.toml"
+      - "{{ base_dir }}/traefik:/etc/traefik"
     env:
       TZ: "{{ timezone }}"

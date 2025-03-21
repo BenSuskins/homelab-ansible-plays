@@ -1,152 +1,57 @@
 ################################################################
-#
-# Configuration sample for Traefik v2.
-#
-# For Traefik v1: https://github.com/traefik/traefik/blob/v1.7/traefik.sample.toml
-#
-################################################################
-
-################################################################
-# Global configuration
+# Global Configuration
 ################################################################
 [global]
   checkNewVersion = true
-  sendAnonymousUsage = true
+  sendAnonymousUsage = false
 
 ################################################################
-# Entrypoints configuration
+# Entrypoints Configuration
 ################################################################
-
-# Entrypoints definition
-#
-# Optional
-# Default:
 [entryPoints]
   [entryPoints.web]
     address = ":80"
 
   [entryPoints.websecure]
     address = ":443"
+    [entryPoints.websecure.transport.tls]
+      certFile = "/etc/traefik/certs/cert.pem"
+      keyFile = "/etc/traefik/certs/key.pem"
 
 ################################################################
-# Traefik logs configuration
+# Logging Configuration
 ################################################################
-
-# Traefik logs
-# Enabled by default and log to stdout
-#
-# Optional
-#
 [log]
+  level = "INFO"
 
-  # Log level
-  #
-  # Optional
-  # Default: "ERROR"
-  #
-  # level = "DEBUG"
-
-  # Sets the filepath for the traefik log. If not specified, stdout will be used.
-  # Intermediate directories are created if necessary.
-  #
-  # Optional
-  # Default: os.Stdout
-  #
-  # filePath = "log/traefik.log"
-
-  # Format is either "json" or "common".
-  #
-  # Optional
-  # Default: "common"
-  #
-  # format = "json"
+[accessLog]
 
 ################################################################
-# Access logs configuration
+# API and Dashboard Configuration
 ################################################################
-
-# Enable access logs
-# By default it will write to stdout and produce logs in the textual
-# Common Log Format (CLF), extended with additional fields.
-#
-# Optional
-#
-# [accessLog]
-
-  # Sets the file path for the access log. If not specified, stdout will be used.
-  # Intermediate directories are created if necessary.
-  #
-  # Optional
-  # Default: os.Stdout
-  #
-  # filePath = "/path/to/log/log.txt"
-
-  # Format is either "json" or "common".
-  #
-  # Optional
-  # Default: "common"
-  #
-  # format = "json"
-
-################################################################
-# API and dashboard configuration
-################################################################
-
-# Enable API and dashboard
 [api]
-
-  # Enable the API in insecure mode
-  #
-  # Optional
-  # Default: false
-  #
-  # insecure = true
-
-  # Enabled Dashboard
-  #
-  # Optional
-  # Default: true
-  #
-  # dashboard = false
+  dashboard = true
+  insecure = false
 
 ################################################################
-# Ping configuration
+# Ping Configuration
 ################################################################
-
-# Enable ping
 [ping]
 
-  # Name of the related entry point
-  #
-  # Optional
-  # Default: "traefik"
-  #
-  # entryPoint = "traefik"
-
 ################################################################
-# Docker configuration backend
+# HTTP Configuration (Routers & Services)
 ################################################################
+[http]
+  [http.routers]
+    # Router for Authentik
+    [http.routers.authentik]
+      rule = "Host(`auth.suskins.co.uk`)"
+      service = "authentik"
+      entryPoints = ["websecure"]
+      tls = true  # No need for certResolver since we're using static certs
 
-# Enable Docker configuration backend
-[providers.docker]
-
-  # Docker server endpoint. Can be a tcp or a unix socket endpoint.
-  #
-  # Required
-  # Default: "unix:///var/run/docker.sock"
-  #
-  # endpoint = "tcp://10.10.10.10:2375"
-
-  # Default host rule.
-  #
-  # Optional
-  # Default: "Host(`{{ normalize .Name }}`)"
-  #
-  # defaultRule = "Host(`{{ normalize .Name }}.docker.localhost`)"
-
-  # Expose containers by default in traefik
-  #
-  # Optional
-  # Default: true
-  #
-  # exposedByDefault = false
+  [http.services]
+    # Service for Authentik
+    [http.services.authentik.loadBalancer]
+      [[http.services.authentik.loadBalancer.servers]]
+        url = "http://192.168.1.101:9000"
