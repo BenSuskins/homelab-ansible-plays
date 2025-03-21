@@ -2,7 +2,7 @@
 # SSL
 ################################################################
 [[tls.certificates]]
-  certFile = "/etc/traefik/certs/cert.cert"
+  certFile = "/etc/traefik/certs/cert.pem"
   keyFile = "/etc/traefik/certs/key.pem"
 
 [tls.stores]
