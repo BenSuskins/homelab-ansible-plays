@@ -13,7 +13,7 @@
 - name: UPTIME-KUMA - Create container
   community.docker.docker_container:
     name: uptime-kuma
-    image: louislam/uptime-kuma:1
+    image: louislam/uptime-kuma:beta
     restart_policy: always
     restart: true
     state: started
