@@ -26,6 +26,18 @@
     src: ../config/traefik/http.toml
     dest: "{{ base_dir }}/traefik/dynamic/http.toml"    
 
+- name: TRAEFIK - Add to scrape configs
+  set_fact:
+    prometheus_scrape_configs: >-
+      {{
+        (prometheus_scrape_configs | default([])) +
+        [ {
+          'job_name': 'traefik',
+          'scrape_interval': '60s',
+          'static_configs': [ { 'targets': [ ansible_host ~ ':8080' ] } ]
+        } ]
+      }}
+
 - name: TRAEFIK - Deploy container
   community.docker.docker_container:
     name: traefik
