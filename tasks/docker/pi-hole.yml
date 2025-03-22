@@ -35,4 +35,4 @@
       FTLCONF_webserver_api_password={{ pihole_password }}
       FTLCONF_dns_revServers="true,192.168.0.0/24,192.168.0.1"
       FTLCONF_dns_upstreams="1.1.1.1;8.8.8.8;8.8.4.4"
-      FTLCONF_dns_hosts="192.168.0.102 docker.suskins.co.uk;192.168.0.65 homeassistant.suskins.co.uk;192.168.0.101 mediaserver.suskins.co.uk;192.168.0.100 nas.suskins.co.uk;192.168.0.104 monitor.suskins.co.uk;192.168.0.105 development.suskins.co.uk;192.168.0.1 unifi.suskins.co.uk;192.168.0.103 gameserver.suskins.co.uk;192.168.0.253 proxmox.suskins.co.uk"
+      FTLCONF_dns_hosts="192.168.0.102 docker.suskins.co.uk;192.168.0.65 homeassistant.suskins.co.uk;192.168.0.101 mediaserver.suskins.co.uk;192.168.0.100 nas.suskins.co.uk;192.168.0.104 monitor.suskins.co.uk;192.168.0.105 development.suskins.co.uk;192.168.0.103 gameserver.suskins.co.uk;192.168.0.253 proxmox.suskins.co.uk"
