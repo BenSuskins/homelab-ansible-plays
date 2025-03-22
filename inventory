@@ -14,14 +14,14 @@ ansible_user=mediaserver
 [docker:vars]
 ansible_user=docker
 
-[monitor]
-192.168.0.104
-
-[monitor:vars]
-ansible_user=monitor
-
 [development]
 192.168.0.105
 
 [development:vars]
 ansible_user=development
+
+[monitor]
+192.168.0.104
+
+[monitor:vars]
+ansible_user=monitor
