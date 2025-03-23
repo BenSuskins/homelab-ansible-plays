@@ -39,7 +39,7 @@
     state: started
     pull: true
     env:
-      HOMEPAGE_ALLOWED_HOSTS: "192.168.0.102:3000"
+      HOMEPAGE_ALLOWED_HOSTS: "192.168.0.102:3000,home.suskins.co.uk"
     networks:
       - name: homelab
     ports:

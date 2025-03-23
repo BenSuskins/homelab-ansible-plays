@@ -7,9 +7,17 @@
       rule = "Host(`auth.suskins.co.uk`)"
       service = "authentik"
       entryPoints = ["websecure"]
-      tls = true  # No need for certResolver since we're using static certs
+      tls = true
+    [http.routers.home]
+      rule = "Host(`home.suskins.co.uk`)"
+      service = "home"
+      entryPoints = ["websecure"]
+      tls = true
 
   [http.services]
     [http.services.authentik.loadBalancer]
       [[http.services.authentik.loadBalancer.servers]]
         url = "http://192.168.0.105:9000"
+    [http.services.home.loadBalancer]
+      [[http.services.home.loadBalancer.servers]]
+        url = "http://192.168.0.102:3000"
