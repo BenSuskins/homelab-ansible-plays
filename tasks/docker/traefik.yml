@@ -16,16 +16,14 @@
     src: ../config/traefik/traefik.toml
     dest: "{{ base_dir }}/traefik/traefik.toml"
 
-- name: TRAEFIK - Create ssl config
+- name: TRAEFIK - Create dynamic config
   ansible.builtin.copy:
-    src: ../config/traefik/ssl.toml
-    dest: "{{ base_dir }}/traefik/dynamic/ssl.toml"    
-
-- name: TRAEFIK - Create http config
-  ansible.builtin.copy:
-    src: ../config/traefik/http.toml
-    dest: "{{ base_dir }}/traefik/dynamic/http.toml"    
-
+    src: ../config/traefik/dynamic/
+    dest: "{{ base_dir }}/traefik/dynamic/"    
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0755"
+    
 - name: TRAEFIK - Add to scrape configs
   set_fact:
     prometheus_scrape_configs: >-
