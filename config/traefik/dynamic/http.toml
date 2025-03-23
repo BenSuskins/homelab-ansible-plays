@@ -12,6 +12,7 @@
       rule = "Host(`home.suskins.co.uk`)"
       service = "home"
       entryPoints = ["websecure"]
+      middlewares = ["authentik"]
       tls = true
 
   [http.services]
