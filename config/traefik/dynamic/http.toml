@@ -7,12 +7,13 @@
       rule = "Host(`auth.suskins.co.uk`)"
       service = "authentik"
       entryPoints = ["websecure"]
+      middlewares = ["crowdsec"]
       tls = true
     [http.routers.home]
       rule = "Host(`home.suskins.co.uk`)"
       service = "home"
       entryPoints = ["websecure"]
-      middlewares = ["authentik"]
+      middlewares = ["crowdsec", "authentik"]
       tls = true
 
   [http.services]

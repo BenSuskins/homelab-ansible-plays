@@ -42,6 +42,18 @@
   level = "INFO"
 
 [accessLog]
+  filePath = "/logs/traefik.log"
+  format = "json"
+  bufferingSize = 0
+
+  [accessLog.filters]
+    statusCodes = ["200-299", "400-599"] 
+
+  [accessLog.fields]
+    [accessLog.fields.headers]
+      defaultMode = "drop"
+      [accessLog.fields.headers.names]
+        User-Agent = "keep" 
 
 ################################################################
 # API and Dashboard Configuration
@@ -68,3 +80,11 @@
   [providers.file]
     directory = "/etc/traefik/dynamic"
     watch = true
+################################################################
+# Plugins
+################################################################
+[experimental]
+  [experimental.plugins]
+    [experimental.plugins.bouncer]
+      moduleName = "github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin"
+      version = "v1.4.1"

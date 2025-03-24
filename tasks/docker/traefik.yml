@@ -10,6 +10,7 @@
   loop:
     - "{{ base_dir }}/traefik"
     - "{{ base_dir }}/traefik/dynamic"
+    - "{{ base_dir }}/traefik/logs"
 
 - name: TRAEFIK - Create config
   ansible.builtin.copy:
@@ -53,5 +54,6 @@
       - "8080:8080"
     volumes:
       - "{{ base_dir }}/traefik:/etc/traefik"
+      - "{{ base_dir }}/traefik/logs:/logs"
     env:
       TZ: "{{ timezone }}"
