@@ -6,9 +6,9 @@ default_pass: development
 base_dir: /home/development/server-development
 
 containers:
-  - it-tools
   - authentik_server
   - authentik_worker
   - authentik_postgres
   - authentik_redis
   - traefik
+  - crowdsec

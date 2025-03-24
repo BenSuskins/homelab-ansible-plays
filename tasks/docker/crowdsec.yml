@@ -1,0 +1,28 @@
+---
+- name: CROWDSEC - Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: "0777"
+  loop:
+    - "{{ base_dir }}/crowdsec/config"
+    - "{{ base_dir }}/crowdsec/data"
+    - "{{ base_dir }}/crowdsec/logs"
+
+- name: CROWDSEC - Deploy container
+  community.docker.docker_container:
+    name: crowdsec
+    image: crowdsecurity/crowdsec
+    restart_policy: always
+    env:
+      COLLECTIONS: "crowdsecurity/nginx"
+      GID: "{{ pgid }}" 
+    depends_on:
+      - reverse-proxy
+    volumes:
+      - "{{ base_dir }}/crowdsec/config/acquis.yaml:/etc/crowdsec/acquis.yaml"
+      - "{{ base_dir }}/crowdsec/logs:/var/log/nginx"
+      - "{{ base_dir }}/crowdsec/data:/var/lib/crowdsec/data"
+      - "{{ base_dir }}/crowdsec/config:/etc/crowdsec"
