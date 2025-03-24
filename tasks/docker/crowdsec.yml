@@ -16,11 +16,13 @@
     name: crowdsec
     image: crowdsecurity/crowdsec
     restart_policy: always
+    state: started
+    pull: true
+    networks:
+      - name: homelab  
     env:
       COLLECTIONS: "crowdsecurity/nginx"
       GID: "{{ pgid }}" 
-    depends_on:
-      - reverse-proxy
     volumes:
       - "{{ base_dir }}/crowdsec/config/acquis.yaml:/etc/crowdsec/acquis.yaml"
       - "{{ base_dir }}/crowdsec/logs:/var/log/nginx"
