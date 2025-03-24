@@ -21,8 +21,8 @@
     networks:
       - name: homelab  
     env:
-      COLLECTIONS: "crowdsecurity/nginx"
-      GID: "{{ pgid }}" 
+      COLLECTIONS="crowdsecurity/nginx"
+      GID="{{ pgid }}" 
     volumes:
       - "{{ base_dir }}/crowdsec/config/acquis.yaml:/etc/crowdsec/acquis.yaml"
       - "{{ base_dir }}/crowdsec/logs:/var/log/nginx"
