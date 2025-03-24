@@ -10,7 +10,6 @@ containers:
   - pi-hole-exporter
   - homepage
   - grocy
-  - it-tools
   - mealie
   - postgres
   - magic-mirror
