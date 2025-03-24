@@ -125,12 +125,13 @@ Details of the services running on each host.
 - pi-hole-exporter
 - homepage
 - grocy
-- it-tools
 - mealie
 
 ## Development
 
-- TBD
+- Traefik
+- Authentik
+- Crowdsec
 
 ---
 
