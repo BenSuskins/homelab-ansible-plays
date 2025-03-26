@@ -11,6 +11,7 @@ packages:
   - git
   - qemu-guest-agent
   - sudo
+  - ufw
 
 docker_dependencies:
   - ca-certificates
