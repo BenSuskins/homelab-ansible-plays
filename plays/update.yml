@@ -15,6 +15,11 @@
       ansible.builtin.apt:
         upgrade: dist
 
+    - name: UPDATE - Update firewall
+      ansible.builtin.include_tasks:
+        file: "../tasks/other/firewall.yml"
+      when: inventory_hostname == 'development'
+
     - name: UPDATE - Gather Docker container facts
       ansible.builtin.command: docker ps -a --format '{% raw %}{{.Names}}{% endraw %}'
       register: docker_containers
