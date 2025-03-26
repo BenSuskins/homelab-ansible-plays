@@ -14,7 +14,7 @@
 - name: CROWDSEC - Deploy container
   community.docker.docker_container:
     name: crowdsec
-    image: crowdsecurity/crowdsec
+    image: crowdsecurity/crowdsec:v1.6.8
     restart_policy: always
     state: started
     pull: true
