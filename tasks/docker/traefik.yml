@@ -28,7 +28,7 @@
 - name: TRAEFIK - Create crowdsec middleware
   ansible.builtin.template:
     src: ../config/traefik/dynamic/middlewares-crowdsec.toml.j2
-    dest: "{{ base_dir }}traefik/dynamic/middlewares-crowdsec.toml"
+    dest: "{{ base_dir }}/traefik/dynamic/middlewares-crowdsec.toml"
 
 - name: TRAEFIK - Add to scrape configs
   set_fact:
