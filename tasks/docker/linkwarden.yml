@@ -13,7 +13,7 @@
 - name: LINKWARDEN - Create Container
   community.docker.docker_container:
     name: linkwarden
-    image: ghcr.io/linkwarden/linkwarden:v2.10.0
+    image: ghcr.io/linkwarden/linkwarden:v2.10.1
     restart_policy: always
     restart: true
     state: started
