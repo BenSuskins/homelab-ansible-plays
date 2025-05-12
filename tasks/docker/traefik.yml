@@ -45,7 +45,7 @@
 - name: TRAEFIK - Deploy container
   community.docker.docker_container:
     name: traefik
-    image: "traefik:v3.3"
+    image: "traefik:v3.4"
     restart_policy: always
     state: started
     pull: true
