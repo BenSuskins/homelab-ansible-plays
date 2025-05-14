@@ -14,3 +14,5 @@ containers:
   - postgres
   - magic-mirror
   - linkwarden
+  - pubgolf_backend
+  - pubgolf_frontend

@@ -1,0 +1,13 @@
+---
+- name: PUBGOLF - Create container
+  community.docker.docker_container:
+    name: pubgolf_backend
+    image: ghcr.io/bensuskins/pubgolf-backend:latest
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    ports:
+      - '8080:8080'
