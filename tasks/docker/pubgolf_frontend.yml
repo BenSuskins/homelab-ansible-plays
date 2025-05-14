@@ -1,5 +1,5 @@
 ---
-- name: PUBGOLF - Create container
+- name: PUBGOLF-FRONTEND - Create container
   community.docker.docker_container:
     name: pubgolf_frontend
     image: ghcr.io/bensuskins/pubgolf-frontend:latest
@@ -10,4 +10,4 @@
     networks:
       - name: homelab
     ports:
-      - '3000:3000'
+      - '3003:3000'
