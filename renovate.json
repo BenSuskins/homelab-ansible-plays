@@ -21,8 +21,8 @@
     }
   ],
   "ansible": {
-    "fileMatch": [
-      "tasks/docker/.+\\.ya?ml$"
+    "managerFilePatterns": [
+      "/tasks/docker/.+\\.ya?ml$/"
     ]
   },
   "hostRules": [
