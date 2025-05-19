@@ -11,3 +11,5 @@
       - name: homelab
     ports:
       - '3003:3000'
+    env:
+      REACT_APP_API_URL=http://pubgolf_backend:8080

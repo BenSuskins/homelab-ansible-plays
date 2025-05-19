@@ -16,3 +16,4 @@ containers:
   - linkwarden
   - pubgolf_backend
   - pubgolf_frontend
+  - pubgolf_postgres

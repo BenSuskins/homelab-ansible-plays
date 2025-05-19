@@ -1,0 +1,30 @@
+---
+- name: POSTGRES - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0777"
+  loop:
+    - "{{ base_dir }}/pubgolf-postgres"
+
+- name: POSTGRES - Create Container
+  community.docker.docker_container:
+    name: pubgolf_postgres
+    image: postgres:17-alpine
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    ports:
+      - "5432:5432"
+    volumes:
+      - "{{ base_dir }}/pubgolf-postgres/pgdata:/var/lib/postgresql/data"
+    env:
+      POSTGRES_PASSWORD: {{ DB_USERNAME }}
+      POSTGRES_USER: {{ DB_PASSWORD }}
+      POSTGRES_DB: "pubgolf"
