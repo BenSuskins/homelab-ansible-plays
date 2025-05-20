@@ -17,13 +17,13 @@
       tls = true
     [http.routers.pubgolf]
       rule = "Host(`pubgolf.suskins.co.uk`)"
-      service = "home"
+      service = "pubgolf"
       entryPoints = ["websecure"]
       middlewares = ["crowdsec"]
       tls = true      
     [http.routers.pubgolfapi]
       rule = "Host(`api.suskins.co.uk`)"
-      service = "home"
+      service = "pubfgolfapi"
       entryPoints = ["websecure"]
       middlewares = ["crowdsec"]
       tls = true            
@@ -36,8 +36,8 @@
       [[http.services.home.loadBalancer.servers]]
         url = "http://192.168.0.102:3000"
     [http.services.pubgolf.loadBalancer]
-      [[http.services.home.loadBalancer.servers]]
+      [[http.services.pubgolf.loadBalancer.servers]]
         url = "http://192.168.0.102:3003"    
     [http.services.pubgolfapi.loadBalancer]
-      [[http.services.home.loadBalancer.servers]]
+      [[http.services.pubgolfapi.loadBalancer.servers]]
         url = "http://192.168.0.102:8080"              
