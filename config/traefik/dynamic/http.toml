@@ -23,7 +23,7 @@
       tls = true      
     [http.routers.pubgolfapi]
       rule = "Host(`api.suskins.co.uk`)"
-      service = "pubfgolfapi"
+      service = "pubgolfapi"
       entryPoints = ["websecure"]
       middlewares = ["crowdsec"]
       tls = true            
