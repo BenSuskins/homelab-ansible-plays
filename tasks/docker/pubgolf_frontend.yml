@@ -12,4 +12,4 @@
     ports:
       - '3003:3000'
     env:
-      REACT_APP_API_URL=https://api.suskins.co.uk
+      NEXT_PUBLIC_API_URL=https://api.suskins.co.uk
