@@ -1,4 +1,17 @@
 ---
+- name: PUBGOLF-BACKEND - Add to scrape configs
+  set_fact:
+    prometheus_scrape_configs: >-
+      {{
+        (prometheus_scrape_configs | default([])) +
+        [ {
+          'job_name': 'pubgolf',
+          'scrape_interval': '60s',
+          'metrics_path': '/actuator/prometheus',
+          'static_configs': [ { 'targets': [ ansible_host ~ ':8080' ] } ]
+        } ]
+      }}
+
 - name: PUBGOLF-BACKEND - Create container
   community.docker.docker_container:
     name: pubgolf_backend
