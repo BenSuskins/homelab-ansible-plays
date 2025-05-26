@@ -26,4 +26,4 @@ docker_packages:
 
 core_containers:
   - cadvisor
-  - promtail
+  - alloy

@@ -1,0 +1,75 @@
+---
+- name: ALLOY - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0777"
+  loop:
+    - "{{ base_dir }}/alloy/config"
+
+- name: ALLOY - Create config
+  ansible.builtin.copy:
+    content: |
+      discovery.docker "log_scrape" {
+        host             = "unix:///var/run/docker.sock"
+        refresh_interval = "5s"
+      }
+
+      discovery.relabel "log_scrape" {
+        targets = []
+
+        rule {
+          source_labels = ["__meta_docker_container_name"]
+          regex         = "/(.*)"
+          target_label  = "container"
+        }
+
+        rule {
+          source_labels = ["__meta_docker_container_log_stream"]
+          target_label  = "logstream"
+        }
+
+        rule {
+          source_labels = ["__meta_docker_container_label_logging_jobname"]
+          target_label  = "job"
+        }
+      }
+
+      logging {
+        level  = "info"
+        format = "logfmt"
+      }
+
+      loki.source.docker "log_scrape" {
+        host             = "unix:///var/run/docker.sock"
+        targets          = discovery.docker.log_scrape.targets
+        forward_to       = [loki.write.default.receiver]
+        relabel_rules    = discovery.relabel.log_scrape.rules
+        refresh_interval = "5s"
+      }
+
+      loki.write "default" {
+        endpoint {
+          url = "http://192.168.0.104:3100/loki/api/v1/push"
+        }
+        external_labels = {}
+      }
+    dest: "{{ base_dir }}/alloy/config/config.alloy"
+
+- name: ALLOY - Create container
+  community.docker.docker_container:
+    name: alloy
+    image: grafana/alloy:v1.8.3
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    command: run /etc/alloy/config/config.alloy
+    volumes:
+      - "{{ base_dir }}/alloy/config:/etc/alloy/config"
+      - "/var/run/docker.sock:/var/run/docker.sock"    
