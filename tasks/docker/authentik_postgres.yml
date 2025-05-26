@@ -2,7 +2,7 @@
 - name: POSTGRES - Create container
   community.docker.docker_container:
     name: authentik_postgres
-    image: postgres:16-alpine
+    image: postgres:17-alpine
     restart_policy: always
     state: started
     pull: true
