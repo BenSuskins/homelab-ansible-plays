@@ -13,7 +13,7 @@
 - name: RADARR - Create container
   community.docker.docker_container:
     name: radarr
-    image: ghcr.io/linuxserver/radarr:5.23.3
+    image: ghcr.io/linuxserver/radarr:5.24.1
     restart_policy: always
     restart: true
     state: started
