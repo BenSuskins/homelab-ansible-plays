@@ -15,6 +15,8 @@
       entryPoints = ["websecure"]
       middlewares = ["crowdsec", "authentik"]
       tls = true
+
+    # Pubgolf Routers
     [http.routers.pubgolf]
       rule = "Host(`pubgolf.suskins.co.uk`)"
       service = "pubgolf"
@@ -27,6 +29,18 @@
       entryPoints = ["websecure"]
       middlewares = ["crowdsec"]
       tls = true            
+    [http.routers.pubgolfme]
+      rule = "Host(`pubgolf.me`)"
+      service = "pubgolf"
+      entryPoints = ["websecure"]
+      middlewares = ["crowdsec"]
+      tls = true
+    [http.routers.pubgolfapi-me]
+      rule = "Host(`api.pubgolf.me`)"
+      service = "pubgolfapi"
+      entryPoints = ["websecure"]
+      middlewares = ["crowdsec"]
+      tls = true
 
   [http.services]
     [http.services.authentik.loadBalancer]
@@ -41,3 +55,4 @@
     [http.services.pubgolfapi.loadBalancer]
       [[http.services.pubgolfapi.loadBalancer.servers]]
         url = "http://192.168.0.102:8080"              
+        
