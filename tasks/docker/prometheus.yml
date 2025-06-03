@@ -26,6 +26,12 @@
     src: ../config/prometheus/config.yml.j2
     dest: "{{ base_dir }}/prometheus/config/prometheus.yml"
 
+
+- name: PROMETHEUS - Create alert rules
+  ansible.builtin.copy:
+    src: ../config/prometheus/alerts.rule.yml
+    dest: "{{ base_dir }}/prometheus/config/alert.rules.yml"
+
 - name: PROMETHEUS - Create container
   community.docker.docker_container:
     name: prometheus
