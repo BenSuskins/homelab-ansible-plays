@@ -25,6 +25,7 @@
       "/tasks/docker/.+\\.ya?ml$/"
     ]
   },
+  "reviewers": ["BenSuskins"],
   "hostRules": [
     {
       "hostType": "docker",
