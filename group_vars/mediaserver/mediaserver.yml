@@ -15,5 +15,5 @@ containers:
   - prowlarr
   - bazarr
   - gluetun
-  - transmission
   - metube
+  - qbittorrent

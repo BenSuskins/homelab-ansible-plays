@@ -1,5 +1,5 @@
 ---
-- name: TRANSMISSION - Create directory and permissions
+- name: QBITTORRENT - Create directory and permissions
   ansible.builtin.file:
     path: "{{ item }}"
     recurse: true
@@ -8,21 +8,22 @@
     group: "{{ username }}"
     mode: "0777"
   loop:
-    - "{{ base_dir }}/transmission"
+    - "{{ base_dir }}/qbittorrent"
 
-- name: TRANSMISSION - Create container
+- name: QBITTORRENT - Create container
   community.docker.docker_container:
-    name: transmission
-    image: linuxserver/transmission:4.0.6
+    name: qbittorrent
+    image: linuxserver/qbittorrent:5.1.0
     restart_policy: always
     restart: true
     state: started
     pull: true
     network_mode: container:gluetun
     volumes:
-      - "{{ base_dir }}/transmission:/config"
-      - '/mnt/media/downloads:/downloads'
+      - "{{ base_dir }}/qbittorrent:/config"
+      - '/mnt/media/downloads:/downloads' 
     env:
       PUID={{ puid }}
       PGID={{ pgid }}
       TZ={{ timezone }}
+      WEBUI_PORT=9091
