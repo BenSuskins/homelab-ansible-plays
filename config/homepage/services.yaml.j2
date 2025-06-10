@@ -99,16 +99,11 @@
             type: bazarr
             url: http://192.168.0.101:6767
             key: {{ bazarr_api_key }}
-    - Transmission:
+    - Qbittorrent:
         href: http://192.168.0.101:9091
-        icon: transmission
+        icon: qbittorrent
         description: Manage Downloads
         # siteMonitor: http://192.168.0.101:9091
-        widget:
-            type: transmission
-            url: http://192.168.0.101:9091
-            username: {{ transmission_username }}
-            password: {{ transmission_password }}
     - Metube:
         href: http://192.168.0.101:8081
         icon: metube

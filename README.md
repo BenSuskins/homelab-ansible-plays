@@ -109,7 +109,7 @@ Details of the services running on each host.
 - prowlarr
 - bazarr
 - gluetun
-- transmission
+- qbittorrent
 - metube
 
 ## Monitoring Server
