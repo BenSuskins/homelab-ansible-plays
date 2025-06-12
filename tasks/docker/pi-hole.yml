@@ -13,7 +13,7 @@
 - name: PI-HOLE - Create container
   community.docker.docker_container:
     name: pi-hole
-    image: pihole/pihole:2025.06.1
+    image: pihole/pihole:2025.06.2
     restart_policy: always
     restart: true
     state: started
