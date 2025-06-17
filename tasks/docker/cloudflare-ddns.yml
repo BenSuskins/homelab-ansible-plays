@@ -14,3 +14,4 @@
       CLOUDFLARE_API_TOKEN: "{{ CLOUDFLARE_API_TOKEN }}"
       DOMAINS: "suskins.co.uk,pubgolf.me"
       UPTIMEKUMA: "http://192.168.0.104:3001/api/push/7nZobsusaR3Qduk42z2kWZTxj9vvuCcV?status=up&msg=OK&ping="
+      IP6_PROVIDER: "none"
