@@ -1,28 +1,28 @@
-# Homelab Ansible Plays
+# 🏡 Homelab Ansible Plays
 
 This repository automates the configuration and management of a self-hosted homelab environment using Ansible. My homelab is built on a Proxmox server and features multiple Docker hosts. Each playbook in this repository targets a specific part of the infrastructure, streamlining configuration, deployment and ongoing maintenance tasks.
 
 ---
 
-## Features
+## ✨ Features
 
-- Automated setup and management of Docker containers across multiple hosts.
-- Secure handling of secrets using Ansible Vault.
-- Playbooks for:
-  - Initializing hosts with dependencies.
-  - Deploying and updating containers.
-  - Regular maintenance
+- 🚀 Automated setup and management of Docker containers across multiple hosts.
+- 🔐 Secure handling of secrets using Ansible Vault.
+- 📦 Playbooks for:
+  - ⚙️ Initializing hosts with dependencies.
+  - 🐳 Deploying and updating containers.
+  - 🔄 Regular maintenance
 
 ---
 
-# Prerequisites
+# 📝 Prerequisites
 
 Ensure you have the following installed on your control machine:
 - Ansible (minimum version 2.12)
 - SSH access to all target hosts.
 - Ansible Vault set up for secrets management.
 
-## Ansible Vault set up for secrets management
+## 🔒 Ansible Vault set up for secrets management
 
 Edit Vault:
 
@@ -37,7 +37,7 @@ ansible-vault edit vault.yml
 cp vault.yml ../secrets
 ```
 
-## SSH access to all target hosts
+## 🔑 SSH access to all target hosts
 
 Copy SSH key to host:
 
@@ -46,17 +46,17 @@ ssh-copy-id -i ~/.ssh/homelab.pub <user>@<host>
 ```
 ---
 
-# Playbooks
+# 📚 Playbooks
 
-## Setup
+## ⚙️ Setup
 
-Initalises hosts with dependencies, docker, qemu, promtail, cadvisor then reboots.
+Initialises hosts with dependencies, docker, qemu, promtail, cadvisor then reboots.
 
 ```bash
 ansible-playbook plays/setup.yml -K --ask-vault-pass
 ```
 
-## Deploy Containers
+## 🐳 Deploy Containers
 
 Deploys the hosts containers.
 
@@ -64,8 +64,7 @@ Deploys the hosts containers.
 ansible-playbook plays/deploy-containers.yml -K --ask-vault-pass
 ```
 
-
-## Update Homepage
+## 🏠 Update Homepage
 
 Updates Homepage config.
 
@@ -73,8 +72,7 @@ Updates Homepage config.
 ansible-playbook plays/update-homepage.yml --ask-vault-pass
 ```
 
-
-## Update
+## ⬆️ Update
 
 Updates / Upgrades all packages and docker containers.
 
@@ -82,7 +80,7 @@ Updates / Upgrades all packages and docker containers.
 ansible-playbook plays/update.yml -K --ask-vault-pass
 ```
 
-## Cleanup system
+## 🧹 Cleanup system
 
 Cleanup docker and system files.
 
@@ -92,54 +90,60 @@ ansible-playbook plays/clean.yml -K --ask-vault-pass
 
 ---
 
-# Hosts
+# 🖥️ Hosts
 Details of the services running on each host.
 
-## All
+## 🌐 All Hosts
 
-- cadvisor
-- promtail
+- 📊 cadvisor
+- 🧬 alloy
 
-## Media Server
+## 🎬 Media Server (`mediaserver`)
 
-- plex
-- sonarr
-- radarr
-- overseer
-- prowlarr
-- bazarr
-- gluetun
-- qbittorrent
-- metube
+- 🎥 plex
+- 📺 sonarr
+- 🎞️ radarr
+- 👀 overseerr
+- 📡 prowlarr
+- 📝 bazarr
+- 🌐 gluetun
+- 📹 metube
+- 💾 qbittorrent
+- 🗣️ doplarr
 
-## Monitoring Server
+## 📈 Monitoring Server (`monitor`)
 
-- grafana
-- prometheus
-- loki
-- uptime-kuma
+- 📊 grafana
+- 🗃️ loki
+- ⏱️ uptime-kuma
+- 📈 graphite-exporter
+- 📉 prometheus
 
-## Docker Server
+## 🐳 Docker Server (`docker`)
 
-- pi-hole
-- pi-hole-exporter
-- homepage
-- grocy
-- mealie
+- 🕳️ pi-hole
+- 📦 pi-hole-exporter
+- 🏠 homepage
+- 🛒 grocy
+- 🍲 mealie
+- 🐘 postgres
+- 🪞 magic-mirror
+- ⛳ pubgolf_postgres
+- 🏌️ pubgolf_backend
+- 🏌️‍♂️ pubgolf_frontend
+- ☁️ cloudflare-ddns
 
-## Development
+## 💻 Development (`development`)
 
-- Traefik
-- Authentik
-- Crowdsec
-
+- 🔐 authentik_server
+- 🛠️ authentik_worker
+- 🐘 authentik_postgres
+- 🧠 authentik_redis
+- 🚦 traefik
+- 🛡️ crowdsec
 ---
 
-# Planned Improvements
-
-These are tracked in [GitHub Issues](https://github.com/BenSuskins/homelab-ansible-plays/issues):
-
-# Acknowledgments
+# 🙏 Acknowledgments
 
 This repo was inspired by and has drawn from the following repositories and resources:
 
