@@ -16,7 +16,7 @@
       PIHOLE_PASSWORD={{ pihole_password }}
 
 - name: PI-HOLE-EXPORTER  - Add to scrape configs
-  set_fact:
+  ansible.builtin.set_fact:
     prometheus_scrape_configs: >-
       {{
         (prometheus_scrape_configs | default([])) +

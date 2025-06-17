@@ -11,15 +11,11 @@
     - "{{ base_dir }}/prometheus"
 
 - name: PROMETHEUS - Aggregate scrape configs from all hosts
-  set_fact:
+  ansible.builtin.set_fact:
     aggregated_scrape_configs: >-
       {{
         groups['all'] | map('extract', hostvars, 'prometheus_scrape_configs') | list | flatten
       }}
-
-- name: PROMETHEUS - Debug Prometheus Scrape Configs
-  debug:
-    msg: "{{ aggregated_scrape_configs }}"
 
 - name: PROMETHEUS - Create scrape config
   ansible.builtin.template:

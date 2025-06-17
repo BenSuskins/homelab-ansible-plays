@@ -105,7 +105,7 @@
     command: --graphite.mapping-config=/tmp/graphite_mapping.conf
 
 - name: GRAPHITE-EXPORTER - Add to scrape configs
-  set_fact:
+  ansible.builtin.set_fact:
     prometheus_scrape_configs: >-
       {{
         (prometheus_scrape_configs | default([])) +

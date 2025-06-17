@@ -19,7 +19,7 @@
       - /dev/disk/:/dev/disk:ro
 
 - name: CADVISOR - Add to scrape configs
-  set_fact:
+  ansible.builtin.set_fact:
     prometheus_scrape_configs: >-
       {{
         (prometheus_scrape_configs | default([])) +
