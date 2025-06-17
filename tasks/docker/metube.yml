@@ -25,5 +25,5 @@
     volumes:
       - "/mnt/media/other:/downloads"
     env:
-      UID: "{{ puid }}"
-      GID: "{{ pgid }}"
+      UID: "{{ puid | string }}"
+      GID: "{{ pgid | string }}"

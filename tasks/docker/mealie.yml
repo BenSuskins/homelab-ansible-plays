@@ -26,8 +26,8 @@
     volumes:
       - '{{ base_dir }}/mealie:/app/data/'
     env:
-      PUID: "{{ puid }}"
-      PGID: "{{ pgid }}"
+      PUID: "{{ puid | string }}"
+      PGID: "{{ pgid | string }}"
       TZ: "{{ timezone }}"
       ALLOW_SIGNUP: "true"
       MAX_WORKERS: "1"

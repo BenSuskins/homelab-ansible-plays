@@ -25,7 +25,7 @@
       - "/mnt/media/movies:/movies"
       - "/mnt/media/other:/other"
     env:
-      PUID: "{{ puid }}"
-      PGID: "{{ pgid }}"
+      PUID: "{{ puid | string }}"
+      PGID: "{{ pgid | string }}"
       TZ: "{{ timezone }}"
       VERSION: "docker"

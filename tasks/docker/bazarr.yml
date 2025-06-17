@@ -27,6 +27,6 @@
       - "/mnt/media/tv:/tv"
       - "/mnt/media/movies:/movies"
     env:
-      PUID: "{{ puid }}"
-      PGID: "{{ pgid }}"
+      PUID: "{{ puid | string }}"
+      PGID: "{{ pgid | string }}"
       TZ: "{{ timezone }}"

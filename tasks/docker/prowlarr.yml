@@ -25,6 +25,6 @@
     volumes:
       - "{{ base_dir }}/prowlarr:/config"
     env:
-      PUID: "{{ puid }}"
-      PGID: "{{ pgid }}"
+      PUID: "{{ puid | string }}"
+      PGID: "{{ pgid | string }}"
       TZ: "{{ timezone }}"
