@@ -59,7 +59,6 @@
     driver: bridge
 
 - name: DOCKER - Deploy core containers
-  ansible.builtin.include_tasks: "../docker/{{ item }}.yml"
   ansible.builtin.include_tasks:
     file: "../tasks/docker/{{ item }}.yml"
   loop: "{{ core_containers }}"

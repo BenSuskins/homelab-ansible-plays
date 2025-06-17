@@ -23,4 +23,5 @@
     networks:
       - name: homelab
     volumes:
-      - "{{ base_dir }}/uptime-kuma/data:/app/data"   
+      - "{{ base_dir }}/uptime-kuma/data:/app/data"
+      

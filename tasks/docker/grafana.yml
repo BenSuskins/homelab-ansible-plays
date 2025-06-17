@@ -53,4 +53,4 @@
           version: 1
           editable: false          
         EOF
-        /run.sh      
+        /run.sh

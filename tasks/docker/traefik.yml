@@ -62,3 +62,4 @@
       - "{{ base_dir }}/traefik/logs:/logs"
     env:
       TZ: "{{ timezone }}"
+      

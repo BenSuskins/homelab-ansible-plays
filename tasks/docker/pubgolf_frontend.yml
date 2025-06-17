@@ -13,3 +13,4 @@
       - '3003:3000'
     env:
       NEXT_PUBLIC_API_URL=https://api.pubgolf.me
+      
