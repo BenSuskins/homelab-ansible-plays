@@ -11,4 +11,3 @@ containers:
   - uptime-kuma
   - graphite-exporter
   - prometheus
-  
