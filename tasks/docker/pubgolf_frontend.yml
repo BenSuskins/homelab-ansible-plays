@@ -10,6 +10,6 @@
     networks:
       - name: homelab
     ports:
-      - '3003:3000'
+      - "3003:3000"
     env:
-      NEXT_PUBLIC_API_URL=https://api.pubgolf.me
+      NEXT_PUBLIC_API_URL: "https://api.pubgolf.me"

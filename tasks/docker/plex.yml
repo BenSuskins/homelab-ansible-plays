@@ -21,11 +21,11 @@
     network_mode: host
     volumes:
       - "{{ base_dir }}/plex:/config"
-      - '/mnt/media/tv:/tv'
-      - '/mnt/media/movies:/movies'
-      - '/mnt/media/other:/other'
+      - "/mnt/media/tv:/tv"
+      - "/mnt/media/movies:/movies"
+      - "/mnt/media/other:/other"
     env:
-      PUID={{ puid }}
-      PGID={{ pgid }}
-      TZ={{ timezone }}
-      VERSION=docker
+      PUID: "{{ puid }}"
+      PGID: "{{ pgid }}"
+      TZ: "{{ timezone }}"
+      VERSION: "docker"

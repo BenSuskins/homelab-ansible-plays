@@ -21,10 +21,10 @@
     networks:
       - name: homelab
     ports:
-      - 5055:5055
+      - "5055:5055"
     volumes:
       - "{{ base_dir }}/overseerr:/app/config"
     env:
-      PUID={{ puid }}
-      PGID={{ pgid }}
-      TZ={{ timezone }}
+      PUID: "{{ puid }}"
+      PGID: "{{ pgid }}"
+      TZ: "{{ timezone }}"

@@ -12,8 +12,8 @@
     ports:
       - "9617:9617"
     env:
-      PIHOLE_HOSTNAME=pi-hole
-      PIHOLE_PASSWORD={{ pihole_password }}
+      PIHOLE_HOSTNAME: "pi-hole"
+      PIHOLE_PASSWORD: "{{ pihole_password }}"
 
 - name: PI-HOLE-EXPORTER  - Add to scrape configs
   ansible.builtin.set_fact:

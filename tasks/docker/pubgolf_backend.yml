@@ -23,10 +23,10 @@
     networks:
       - name: homelab
     ports:
-      - '8080:8080'
+      - "8080:8080"
     env:
-      SPRING_PROFILES_ACTIVE=prod
-      DB_HOST=pubgolf_postgres
-      DB_USERNAME={{ DB_USERNAME }}
-      DB_PASSWORD={{ DB_PASSWORD }}
-      DB_PORT=5432
+      SPRING_PROFILES_ACTIVE: "prod"
+      DB_HOST: "pubgolf_postgres"
+      DB_USERNAME: "{{ DB_USERNAME }}"
+      DB_PASSWORD: "{{ DB_PASSWORD }}"
+      DB_PORT: "5432"

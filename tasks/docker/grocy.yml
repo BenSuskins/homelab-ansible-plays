@@ -21,10 +21,10 @@
     networks:
       - name: homelab
     ports:
-      - 9283:80
+      - "9283:80"
     volumes:
-      - '{{ base_dir }}/grocy:/config'
+      - "{{ base_dir }}/grocy:/config"
     env:
-      PUID={{ puid }}
-      PGID={{ pgid }}
-      TZ={{ timezone }}
+      PUID: "{{ puid }}"
+      PGID: "{{ pgid }}"
+      TZ: "{{ timezone }}"

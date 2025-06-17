@@ -55,6 +55,6 @@
     networks:
       - name: homelab
     ports:
-      - 3000:3000
+      - "3000:3000"
     volumes:
-      - '{{ base_dir }}/homepage:/app/config'
+      - "{{ base_dir }}/homepage:/app/config"

@@ -24,8 +24,8 @@
     networks:
       - name: homelab
     volumes:
-      - '{{ base_dir }}/magic-mirror/config:/opt/magic_mirror/config'
-      - '{{ base_dir }}/magic-mirror/modules:/opt/magic_mirror/modules'
-      - '{{ base_dir }}/magic-mirror/css:/opt/magic_mirror/css'
+      - "{{ base_dir }}/magic-mirror/config:/opt/magic_mirror/config"
+      - "{{ base_dir }}/magic-mirror/modules:/opt/magic_mirror/modules"
+      - "{{ base_dir }}/magic-mirror/css:/opt/magic_mirror/css"
     ports:
-      - 9926:8080
+      - "9926:8080"

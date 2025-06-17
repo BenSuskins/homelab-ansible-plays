@@ -29,7 +29,7 @@
       # Default HTTPs Port. FTL will generate a self-signed certificate
       - "443:443/tcp"
     volumes:
-      - '{{ base_dir }}/pi-hole/data:/etc/pihole'
+      - "{{ base_dir }}/pi-hole/data:/etc/pihole"
     env:
       TZ: "{{ timezone }}"
       FTLCONF_webserver_api_password: "{{ pihole_password }}"

@@ -13,6 +13,6 @@
     volumes:
       - "{{ base_dir }}/authentik/postgres/pgdata:/var/lib/postgresql/data"
     env:
-      POSTGRES_PASSWORD={{ PG_PASS }}
-      POSTGRES_USER=authentik
-      POSTGRES_DB=authentik
+      POSTGRES_PASSWORD: "{{ PG_PASS }}"
+      POSTGRES_USER: "authentik"
+      POSTGRES_DB: "authentik"

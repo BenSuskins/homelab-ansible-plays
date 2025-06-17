@@ -21,12 +21,12 @@
     networks:
       - name: homelab
     ports:
-      - '7878:7878'
+      - "7878:7878"
     volumes:
       - "{{ base_dir }}/radarr:/config"
-      - '/mnt/media/movies:/movies'
-      - '/mnt/media/downloads:/data'
+      - "/mnt/media/movies:/movies"
+      - "/mnt/media/downloads:/data"
     env:
-      PUID={{ puid }}
-      PGID={{ pgid }}
-      TZ={{ timezone }}
+      PUID: "{{ puid }}"
+      PGID: "{{ pgid }}"
+      TZ: "{{ timezone }}"

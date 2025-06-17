@@ -21,9 +21,9 @@
     networks:
       - name: homelab
     ports:
-      - '8081:8081'
+      - "8081:8081"
     volumes:
-      - '/mnt/media/other:/downloads'
+      - "/mnt/media/other:/downloads"
     env:
-      UID={{ puid }}
-      GID={{ pgid }}
+      UID: "{{ puid }}"
+      GID: "{{ pgid }}"

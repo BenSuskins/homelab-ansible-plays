@@ -21,10 +21,10 @@
     networks:
       - name: homelab
     ports:
-      - 9696:9696
+      - "9696:9696"
     volumes:
       - "{{ base_dir }}/prowlarr:/config"
     env:
-      PUID={{ puid }}
-      PGID={{ pgid }}
-      TZ={{ timezone }}
+      PUID: "{{ puid }}"
+      PGID: "{{ pgid }}"
+      TZ: "{{ timezone }}"

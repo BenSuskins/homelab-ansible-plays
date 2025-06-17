@@ -25,6 +25,6 @@
     volumes:
       - "{{ base_dir }}/pubgolf-postgres/pgdata:/var/lib/postgresql/data"
     env:
-      POSTGRES_USER={{ DB_USERNAME }}
-      POSTGRES_PASSWORD={{ DB_PASSWORD }}
-      POSTGRES_DB=pubgolf
+      POSTGRES_USER: "{{ DB_USERNAME }}"
+      POSTGRES_PASSWORD: "{{ DB_PASSWORD }}"
+      POSTGRES_DB: "pubgolf"

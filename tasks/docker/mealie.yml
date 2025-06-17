@@ -22,13 +22,13 @@
     networks:
       - name: homelab
     ports:
-      - 9925:9000
+      - "9925:9000"
     volumes:
       - '{{ base_dir }}/mealie:/app/data/'
     env:
-      PUID={{ puid }}
-      PGID={{ pgid }}
-      TZ={{ timezone }}
-      ALLOW_SIGNUP=true
-      MAX_WORKERS=1
-      WEB_CONCURRENCY=1
+      PUID: "{{ puid }}"
+      PGID: "{{ pgid }}"
+      TZ: "{{ timezone }}"
+      ALLOW_SIGNUP: "true"
+      MAX_WORKERS: "1"
+      WEB_CONCURRENCY: "1"

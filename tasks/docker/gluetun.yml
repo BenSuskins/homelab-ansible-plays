@@ -23,17 +23,17 @@
     devices:
       - /dev/net/tun:/dev/net/tun
     ports:
-      - 8888:8888/tcp # HTTP proxy
-      - 8388:8388/tcp # Shadowsocks
-      - 8388:8388/udp # Shadowsocks
-      - '9091:9091' # QBittorrent
-      - '51413:51413'
-      - '51413:51413/udp'
+      - "8888:8888/tcp" # HTTP proxy
+      - "8388:8388/tcp" # Shadowsocks
+      - "8388:8388/udp" # Shadowsocks
+      - "9091:9091" # QBittorrent
+      - "51413:51413"
+      - "51413:51413/udp"
     volumes:
       - "{{ base_dir }}/gluetun:/gluetun"
     env:
-      VPN_SERVICE_PROVIDER=windscribe
-      VPN_TYPE=openvpn
-      OPENVPN_USER={{ OPENVPN_USER }}
-      OPENVPN_PASSWORD={{ OPENVPN_PASSWORD }}
-      SERVER_REGIONS=Netherlands
+      VPN_SERVICE_PROVIDER: "windscribe"
+      VPN_TYPE: "openvpn"
+      OPENVPN_USER: "{{ OPENVPN_USER }}"
+      OPENVPN_PASSWORD: "{{ OPENVPN_PASSWORD }}"
+      SERVER_REGIONS: "Netherlands"
