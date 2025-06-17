@@ -17,3 +17,4 @@ containers:
   - gluetun
   - metube
   - qbittorrent
+  - doplarr

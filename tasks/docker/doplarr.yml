@@ -1,0 +1,26 @@
+---
+- name: DOPLARR - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0777"
+  loop:
+    - "{{ base_dir }}/doplarr"
+
+- name: DOPLARR - Create container
+  community.docker.docker_container:
+    name: doplarr
+    image: ghcr.io/kiranshila/doplarr:latest
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    env:
+      DISCORD__TOKEN={{ DISCORD__TOKEN }}
+      OVERSEERR__URL=http://192.168.0.101:5055
+      OVERSEERR__API={{ OVERSEERR__API }}
