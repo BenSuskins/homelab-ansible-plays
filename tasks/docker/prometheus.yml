@@ -21,11 +21,17 @@
   ansible.builtin.template:
     src: ../config/prometheus/config.yml.j2
     dest: "{{ base_dir }}/prometheus/config/prometheus.yml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0640"
 
 - name: PROMETHEUS - Create alert rules
   ansible.builtin.copy:
     src: ../config/prometheus/alerts.rule.yml
     dest: "{{ base_dir }}/prometheus/config/alert.rules.yml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0640"
 
 - name: PROMETHEUS - Create container
   community.docker.docker_container:

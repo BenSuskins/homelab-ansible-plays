@@ -16,6 +16,9 @@
   ansible.builtin.copy:
     src: ../config/traefik/traefik.toml
     dest: "{{ base_dir }}/traefik/traefik.toml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0640"
 
 - name: TRAEFIK - Create dynamic config
   ansible.builtin.copy:
@@ -29,6 +32,9 @@
   ansible.builtin.template:
     src: ../config/traefik/dynamic/middlewares-crowdsec.toml.j2
     dest: "{{ base_dir }}/traefik/dynamic/middlewares-crowdsec.toml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0640"
 
 - name: TRAEFIK - Add to scrape configs
   ansible.builtin.set_fact:

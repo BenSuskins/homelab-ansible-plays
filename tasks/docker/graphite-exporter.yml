@@ -85,6 +85,9 @@
             hostname: ${1}
             device: ${3}
     dest: "{{ base_dir }}/graphite-exporter/graphite_mapping.conf"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0640"
 
 - name: GRAPHITE-EXPORTER - Create container
   community.docker.docker_container:

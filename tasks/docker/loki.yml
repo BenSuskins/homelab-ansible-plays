@@ -45,8 +45,10 @@
 
       limits_config:
         reject_old_samples: false
-
     dest: "{{ base_dir }}/loki/config/local-config.yaml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0640"
 
 - name: LOKI - Create container
   community.docker.docker_container:

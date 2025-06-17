@@ -14,21 +14,33 @@
   ansible.builtin.copy:
     src: ../config/homepage/bookmarks.yaml
     dest: "{{ base_dir }}/homepage/bookmarks.yaml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0640"
 
 - name: HOMEPAGE - Create services
   ansible.builtin.template:
     src: ../config/homepage/services.yaml.j2
     dest: "{{ base_dir }}/homepage/services.yaml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0640"
 
 - name: HOMEPAGE - Create settings
   ansible.builtin.copy:
     src: ../config/homepage/settings.yaml
     dest: "{{ base_dir }}/homepage/settings.yaml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0640"
 
 - name: HOMEPAGE - Create widgets
   ansible.builtin.copy:
     src: ../config/homepage/widgets.yaml
     dest: "{{ base_dir }}/homepage/widgets.yaml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0640"
 
 - name: HOMEPAGE - Create container
   community.docker.docker_container:
