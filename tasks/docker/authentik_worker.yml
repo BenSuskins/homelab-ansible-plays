@@ -7,7 +7,7 @@
     state: started
     pull: true
     networks:
-      - name: homelab    
+      - name: homelab
     command: worker
     env:
       AUTHENTIK_REDIS__HOST=authentik_redis

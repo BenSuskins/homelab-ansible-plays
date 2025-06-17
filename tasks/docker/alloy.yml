@@ -72,4 +72,4 @@
     command: run /etc/alloy/config/config.alloy
     volumes:
       - "{{ base_dir }}/alloy/config:/etc/alloy/config"
-      - "/var/run/docker.sock:/var/run/docker.sock"    
+      - "/var/run/docker.sock:/var/run/docker.sock"

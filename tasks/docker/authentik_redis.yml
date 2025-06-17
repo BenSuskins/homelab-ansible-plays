@@ -8,7 +8,7 @@
     state: started
     pull: true
     networks:
-      - name: homelab    
+      - name: homelab
     healthcheck:
       test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
       interval: 30s

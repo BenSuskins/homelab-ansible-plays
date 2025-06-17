@@ -7,7 +7,7 @@
     state: started
     pull: true
     networks:
-      - name: homelab    
+      - name: homelab
     ports:
       - "5432:5432"
     volumes:
