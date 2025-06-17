@@ -20,11 +20,11 @@
 - name: TRAEFIK - Create dynamic config
   ansible.builtin.copy:
     src: ../config/traefik/dynamic/
-    dest: "{{ base_dir }}/traefik/dynamic/"    
+    dest: "{{ base_dir }}/traefik/dynamic/"
     owner: "{{ username }}"
     group: "{{ username }}"
     mode: "0755"
-    
+
 - name: TRAEFIK - Create crowdsec middleware
   ansible.builtin.template:
     src: ../config/traefik/dynamic/middlewares-crowdsec.toml.j2

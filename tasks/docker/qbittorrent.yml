@@ -21,7 +21,7 @@
     network_mode: container:gluetun
     volumes:
       - "{{ base_dir }}/qbittorrent:/config"
-      - '/mnt/media/downloads:/downloads' 
+      - "/mnt/media/downloads:/downloads"
     env:
       PUID={{ puid }}
       PGID={{ pgid }}

@@ -24,7 +24,7 @@
       - name: homelab
     volumes:
       - "{{ base_dir }}/grafana/data:/var/lib/grafana"
-    env:
+    env: 
       GF_AUTH_ANONYMOUS_ENABLED=true
       GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
     entrypoint:
