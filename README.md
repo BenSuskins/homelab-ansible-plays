@@ -1,6 +1,8 @@
 # 🏡 Homelab Ansible Plays
 
-This repository automates the configuration and management of a self-hosted homelab environment using Ansible. My homelab is built on a Proxmox server and features multiple Docker hosts. Each playbook in this repository targets a specific part of the infrastructure, streamlining configuration, deployment and ongoing maintenance tasks.
+This repo automates the configuration and management of my self-hosted homelab environment using Ansible. 
+
+My homelab is built on a Proxmox server and features multiple Debian hosts running various docker containers. Each playbook targets a specific part of the infrastructure; streamlining configuration, deployment and maintenance.
 
 ---
 
@@ -145,9 +147,7 @@ Details of the services running on each host.
 
 # 🙏 Acknowledgments
 
-This repo was inspired by and has drawn from the following repositories and resources:
-
 - [Homelab Subreddit](http://reddit.com/r/homelab)
 - [Selfhosted Subreddit](http://reddit.com/r/selfhosted)
-- [Ansible Homelab](https://github.com/rishavnandi/ansible_homelab)
-- [truenas-grafana](https://github.com/mazay/truenas-grafana)
+- [rishavnandi - Ansible Homelab](https://github.com/rishavnandi/ansible_homelab)
+- [mazay - Truenas Grafana](https://github.com/mazay/truenas-grafana)
