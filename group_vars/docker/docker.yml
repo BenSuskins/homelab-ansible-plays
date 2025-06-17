@@ -17,3 +17,4 @@ containers:
   - pubgolf_postgres
   - pubgolf_backend
   - pubgolf_frontend
+  - cloudflare-ddns

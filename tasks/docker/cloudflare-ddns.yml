@@ -1,0 +1,16 @@
+---
+- name: CLOUDFLARE-DDNS - Create container
+  community.docker.docker_container:
+    name: cloudflare-ddns
+    image: favonia/cloudflare-ddns
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    env:
+      PROXIED=true
+      CLOUDFLARE_API_TOKEN={{ CLOUDFLARE_API_TOKEN }}
+      DOMAINS=suskins.co.uk,pubgolf.me
+      UPTIMEKUMA=http://192.168.0.104:3001/api/push/7nZobsusaR3Qduk42z2kWZTxj9vvuCcV?status=up&msg=OK&ping=
