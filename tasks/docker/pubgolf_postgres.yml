@@ -28,4 +28,3 @@
       POSTGRES_USER={{ DB_USERNAME }}
       POSTGRES_PASSWORD={{ DB_PASSWORD }}
       POSTGRES_DB=pubgolf
-      

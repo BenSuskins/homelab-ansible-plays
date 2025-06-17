@@ -27,4 +27,3 @@
       PGID={{ pgid }}
       TZ={{ timezone }}
       WEBUI_PORT=9091
-      
