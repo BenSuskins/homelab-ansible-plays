@@ -21,25 +21,25 @@
       rule = "Host(`pubgolf.suskins.co.uk`)"
       service = "pubgolf"
       entryPoints = ["websecure"]
-      middlewares = ["crowdsec"]
+      middlewares = ["crowdsec", "ratelimit"]
       tls = true      
     [http.routers.pubgolfapi]
       rule = "Host(`api.suskins.co.uk`)"
       service = "pubgolfapi"
       entryPoints = ["websecure"]
-      middlewares = ["crowdsec"]
+      middlewares = ["crowdsec", "ratelimit"]
       tls = true            
     [http.routers.pubgolfme]
       rule = "Host(`pubgolf.me`)"
       service = "pubgolf"
       entryPoints = ["websecure"]
-      middlewares = ["crowdsec"]
+      middlewares = ["crowdsec", "ratelimit"]
       tls = true
     [http.routers.pubgolfapi-me]
       rule = "Host(`api.pubgolf.me`)"
       service = "pubgolfapi"
       entryPoints = ["websecure"]
-      middlewares = ["crowdsec"]
+      middlewares = ["crowdsec", "ratelimit"]
       tls = true
 
   [http.services]
