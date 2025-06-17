@@ -42,7 +42,7 @@ layout:
     icon: mdi-code-json
     header: false
     style: row
-    columns: 6       
+    columns: 6
   Media Server:
     icon: mdi-play-pause
     style: row
@@ -54,8 +54,8 @@ layout:
   Monitoring Server:
     icon: mdi-chart-multiple
     style: row
-    columns: 4    
+    columns: 4
   General:
     icon: mdi-server
     style: row
-    columns: 4    
+    columns: 4

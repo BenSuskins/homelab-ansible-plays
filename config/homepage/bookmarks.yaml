@@ -7,9 +7,9 @@
 - Developer:
     - Github:
         - abbr: GH
-          href: 'https://github.com/'
+          href: "https://github.com/"
           icon: si-github
     - Cloudflare:
         - abbr: CF
-          href: 'https://cloudflare.com/'
+          href: "https://cloudflare.com/"
           icon: si-cloudflare
