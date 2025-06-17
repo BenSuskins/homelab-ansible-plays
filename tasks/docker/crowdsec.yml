@@ -5,7 +5,7 @@
     state: directory
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
-    mode: "0777"
+    mode: "0750"
   loop:
     - "{{ base_dir }}/crowdsec/config"
     - "{{ base_dir }}/crowdsec/data"
