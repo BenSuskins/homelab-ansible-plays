@@ -13,7 +13,6 @@ containers:
   - mealie
   - postgres
   - magic-mirror
-  - linkwarden
   - pubgolf_postgres
   - pubgolf_backend
   - pubgolf_frontend
