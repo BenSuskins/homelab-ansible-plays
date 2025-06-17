@@ -133,7 +133,7 @@ Details of the services running on each host.
 - 🏌️‍♂️ pubgolf_frontend
 - ☁️ cloudflare-ddns
 
-## 💻 Development (`development`)
+## 💻 Development Server (`development`)
 
 - 🔐 authentik_server
 - 🛠️ authentik_worker
