@@ -25,8 +25,16 @@
       - "6060:6060"
       - "9876:8080"
     env:
-      COLLECTIONS="crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/base-http-scenarios crowdsecurity/sshd crowdsecurity/linux crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-crs"
-      GID="{{ pgid }}"
+      COLLECTIONS: >
+        crowdsecurity/traefik
+        crowdsecurity/http-cve
+        crowdsecurity/base-http-scenarios
+        crowdsecurity/sshd
+        crowdsecurity/linux
+        crowdsecurity/appsec-generic-rules
+        crowdsecurity/appsec-virtual-patching
+        crowdsecurity/appsec-crs
+      GID: "{{ pgid }}"
     volumes:
       - "{{ base_dir }}/crowdsec/data:/var/lib/crowdsec/data"
       - "{{ base_dir }}/crowdsec/config:/etc/crowdsec"
