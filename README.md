@@ -9,8 +9,8 @@ My [Ansible](https://github.com/ansible/ansible) configuration to setup / manage
 - 🚀 Automated setup of hosts.
 - 🔐 Secrets managed by Ansible Vault.
 - 🐳 Deploying and updating containers.
-- 📦 Automated docker updates via [Renovate](https://github.com/renovatebot/renovate)
-- 🔄 Regular maintenance
+- 📦 Automated docker updates via [Renovate](https://github.com/renovatebot/renovate).
+- 🔄 Regular maintenance.
 
 ---
 
