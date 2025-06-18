@@ -17,7 +17,7 @@ My homelab is built on a Proxmox server and features multiple Debian hosts runni
 
 ---
 
-# 📝 Prerequisites
+# 📦 Prerequisites
 
 Ensure you have the following installed on your control machine:
 - Ansible (minimum version 2.12)
