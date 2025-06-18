@@ -1,19 +1,16 @@
 # 🏡 Homelab Ansible Plays
 
-This repo automates the configuration and management of my self-hosted homelab environment using Ansible. 
-
-My homelab is built on a Proxmox server and features multiple Debian hosts running various docker containers. Each playbook targets a specific part of the infrastructure; streamlining configuration, deployment and maintenance.
+My [Ansible](https://github.com/ansible/ansible) configuration to setup / manage my homelab.
 
 ---
 
 ## ✨ Features
 
-- 🚀 Automated setup and management of Docker containers across multiple hosts.
-- 🔐 Secure handling of secrets using Ansible Vault.
-- 📦 Playbooks for:
-  - ⚙️ Initializing hosts with dependencies.
-  - 🐳 Deploying and updating containers.
-  - 🔄 Regular maintenance
+- 🚀 Automated setup of hosts.
+- 🔐 Secrets managed by Ansible Vault.
+- 🐳 Deploying and updating containers.
+- 📦 Automated docker updates via [Renovate](https://github.com/renovatebot/renovate)
+- 🔄 Regular maintenance
 
 ---
 
