@@ -13,7 +13,7 @@
 - name: QBITTORRENT - Create container
   community.docker.docker_container:
     name: qbittorrent
-    image: linuxserver/qbittorrent:5.1.0
+    image: linuxserver/qbittorrent:latest
     restart_policy: always
     restart: true
     state: started
