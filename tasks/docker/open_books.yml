@@ -1,0 +1,16 @@
+---
+- name: OPEN BOOKS - Create container
+  community.docker.docker_container:
+    name: open_books
+    image: evanbuss/openbooks
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    ports:
+      - "8080:80"
+    volumes:
+      - "/mnt/media/books:/books"
+    command: --persist -n CupcakeCreator
