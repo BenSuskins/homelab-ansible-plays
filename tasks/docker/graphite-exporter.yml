@@ -6,7 +6,7 @@
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: "0750"
+    mode: "0777"
   loop:
     - "{{ base_dir }}/graphite-exporter"
 
@@ -87,7 +87,6 @@
     dest: "{{ base_dir }}/graphite-exporter/graphite_mapping.conf"
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: "0640"
 
 - name: GRAPHITE-EXPORTER - Create container
   community.docker.docker_container:

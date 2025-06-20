@@ -6,7 +6,7 @@
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: "0750"
+    mode: "0777"
   loop:
     - "{{ base_dir }}/loki"
 
@@ -48,7 +48,6 @@
     dest: "{{ base_dir }}/loki/config/local-config.yaml"
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: "0640"
 
 - name: LOKI - Create container
   community.docker.docker_container:

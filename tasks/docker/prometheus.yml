@@ -6,16 +6,14 @@
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: "0750"
+    mode: "0777"
   loop:
     - "{{ base_dir }}/prometheus"
 
 - name: PROMETHEUS - Aggregate scrape configs from all hosts
   ansible.builtin.set_fact:
     aggregated_scrape_configs: >-
-      {{
-        groups['all'] | map('extract', hostvars, 'prometheus_scrape_configs') | list | flatten
-      }}
+      {{ groups['all'] | map('extract', hostvars, 'prometheus_scrape_configs') | list | flatten }}
 
 - name: PROMETHEUS - Create scrape config
   ansible.builtin.template:
@@ -23,7 +21,6 @@
     dest: "{{ base_dir }}/prometheus/config/prometheus.yml"
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: "0640"
 
 - name: PROMETHEUS - Create alert rules
   ansible.builtin.copy:
@@ -31,7 +28,6 @@
     dest: "{{ base_dir }}/prometheus/config/alert.rules.yml"
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: "0640"
 
 - name: PROMETHEUS - Create container
   community.docker.docker_container:
