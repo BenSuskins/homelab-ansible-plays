@@ -34,7 +34,7 @@
         crowdsecurity/appsec-generic-rules
         crowdsecurity/appsec-virtual-patching
         crowdsecurity/appsec-crs
-      GID: "{{ pgid }}"
+      GID: "{{ pgid | string }}"
     volumes:
       - "{{ base_dir }}/crowdsec/data:/var/lib/crowdsec/data"
       - "{{ base_dir }}/crowdsec/config:/etc/crowdsec"
