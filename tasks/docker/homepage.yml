@@ -16,7 +16,6 @@
     dest: "{{ base_dir }}/homepage/bookmarks.yaml"
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: "0640"
 
 - name: HOMEPAGE - Create services
   ansible.builtin.template:
@@ -24,7 +23,6 @@
     dest: "{{ base_dir }}/homepage/services.yaml"
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: "0640"
 
 - name: HOMEPAGE - Create settings
   ansible.builtin.copy:
@@ -32,7 +30,6 @@
     dest: "{{ base_dir }}/homepage/settings.yaml"
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: "0640"
 
 - name: HOMEPAGE - Create widgets
   ansible.builtin.copy:
@@ -40,7 +37,6 @@
     dest: "{{ base_dir }}/homepage/widgets.yaml"
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: "0640"
 
 - name: HOMEPAGE - Create container
   community.docker.docker_container:

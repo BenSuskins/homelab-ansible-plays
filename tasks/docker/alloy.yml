@@ -60,7 +60,6 @@
     dest: "{{ base_dir }}/alloy/config/config.alloy"
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: "0640"
 
 - name: ALLOY - Create container
   community.docker.docker_container:

@@ -6,7 +6,7 @@
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: "0750"
+    mode: "0777"
   loop:
     - "{{ base_dir }}/authentik/postgres/pgdata"
     - "{{ base_dir }}/authentik/redis"

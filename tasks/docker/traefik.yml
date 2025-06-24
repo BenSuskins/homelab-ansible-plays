@@ -6,7 +6,7 @@
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: "0750"
+    mode: "0777"
   loop:
     - "{{ base_dir }}/traefik"
     - "{{ base_dir }}/traefik/dynamic"
@@ -18,7 +18,6 @@
     dest: "{{ base_dir }}/traefik/traefik.toml"
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: "0640"
 
 - name: TRAEFIK - Create dynamic config
   ansible.builtin.copy:
@@ -26,7 +25,7 @@
     dest: "{{ base_dir }}/traefik/dynamic/"
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: "0755"
+    mode: "0777"
 
 - name: TRAEFIK - Create crowdsec middleware
   ansible.builtin.template:
@@ -34,7 +33,6 @@
     dest: "{{ base_dir }}/traefik/dynamic/middlewares-crowdsec.toml"
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: "0640"
 
 - name: TRAEFIK - Add to scrape configs
   ansible.builtin.set_fact:
