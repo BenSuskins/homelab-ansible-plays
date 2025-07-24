@@ -24,8 +24,7 @@
       - "7878:7878"
     volumes:
       - "{{ base_dir }}/radarr:/config"
-      - "/mnt/media/movies:/movies"
-      - "/mnt/media/downloads:/data"
+      - "/mnt/media:/media"
     env:
       PUID: "{{ puid | string }}"
       PGID: "{{ pgid | string }}"

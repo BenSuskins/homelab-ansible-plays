@@ -21,10 +21,7 @@
     network_mode: host
     volumes:
       - "{{ base_dir }}/plex:/config"
-      - "/mnt/media/tv:/tv"
-      - "/mnt/media/movies:/movies"
-      - "/mnt/media/youtube:/youtube"
-      - "/mnt/media/other:/other"
+      - "/mnt/media:/media"
     devices:
       - /dev/dri:/dev/dri      
     env:

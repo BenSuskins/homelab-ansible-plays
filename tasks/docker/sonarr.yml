@@ -24,8 +24,7 @@
       - "8989:8989"
     volumes:
       - "{{ base_dir }}/sonarr:/config"
-      - "/mnt/media/tv:/tv"
-      - "/mnt/media/downloads:/data"
+      - "/mnt/media:/media"
     env:
       PUID: "{{ puid | string }}"
       PGID: "{{ pgid | string }}"

@@ -11,4 +11,3 @@ containers:
   - authentik_postgres
   - authentik_redis
   - traefik
-  - crowdsec

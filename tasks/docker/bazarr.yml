@@ -24,8 +24,7 @@
       - "6767:6767"
     volumes:
       - "{{ base_dir }}/bazarr:/config"
-      - "/mnt/media/tv:/tv"
-      - "/mnt/media/movies:/movies"
+      - "/mnt/media:/media"
     env:
       PUID: "{{ puid | string }}"
       PGID: "{{ pgid | string }}"
