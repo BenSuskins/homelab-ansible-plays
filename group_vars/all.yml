@@ -1,4 +1,5 @@
 monitor_ip: 192.168.0.104
+nas_ip: 192.168.0.100
 timezone: Europe/London
 mount_nas: false
 firewall: false
@@ -12,6 +13,7 @@ packages:
   - qemu-guest-agent
   - sudo
   - ufw
+  - nfs-common
 
 docker_dependencies:
   - ca-certificates
