@@ -36,11 +36,11 @@
     modification_time: preserve
     access_time: preserve
 
-- name: BASE - Mount NFS media share
-  when: mount_nas | bool
-  ansible.posix.mount:
-    src: "{{ nas_ip }}:/mnt/vault/media"
+- name: BASE - Mount network drive
+  when: mount_nas|bool
+  ansible.posix.moun:
+    src: //{{ nas_ip }}/media
     path: /mnt/media
-    fstype: nfs
-    opts: "defaults,nofail,x-systemd.automount,_netdev"
+    fstype: cifs
+    opts: 'vers=3.0,username=mediaserver,password={{ mediaserver_password }},uid=1000,gid=1000,rw,exec'
     state: mounted
