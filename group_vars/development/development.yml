@@ -2,7 +2,6 @@
 username: development
 puid: 1000
 pgid: 1000
-default_pass: development
 firewall: true
 base_dir: /home/development/server-development
 

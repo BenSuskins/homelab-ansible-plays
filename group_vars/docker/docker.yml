@@ -2,7 +2,6 @@
 username: docker
 puid: 1000
 pgid: 1000
-default_pass: docker
 base_dir: /home/docker/server-docker
 
 containers:

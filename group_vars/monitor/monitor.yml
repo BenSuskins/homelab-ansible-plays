@@ -2,7 +2,6 @@
 username: monitor
 puid: 1000
 pgid: 1000
-default_pass: monitor
 base_dir: /home/monitor/server-monitor
 
 containers:
