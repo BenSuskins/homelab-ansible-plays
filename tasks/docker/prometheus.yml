@@ -9,6 +9,7 @@
     mode: "0777"
   loop:
     - "{{ base_dir }}/prometheus"
+    - "{{ base_dir }}/prometheus/config"
 
 - name: PROMETHEUS - Aggregate scrape configs from all hosts
   ansible.builtin.set_fact:

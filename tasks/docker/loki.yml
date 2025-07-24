@@ -9,6 +9,7 @@
     mode: "0777"
   loop:
     - "{{ base_dir }}/loki"
+    - "{{ base_dir }}/loki/config"
 
 - name: LOKI - Create config
   ansible.builtin.copy:
