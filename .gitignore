@@ -62,4 +62,6 @@ Temporary Items
 .history
 .ionide
 
+.ansible/
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,visualstudiocode,ansible,ssh
