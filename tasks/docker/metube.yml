@@ -23,7 +23,7 @@
     ports:
       - "8081:8081"
     volumes:
-      - "/mnt/media/other:/downloads"
+      - "/mnt/media:/downloads"
     env:
       UID: "{{ puid | string }}"
       GID: "{{ pgid | string }}"
