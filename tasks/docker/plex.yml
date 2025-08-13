@@ -13,7 +13,7 @@
 - name: PLEX - Create container
   community.docker.docker_container:
     name: plex
-    image: ghcr.io/linuxserver/plex:1.41.9
+    image: ghcr.io/linuxserver/plex:1.42.1
     restart_policy: always
     restart: true
     state: started
