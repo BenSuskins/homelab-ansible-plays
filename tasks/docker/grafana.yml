@@ -13,7 +13,7 @@
 - name: GRAFANA - Create container
   community.docker.docker_container:
     name: grafana
-    image: grafana/grafana:12.1.0
+    image: grafana/grafana:12.1.1
     restart_policy: always
     restart: true
     state: started

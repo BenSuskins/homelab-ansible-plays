@@ -2,7 +2,7 @@
 - name: PI-HOLE-EXPORTER - Create  container
   community.docker.docker_container:
     name: pi-hole-exporter
-    image: ekofr/pihole-exporter:v1.0.1
+    image: ekofr/pihole-exporter:v1.2.0
     restart_policy: always
     restart: true
     state: started
