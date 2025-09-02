@@ -23,7 +23,7 @@
       - "{{ base_dir }}/plex:/config"
       - "/mnt/media:/media"
     devices:
-      - /dev/dri:/dev/dri      
+      - /dev/dri:/dev/dri
     env:
       PUID: "{{ puid | string }}"
       PGID: "{{ pgid | string }}"

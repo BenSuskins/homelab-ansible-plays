@@ -17,6 +17,7 @@ My [Ansible](https://github.com/ansible/ansible) configuration to setup / manage
 # 📦 Prerequisites
 
 Ensure you have the following installed on your control machine:
+
 - Ansible (minimum version 2.12)
 - SSH access to all target hosts.
 - Ansible Vault set up for secrets management.
@@ -43,6 +44,7 @@ Copy SSH key to host:
 ```bash
 ssh-copy-id -i ~/.ssh/homelab.pub <user>@<host>
 ```
+
 ---
 
 # 📚 Playbooks
@@ -90,6 +92,7 @@ ansible-playbook plays/clean.yml -K --ask-vault-pass
 ---
 
 # 🖥️ Hosts
+
 Details of the services running on each host.
 
 ## 🌐 All Hosts
@@ -139,6 +142,7 @@ Details of the services running on each host.
 - 🐘 authentik_postgres
 - 🧠 authentik_redis
 - 🚦 traefik
+
 ---
 
 # 🙏 Acknowledgments

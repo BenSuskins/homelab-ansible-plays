@@ -3,8 +3,8 @@ nas_ip: 192.168.0.100
 timezone: Europe/London
 mount_nas: false
 firewall: false
-prometheus_scrape_configs: []
-aggregated_scrape_configs: []
+prometheus_scrape_configs: [ ]
+aggregated_scrape_configs: [ ]
 
 packages:
   - wget
