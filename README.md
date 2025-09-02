@@ -139,7 +139,6 @@ Details of the services running on each host.
 - 🐘 authentik_postgres
 - 🧠 authentik_redis
 - 🚦 traefik
-- 🛡️ crowdsec
 ---
 
 # 🙏 Acknowledgments

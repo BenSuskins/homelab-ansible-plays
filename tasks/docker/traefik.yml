@@ -27,13 +27,6 @@
     group: "{{ username }}"
     mode: "0777"
 
-- name: TRAEFIK - Create crowdsec middleware
-  ansible.builtin.template:
-    src: ../config/traefik/dynamic/middlewares-crowdsec.toml.j2
-    dest: "{{ base_dir }}/traefik/dynamic/middlewares-crowdsec.toml"
-    owner: "{{ username }}"
-    group: "{{ username }}"
-
 - name: TRAEFIK - Add to scrape configs
   ansible.builtin.set_fact:
     prometheus_scrape_configs: >-
