@@ -1,0 +1,40 @@
+---
+- name: BYTE_STASH - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0750"
+  loop:
+    - "{{ base_dir }}/byte_stash"
+
+- name: BYTE_STASH - Create container
+  community.docker.docker_container:
+    name: byte_stash
+    image: ghcr.io/jordan-dalby/bytestash:1.5.8
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    ports:
+      - "5000:5000"
+    volumes:
+      - "{{ base_dir }}/byte_stash:/data/snippets"
+    env:
+      BASE_PATH: ""
+      JWT_SECRET: "{{ JWT_SECRET }}"
+      TOKEN_EXPIRY: 24h
+      ALLOW_NEW_ACCOUNTS: "true"
+      DEBUG: "true"
+      DISABLE_ACCOUNTS: "false"
+      DISABLE_INTERNAL_ACCOUNTS: "false"
+      OIDC_ENABLED: "false"
+      OIDC_DISPLAY_NAME: ""
+      OIDC_ISSUER_URL: ""
+      OIDC_CLIENT_ID: ""
+      OIDC_CLIENT_SECRET: ""
+      OIDC_SCOPES: ""
