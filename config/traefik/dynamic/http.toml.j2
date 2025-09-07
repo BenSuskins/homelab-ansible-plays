@@ -3,6 +3,12 @@
 ################################################################
 [http]
   [http.routers]
+    [http.routers.home]
+      rule = "Host(`home.suskins.co.uk`)"
+      service = "home"
+      entryPoints = ["websecure"]
+      middlewares = ["authentik", "ratelimit"]
+      tls = true
     [http.routers.pubgolfme]
       rule = "Host(`pubgolf.me`)"
       service = "pubgolfme"
@@ -25,6 +31,9 @@
 {% endfor %}
 
   [http.services]
+    [http.services.home.loadBalancer]
+      [[http.services.home.loadBalancer.servers]]
+        url = "http://192.168.0.102:3000"
     [http.services.pubgolfme.loadBalancer]
       [[http.services.pubgolfme.loadBalancer.servers]]
         url = "http://192.168.0.102:3003"
