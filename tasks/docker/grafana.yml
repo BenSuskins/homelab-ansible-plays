@@ -23,7 +23,7 @@
     networks:
       - name: homelab
     volumes:
-      - "{{ base_dir }}/grafana/data:/var/lib/grafana"
+      - "{{ base_dir }}/grafana:/var/lib/grafana"
     env:
       GF_AUTH_GENERIC_OAUTH_ENABLED: "true"
       GF_AUTH_GENERIC_OAUTH_NAME: "authentik"
