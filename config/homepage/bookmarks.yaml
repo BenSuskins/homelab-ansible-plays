@@ -13,3 +13,7 @@
         - abbr: CF
           href: "https://cloudflare.com/"
           icon: si-cloudflare
+    - Authentik:
+        - abbr: AK
+          href: https://authentik.suskins.co.uk
+          icon: si-authentik
