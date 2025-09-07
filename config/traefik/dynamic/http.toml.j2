@@ -19,7 +19,7 @@
     [http.routers.{{ svc.container }}]
       rule = "Host(`{{ svc.container }}.suskins.co.uk`)"
       service = "{{ svc.container }}"
-      entryPoints = [websecure"]
+      entryPoints = ["websecure"]
       middlewares = ["authentik", "ratelimit"]
       tls = true
 {% endfor %}
