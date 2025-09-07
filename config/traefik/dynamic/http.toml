@@ -9,13 +9,13 @@
       entryPoints = ["websecure"]
       middlewares = ["ratelimit"]
       tls = true
-    [http.routers.pubgolfme]
+    [http.routers.pubgolf]
       rule = "Host(`pubgolf.me`)"
       service = "pubgolf"
       entryPoints = ["websecure"]
       middlewares = ["ratelimit"]
       tls = true
-    [http.routers.pubgolfapi-me]
+    [http.routers.pubgolfapi]
       rule = "Host(`api.pubgolf.me`)"
       service = "pubgolfapi"
       entryPoints = ["websecure"]
