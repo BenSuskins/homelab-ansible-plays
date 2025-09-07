@@ -1,0 +1,38 @@
+################################################################
+# HTTP Configuration (Routers & Services)
+################################################################
+[http]
+  [http.routers]
+    [http.routers.pubgolfme]
+      rule = "Host(`pubgolf.me`)"
+      service = "pubgolfme"
+      entryPoints = ["websecure"]
+      middlewares = ["ratelimit"]
+      tls = true
+    [http.routers.pubgolfmeapi]
+      rule = "Host(`api.pubgolf.me`)"
+      service = "pubgolfmeapi"
+      entryPoints = ["websecure"]
+      middlewares = ["ratelimit"]
+      tls = true
+{% for svc in all_services %}
+    [http.routers.{{ svc.container }}]
+      rule = "Host(`{{ svc.container }}.suskins.co.uk`)"
+      service = "{{ svc.container }}"
+      entryPoints = [websecure"]
+      middlewares = ["authentik", "ratelimit"]
+      tls = true
+{% endfor %}
+
+  [http.services]
+    [http.services.pubgolfme.loadBalancer]
+      [[http.services.pubgolfme.loadBalancer.servers]]
+        url = "http://192.168.0.102:3003"
+    [http.services.pubgolfmeapi.loadBalancer]
+      [[http.services.pubgolfmeapi.loadBalancer.servers]]
+        url = "http://192.168.0.102:8080"
+{% for svc in all_services %}
+    [http.services.{{ svc.container }}.loadBalancer]
+      [[http.services.{{ svc.container }}.loadBalancer.servers]]
+        url = "http://{{ svc.ip }}:{{ svc.port }}"
+{% endfor %}

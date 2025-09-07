@@ -47,6 +47,24 @@
       loop: "{{ docker_containers.stdout_lines }}"
       when: item not in (containers + core_containers)
 
+    - name: Combine traefik entries from all hosts
+      delegate_to: localhost
+      set_fact:
+        traefik_entries: >-
+          {{
+            traefik_entries | default([]) +
+            (hostvars
+              | dict2items
+              | selectattr('value.homepage_entry', 'defined')
+              | map(attribute='value.homepage_entry')
+              | list
+              | flatten)
+          }}
+
+    - name: UPDATE - Update Traefik
+      when: ansible_hostname == 'development'
+      ansible.builtin.include_tasks: "../tasks/docker/traefik.yml"
+
     - name: Combine homepage entries from all hosts
       delegate_to: localhost
       set_fact:

@@ -19,13 +19,35 @@
     owner: "{{ username }}"
     group: "{{ username }}"
 
-- name: TRAEFIK - Create dynamic config
+- name: TRAEFIK - Create ratelimit middleware
   ansible.builtin.copy:
-    src: ../config/traefik/dynamic/
-    dest: "{{ base_dir }}/traefik/dynamic/"
+    src: ../config/traefik/dynamic/middlewares-ratelimit.toml
+    dest: "{{ base_dir }}/traefik/dynamic/middlewares-ratelimit.toml"
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: "0777"
+
+- name: TRAEFIK - Create authentik middleware
+  ansible.builtin.copy:
+    src: ../config/traefik/dynamic/middlewares-authentik.toml
+    dest: "{{ base_dir }}/traefik/dynamic/middlewares-authentik.toml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: TRAEFIK - Create ssl
+  ansible.builtin.copy:
+    src: ../config/traefik/dynamic/ssl.toml
+    dest: "{{ base_dir }}/traefik/dynamic/ssl.toml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: TRAEFIK - Create services
+  ansible.builtin.template:
+    src: ../config/traefik/dynamic/http.toml.j2
+    dest: "{{ base_dir }}/traefik/dynamic/http.toml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  vars:
+    all_services: "{{ traefik_entries }}"
 
 - name: TRAEFIK - Add to scrape configs
   ansible.builtin.set_fact:
