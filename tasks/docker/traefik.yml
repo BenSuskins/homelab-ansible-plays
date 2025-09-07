@@ -84,7 +84,7 @@
 
 - name: TRAEFIK - Set homepage entry
   set_fact:
-    homepage_entry: "{{ (homepage_entry | default([])) + [ {
+    docker_services: "{{ (docker_services | default([])) + [ {
       'container': 'traefik',
       'ip': inventory_hostname,
       'friendly_name': friendly_name,

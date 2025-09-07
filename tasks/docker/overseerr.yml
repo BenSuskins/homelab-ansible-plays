@@ -31,7 +31,7 @@
 
 - name: OVERSEERR - Set homepage entry
   set_fact:
-    homepage_entry: "{{ (homepage_entry | default([])) + [ {
+    docker_services: "{{ (docker_services | default([])) + [ {
       'container': 'overseerr',
       'ip': inventory_hostname,
       'friendly_name': friendly_name,

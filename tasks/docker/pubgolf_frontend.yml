@@ -16,7 +16,7 @@
 
 - name: PUBGOLF - Set homepage entry
   set_fact:
-    homepage_entry: "{{ (homepage_entry | default([])) + [ {
+    docker_services: "{{ (docker_services | default([])) + [ {
       'container': 'pubgolf',
       'ip': inventory_hostname,
       'friendly_name': friendly_name,

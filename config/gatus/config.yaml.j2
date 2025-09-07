@@ -3,7 +3,7 @@ alerting:
     webhook-url: "{{ GATUS_DISCORD_WEBHOOK }}"
 
 endpoints:
-{% for svc in all_services %}
+{% for svc in monitored_services %}
   - name: {{ svc.container }}
     url: http://{{ svc.ip }}:{{ svc.port }}
     interval: 60s

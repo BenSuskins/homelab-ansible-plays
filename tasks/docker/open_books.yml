@@ -17,7 +17,7 @@
 
 - name: OPEN BOOKS - Set homepage entry
   set_fact:
-    homepage_entry: "{{ (homepage_entry | default([])) + [ {
+    docker_services: "{{ (docker_services | default([])) + [ {
       'container': 'openbooks',
       'ip': inventory_hostname,
       'friendly_name': friendly_name,

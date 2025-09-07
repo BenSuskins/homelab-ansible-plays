@@ -47,7 +47,7 @@
       loop: "{{ docker_containers.stdout_lines }}"
       when: item not in (containers + core_containers)
 
-    - name: Combine traefik entries from all hosts
+    - name: UPDATE - Combine traefik entries from all hosts
       delegate_to: localhost
       set_fact:
         traefik_entries: >-
@@ -55,8 +55,8 @@
             traefik_entries | default([]) +
             (hostvars
               | dict2items
-              | selectattr('value.homepage_entry', 'defined')
-              | map(attribute='value.homepage_entry')
+              | selectattr('value.docker_services', 'defined')
+              | map(attribute='value.docker_services')
               | list
               | flatten)
           }}
@@ -65,16 +65,16 @@
       when: ansible_hostname == 'development'
       ansible.builtin.include_tasks: "../tasks/docker/traefik.yml"
 
-    - name: Combine homepage entries from all hosts
+    - name: UPDATE - Combines Monitored Services
       delegate_to: localhost
       set_fact:
-        all_services: >-
+        monitored_services: >-
           {{
-            all_services | default([]) +
+            monitored_services | default([]) +
             (hostvars
               | dict2items
-              | selectattr('value.homepage_entry', 'defined')
-              | map(attribute='value.homepage_entry')
+              | selectattr('value.docker_services', 'defined')
+              | map(attribute='value.docker_services')
               | list
               | flatten)
           }}
@@ -82,6 +82,20 @@
     - name: UPDATE - Update Gatus
       when: ansible_hostname == 'monitor'
       ansible.builtin.include_tasks: "../tasks/docker/gatus.yml"
+
+    - name: UPDATE - Combine homepage entries from all hosts
+      delegate_to: localhost
+      set_fact:
+        all_services: >-
+          {{
+            all_services | default([]) +
+            (hostvars
+              | dict2items
+              | selectattr('value.docker_services', 'defined')
+              | map(attribute='value.docker_services')
+              | list
+              | flatten)
+          }}
 
     - name: UPDATE - Update Homepage
       when: ansible_hostname == 'docker'

@@ -17,7 +17,7 @@
     owner: "{{ username }}"
     group: "{{ username }}"
   vars:
-    all_services: "{{ all_services }}"
+    monitored_services: "{{ monitored_services }}"
 
 - name: GATUS - Create container
   community.docker.docker_container:
@@ -36,7 +36,7 @@
 
 - name: GATUS - Set homepage entry
   set_fact:
-    homepage_entry: "{{ (homepage_entry | default([])) + [ {
+    docker_services: "{{ (docker_services | default([])) + [ {
       'container': 'gatus',
       'ip': inventory_hostname,
       'friendly_name': friendly_name,
