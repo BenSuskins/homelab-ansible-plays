@@ -9,26 +9,6 @@
       entryPoints = ["websecure"]
       middlewares = ["ratelimit"]
       tls = true
-    [http.routers.home]
-      rule = "Host(`home.suskins.co.uk`)"
-      service = "home"
-      entryPoints = ["websecure"]
-      middlewares = [ "authentik"]
-      tls = true
-
-    # Pubgolf Routers
-    [http.routers.pubgolf]
-      rule = "Host(`pubgolf.suskins.co.uk`)"
-      service = "pubgolf"
-      entryPoints = ["websecure"]
-      middlewares = ["ratelimit"]
-      tls = true      
-    [http.routers.pubgolfapi]
-      rule = "Host(`api.suskins.co.uk`)"
-      service = "pubgolfapi"
-      entryPoints = ["websecure"]
-      middlewares = ["ratelimit"]
-      tls = true            
     [http.routers.pubgolfme]
       rule = "Host(`pubgolf.me`)"
       service = "pubgolf"
@@ -46,9 +26,6 @@
     [http.services.authentik.loadBalancer]
       [[http.services.authentik.loadBalancer.servers]]
         url = "http://192.168.0.105:9000"
-    [http.services.home.loadBalancer]
-      [[http.services.home.loadBalancer.servers]]
-        url = "http://192.168.0.102:3000"
     [http.services.pubgolf.loadBalancer]
       [[http.services.pubgolf.loadBalancer.servers]]
         url = "http://192.168.0.102:3003"    
