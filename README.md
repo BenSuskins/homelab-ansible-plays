@@ -110,19 +110,18 @@ Details of the services running on each host.
 
 - 📊 grafana
 - 🗃️ loki
-- ⏱️ uptime-kuma
+- ⏱️ gatus
 - 📈 graphite-exporter
 - 📉 prometheus
 
 ## 🐳 Docker Server (`docker`)
 
-- 🕳️ pi-hole
-- 📦 pi-hole-exporter
 - 🏠 homepage
 - 🛒 grocy
 - 🍲 mealie
 - 🐘 postgres
 - 🪞 magic-mirror
+- 🧑‍💻 bytestash
 - ⛳ pubgolf_postgres
 - 🏌️ pubgolf_backend
 - 🏌️‍♂️ pubgolf_frontend

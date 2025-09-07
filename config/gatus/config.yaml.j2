@@ -1,0 +1,24 @@
+alerting:
+  discord:
+    webhook-url: "{{ GATUS_DISCORD_WEBHOOK }}"
+
+endpoints:
+{% for svc in all_services %}
+  - name: {{ svc.container }}
+    url: http://{{ svc.ip }}:{{ svc.port }}
+    interval: 60s
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: discord
+        description: "Healthcheck failed"
+        send-on-resolved: true
+{% endfor %}
+
+security:
+  oidc:
+    issuer-url: https://authentik.suskins.co.uk/application/o/gatus/
+    client-id: {{ GATUS_OIDC_CLIENT_ID }}
+    client-secret: {{  GATUS_OIDC_CLIENT_SECRET }}
+    redirect-url: http://192.168.0.104/authorization-code/callback
+    scopes: [openid]

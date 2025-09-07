@@ -7,6 +7,5 @@ base_dir: /home/monitor/server-monitor
 containers:
   - grafana
   - loki
-  - uptime-kuma
   - graphite-exporter
   - prometheus

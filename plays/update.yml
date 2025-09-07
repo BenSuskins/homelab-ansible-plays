@@ -79,6 +79,10 @@
               | flatten)
           }}
 
+    - name: UPDATE - Update Gatus
+      when: ansible_hostname == 'monitor'
+      ansible.builtin.include_tasks: "../tasks/docker/gatus.yml"
+
     - name: UPDATE - Update Homepage
       when: ansible_hostname == 'docker'
       ansible.builtin.include_tasks: "../tasks/docker/homepage.yml"

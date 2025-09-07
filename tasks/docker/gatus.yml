@@ -1,0 +1,44 @@
+---
+- name: GATUS - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0750"
+  loop:
+    - "{{ base_dir }}/gatus"
+
+- name: GATUS - Create config
+  ansible.builtin.template:
+    src: ../config/gatus/config.yaml.j2
+    dest: "{{ base_dir }}/gatus/config.yaml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  vars:
+    all_services: "{{ all_services }}"
+
+- name: GATUS - Create container
+  community.docker.docker_container:
+    name: gatus
+    image: twinproduction/gatus:latest
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    ports:
+      - "8080:8080"
+    networks:
+      - name: homelab
+    volumes:
+      - "{{ base_dir }}/gatus:/config"
+
+- name: GATUS - Set homepage entry
+  set_fact:
+    homepage_entry: "{{ (homepage_entry | default([])) + [ {
+      'container': 'gatus',
+      'ip': inventory_hostname,
+      'friendly_name': friendly_name,
+      'port': 8080,
+    } ] }}"
