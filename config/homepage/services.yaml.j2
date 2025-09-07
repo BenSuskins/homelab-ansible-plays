@@ -21,31 +21,16 @@
         icon: proxmox
         description: Manage Server
         sitemonitor: http://192.168.0.253:8006
-        widget:
-            type: proxmox
-            url: https://192.168.0.253:8006
-            username: {{ proxmox_username }}
-            password: {{ proxmox_api_key }}
-            fields: ["vms", "resources.cpu", "resources.mem"]
     - Truenas:
         href: http://192.168.0.100
         icon: truenas
         description: Manage NAS
         siteMonitor: http://192.168.0.100
-        widget:
-            type: truenas
-            url: http://192.168.0.100
-            key: {{ truenas_api_key }}
     - Unifi:
         href: https://192.168.0.1
         icon: unifi
         description: Manage Network
         # sitemonitor: http://192.168.0.1
-        widget:
-            type: unifi
-            url: https://192.168.0.1
-            username: {{ unifi_username }}
-            password: {{ unifi_password }}
     - Home Assistant:
         href: http://192.168.0.65:8123
         icon: home-assistant
