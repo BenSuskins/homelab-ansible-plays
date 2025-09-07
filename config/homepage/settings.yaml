@@ -38,11 +38,6 @@ quicklaunch:
 #         Layout          #
 ###########################
 layout:
-  Developer:
-    icon: mdi-code-json
-    header: false
-    style: row
-    columns: 6
   Media Server:
     icon: mdi-play-pause
     style: row
@@ -53,6 +48,11 @@ layout:
     columns: 4
   Monitoring Server:
     icon: mdi-chart-multiple
+    style: row
+    columns: 4
+  Development Server:
+    icon: mdi-code-json
+    header: false
     style: row
     columns: 4
   General:

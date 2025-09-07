@@ -27,3 +27,12 @@
     env:
       UID: "{{ puid | string }}"
       GID: "{{ pgid | string }}"
+
+- name: METUBE - Set homepage entry
+  set_fact:
+    homepage_entry: "{{ (homepage_entry | default([])) + [ {
+      'container': 'metube',
+      'ip': inventory_hostname,
+      'friendly_name': friendly_name,
+      'port': 8081,
+    } ] }}"

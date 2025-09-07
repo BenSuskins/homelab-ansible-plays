@@ -5,7 +5,6 @@ pgid: 1000
 base_dir: /home/docker/server-docker
 
 containers:
-  - homepage
   - grocy
   - mealie
   - postgres

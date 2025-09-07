@@ -29,3 +29,12 @@
       PUID: "{{ puid | string }}"
       PGID: "{{ pgid | string }}"
       TZ: "{{ timezone }}"
+
+- name: SONARR - Set homepage entry
+  set_fact:
+    homepage_entry: "{{ (homepage_entry | default([])) + [ {
+      'container': 'sonarr',
+      'ip': inventory_hostname,
+      'friendly_name': friendly_name,
+      'port': 8989,
+    } ] }}"

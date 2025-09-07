@@ -50,3 +50,12 @@
     volumes:
       - "{{ base_dir }}/authentik/media:/media"
       - "{{ base_dir }}/authentik/custom-templates:/templates"
+
+- name: AUTHENTIK SERVER - Set homepage entry
+  set_fact:
+    homepage_entry: "{{ (homepage_entry | default([])) + [ {
+      'container': 'authentik',
+      'ip': inventory_hostname,
+      'friendly_name': friendly_name,
+      'port': 9000,
+    } ] }}"

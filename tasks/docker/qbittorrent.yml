@@ -27,3 +27,12 @@
       PGID: "{{ pgid | string }}"
       TZ: "{{ timezone }}"
       WEBUI_PORT: "9091"
+
+- name: QBITTORRENT - Set homepage entry
+  set_fact:
+    homepage_entry: "{{ (homepage_entry | default([])) + [ {
+      'container': 'qbittorrent',
+      'ip': inventory_hostname,
+      'friendly_name': friendly_name,
+      'port': 9091,
+    } ] }}"

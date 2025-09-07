@@ -29,3 +29,12 @@
       - "{{ base_dir }}/magic-mirror/css:/opt/magic_mirror/css"
     ports:
       - "9926:8080"
+
+- name: MAGIC-MIRROR - Set homepage entry
+  set_fact:
+    homepage_entry: "{{ (homepage_entry | default([])) + [ {
+      'container': 'magicmirror',
+      'ip': inventory_hostname,
+      'friendly_name': friendly_name,
+      'port': 9926,
+    } ] }}"

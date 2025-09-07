@@ -28,3 +28,12 @@
       PUID: "{{ puid | string }}"
       PGID: "{{ pgid | string }}"
       TZ: "{{ timezone }}"
+
+- name: PROWLARR - Set homepage entry
+  set_fact:
+    homepage_entry: "{{ (homepage_entry | default([])) + [ {
+      'container': 'prowlarr',
+      'ip': inventory_hostname,
+      'friendly_name': friendly_name,
+      'port': 9696,
+    } ] }}"

@@ -47,6 +47,24 @@
       loop: "{{ docker_containers.stdout_lines }}"
       when: item not in (containers + core_containers)
 
-    - name: SETUP - Reboot server
-      ansible.builtin.reboot:
-        msg: "Rebooting server after setup"
+    - name: Combine homepage entries from all hosts
+      delegate_to: localhost
+      set_fact:
+        all_services: >-
+          {{
+            all_services | default([]) +
+            (hostvars
+              | dict2items
+              | selectattr('value.homepage_entry', 'defined')
+              | map(attribute='value.homepage_entry')
+              | list
+              | flatten)
+          }}
+
+    - name: UPDATE - Update Homepage
+      when: ansible_hostname == 'docker'
+      ansible.builtin.include_tasks: "../tasks/docker/homepage.yml"
+
+#    - name: SETUP - Reboot server
+#      ansible.builtin.reboot:
+#        msg: "Rebooting server after setup"

@@ -59,3 +59,12 @@
       - "{{ base_dir }}/traefik/logs:/logs"
     env:
       TZ: "{{ timezone }}"
+
+- name: TRAEFIK - Set homepage entry
+  set_fact:
+    homepage_entry: "{{ (homepage_entry | default([])) + [ {
+      'container': 'traefik',
+      'ip': inventory_hostname,
+      'friendly_name': friendly_name,
+      'port': 8080,
+    } ] }}"

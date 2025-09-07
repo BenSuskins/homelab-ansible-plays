@@ -29,3 +29,12 @@
       PGID: "{{ pgid | string }}"
       TZ: "{{ timezone }}"
       VERSION: "docker"
+
+- name: PLEX - Set homepage entry
+  set_fact:
+    homepage_entry: "{{ (homepage_entry | default([])) + [ {
+      'container': 'plex',
+      'ip': inventory_hostname,
+      'friendly_name': friendly_name,
+      'port': 32400,
+    } ] }}"

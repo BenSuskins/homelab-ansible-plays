@@ -24,3 +24,12 @@
       - name: homelab
     volumes:
       - "{{ base_dir }}/uptime-kuma/data:/app/data"
+
+- name: UPTIME-KUMA - Set homepage entry
+  set_fact:
+    homepage_entry: "{{ (homepage_entry | default([])) + [ {
+      'container': 'uptimekuma',
+      'ip': inventory_hostname,
+      'friendly_name': friendly_name,
+      'port': 3001,
+    } ] }}"

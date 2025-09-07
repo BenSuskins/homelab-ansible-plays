@@ -11,6 +11,7 @@ My [Ansible](https://github.com/ansible/ansible) configuration to setup / manage
 - 🐳 Deploying and updating containers.
 - 📦 Automated docker updates via [Renovate](https://github.com/renovatebot/renovate).
 - 🔄 Regular maintenance.
+- 🏡 Autogenerate Homepage Entries.
 
 ---
 
@@ -63,14 +64,6 @@ Deploys the hosts containers.
 
 ```bash
 ansible-playbook plays/deploy-containers.yml -K --ask-vault-pass
-```
-
-## 🏠 Update Homepage
-
-Updates Homepage config.
-
-```bash
-ansible-playbook plays/update-homepage.yml --ask-vault-pass
 ```
 
 ## ⬆️ Update

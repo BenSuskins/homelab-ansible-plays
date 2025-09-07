@@ -45,3 +45,12 @@
     volumes:
       - "{{ base_dir }}/prometheus/config:/etc/prometheus"
       - "{{ base_dir }}/prometheus/data:/prometheus"
+
+- name: PROMETHEUS - Set homepage entry
+  set_fact:
+    homepage_entry: "{{ (homepage_entry | default([])) + [ {
+      'container': 'prometheus',
+      'ip': inventory_hostname,
+      'friendly_name': friendly_name,
+      'port': 9090,
+    } ] }}"

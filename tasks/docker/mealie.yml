@@ -32,3 +32,12 @@
       ALLOW_SIGNUP: "true"
       MAX_WORKERS: "1"
       WEB_CONCURRENCY: "1"
+
+- name: MEALIE - Set homepage entry
+  set_fact:
+    homepage_entry: "{{ (homepage_entry | default([])) + [ {
+      'container': 'mealie',
+      'ip': inventory_hostname,
+      'friendly_name': friendly_name,
+      'port': 9925,
+    } ] }}"

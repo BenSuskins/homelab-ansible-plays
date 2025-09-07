@@ -14,3 +14,12 @@
     volumes:
       - "/mnt/media/books:/books"
     command: --persist -n CupcakeCreator
+
+- name: OPEN BOOKS - Set homepage entry
+  set_fact:
+    homepage_entry: "{{ (homepage_entry | default([])) + [ {
+      'container': 'openbooks',
+      'ip': inventory_hostname,
+      'friendly_name': friendly_name,
+      'port': 8080,
+    } ] }}"

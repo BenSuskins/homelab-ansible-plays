@@ -54,3 +54,12 @@
           editable: false
         EOF
         /run.sh
+
+- name: GRAFANA - Set homepage entry
+  set_fact:
+    homepage_entry: "{{ (homepage_entry | default([])) + [ {
+      'container': 'grafana',
+      'ip': inventory_hostname,
+      'friendly_name': friendly_name,
+      'port': 3000,
+    } ] }}"
