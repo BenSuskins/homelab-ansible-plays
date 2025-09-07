@@ -57,5 +57,6 @@
       'container': 'authentik',
       'ip': inventory_hostname,
       'friendly_name': friendly_name,
+      'secured': false,
       'port': 9000,
     } ] }}"

@@ -26,7 +26,7 @@
       rule = "Host(`{{ svc.container }}.suskins.co.uk`)"
       service = "{{ svc.container }}"
       entryPoints = ["websecure"]
-      middlewares = ["authentik", "ratelimit"]
+      middlewares = [{% if svc.secured is not defined or svc.secured %}"authentik", {% endif %}"ratelimit"]
       tls = true
 {% endfor %}
 
