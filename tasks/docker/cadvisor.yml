@@ -19,13 +19,11 @@
       - /dev/disk/:/dev/disk:ro
 
 - name: CADVISOR - Add to scrape configs
-  ansible.builtin.set_fact:
-    prometheus_scrape_configs: >-
-      {{
-        (prometheus_scrape_configs | default([])) +
+  set_fact:
+    prometheus_scrape_configs: "{{ (prometheus_scrape_configs | default([])) +
         [ {
-          'job_name': '{{ inventory_hostname }}',
+          'job_name': inventory_hostname,
           'scrape_interval': '30s',
           'static_configs': [ { 'targets': [ ansible_host ~ ':9098' ] } ]
         } ]
-      }}
+      }}"
