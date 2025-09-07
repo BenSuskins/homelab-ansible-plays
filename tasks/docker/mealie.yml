@@ -32,6 +32,14 @@
       ALLOW_SIGNUP: "true"
       MAX_WORKERS: "1"
       WEB_CONCURRENCY: "1"
+      ALLOW_PASSWORD_LOGIN: "false"
+      OIDC_AUTH_ENABLED: "true"
+      OIDC_PROVIDER_NAME: "authentik"
+      OIDC_CONFIGURATION_URL: "https://authentik.suskins.co.uk/application/o/mealie/.well-known/openid-configuration"
+      OIDC_CLIENT_ID: "{{ MEALIE_OIDC_CLIENT_ID }}"
+      OIDC_CLIENT_SECRET: "{{ MEALIE_OIDC_CLIENT_SECRET }}"
+      OIDC_SIGNUP_ENABLED: "true"
+      OIDC_AUTO_REDIRECT: "true"
 
 - name: MEALIE - Set homepage entry
   set_fact:
