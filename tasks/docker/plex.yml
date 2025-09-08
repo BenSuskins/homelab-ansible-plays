@@ -37,4 +37,5 @@
       'ip': inventory_hostname,
       'friendly_name': friendly_name,
       'port': 32400,
+      'healthcheck_path': '/identity'
     } ] }}"
