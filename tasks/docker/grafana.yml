@@ -72,4 +72,5 @@
       'ip': inventory_hostname,
       'friendly_name': friendly_name,
       'port': 3000,
+      'healthcheck_path': '/api/health'
     } ] }}"
