@@ -3,6 +3,7 @@ metrics: true
 alerting:
   discord:
     webhook-url: "{{ GATUS_DISCORD_WEBHOOK }}"
+    title: "Gatus"
     default-alert:
       description: "Health check failed"
       send-on-resolved: true
@@ -11,8 +12,8 @@ alerting:
 
 endpoints:
 {% for svc in monitored_services %}
+{% set url = "http://" ~ svc.ip ~ ":" ~ svc.port ~ (svc.healthcheck_path if svc.healthcheck_path is defined else "") %}
   - name: {{ svc.container }}
-    {% set url = "http://" ~ svc.ip ~ ":" ~ svc.port ~ (svc.healthcheck_path if svc.healthcheck_path is defined else "") %}
     url: {{ url }}
     interval: 60s
     conditions:
