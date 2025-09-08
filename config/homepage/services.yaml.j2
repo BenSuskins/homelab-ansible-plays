@@ -9,7 +9,7 @@
         href: http://{{ svc.ip }}:{{ svc.port }}
         icon: {{ svc.container | lower }}
         description: {{ svc.container | capitalize }} container
-        siteMonitor: http://{{ svc.ip }}:{{ svc.port }}
+        # siteMonitor: http://{{ svc.ip }}:{{ svc.port }}
 {% endfor %}
 {% endfor %}
 ###########################
