@@ -59,6 +59,10 @@
       when: ansible_hostname == 'docker'
       ansible.builtin.include_tasks: "../tasks/docker/homepage.yml"
 
+    - name: UPDATE - Update Prometheus
+      when: ansible_hostname == 'monitor'
+      ansible.builtin.include_tasks: "../tasks/docker/prometheus.yml"
+
     - name: SETUP - Reboot server
       ansible.builtin.reboot:
         msg: "Rebooting server after setup"
