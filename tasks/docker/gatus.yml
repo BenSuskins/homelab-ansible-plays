@@ -10,6 +10,20 @@
   loop:
     - "{{ base_dir }}/gatus"
 
+- name: GATUS - Combines monitored entries
+  delegate_to: localhost
+  set_fact:
+    monitored_services: >-
+      {{
+        monitored_services | default([]) +
+        (hostvars
+          | dict2items
+          | selectattr('value.docker_services', 'defined')
+          | map(attribute='value.docker_services')
+          | list
+          | flatten)
+      }}
+
 - name: GATUS - Create config
   ansible.builtin.template:
     src: ../config/gatus/config.yaml.j2

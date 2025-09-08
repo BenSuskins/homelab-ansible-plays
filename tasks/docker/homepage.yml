@@ -10,6 +10,20 @@
   loop:
     - "{{ base_dir }}/homepage"
 
+- name: HOMEPAGE - Combine homepage entries
+  delegate_to: localhost
+  set_fact:
+    all_services: >-
+      {{
+        all_services | default([]) +
+        (hostvars
+          | dict2items
+          | selectattr('value.docker_services', 'defined')
+          | map(attribute='value.docker_services')
+          | list
+          | flatten)
+      }}
+
 - name: HOMEPAGE - Create bookmarks
   ansible.builtin.copy:
     src: ../config/homepage/bookmarks.yaml

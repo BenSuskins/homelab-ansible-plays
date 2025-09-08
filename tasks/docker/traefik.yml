@@ -12,6 +12,20 @@
     - "{{ base_dir }}/traefik/dynamic"
     - "{{ base_dir }}/traefik/logs"
 
+- name: TRAEFIK - Combine traefik entries
+  delegate_to: localhost
+  set_fact:
+    traefik_entries: >-
+      {{
+        traefik_entries | default([]) +
+        (hostvars
+          | dict2items
+          | selectattr('value.docker_services', 'defined')
+          | map(attribute='value.docker_services')
+          | list
+          | flatten)
+      }}
+
 - name: TRAEFIK - Create config
   ansible.builtin.copy:
     src: ../config/traefik/traefik.toml
