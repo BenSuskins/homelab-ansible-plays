@@ -13,7 +13,7 @@
 - name: BAZARR - Create container
   community.docker.docker_container:
     name: bazarr
-    image: ghcr.io/linuxserver/bazarr:1.5.2
+    image: ghcr.io/linuxserver/bazarr:1.5.3
     restart_policy: always
     restart: true
     state: started
