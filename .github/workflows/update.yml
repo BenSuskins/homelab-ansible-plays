@@ -9,8 +9,7 @@ jobs:
   update:
     if: |
       github.actor == 'dependabot[bot]' ||
-      github.actor == 'renovate[bot]' ||
-      (github.event_name == 'workflow_dispatch' && github.actor == 'suskins')
+      github.event_name == 'workflow_dispatch'
     runs-on: [self-hosted, homelab]
 
     steps:
