@@ -30,12 +30,15 @@
       TZ: "{{ timezone }}"
       VERSION: "docker"
 
-- name: PLEX - Set homepage entry
+- name: PLEX - Define service entry
   ansible.builtin.set_fact:
-    docker_services: "{{ (docker_services | default([])) + [ {
-      'container': 'plex',
-      'ip': inventory_hostname,
-      'friendly_name': friendly_name,
-      'port': 32400,
-      'healthcheck_path': '/identity'
-    } ] }}"
+    plex_entry:
+      container: plex
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 32400
+      healthcheck_path: '/identity'
+
+- name: PLEX - Append to docker_services
+  ansible.builtin.set_fact:
+    docker_services: "{{ (docker_services | default([])) + [plex_entry] }}"

@@ -29,11 +29,14 @@
       PGID: "{{ pgid | string }}"
       TZ: "{{ timezone }}"
 
-- name: PROWLARR - Set homepage entry
+- name: PROWLARR - Define service entry
   ansible.builtin.set_fact:
-    docker_services: "{{ (docker_services | default([])) + [ {
-      'container': 'prowlarr',
-      'ip': inventory_hostname,
-      'friendly_name': friendly_name,
-      'port': 9696,
-    } ] }}"
+    prowlarr_entry:
+      container: prowlarr
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 9696
+
+- name: PROWLARR - Append to docker_services
+  ansible.builtin.set_fact:
+    docker_services: "{{ (docker_services | default([])) + [prowlarr_entry] }}"

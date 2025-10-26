@@ -96,11 +96,14 @@
     env:
       TZ: "{{ timezone }}"
 
-- name: TRAEFIK - Set homepage entry
+- name: TRAEFIK - Define service entry
   ansible.builtin.set_fact:
-    docker_services: "{{ (docker_services | default([])) + [ {
-      'container': 'traefik',
-      'ip': inventory_hostname,
-      'friendly_name': friendly_name,
-      'port': 8080,
-    } ] }}"
+    traefik_entry:
+      container: traefik
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 8080
+
+- name: TRAEFIK - Append to docker_services
+  ansible.builtin.set_fact:
+    docker_services: "{{ (docker_services | default([])) + [traefik_entry] }}"
