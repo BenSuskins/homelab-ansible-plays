@@ -10,7 +10,7 @@ jobs:
     if: |
       github.actor == 'dependabot[bot]' ||
       github.event_name == 'workflow_dispatch'
-    runs-on: [self-hosted, homelab]
+    runs-on: self-hosted
 
     steps:
       - name: Checkout repo
