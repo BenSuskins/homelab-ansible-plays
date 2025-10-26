@@ -31,7 +31,7 @@
       VERSION: "docker"
 
 - name: PLEX - Set homepage entry
-  set_fact:
+  ansible.builtin.set_fact:
     docker_services: "{{ (docker_services | default([])) + [ {
       'container': 'plex',
       'ip': inventory_hostname,
