@@ -6,13 +6,28 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
-    if: github.actor == 'renovate[bot]' || github.event_name == 'workflow_dispatch'
-    runs-on: self-hosted
+  update:
+    if: |
+      github.actor == 'dependabot[bot]' ||
+      github.actor == 'renovate[bot]' ||
+      (github.event_name == 'workflow_dispatch' && github.actor == 'suskins')
+    runs-on: [self-hosted, homelab]
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
+
+      - name: Checkout secrets repo
+        uses: actions/checkout@v4
+        with:
+          repository: bensuskins/secrets
+          path: secrets
+          token: ${{ secrets.SECRETS_REPO_TOKEN }}
+
+      - name: Move vault file
+        run: |
+          mkdir -p ~/.ansible
+          mv secrets/vault.yml ~/.ansible/vault.yml
 
       - name: Run Ansible
         run: |
