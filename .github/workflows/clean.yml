@@ -1,0 +1,17 @@
+name: Clean Homelab
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v5
+
+      - name: Run Ansible
+        run: |
+          ansible-playbook plays/clean.yml --vault-password-file ~/.ansible_vault_pass

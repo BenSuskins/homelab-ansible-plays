@@ -1,4 +1,4 @@
-name: Deploy with Ansible (Local Runner)
+name: Update Homelab
 
 on:
   push:
