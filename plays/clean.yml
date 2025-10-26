@@ -3,6 +3,9 @@
   hosts: all
   become: true
   become_method: ansible.builtin.su
+  vars_files:
+    - "{{ lookup('env', 'HOME') }}/.ansible/vault.yml"
+  
   tasks:
     - name: Remove unused packages and clear apt cache
       ansible.builtin.apt:
