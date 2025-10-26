@@ -4,7 +4,7 @@
   become: true
   become_method: ansible.builtin.su
   vars_files:
-    - ../vault.yml
+    - "{{ lookup('env', 'HOME') }}/.ansible/vault.yml"
 
   tasks:
     - name: DEPLOY - Deploy containers
