@@ -42,5 +42,5 @@
     src: //{{ nas_ip }}/media
     path: /mnt/media
     fstype: cifs
-    opts: 'vers=3.0,username=mediaserver,password={{ mediaserver_password }},uid=1000,gid=1000,rw,exec'
+    opts: "vers=3.0,username=mediaserver,password={{ mediaserver_password }},uid=1000,gid=1000,rw,exec"
     state: mounted
