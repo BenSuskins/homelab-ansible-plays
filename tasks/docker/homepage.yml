@@ -15,13 +15,13 @@
   ansible.builtin.set_fact:
     all_services: >-
       {{
-        all_services | default([]) +
-        (hostvars
+        (all_services | default([])) +
+        ((hostvars
           | dict2items
           | selectattr('value.docker_services', 'defined')
           | map(attribute='value.docker_services')
           | list
-          | flatten)
+          | flatten) | default([]))
       }}
 
 - name: HOMEPAGE - Create bookmarks

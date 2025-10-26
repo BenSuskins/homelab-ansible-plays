@@ -15,13 +15,13 @@
   ansible.builtin.set_fact:
     monitored_services: >-
       {{
-        monitored_services | default([]) +
-        (hostvars
+        (monitored_services | default([])) +
+        ((hostvars
           | dict2items
           | selectattr('value.docker_services', 'defined')
           | map(attribute='value.docker_services')
           | list
-          | flatten)
+          | flatten) | default([]))
       }}
 
 - name: GATUS - Create config

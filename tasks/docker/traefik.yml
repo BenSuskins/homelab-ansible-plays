@@ -17,13 +17,13 @@
   ansible.builtin.set_fact:
     traefik_entries: >-
       {{
-        traefik_entries | default([]) +
-        (hostvars
+        (traefik_entries | default([])) +
+        ((hostvars
           | dict2items
           | selectattr('value.docker_services', 'defined')
           | map(attribute='value.docker_services')
           | list
-          | flatten)
+          | flatten) | default([]))
       }}
 
 - name: TRAEFIK - Create config
