@@ -1,0 +1,15 @@
+name: Deploy with Ansible (Local Runner)
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Run Ansible
+        run: |
+          ansible-playbook plays/update.yml --vault-password-file ~/.ansible_vault_pass
