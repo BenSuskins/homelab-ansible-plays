@@ -6,10 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  update:
-    if: |
-      github.actor == 'renovate[bot]' ||
-      github.event_name == 'workflow_dispatch'
+  checkout:
     runs-on: self-hosted
     steps:
       - name: Checkout repo
@@ -21,12 +18,18 @@ jobs:
           repository: bensuskins/secrets
           path: secrets
           token: ${{ secrets.SECRETS_REPO_TOKEN }}
-
+  
+  update-secrets:
+    runs-on: self-hosted
+    steps:
       - name: Move vault file
         run: |
           mkdir -p ~/.ansible
           mv secrets/vault.yml ~/.ansible/vault.yml
-
+  
+  run-ansible:
+    runs-on: self-hosted
+    steps:
       - name: Run Ansible
         run: |
           ansible-playbook plays/update.yml --vault-password-file ~/.ansible_vault_pass
