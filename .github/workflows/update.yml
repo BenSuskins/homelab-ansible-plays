@@ -21,6 +21,7 @@ jobs:
   
   update-secrets:
     runs-on: self-hosted
+    needs: [checkout]
     steps:
       - name: Move vault file
         run: |
@@ -29,6 +30,7 @@ jobs:
   
   run-ansible:
     runs-on: self-hosted
+    needs: [checkout, update-secrets]
     steps:
       - name: Run Ansible
         run: |
