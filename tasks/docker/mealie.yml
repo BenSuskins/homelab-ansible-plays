@@ -13,7 +13,7 @@
 - name: MEALIE - Create container
   community.docker.docker_container:
     name: mealie
-    image: ghcr.io/mealie-recipes/mealie:v3.3.2
+    image: ghcr.io/mealie-recipes/mealie:v3.4.0
     restart_policy: always
     restart: true
     state: started
