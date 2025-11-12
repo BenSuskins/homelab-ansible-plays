@@ -9,6 +9,12 @@
       entryPoints = ["websecure"]
       middlewares = ["authentik", "ratelimit"]
       tls = true
+    [http.routers.games]
+      rule = "Host(`games.suskins.co.uk`)"
+      service = "games"
+      entryPoints = ["websecure"]
+      middlewares = ["authentik", "ratelimit"]
+      tls = true
     [http.routers.pubgolfme]
       rule = "Host(`pubgolf.me`)"
       service = "pubgolfme"
@@ -34,6 +40,9 @@
     [http.services.home.loadBalancer]
       [[http.services.home.loadBalancer.servers]]
         url = "http://192.168.0.102:3000"
+    [http.services.games.loadBalancer]
+      [[http.services.games.loadBalancer.servers]]
+        url = "http://192.168.0.202"
     [http.services.pubgolfme.loadBalancer]
       [[http.services.pubgolfme.loadBalancer.servers]]
         url = "http://192.168.0.102:3003"
