@@ -9,7 +9,6 @@
         href: http://{{ svc.ip }}:{{ svc.port }}
         icon: {{ svc.container | lower }}
         description: {{ svc.container | capitalize }} container
-        # siteMonitor: http://{{ svc.ip }}:{{ svc.port }}
 {% endfor %}
 {% endfor %}
 ###########################
@@ -20,29 +19,23 @@
         href: https://192.168.0.253:8006
         icon: proxmox
         description: Manage Server
-        sitemonitor: http://192.168.0.253:8006
     - Truenas:
         href: http://192.168.0.100
         icon: truenas
         description: Manage NAS
-        siteMonitor: http://192.168.0.100
     - Unifi:
         href: https://192.168.0.1
         icon: unifi
         description: Manage Network
-        # sitemonitor: http://192.168.0.1
     - Home Assistant:
         href: http://192.168.0.65:8123
         icon: home-assistant
         description: Manage House
-        sitemonitor: http://192.168.0.65:8123
     - Pelican:
         href: http://192.168.0.202
         icon: pelican
         description: Manage Games
-        sitemonitor: http://192.168.0.202
     - Minecraft:
         href: http://192.168.0.125:25566
         icon: minecraft
         description: Map it
-        sitemonitor: http://192.168.0.125:25566
