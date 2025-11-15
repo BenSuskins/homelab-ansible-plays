@@ -10,3 +10,37 @@ containers:
   - authentik_worker
   - authentik_postgres
   - authentik_redis
+
+static_services:
+  # Homepage
+  - name: home
+    host: home.suskins.co.uk
+    ip: 192.168.0.102
+    port: 3000
+    secured: true
+
+  # Games
+  - name: games
+    host: games.suskins.co.uk
+    ip: 192.168.0.202
+    port: 80
+    secured: true
+
+  - name: map
+    host: map.suskins.co.uk
+    ip: 192.168.0.125
+    port: 25566
+    secured: true
+
+  # Pubgolf
+  - name: pubgolfme
+    host: pubgolf.me
+    ip: 192.168.0.102
+    port: 3003
+    secured: false
+
+  - name: pubgolfmeapi
+    host: api.pubgolf.me
+    ip: 192.168.0.102
+    port: 8080
+    secured: false
