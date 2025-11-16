@@ -61,13 +61,13 @@ static_services:
     secured: true
 
   # Pubgolf
-  - name: pubgolfme
+  - name: pubgolf
     host: pubgolf.me
     ip: 192.168.0.102
     port: 3003
     secured: false
 
-  - name: pubgolfmeapi
+  - name: pubgolf-api
     host: api.pubgolf.me
     ip: 192.168.0.102
     port: 8080
