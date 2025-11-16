@@ -86,7 +86,7 @@ static_services:
     port: 3003
     secured: false
 
-  - name: pubgolf-api
+  - name: pubgolfapi
     host: api.pubgolf.me
     ip: 192.168.0.102
     port: 8080
