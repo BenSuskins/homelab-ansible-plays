@@ -1,0 +1,44 @@
+---
+- name: ADGUARD - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0750"
+  loop:
+    - "{{ base_dir }}/adguard/config"
+    - "{{ base_dir }}/adguard/data"
+
+- name: ADGUARD - Create container
+  community.docker.docker_container:
+    name: adguard
+    image: adguard/adguardhome
+    restart_policy: always
+    restart: true
+    state: started
+    pull: true
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "3000:3000"
+      - "80:80"
+      - "443:443"
+    networks:
+      - name: homelab
+    volumes:
+      - "{{ base_dir }}/adguard/config:/opt/adguardhome/conf"
+      - "{{ base_dir }}/adguard/data:/opt/adguardhome/work"
+
+- name: ADGUARD - Define service entry
+  ansible.builtin.set_fact:
+    adguard_entry:
+      container: adguard
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 3000
+
+- name: ADGUARD - Append to docker_services
+  ansible.builtin.set_fact:
+    docker_services: "{{ (docker_services | default([])) + [adguard_entry] }}"
