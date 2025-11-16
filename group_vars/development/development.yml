@@ -19,6 +19,34 @@ static_services:
     port: 3000
     secured: true
 
+  # Proxmox
+  - name: pve
+    host: pve.suskins.co.uk
+    ip: 192.168.0.253
+    port: 8006
+    secured: false
+
+  # Unifi
+  - name: unifi
+    host: unifi.suskins.co.uk
+    ip: 192.168.0.1
+    port: 443
+    secured: false
+
+  # NAS
+  - name: nas
+    host: nas.suskins.co.uk
+    ip: 192.168.0.100
+    port: 443
+    secured: false
+
+  # Home Assistant
+  - name: homeassistant
+    host: homeassistant.suskins.co.uk
+    ip: 192.168.0.65
+    port: 8123
+    secured: false
+
   # Games
   - name: games
     host: games.suskins.co.uk
