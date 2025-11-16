@@ -8,7 +8,6 @@ containers:
   - grocy
   - mealie
   - postgres
-  - magic-mirror
   - pubgolf_postgres
   - pubgolf_backend
   - pubgolf_frontend
