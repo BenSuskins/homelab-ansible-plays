@@ -23,11 +23,20 @@
   [http.services]
 {% for svc in static_services %}
     [http.services.{{ svc.name }}.loadBalancer]
+      {% if svc.scheme == 'https' %}
+      serversTransport = "httpsTransport"
+      {% endif %}
       [[http.services.{{ svc.name }}.loadBalancer.servers]]
         url = "{{ svc.scheme | default('http') }}://{{ svc.ip }}:{{ svc.port }}"
 {% endfor %}
 {% for svc in all_services %}
     [http.services.{{ svc.container }}.loadBalancer]
+      {% if svc.scheme == 'https' %}
+      serversTransport = "httpsTransport"
+      {% endif %}
       [[http.services.{{ svc.container }}.loadBalancer.servers]]
         url = "{{ svc.scheme | default('http') }}://{{ svc.ip }}:{{ svc.port }}"
 {% endfor %}
+
+[http.serversTransports.httpsTransport]
+  insecureSkipVerify = true
