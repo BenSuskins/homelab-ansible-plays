@@ -24,10 +24,10 @@
 {% for svc in static_services %}
     [http.services.{{ svc.name }}.loadBalancer]
       [[http.services.{{ svc.name }}.loadBalancer.servers]]
-        url = "http://{{ svc.ip }}:{{ svc.port }}"
+        url = "{{ svc.scheme | default('http') }}://{{ svc.ip }}:{{ svc.port }}"
 {% endfor %}
 {% for svc in all_services %}
     [http.services.{{ svc.container }}.loadBalancer]
       [[http.services.{{ svc.container }}.loadBalancer.servers]]
-        url = "http://{{ svc.ip }}:{{ svc.port }}"
+        url = "{{ svc.scheme | default('http') }}://{{ svc.ip }}:{{ svc.port }}"
 {% endfor %}
