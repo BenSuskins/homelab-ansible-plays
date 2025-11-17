@@ -33,7 +33,7 @@
 - name: ADGUARD - Define service entry
   ansible.builtin.set_fact:
     adguard_entry:
-      container: adguard
+      container: adguard-home
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 3124

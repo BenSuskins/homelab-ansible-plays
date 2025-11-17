@@ -32,28 +32,28 @@ core_containers:
 
 static_services:
   # Homepage
-  - name: home
+  - name: Home
     host: home.suskins.co.uk
     ip: 192.168.0.102
     port: 3000
     secured: true
 
   # Proxmox
-  - name: proxmox
+  - name: Proxmox
     host: pve.suskins.co.uk
     ip: 192.168.0.253
     port: 8006
     secured: false
 
   # Unifi
-  - name: unifi
+  - name: Unifi
     host: unifi.suskins.co.uk
     ip: 192.168.0.1
     port: 443
     secured: false
 
   # NAS
-  - name: truenas
+  - name: Truenas
     host: nas.suskins.co.uk
     ip: 192.168.0.100
     port: 443
@@ -67,26 +67,26 @@ static_services:
     secured: false
 
   # Games
-  - name: pelican-panel
+  - name: Pelican-panel
     host: games.suskins.co.uk
     ip: 192.168.0.202
     port: 80
     secured: true
 
-  - name: minecraft
+  - name: Minecraft
     host: minecraft.suskins.co.uk
     ip: 192.168.0.125
     port: 25566
     secured: true
 
   # Pubgolf
-  - name: pubgolf
+  - name: Pubgolf
     host: pubgolf.me
     ip: 192.168.0.102
     port: 3003
     secured: false
 
-  - name: pubgolfapi
+  - name: Pubgolfapi
     host: api.pubgolf.me
     ip: 192.168.0.102
     port: 8080
