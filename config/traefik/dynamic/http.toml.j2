@@ -23,7 +23,7 @@
   [http.services]
 {% for svc in static_services %}
     [http.services.{{ svc.name }}.loadBalancer]
-      {% if svc.scheme == 'https' %}
+      {% if svc.scheme is defined and svc.scheme == 'https' %}
       serversTransport = "httpsTransport"
       {% endif %}
       [[http.services.{{ svc.name }}.loadBalancer.servers]]
@@ -31,7 +31,7 @@
 {% endfor %}
 {% for svc in all_services %}
     [http.services.{{ svc.container }}.loadBalancer]
-      {% if svc.scheme == 'https' %}
+      {% if svc.scheme is defined and svc.scheme == 'https' %}
       serversTransport = "httpsTransport"
       {% endif %}
       [[http.services.{{ svc.container }}.loadBalancer.servers]]
