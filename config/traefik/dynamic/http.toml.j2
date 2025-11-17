@@ -11,7 +11,6 @@
       middlewares = [{% if svc.secured is not defined or svc.secured %}"authentik", {% endif %}"ratelimit"]
       tls = true
 {% endfor %}
-
 {% for svc in all_services %}
     [http.routers.{{ svc.container }}]
       rule = "Host(`{{ svc.container }}.suskins.co.uk`)"
@@ -27,7 +26,6 @@
       [[http.services.{{ svc.name }}.loadBalancer.servers]]
         url = "http://{{ svc.ip }}:{{ svc.port }}"
 {% endfor %}
-
 {% for svc in all_services %}
     [http.services.{{ svc.container }}.loadBalancer]
       [[http.services.{{ svc.container }}.loadBalancer.servers]]
