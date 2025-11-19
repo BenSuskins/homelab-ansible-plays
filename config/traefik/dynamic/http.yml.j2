@@ -8,12 +8,11 @@ http:
       entryPoints:
         - websecure
       middlewares:
-{% if svc.secured is not defined or svc.secured %}
-        - authentik
-{% endif %}
+        {% if svc.secured is not defined or svc.secured %}- authentik{% endif %}
         - ratelimit
       service: "{{ svc.container }}"
 {% endfor %}
+
   services:
 {% for svc in services %}
     {{ svc.container }}:
