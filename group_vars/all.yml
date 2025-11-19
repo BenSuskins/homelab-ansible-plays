@@ -80,7 +80,7 @@ static_services:
     host: starscream.suskins.co.uk
     ip: 192.168.0.125
     port: 8080
-    secured: true
+    secured: false
 
   - name: minecraft
     host: minecraft.suskins.co.uk
