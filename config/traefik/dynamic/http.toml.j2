@@ -1,41 +1,35 @@
+{% set services = static_services + all_services %}
+
+{% macro generate_router(svc) -%}
+      [http.routers.{{ svc.container }}]
+         rule = "Host(`{{ svc.host | default(svc.container ~ '.suskins.co.uk') }}`)"
+         service = "{{ svc.container }}"
+         entryPoints = ["websecure"]
+         middlewares = [{% if svc.secured is not defined or svc.secured %}"authentik", {% endif %}"ratelimit"]
+         tls = true
+{%- endmacro %}
+
+{% macro generate_service(svc) -%}
+      [http.services.{{ svc.container }}.loadBalancer]
+         {% if svc.scheme is defined and svc.scheme == 'https' %}
+         serversTransport = "httpsTransport"
+         {% endif %}
+         [[http.services.{{ svc.container }}.loadBalancer.servers]]
+            url = "{{ svc.scheme | default('http') }}://{{ svc.ip }}:{{ svc.port }}"
+{%- endmacro %}
+
 ################################################################
 # HTTP Configuration (Routers & Services)
 ################################################################
 [http]
   [http.routers]
-{% for svc in static_services %}
-    [http.routers.{{ svc.container }}]
-      rule = "Host(`{{ svc.host }}`)"
-      service = "{{ svc.container }}"
-      entryPoints = ["websecure"]
-      middlewares = [{% if svc.secured is not defined or svc.secured %}"authentik", {% endif %}"ratelimit"]
-      tls = true
-{% endfor %}
-{% for svc in all_services %}
-    [http.routers.{{ svc.container }}]
-      rule = "Host(`{{ svc.container }}.suskins.co.uk`)"
-      service = "{{ svc.container }}"
-      entryPoints = ["websecure"]
-      middlewares = [{% if svc.secured is not defined or svc.secured %}"authentik", {% endif %}"ratelimit"]
-      tls = true
+{% for svc in services %}
+{{ generate_router(svc) }}
 {% endfor %}
 
   [http.services]
-{% for svc in static_services %}
-    [http.services.{{ svc.container }}.loadBalancer]
-      {% if svc.scheme is defined and svc.scheme == 'https' %}
-      serversTransport = "httpsTransport"
-      {% endif %}
-      [[http.services.{{ svc.container }}.loadBalancer.servers]]
-        url = "{{ svc.scheme | default('http') }}://{{ svc.ip }}:{{ svc.port }}"
-{% endfor %}
-{% for svc in all_services %}
-    [http.services.{{ svc.container }}.loadBalancer]
-      {% if svc.scheme is defined and svc.scheme == 'https' %}
-      serversTransport = "httpsTransport"
-      {% endif %}
-      [[http.services.{{ svc.container }}.loadBalancer.servers]]
-        url = "{{ svc.scheme | default('http') }}://{{ svc.ip }}:{{ svc.port }}"
+{% for svc in services %}
+{{ generate_service(svc) }}
 {% endfor %}
 
 [http.serversTransports.httpsTransport]
