@@ -16,8 +16,8 @@
 ###########################
 - General:
 {% for svc in static_services %}
-    - {{ svc.name | capitalize }}:
+    - {{ svc.container | capitalize }}:
         href: https://{{ svc.host }}
-        icon: {{ svc.name | lower }}
-        description: {{ svc.name | capitalize }}
+        icon: {{ svc.container | lower }}
+        description: {{ svc.container | capitalize }}
 {% endfor %}
