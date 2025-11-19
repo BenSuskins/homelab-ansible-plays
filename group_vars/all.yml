@@ -31,15 +31,30 @@ core_containers:
   - alloy
 
 static_services:
-  # Homepage
-  - name: Home
+  # Bolsters
+  - container: Home
     host: home.suskins.co.uk
     ip: 192.168.0.102
     port: 3000
     secured: true
+    hidden: true
+
+  - container: Traefik
+    host: traefik.suskins.co.uk
+    ip: 192.168.0.105
+    port: 8080
+    secured: true
+    hidden: true
+
+  - container: Gatus
+    host: gatus.suskins.co.uk
+    ip: 192.168.0.104
+    port: 8080
+    secured: true
+    hidden: true
 
   # Proxmox
-  - name: proxmox
+  - container: proxmox
     host: pve.suskins.co.uk
     ip: 192.168.0.253
     port: 8006
@@ -47,7 +62,7 @@ static_services:
     secured: false
 
   # Unifi
-  - name: unifi
+  - container: unifi
     host: unifi.suskins.co.uk
     ip: 192.168.0.1
     port: 443
@@ -55,7 +70,7 @@ static_services:
     secured: false
 
   # NAS
-  - name: truenas
+  - container: truenas
     host: nas.suskins.co.uk
     ip: 192.168.0.100
     port: 443
@@ -63,40 +78,43 @@ static_services:
     secured: false
 
   # Home Assistant
-  - name: home-assistant
+  - container: home-assistant
     host: homeassistant.suskins.co.uk
     ip: 192.168.0.65
     port: 8123
     secured: false
 
   # Games
-  - name: pelican-panel
+  - container: pelican-panel
     host: games.suskins.co.uk
     ip: 192.168.0.202
     port: 80
     secured: true
 
-  - name: starscream
+  - container: starscream
     host: starscream.suskins.co.uk
     ip: 192.168.0.125
     port: 8080
     secured: false
+    hidden: true
 
-  - name: minecraft
+  - container: minecraft
     host: minecraft.suskins.co.uk
     ip: 192.168.0.125
     port: 25566
     secured: true
 
   # Pubgolf
-  - name: pubgolf
+  - container: pubgolf
     host: pubgolf.me
     ip: 192.168.0.102
     port: 3003
     secured: false
+    hidden: true
 
-  - name: pubgolf-api
+  - container: pubgolf-api
     host: api.pubgolf.me
     ip: 192.168.0.102
     port: 8080
     secured: false
+    hidden: true

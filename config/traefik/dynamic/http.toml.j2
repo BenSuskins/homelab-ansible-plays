@@ -4,9 +4,9 @@
 [http]
   [http.routers]
 {% for svc in static_services %}
-    [http.routers.{{ svc.name }}]
+    [http.routers.{{ svc.container }}]
       rule = "Host(`{{ svc.host }}`)"
-      service = "{{ svc.name }}"
+      service = "{{ svc.container }}"
       entryPoints = ["websecure"]
       middlewares = [{% if svc.secured is not defined or svc.secured %}"authentik", {% endif %}"ratelimit"]
       tls = true
@@ -22,11 +22,11 @@
 
   [http.services]
 {% for svc in static_services %}
-    [http.services.{{ svc.name }}.loadBalancer]
+    [http.services.{{ svc.container }}.loadBalancer]
       {% if svc.scheme is defined and svc.scheme == 'https' %}
       serversTransport = "httpsTransport"
       {% endif %}
-      [[http.services.{{ svc.name }}.loadBalancer.servers]]
+      [[http.services.{{ svc.container }}.loadBalancer.servers]]
         url = "{{ svc.scheme | default('http') }}://{{ svc.ip }}:{{ svc.port }}"
 {% endfor %}
 {% for svc in all_services %}
