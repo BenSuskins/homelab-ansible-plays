@@ -1,44 +1,49 @@
-{% macro render_router(name, host, secured, tls) %}
-    [http.routers.{{ name }}]
-      rule = "Host(`{{ host }}`)"
-      service = "{{ name }}"
-      entryPoints = ["websecure"]
-      middlewares = [{% if secured %}"authentik", {% endif %}"ratelimit"]
-      {% if tls %}tls = { store = "{{ tls }}" }{% else %}tls = true{% endif %}
-{% endmacro %}
-
-{% macro render_service(name, scheme, ip, port) %}
-    [http.services.{{ name }}.loadBalancer]
-      {% if scheme == 'https' %}
-      serversTransport = "httpsTransport"
-      {% endif %}
-      [[http.services.{{ name }}.loadBalancer.servers]]
-        url = "{{ scheme | default('http') }}://{{ ip }}:{{ port }}"
-{% endmacro %}
-
 ################################################################
 # HTTP Configuration (Routers & Services)
 ################################################################
 [http]
   [http.routers]
-{% set merged = static_services + all_services %}
-{% for svc in merged %}
-    {{ render_router(
-        svc.name if svc.name is defined else svc.container,
-        svc.host if svc.host is defined else svc.container ~ ".suskins.co.uk",
-        svc.secured is not defined or svc.secured,
-        svc.tls if svc.tls is defined else false
-    ) }}
+{% for svc in static_services %}
+    [http.routers.{{ svc.name }}]
+      rule = "Host(`{{ svc.host }}`)"
+      service = "{{ svc.name }}"
+      entryPoints = ["websecure"]
+      middlewares = [{% if svc.secured is not defined or svc.secured %}"authentik", {% endif %}"ratelimit"]
+      {% if svc.tls is defined %}
+      tls = { store = "{{ svc.tls }}" }
+      {% else %}
+      tls = true
+      {% endif %}
+{% endfor %}
+{% for svc in all_services %}
+    [http.routers.{{ svc.container }}]
+      rule = "Host(`{{ svc.container }}.suskins.co.uk`)"
+      service = "{{ svc.container }}"
+      entryPoints = ["websecure"]
+      middlewares = [{% if svc.secured is not defined or svc.secured %}"authentik", {% endif %}"ratelimit"]
+      {% if svc.tls is defined %}
+      tls = { store = "{{ svc.tls }}" }
+      {% else %}
+      tls = true
+      {% endif %}
 {% endfor %}
 
   [http.services]
-{% for svc in merged %}
-    {{ render_service(
-        svc.name if svc.name is defined else svc.container,
-        svc.scheme if svc.scheme is defined else none,
-        svc.ip,
-        svc.port
-    ) }}
+{% for svc in static_services %}
+    [http.services.{{ svc.name }}.loadBalancer]
+      {% if svc.scheme is defined and svc.scheme == 'https' %}
+      serversTransport = "httpsTransport"
+      {% endif %}
+      [[http.services.{{ svc.name }}.loadBalancer.servers]]
+        url = "{{ svc.scheme | default('http') }}://{{ svc.ip }}:{{ svc.port }}"
+{% endfor %}
+{% for svc in all_services %}
+    [http.services.{{ svc.container }}.loadBalancer]
+      {% if svc.scheme is defined and svc.scheme == 'https' %}
+      serversTransport = "httpsTransport"
+      {% endif %}
+      [[http.services.{{ svc.container }}.loadBalancer.servers]]
+        url = "{{ svc.scheme | default('http') }}://{{ svc.ip }}:{{ svc.port }}"
 {% endfor %}
 
 [http.serversTransports.httpsTransport]
