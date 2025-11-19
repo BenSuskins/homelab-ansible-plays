@@ -10,12 +10,6 @@ http:
       middlewares:
         {% if svc.secured is not defined or svc.secured %}- authentik{% endif %}
         - ratelimit
-      tls:
-        {% if svc.tls is defined %}
-        store: "{{ svc.tls }}"
-        {% else %}
-        certResolver: "default"
-        {% endif %}
       service: "{{ svc.container }}"
 {% endfor %}
 
