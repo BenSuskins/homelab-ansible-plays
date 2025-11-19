@@ -2,10 +2,6 @@
 # SSL
 ################################################################
 [[tls.certificates]]
-  certFile = "/etc/traefik/certs/cert.pem"
-  keyFile = "/etc/traefik/certs/key.pem"
-
-[[tls.certificates]]
   certFile = "/etc/traefik/certs/pubgolfCert.pem"
   keyFile = "/etc/traefik/certs/pubgolfKey.pem"  
 
@@ -18,8 +14,3 @@
     [tls.stores.default.defaultCertificate]
         certFile = "/etc/traefik/certs/local.pem"
         keyFile = "/etc/traefik/certs/local_key.pem"
-
-  [tls.stores.authentik]
-    [tls.stores.authentik.defaultCertificate]
-      certFile = "/etc/traefik/certs/cert.pem"
-      keyFile  = "/etc/traefik/certs/key.pem"
