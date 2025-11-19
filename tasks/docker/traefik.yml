@@ -56,8 +56,8 @@
 
 - name: TRAEFIK - Create services
   ansible.builtin.template:
-    src: ../config/traefik/dynamic/http.toml.j2
-    dest: "{{ base_dir }}/traefik/dynamic/http.toml"
+    src: ../config/traefik/dynamic/http.yml.j2
+    dest: "{{ base_dir }}/traefik/dynamic/http.yml"
     owner: "{{ username }}"
     group: "{{ username }}"
   vars:
