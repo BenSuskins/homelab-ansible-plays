@@ -9,7 +9,11 @@
       service = "{{ svc.name }}"
       entryPoints = ["websecure"]
       middlewares = [{% if svc.secured is not defined or svc.secured %}"authentik", {% endif %}"ratelimit"]
+      {% if svc.tls is defined %}
+      tls = { store = "{{ svc.tls }}" }
+      {% else %}
       tls = true
+      {% endif %}
 {% endfor %}
 {% for svc in all_services %}
     [http.routers.{{ svc.container }}]
@@ -17,7 +21,11 @@
       service = "{{ svc.container }}"
       entryPoints = ["websecure"]
       middlewares = [{% if svc.secured is not defined or svc.secured %}"authentik", {% endif %}"ratelimit"]
+      {% if svc.tls is defined %}
+      tls = { store = "{{ svc.tls }}" }
+      {% else %}
       tls = true
+      {% endif %}
 {% endfor %}
 
   [http.services]
