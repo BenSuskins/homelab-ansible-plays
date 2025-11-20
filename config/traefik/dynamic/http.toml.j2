@@ -5,8 +5,16 @@
          rule = "Host(`{{ svc.host | default(svc.container ~ '.suskins.co.uk') }}`)"
          service = "{{ svc.container }}"
          entryPoints = ["websecure"]
-         middlewares = [{% if svc.secured is not defined or svc.secured %}"authentik", {% endif %}"ratelimit"]
          tls = true
+         middlewares = [
+            {%- if svc.secured is not defined or svc.secured -%}
+            "authentik",
+            {%- endif -%}
+            "ratelimit"
+            {%- if svc.middleware is defined -%}
+            , "{{ svc.middleware }}"
+            {%- endif -%}
+         ]
 {%- endmacro %}
 
 {% macro generate_service(svc) -%}
