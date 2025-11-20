@@ -1,0 +1,38 @@
+{% set services = static_services + all_services %}
+
+################################################################
+# HTTP Configuration (Routers & Services)
+################################################################
+http:
+  routers:
+{% for svc in services %}
+    {{ svc.container }}:
+      rule: "Host(`{{ svc.host | default(svc.container ~ '.suskins.co.uk') }}`)"
+      service: "{{ svc.container }}"
+      entryPoints:
+        - websecure
+      middlewares:
+        {% if svc.secured is not defined or svc.secured %}
+        - authentik
+        {% endif %}
+        - ratelimit
+        {% if svc.middleware is defined %}
+        - {{ svc.middleware }}
+        {% endif %}
+      tls: true
+{% endfor %}
+
+  services:
+{% for svc in services %}
+    {{ svc.container }}:
+      loadBalancer:
+        {% if svc.scheme is defined and svc.scheme == 'https' %}
+        serversTransport: httpsTransport
+        {% endif %}
+        servers:
+          - url: "{{ svc.scheme | default('http') }}://{{ svc.ip }}:{{ svc.port }}"
+{% endfor %}
+
+  serversTransports:
+    httpsTransport:
+      insecureSkipVerify: true
