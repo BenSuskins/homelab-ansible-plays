@@ -12,13 +12,13 @@ http:
       entryPoints:
         - websecure
       middlewares:
-        {% if svc.secured is not defined or svc.secured %}
+{% if svc.secured is not defined or svc.secured %}
         - authentik
-        {% endif %}
+{% endif %}
         - ratelimit
-        {% if svc.middleware is defined %}
+{% if svc.middleware is defined %}
         - {{ svc.middleware }}
-        {% endif %}
+{% endif %}
       tls: true
 {% endfor %}
 
@@ -26,9 +26,9 @@ http:
 {% for svc in services %}
     {{ svc.container }}:
       loadBalancer:
-        {% if svc.scheme is defined and svc.scheme == 'https' %}
+{% if svc.scheme is defined and svc.scheme == 'https' %}
         serversTransport: httpsTransport
-        {% endif %}
+{% endif %}
         servers:
           - url: "{{ svc.scheme | default('http') }}://{{ svc.ip }}:{{ svc.port }}"
 {% endfor %}
