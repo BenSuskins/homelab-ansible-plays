@@ -38,7 +38,7 @@
 
 - name: BASE - Mount network drive
   when: mount_nas|bool
-  ansible.posix.moun:
+  ansible.posix.mount:
     src: //{{ nas_ip }}/media
     path: /mnt/media
     fstype: cifs
