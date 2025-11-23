@@ -36,6 +36,7 @@ static_services:
     host: home.suskins.co.uk
     ip: 192.168.0.102
     port: 3000
+    scheme: http
     secured: true
     hidden: true
 
@@ -43,6 +44,7 @@ static_services:
     host: gatus.suskins.co.uk
     ip: 192.168.0.104
     port: 8080
+    scheme: http
     secured: true
     hidden: true
 
@@ -53,42 +55,50 @@ static_services:
     port: 8006
     scheme: https
     secured: false
+    hidden: false
 
   # Unifi
   - name: unifi
     host: unifi.suskins.co.uk
     ip: 192.168.0.1
     port: 443
-    scheme: https    
+    scheme: https
     middleware: unifi-headers
     secured: false
+    hidden: false
 
   # NAS
   - name: truenas
     host: nas.suskins.co.uk
     ip: 192.168.0.100
     port: 443
-    scheme: https    
+    scheme: https
     secured: false
+    hidden: false
 
   # Home Assistant
   - name: home-assistant
     host: homeassistant.suskins.co.uk
     ip: 192.168.0.65
     port: 8123
+    scheme: http
     secured: false
+    hidden: false
 
   # Games
   - name: pelican-panel
     host: games.suskins.co.uk
     ip: 192.168.0.202
     port: 80
+    scheme: http
     secured: true
+    hidden: false
 
   - name: starscream
     host: starscream.suskins.co.uk
     ip: 192.168.0.125
     port: 8080
+    scheme: http
     secured: false
     hidden: true
 
@@ -96,13 +106,16 @@ static_services:
     host: minecraft.suskins.co.uk
     ip: 192.168.0.125
     port: 25566
+    scheme: http
     secured: true
+    hidden: false
 
   # Pubgolf
   - name: pubgolf
     host: pubgolf.me
     ip: 192.168.0.102
     port: 3003
+    scheme: http
     secured: false
     hidden: true
 
@@ -110,5 +123,6 @@ static_services:
     host: api.pubgolf.me
     ip: 192.168.0.102
     port: 8080
+    scheme: http
     secured: false
     hidden: true
