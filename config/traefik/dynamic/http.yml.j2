@@ -12,7 +12,7 @@ http:
       entryPoints:
         - websecure
       middlewares:
-{% if svc.secured is not defined or svc.secured %}
+{% if svc.secured %}
         - authentik
 {% endif %}
         - ratelimit
@@ -26,11 +26,11 @@ http:
 {% for svc in services %}
     {{ svc.name }}:
       loadBalancer:
-{% if svc.scheme is defined and svc.scheme == 'https' %}
+{% if svc.scheme == 'https' %}
         serversTransport: httpsTransport
 {% endif %}
         servers:
-          - url: "{{ svc.scheme | default('http') }}://{{ svc.ip }}:{{ svc.port }}"
+          - url: "{{ svc.scheme }}://{{ svc.ip }}:{{ svc.port }}"
 {% endfor %}
 
   serversTransports:
