@@ -24,15 +24,19 @@
       when: firewall|bool
 
     - name: UPDATE - Gather Docker container facts
-      ansible.builtin.command: docker ps -a --format '{% raw %}{{ .Names }}{% endraw %}'
-      register: docker_containers
+      community.docker.docker_host_info:
+      register: docker_info
+
+    - name: UPDATE - Set docker_container_names list
+      ansible.builtin.set_fact:
+        docker_container_names: "{{ docker_info.containers | default([]) | map(attribute='Names') | map('first') | map('regex_replace','^/','') | list }}"
 
     - name: UPDATE - Stop all running containers
       community.docker.docker_container:
         name: "{{ item }}"
         state: stopped
-      loop: "{{ docker_containers.stdout_lines | default([]) }}"
-      when: docker_containers.stdout_lines is defined and docker_containers.stdout_lines | length > 0
+      loop: "{{ docker_container_names | default([]) }}"
+      when: docker_container_names | default([]) | length > 0
       register: stop_results
 
     - name: UPDATE - Update Core Docker Containers
@@ -51,7 +55,7 @@
       community.docker.docker_container:
         name: "{{ item }}"
         state: absent
-      loop: "{{ docker_containers.stdout_lines | default([]) }}"
+      loop: "{{ docker_container_names | default([]) }}"
       when: item not in (containers | default([]) + core_containers | default([]))
       register: remove_results
 
