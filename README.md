@@ -121,9 +121,9 @@ Details of the services running on each host.
 - 🍲 mealie
 - 🐘 postgres
 - 🧑‍💻 bytestash
-- ⛳ pubgolf_postgres
-- 🏌️ pubgolf_backend
-- 🏌️‍♂️ pubgolf_frontend
+- ⛳ pubgolf-postgres
+- 🏌️ pubgolf-backend
+- 🏌️‍♂️ pubgolf-frontend
 - ☁️ cloudflare-ddns
 
 ## 💻 Development Server (`development`)
