@@ -2,7 +2,7 @@
 - name: OPEN BOOKS - Create container
   community.docker.docker_container:
     name: open_books
-    image: evanbuss/openbooks
+    image: evanbuss/openbooks:4.5.0
     restart_policy: always
     restart: true
     state: started
