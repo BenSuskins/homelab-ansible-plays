@@ -14,7 +14,7 @@
 
 - name: PUBGOLF-BACKEND - Create container
   community.docker.docker_container:
-    name: pubgolf_backend
+    name: pubgolf-backend
     image: ghcr.io/bensuskins/pubgolf-backend:06d68fa
     restart_policy: always
     restart: true
@@ -26,7 +26,7 @@
       - "8080:8080"
     env:
       SPRING_PROFILES_ACTIVE: "prod"
-      DB_HOST: "pubgolf_postgres"
+      DB_HOST: "pubgolf-postgres"
       DB_USERNAME: "{{ DB_USERNAME }}"
       DB_PASSWORD: "{{ DB_PASSWORD }}"
       DB_PORT: "5432"

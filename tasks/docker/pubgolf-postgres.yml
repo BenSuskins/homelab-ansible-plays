@@ -12,7 +12,7 @@
 
 - name: POSTGRES - Create Container
   community.docker.docker_container:
-    name: pubgolf_postgres
+    name: pubgolf-postgres
     image: postgres:17-alpine
     restart_policy: always
     restart: true

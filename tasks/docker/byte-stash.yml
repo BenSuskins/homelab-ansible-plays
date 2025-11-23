@@ -12,7 +12,7 @@
 
 - name: BYTE_STASH - Create container
   community.docker.docker_container:
-    name: byte_stash
+    name: byte-stash
     image: ghcr.io/jordan-dalby/bytestash:1.5.9
     restart_policy: always
     restart: true

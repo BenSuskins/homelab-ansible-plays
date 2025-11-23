@@ -8,9 +8,9 @@ containers:
   - grocy
   - mealie
   - postgres
-  - pubgolf_postgres
-  - pubgolf_backend
-  - pubgolf_frontend
+  - pubgolf-postgres
+  - pubgolf-backend
+  - pubgolf-frontend
   - cloudflare-ddns
-  - byte_stash
+  - byte-stash
   - adguard
