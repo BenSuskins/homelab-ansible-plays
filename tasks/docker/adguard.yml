@@ -37,6 +37,9 @@
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 80
+      scheme: http
+      secured: true
+      hidden: false
 
 - name: ADGUARD - Append to docker_services
   ansible.builtin.set_fact:

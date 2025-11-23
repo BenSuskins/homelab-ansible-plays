@@ -35,6 +35,9 @@
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 9091
+      scheme: http
+      secured: true
+      hidden: false
 
 - name: QBITTORRENT - Append to docker_services
   ansible.builtin.set_fact:

@@ -55,6 +55,9 @@
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 8080
+      scheme: http
+      secured: true
+      hidden: false
 
 - name: GATUS - Append to docker_services
   ansible.builtin.set_fact:

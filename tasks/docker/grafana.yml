@@ -73,6 +73,9 @@
       friendly_name: "{{ friendly_name }}"
       port: 3000
       healthcheck_path: '/api/health'
+      scheme: http
+      secured: true
+      hidden: false
 
 - name: GRAFANA - Append to docker_services
   ansible.builtin.set_fact:

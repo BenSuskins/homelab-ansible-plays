@@ -38,6 +38,9 @@
       friendly_name: "{{ friendly_name }}"
       port: 32400
       healthcheck_path: '/identity'
+      scheme: http
+      secured: true
+      hidden: false
 
 - name: PLEX - Append to docker_services
   ansible.builtin.set_fact:

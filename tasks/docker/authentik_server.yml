@@ -59,6 +59,8 @@
       friendly_name: "{{ friendly_name }}"
       secured: false
       port: 9000
+      scheme: http
+      hidden: false
 
 - name: AUTHENTIK - Append to docker_services
   ansible.builtin.set_fact:
