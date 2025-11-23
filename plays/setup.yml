@@ -8,11 +8,25 @@
 
   tasks:
     - name: SETUP - Update server and install base packages
-      ansible.builtin.include_tasks: "../tasks/core/base.yml"
+      ansible.builtin.include_tasks:
+        file: "../tasks/core/base.yml"
+      register: base_results
 
     - name: SETUP - Install docker
-      ansible.builtin.include_tasks: "../tasks/core/docker.yml"
+      ansible.builtin.include_tasks:
+        file: "../tasks/core/docker.yml"
+      register: docker_results
+
+    - name: SETUP - Set reboot_required if included tasks changed
+      ansible.builtin.set_fact:
+        reboot_required: true
+      when: >
+        (base_results is defined and (base_results.changed | default(false))) or
+        (base_results is defined and base_results.results is defined and (base_results.results | selectattr('changed') | select('equalto', True) | list | length) > 0) or
+        (docker_results is defined and (docker_results.changed | default(false))) or
+        (docker_results is defined and docker_results.results is defined and (docker_results.results | selectattr('changed') | select('equalto', True) | list | length) > 0)
 
     - name: SETUP - Reboot server
       ansible.builtin.reboot:
         msg: "Rebooting server after setup"
+      when: reboot_required | default(false)

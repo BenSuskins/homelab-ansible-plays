@@ -13,9 +13,11 @@
         autoclean: true
         clean: true
         purge: true
+      register: apt_clean_res
 
     - name: Clean journal logs older than 30 days
       ansible.builtin.command: journalctl --vacuum-time=30d
+      register: journal_clean_res
 
     - name: CLEAN - Prune unused Docker resources
       community.docker.docker_prune:
@@ -26,7 +28,17 @@
         networks: false
         volumes: false
         builder_cache: false
+      register: docker_prune_res
+
+    - name: CLEAN - Set reboot_required if cleanup changed anything
+      ansible.builtin.set_fact:
+        reboot_required: true
+      when: >
+        (apt_clean_res is defined and (apt_clean_res.changed | default(false))) or
+        (journal_clean_res is defined and (journal_clean_res.rc is defined and journal_clean_res.rc != 0)) or
+        (docker_prune_res is defined and (docker_prune_res.changed | default(false)))
 
     - name: CLEAN - Reboot server
       ansible.builtin.reboot:
         msg: "Rebooting server after cleanup"
+      when: reboot_required | default(false)
