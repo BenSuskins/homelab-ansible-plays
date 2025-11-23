@@ -5,6 +5,9 @@ mount_nas: false
 firewall: false
 prometheus_scrape_configs: []
 aggregated_scrape_configs: []
+docker_services: []
+traefik_entries: []
+monitored_services: []
 username: "{{ ansible_user }}"
 puid: 1000
 pgid: 1000

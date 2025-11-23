@@ -54,4 +54,4 @@
 
 - name: MEALIE - Append to docker_services
   ansible.builtin.set_fact:
-    docker_services: "{{ (docker_services | default([])) + [mealie_entry] }}"
+    docker_services: "{{ docker_services + [mealie_entry] }}"
