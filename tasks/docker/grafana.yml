@@ -68,7 +68,7 @@
 - name: GRAFANA - Define service entry
   ansible.builtin.set_fact:
     grafana_entry:
-      container: grafana
+      name: grafana
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 3000

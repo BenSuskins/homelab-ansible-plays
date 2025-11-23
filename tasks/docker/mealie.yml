@@ -44,7 +44,7 @@
 - name: MEALIE - Define service entry
   ansible.builtin.set_fact:
     mealie_entry:
-      container: mealie
+      name: mealie
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 9925

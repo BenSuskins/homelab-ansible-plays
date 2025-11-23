@@ -33,7 +33,7 @@
 - name: BAZARR - Define service entry
   ansible.builtin.set_fact:
     bazarr_entry:
-      container: bazarr
+      name: bazarr
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 6767

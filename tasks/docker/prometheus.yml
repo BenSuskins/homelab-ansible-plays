@@ -49,7 +49,7 @@
 - name: PROMETHEUS - Define service entry
   ansible.builtin.set_fact:
     prometheus_entry:
-      container: prometheus
+      name: prometheus
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 9090

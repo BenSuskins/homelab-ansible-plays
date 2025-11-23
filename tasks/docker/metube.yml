@@ -31,7 +31,7 @@
 - name: METUBE - Define service entry
   ansible.builtin.set_fact:
     metube_entry:
-      container: metube
+      name: metube
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 8081

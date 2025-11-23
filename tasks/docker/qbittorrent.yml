@@ -31,7 +31,7 @@
 - name: QBITTORRENT - Define service entry
   ansible.builtin.set_fact:
     qbittorrent_entry:
-      container: qbittorrent
+      name: qbittorrent
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 9091

@@ -33,7 +33,7 @@
 - name: SONARR - Define service entry
   ansible.builtin.set_fact:
     sonarr_entry:
-      container: sonarr
+      name: sonarr
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 8989

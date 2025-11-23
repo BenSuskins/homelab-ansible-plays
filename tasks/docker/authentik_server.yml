@@ -54,7 +54,7 @@
 - name: AUTHENTIK - Define service entry
   ansible.builtin.set_fact:
     authentik_entry:
-      container: authentik
+      name: authentik
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       secured: false

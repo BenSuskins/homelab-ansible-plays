@@ -42,7 +42,7 @@
 - name: BYTESTASH - Define service entry
   ansible.builtin.set_fact:
     bytestash_entry:
-      container: bytestash
+      name: bytestash
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 5000

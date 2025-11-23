@@ -32,7 +32,7 @@
 - name: PROFILARR - Define service entry
   ansible.builtin.set_fact:
     profilarr_entry:
-      container: profilarr
+      name: profilarr
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 6868

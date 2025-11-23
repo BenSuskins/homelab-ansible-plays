@@ -5,10 +5,10 @@
 {% for friendly_name, services in grouped %}
 - {{ friendly_name }}:
 {% for svc in services %}
-    - {{ svc.container | capitalize }}:
-        href: https://{{ svc.container }}.suskins.co.uk
-        icon: {{ svc.container | lower }}
-        description: {{ svc.container | capitalize }} container
+    - {{ svc.name | capitalize }}:
+        href: https://{{ svc.name }}.suskins.co.uk
+        icon: {{ svc.name | lower }}
+        description: {{ svc.name | capitalize }} container
 {% endfor %}
 {% endfor %}
 ###########################
@@ -17,9 +17,9 @@
 - General:
 {% for svc in static_services %}
 {% if svc.hidden is undefined or not svc.hidden %}
-    - {{ svc.container | capitalize }}:
+    - {{ svc.name | capitalize }}:
         href: https://{{ svc.host }}
-        icon: {{ svc.container | lower }}
-        description: {{ svc.container | capitalize }}
+        icon: {{ svc.name | lower }}
+        description: {{ svc.name | capitalize }}
 {% endif %}
 {% endfor %}

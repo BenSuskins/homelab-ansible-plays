@@ -51,7 +51,7 @@
 - name: GATUS - Define service entry
   ansible.builtin.set_fact:
     gatus_entry:
-      container: gatus
+      name: gatus
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 8080

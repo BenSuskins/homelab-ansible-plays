@@ -6,9 +6,9 @@
 http:
   routers:
 {% for svc in services %}
-    {{ svc.container }}:
-      rule: "Host(`{{ svc.host | default(svc.container ~ '.suskins.co.uk') }}`)"
-      service: "{{ svc.container }}"
+    {{ svc.name }}:
+      rule: "Host(`{{ svc.host | default(svc.name ~ '.suskins.co.uk') }}`)"
+      service: "{{ svc.name }}"
       entryPoints:
         - websecure
       middlewares:
@@ -24,7 +24,7 @@ http:
 
   services:
 {% for svc in services %}
-    {{ svc.container }}:
+    {{ svc.name }}:
       loadBalancer:
 {% if svc.scheme is defined and svc.scheme == 'https' %}
         serversTransport: httpsTransport

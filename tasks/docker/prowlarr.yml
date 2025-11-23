@@ -32,7 +32,7 @@
 - name: PROWLARR - Define service entry
   ansible.builtin.set_fact:
     prowlarr_entry:
-      container: prowlarr
+      name: prowlarr
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 9696

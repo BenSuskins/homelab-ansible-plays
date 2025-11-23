@@ -32,7 +32,7 @@
 - name: GROCY - Define service entry
   ansible.builtin.set_fact:
     grocy_entry:
-      container: grocy
+      name: grocy
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 9283

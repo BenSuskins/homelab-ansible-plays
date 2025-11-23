@@ -13,7 +13,7 @@ alerting:
 endpoints:
 {% for svc in monitored_services %}
 {% set url = "http://" ~ svc.ip ~ ":" ~ svc.port ~ (svc.healthcheck_path if svc.healthcheck_path is defined else "") %}
-  - name: {{ svc.container }}
+  - name: {{ svc.name }}
     url: {{ url }}
     interval: 60s
     conditions:

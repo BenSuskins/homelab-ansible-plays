@@ -32,7 +32,7 @@
 - name: OVERSEERR - Define service entry
   ansible.builtin.set_fact:
     overseerr_entry:
-      container: overseerr
+      name: overseerr
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 5055
