@@ -18,3 +18,12 @@
 - greeting:
     text_size: xl
     text: Suskins Services
+
+###########################
+#        Search           #
+###########################
+- search:
+    provider: google 
+    focus: false 
+    showSearchSuggestions: true 
+    target: _blank

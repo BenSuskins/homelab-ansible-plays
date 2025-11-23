@@ -54,6 +54,13 @@
     owner: "{{ username }}"
     group: "{{ username }}"
 
+- name: HOMEPAGE - Create css
+  ansible.builtin.copy:
+    src: ../config/homepage/custom.css
+    dest: "{{ base_dir }}/homepage/custom.css"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
 - name: HOMEPAGE - Create container
   community.docker.docker_container:
     name: homepage
