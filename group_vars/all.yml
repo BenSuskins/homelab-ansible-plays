@@ -33,6 +33,7 @@ core_containers:
 static_services:
   # Bolsters
   - name: Home
+    host: home.suskins.co.uk
     ip: 192.168.0.102
     port: 3000
     scheme: http
@@ -41,6 +42,7 @@ static_services:
 
   - name: Gatus
     ip: 192.168.0.104
+    host: gatus.suskins.co.uk
     port: 8080
     scheme: http
     secured: true
@@ -57,6 +59,7 @@ static_services:
 
   # Unifi
   - name: unifi
+    host: unifi.suskins.co.uk
     ip: 192.168.0.1
     port: 443
     scheme: https
@@ -75,6 +78,7 @@ static_services:
 
   # Home Assistant
   - name: homeassistant
+    host: homeassistant.suskins.co.uk
     ip: 192.168.0.65
     port: 8123
     scheme: http
@@ -83,6 +87,7 @@ static_services:
 
   # Games
   - name: games
+    host: games.suskins.co.uk
     ip: 192.168.0.202
     port: 80
     scheme: http
@@ -90,6 +95,7 @@ static_services:
     hidden: false
 
   - name: starscream
+    host: starscream.suskins.co.uk
     ip: 192.168.0.125
     port: 8080
     scheme: http
@@ -97,6 +103,7 @@ static_services:
     hidden: true
 
   - name: minecraft
+    host: minecraft.suskins.co.uk
     ip: 192.168.0.125
     port: 25566
     scheme: http
