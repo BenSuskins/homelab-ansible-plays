@@ -1,7 +1,4 @@
 ---
-username: docker
-puid: 1000
-pgid: 1000
 base_dir: /home/docker/server-docker
 
 containers:

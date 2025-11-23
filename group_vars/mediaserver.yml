@@ -1,9 +1,5 @@
 ---
-username: mediaserver
-puid: 1000
-pgid: 1000
 base_dir: /home/mediaserver/server-mediaserver
-nas_ip: 192.168.0.100
 mount_nas: true
 
 containers:

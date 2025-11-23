@@ -1,7 +1,4 @@
 ---
-username: monitor
-puid: 1000
-pgid: 1000
 base_dir: /home/monitor/server-monitor
 
 containers:
