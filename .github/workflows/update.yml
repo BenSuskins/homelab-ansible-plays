@@ -10,10 +10,10 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Checkout secrets repo
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: bensuskins/secrets
           path: secrets
