@@ -120,7 +120,6 @@ Details of the services running on each host.
 - 🛒 grocy
 - 🍲 mealie
 - 🐘 postgres
-- 🧑‍💻 bytestash
 - ⛳ pubgolf-postgres
 - 🏌️ pubgolf-backend
 - 🏌️‍♂️ pubgolf-frontend

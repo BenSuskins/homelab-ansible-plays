@@ -9,5 +9,4 @@ containers:
   - pubgolf-backend
   - pubgolf-frontend
   - cloudflare-ddns
-  - byte-stash
   - adguard

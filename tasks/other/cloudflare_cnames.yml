@@ -1,0 +1,21 @@
+---
+- name: CLOUDFLARE - Aggregate docker_services from all hosts
+  ansible.builtin.set_fact:
+    aggregated_docker_services: "{{ groups['all'] | map('extract', hostvars, 'docker_services') | reject('equalto', None) | list | sum(start=[]) }}"
+
+- name: CLOUDFLARE - Ensure CNAMEs for exposed services
+  vars:
+    services: "{{ (static_services | default([])) + (aggregated_docker_services | default([])) }}"
+  loop: "{{ services }}"
+  loop_control:
+    loop_var: svc
+  when: "svc.exposed | default(false)"
+
+  community.general.cloudflare_dns:
+    zone: "suskins.co.uk"
+    value: "{{ svc.host | default(svc.name ~ '.suskins.co.uk') }}"
+    type: CNAME
+    proxied: true
+    state: present
+    api_token: "{{ CLOUDFLARE_API_TOKEN }}"
+  delegate_to: localhost
