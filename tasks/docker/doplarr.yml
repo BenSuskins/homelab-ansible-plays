@@ -13,7 +13,7 @@
 - name: DOPLARR - Create container
   community.docker.docker_container:
     name: doplarr
-    image: ghcr.io/kiranshila/doplarr:v3.6.3
+    image: ghcr.io/kiranshila/doplarr:v3.7.0
     restart_policy: always
     restart: true
     state: started
