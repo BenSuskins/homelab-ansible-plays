@@ -16,7 +16,7 @@
 ###########################
 - General:
 {% for svc in static_services %}
-{% if svc.hidden is undefined or not svc.hidden %}
+{% if not svc.hidden %}
     - {{ svc.name | capitalize }}:
         href: https://{{ svc.host }}
         icon: {{ svc.name | lower }}
