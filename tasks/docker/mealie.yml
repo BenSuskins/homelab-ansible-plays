@@ -44,6 +44,7 @@
   ansible.builtin.set_fact:
     mealie_entry:
       name: mealie
+      host: mealie.suskins.co.uk
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 9925

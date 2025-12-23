@@ -34,6 +34,7 @@
   ansible.builtin.set_fact:
     adguard_entry:
       name: adguard-home
+      host: adguard-home.suskins.co.uk
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 80

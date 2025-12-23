@@ -68,6 +68,7 @@
   ansible.builtin.set_fact:
     grafana_entry:
       name: grafana
+      host: grafana.suskins.co.uk
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 3000

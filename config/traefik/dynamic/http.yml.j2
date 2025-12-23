@@ -7,7 +7,7 @@ http:
   routers:
 {% for svc in services %}
     {{ svc.name }}:
-      rule: "Host(`{{ svc.host | default(svc.name ~ '.suskins.co.uk') }}`)"
+      rule: "Host(`{{ svc.host }}`)"
       service: "{{ svc.name }}"
       entryPoints:
         - websecure

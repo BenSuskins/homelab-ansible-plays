@@ -31,6 +31,7 @@
   ansible.builtin.set_fact:
     metube_entry:
       name: metube
+      host: metube.suskins.co.uk
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 8081

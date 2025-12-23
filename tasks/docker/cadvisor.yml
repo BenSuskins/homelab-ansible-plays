@@ -21,6 +21,7 @@
   ansible.builtin.set_fact:
     cadvisor_entry:
       name: cadvisor
+      host: cadvisor.suskins.co.uk
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 9098

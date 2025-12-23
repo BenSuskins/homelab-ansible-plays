@@ -17,6 +17,7 @@
   ansible.builtin.set_fact:
     pubgolf_entry:
       name: pubgolf
+      host: pubgolf.suskins.co.uk
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 3003

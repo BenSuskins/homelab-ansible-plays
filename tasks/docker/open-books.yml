@@ -18,6 +18,7 @@
   ansible.builtin.set_fact:
     openbooks_entry:
       name: openbooks
+      host: openbooks.suskins.co.uk
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 8080

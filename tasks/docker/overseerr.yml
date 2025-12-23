@@ -32,6 +32,7 @@
   ansible.builtin.set_fact:
     overseerr_entry:
       name: overseerr
+      host: overseerr.suskins.co.uk
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 5055

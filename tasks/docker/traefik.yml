@@ -85,6 +85,7 @@
   ansible.builtin.set_fact:
     traefik_entry:
       name: traefik
+      host: traefik.suskins.co.uk
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 8080

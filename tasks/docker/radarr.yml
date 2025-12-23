@@ -33,6 +33,7 @@
   ansible.builtin.set_fact:
     radarr_entry:
       name: radarr
+      host: radarr.suskins.co.uk
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 7878

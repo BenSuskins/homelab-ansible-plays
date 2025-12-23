@@ -71,19 +71,19 @@ Each service entry is a unified definition that controls Homepage, Traefik, Gatu
 
 | Variable | Type | Description |
 |----------|------|-------------|
-| `name` | string | Service identifier, used for container name and default hostname |
+| `name` | string | Service identifier, used for container name |
+| `host` | string | Full hostname for Traefik routing (e.g., `myapp.suskins.co.uk`) |
 | `ip` | string | Host IP address, typically `{{ inventory_hostname }}` |
 | `friendly_name` | string | Group name for Homepage display, typically `{{ friendly_name }}` |
 | `port` | integer | Primary service port |
 | `scheme` | string | Protocol: `http` or `https` |
+| `secured` | boolean | Requires Authentik authentication via Traefik middleware |
+| `hidden` | boolean | Hide from Homepage dashboard |
 
-#### Display & Auth Fields
+#### Optional Fields
 
 | Variable | Type | Default | Description |
 |----------|------|---------|-------------|
-| `secured` | boolean | - | Requires Authentik authentication via Traefik middleware |
-| `hidden` | boolean | - | Hide from Homepage dashboard |
-| `host` | string | `<name>.suskins.co.uk` | Custom hostname for Traefik routing |
 | `middleware` | string | none | Additional Traefik middleware (e.g., `unifi-headers`) |
 
 #### Cloudflare DNS
@@ -113,15 +113,15 @@ Each service entry is a unified definition that controls Homepage, Traefik, Gatu
   ansible.builtin.set_fact:
     myapp_entry:
       name: myapp
+      host: myapp.suskins.co.uk
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 8080
       scheme: http
       secured: true
       hidden: false
-      host: myapp.example.com          # Optional: custom hostname
-      exposed: true                     # Optional: create DNS record
-      healthcheck_path: /health         # Optional: Gatus health check
+      exposed: true                      # Optional: create DNS record
+      healthcheck_path: /health          # Optional: Gatus health check
       metrics_enabled: true              # Optional: Prometheus scraping
       metrics_port: 9090                 # Optional: if metrics on different port
       metrics_path: /actuator/prometheus # Optional: custom metrics path

@@ -6,7 +6,7 @@
 - {{ friendly_name }}:
 {% for svc in services %}
     - {{ svc.name | capitalize }}:
-        href: https://{{ svc.name }}.suskins.co.uk
+        href: https://{{ svc.host }}
         icon: {{ svc.name | lower }}
         description: {{ svc.name | capitalize }} container
 {% endfor %}

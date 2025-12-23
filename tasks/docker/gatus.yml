@@ -41,6 +41,7 @@
   ansible.builtin.set_fact:
     gatus_entry:
       name: gatus
+      host: gatus.suskins.co.uk
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 8080

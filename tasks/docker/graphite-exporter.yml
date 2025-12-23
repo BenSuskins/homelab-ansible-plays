@@ -109,6 +109,7 @@
   ansible.builtin.set_fact:
     graphite_exporter_entry:
       name: graphite-exporter
+      host: graphite-exporter.suskins.co.uk
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 9108
