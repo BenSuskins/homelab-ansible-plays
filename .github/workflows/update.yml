@@ -6,23 +6,30 @@ on:
   workflow_dispatch:
 
 jobs:
-  checkout:
+  checkout-repo:
     runs-on: self-hosted
     steps:
+      - name: 'Cleanup build folder'
+        run: |
+          ls -la ./
+          rm -rf ./* || true
+          rm -rf ./.??* || true
+          ls -la ./
+
       - name: Checkout repo
         uses: actions/checkout@v6
-
+  
+  checkout-secrets:
+    runs-on: self-hosted
+    needs: [checkout]
+    steps:
       - name: Checkout secrets repo
         uses: actions/checkout@v6
         with:
           repository: bensuskins/secrets
           path: secrets
           token: ${{ secrets.SECRETS_REPO_TOKEN }}
-  
-  update-secrets:
-    runs-on: self-hosted
-    needs: [checkout]
-    steps:
+
       - name: Move vault file
         run: |
           mkdir -p ~/.ansible
@@ -30,7 +37,7 @@ jobs:
   
   run-ansible:
     runs-on: self-hosted
-    needs: [checkout, update-secrets]
+    needs: [checkout-repo, checkout-secrets]
     steps:
       - name: Run Ansible
         run: |
