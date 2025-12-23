@@ -9,13 +9,6 @@ jobs:
   checkout-repo:
     runs-on: self-hosted
     steps:
-      - name: 'Cleanup build folder'
-        run: |
-          ls -la ./
-          rm -rf ./* || true
-          rm -rf ./.??* || true
-          ls -la ./
-
       - name: Checkout repo
         uses: actions/checkout@v6
   
