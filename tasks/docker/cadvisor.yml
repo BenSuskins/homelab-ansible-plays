@@ -30,7 +30,6 @@
       metrics_enabled: true
       metrics_port: 9098
       metrics_interval: 30s
-      metrics_job_name: "{{ inventory_hostname }}"
 
 - name: CADVISOR - Append to docker_services
   ansible.builtin.set_fact:

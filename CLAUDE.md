@@ -63,13 +63,84 @@ Example structure:
 - name: Append to docker_services
 ```
 
+### Service Entry Variables
+
+Each service entry is a unified definition that controls Homepage, Traefik, Gatus, Prometheus, and Cloudflare. Variables are defined in the `set_fact` task for each container.
+
+#### Required Fields
+
+| Variable | Type | Description |
+|----------|------|-------------|
+| `name` | string | Service identifier, used for container name and default hostname |
+| `ip` | string | Host IP address, typically `{{ inventory_hostname }}` |
+| `friendly_name` | string | Group name for Homepage display, typically `{{ friendly_name }}` |
+| `port` | integer | Primary service port |
+| `scheme` | string | Protocol: `http` or `https` |
+
+#### Display & Auth Fields
+
+| Variable | Type | Default | Description |
+|----------|------|---------|-------------|
+| `secured` | boolean | - | Requires Authentik authentication via Traefik middleware |
+| `hidden` | boolean | - | Hide from Homepage dashboard |
+| `host` | string | `<name>.suskins.co.uk` | Custom hostname for Traefik routing |
+| `middleware` | string | none | Additional Traefik middleware (e.g., `unifi-headers`) |
+
+#### Cloudflare DNS
+
+| Variable | Type | Default | Description |
+|----------|------|---------|-------------|
+| `exposed` | boolean | `false` | Create Cloudflare CNAME record for external access |
+
+#### Gatus Health Monitoring
+
+| Variable | Type | Default | Description |
+|----------|------|---------|-------------|
+| `healthcheck_path` | string | none | Custom health endpoint path (e.g., `/health`, `/api/status`) |
+
+#### Prometheus Metrics
+
+| Variable | Type | Default | Description |
+|----------|------|---------|-------------|
+| `metrics_enabled` | boolean | `false` | Enable Prometheus scraping for this service |
+| `metrics_port` | integer | `port` | Port exposing metrics (if different from service port) |
+| `metrics_path` | string | `/metrics` | Metrics endpoint path |
+| `metrics_interval` | string | `30s` | Scrape interval |
+
+#### Example Service Entry
+
+```yaml
+- name: MYAPP - Define service entry
+  ansible.builtin.set_fact:
+    myapp_entry:
+      name: myapp
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 8080
+      scheme: http
+      secured: true
+      hidden: false
+      host: myapp.example.com          # Optional: custom hostname
+      exposed: true                     # Optional: create DNS record
+      healthcheck_path: /health         # Optional: Gatus health check
+      metrics_enabled: true              # Optional: Prometheus scraping
+      metrics_port: 9090                 # Optional: if metrics on different port
+      metrics_path: /actuator/prometheus # Optional: custom metrics path
+      metrics_interval: 60s              # Optional: scrape frequency
+
+- name: MYAPP - Append to docker_services
+  ansible.builtin.set_fact:
+    docker_services: "{{ docker_services + [myapp_entry] }}"
+```
+
 ### Service Discovery
 
-The `docker_services` list is aggregated across all hosts and used to:
+The `docker_services` list is aggregated across all hosts via `tasks/core/aggregate_services.yml` and used to:
 - Auto-generate Homepage entries via `config/homepage/services.yaml.j2`
-- Configure Traefik routing (development host)
-- Set up Gatus monitoring (monitor host)
-- Update Prometheus scrape configs
+- Configure Traefik routing via `config/traefik/dynamic/http.yml.j2`
+- Set up Gatus monitoring via `config/gatus/config.yaml.j2`
+- Generate Prometheus scrape configs via `config/prometheus/config.yml.j2`
+- Create Cloudflare DNS records via `tasks/other/cloudflare_cnames.yml`
 
 ### Docker Image Updates
 

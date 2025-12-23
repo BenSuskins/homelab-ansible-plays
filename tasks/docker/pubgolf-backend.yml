@@ -31,7 +31,6 @@
       metrics_port: 8080
       metrics_path: /actuator/prometheus
       metrics_interval: 60s
-      metrics_job_name: pubgolf
 
 - name: PUBGOLF-BACKEND - Append to docker_services
   ansible.builtin.set_fact:
