@@ -2,6 +2,9 @@
 firewall: true
 base_dir: /home/development/server-development
 
+special_containers:
+  - traefik
+
 containers:
   - authentik_server
   - authentik_worker

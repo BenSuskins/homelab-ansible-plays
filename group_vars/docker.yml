@@ -1,6 +1,9 @@
 ---
 base_dir: /home/docker/server-docker
 
+special_containers:
+  - homepage
+
 containers:
   - grocy
   - mealie

@@ -1,8 +1,11 @@
 ---
 base_dir: /home/monitor/server-monitor
 
+special_containers:
+  - gatus
+  - prometheus
+
 containers:
   - grafana
   - loki
   - graphite-exporter
-  - prometheus
