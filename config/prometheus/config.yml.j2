@@ -5,16 +5,16 @@ rule_files:
   - "alerts.rule.yml"
 
 scrape_configs:
-{% for scrape_config in aggregated_scrape_configs %}
-  - job_name: "{{ scrape_config.job_name }}"
-    scrape_interval: {{ scrape_config.scrape_interval }}
-{% if scrape_config.metrics_path is defined %}
-    metrics_path: {{ scrape_config.metrics_path }}
+{% for svc in all_docker_services %}
+{% if svc.metrics_enabled | default(false) %}
+  - job_name: "{{ svc.metrics_job_name | default(svc.name) }}"
+    scrape_interval: {{ svc.metrics_interval | default('30s') }}
+{% if svc.metrics_path is defined %}
+    metrics_path: {{ svc.metrics_path }}
 {% endif %}
     static_configs:
-{% for static_config in scrape_config.static_configs %}
-      - targets: [{{ static_config.targets[0] }}]
-{% endfor %}
+      - targets: ["{{ svc.ip }}:{{ svc.metrics_port | default(svc.port) }}"]
+{% endif %}
 {% endfor %}
   - job_name: "prometheus"
     scrape_interval: 5s

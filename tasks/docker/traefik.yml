@@ -60,18 +60,6 @@
   vars:
     all_services: "{{ all_docker_services }}"
 
-- name: TRAEFIK - Add to scrape configs
-  ansible.builtin.set_fact:
-    prometheus_scrape_configs: >-
-      {{
-        (prometheus_scrape_configs | default([])) +
-        [ {
-          'job_name': 'traefik',
-          'scrape_interval': '60s',
-          'static_configs': [ { 'targets': [ ansible_host ~ ':8080' ] } ]
-        } ]
-      }}
-
 - name: TRAEFIK - Deploy container
   community.docker.docker_container:
     name: traefik
@@ -103,6 +91,9 @@
       scheme: http
       secured: true
       hidden: false
+      metrics_enabled: true
+      metrics_port: 8080
+      metrics_interval: 60s
 
 - name: TRAEFIK - Append to docker_services
   ansible.builtin.set_fact:

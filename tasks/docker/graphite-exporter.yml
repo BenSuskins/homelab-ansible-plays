@@ -105,14 +105,20 @@
       - "{{ base_dir }}/graphite-exporter/graphite_mapping.conf:/tmp/graphite_mapping.conf"
     command: --graphite.mapping-config=/tmp/graphite_mapping.conf
 
-- name: GRAPHITE-EXPORTER - Add to scrape configs
+- name: GRAPHITE-EXPORTER - Define service entry
   ansible.builtin.set_fact:
-    prometheus_scrape_configs: >-
-      {{
-        (prometheus_scrape_configs | default([])) +
-        [ {
-          'job_name': 'graphite-exporter',
-          'scrape_interval': '60s',
-          'static_configs': [ { 'targets': [ ansible_host ~ ':9108' ] } ]
-        } ]
-      }}
+    graphite_exporter_entry:
+      name: graphite-exporter
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 9108
+      scheme: http
+      secured: false
+      hidden: true
+      metrics_enabled: true
+      metrics_port: 9108
+      metrics_interval: 60s
+
+- name: GRAPHITE-EXPORTER - Append to docker_services
+  ansible.builtin.set_fact:
+    docker_services: "{{ docker_services + [graphite_exporter_entry] }}"

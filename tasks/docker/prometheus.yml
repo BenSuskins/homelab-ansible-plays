@@ -11,10 +11,9 @@
     - "{{ base_dir }}/prometheus"
     - "{{ base_dir }}/prometheus/config"
 
-- name: PROMETHEUS - Aggregate scrape configs from all hosts
-  ansible.builtin.set_fact:
-    aggregated_scrape_configs: >-
-      {{ groups['all'] | map('extract', hostvars, 'prometheus_scrape_configs') | list | flatten }}
+- name: PROMETHEUS - Aggregate services from all hosts
+  ansible.builtin.include_tasks:
+    file: "../tasks/core/aggregate_services.yml"
 
 - name: PROMETHEUS - Create scrape config
   ansible.builtin.template:
@@ -22,6 +21,8 @@
     dest: "{{ base_dir }}/prometheus/config/prometheus.yml"
     owner: "{{ username }}"
     group: "{{ username }}"
+  vars:
+    all_docker_services: "{{ all_docker_services }}"
 
 - name: PROMETHEUS - Create alert rules
   ansible.builtin.copy:

@@ -14,18 +14,6 @@
     - "{{ base_dir }}/authentik/custom-templates"
     - "{{ base_dir }}/authentik/certs"
 
-- name: AUTHENTK SERVER - Add to scrape configs
-  ansible.builtin.set_fact:
-    prometheus_scrape_configs: >-
-      {{
-        (prometheus_scrape_configs | default([])) +
-        [ {
-          'job_name': 'authentik',
-          'scrape_interval': '60s',
-          'static_configs': [ { 'targets': [ ansible_host ~ ':9300' ] } ]
-        } ]
-      }}
-
 - name: AUTHENTIK SERVER - Create container
   community.docker.docker_container:
     name: authentik_server
@@ -61,6 +49,9 @@
       port: 9000
       scheme: http
       hidden: false
+      metrics_enabled: true
+      metrics_port: 9300
+      metrics_interval: 60s
 
 - name: AUTHENTIK - Append to docker_services
   ansible.builtin.set_fact:
