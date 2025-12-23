@@ -15,7 +15,6 @@
     name: prowlarr
     image: ghcr.io/linuxserver/prowlarr:2.3.0
     restart_policy: always
-    restart: true
     state: started
     pull: true
     networks:

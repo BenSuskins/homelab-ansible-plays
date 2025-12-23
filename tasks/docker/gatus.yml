@@ -38,7 +38,6 @@
     name: gatus
     image: twinproduction/gatus:v5.33.1
     restart_policy: always
-    restart: true
     state: started
     pull: true
     ports:

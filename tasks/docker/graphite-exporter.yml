@@ -6,7 +6,7 @@
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: "0777"
+    mode: "0750"
   loop:
     - "{{ base_dir }}/graphite-exporter"
 
@@ -93,7 +93,6 @@
     name: graphite-exporter
     image: prom/graphite-exporter:v0.16.0
     restart_policy: always
-    restart: true
     state: started
     pull: true
     networks:

@@ -6,7 +6,7 @@
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: "0777"
+    mode: "0750"
   loop:
     - "{{ base_dir }}/grafana"
 
@@ -15,7 +15,6 @@
     name: grafana
     image: grafana/grafana:12.3.1
     restart_policy: always
-    restart: true
     state: started
     pull: true
     ports:
@@ -30,12 +29,12 @@
       GF_AUTH_GENERIC_OAUTH_CLIENT_ID: "{{ GRAFANA_OIDC_CLIENT_ID }}"
       GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: "{{ GRAFANA_OIDC_CLIENT_SECRET }}"
       GF_AUTH_GENERIC_OAUTH_SCOPES: "openid profile email"
-      GF_AUTH_GENERIC_OAUTH_AUTH_URL: "https://authentik.suskins.co.uk/application/o/authorize/"
-      GF_AUTH_GENERIC_OAUTH_TOKEN_URL: "https://authentik.suskins.co.uk/application/o/token/"
-      GF_AUTH_GENERIC_OAUTH_API_URL: "https://authentik.suskins.co.uk/application/o/userinfo/"
-      GF_AUTH_SIGNOUT_REDIRECT_URL: "https://authentik.suskins.co.uk/application/o/grafana/end-session/"
+      GF_AUTH_GENERIC_OAUTH_AUTH_URL: "https://authentik.{{ domain }}/application/o/authorize/"
+      GF_AUTH_GENERIC_OAUTH_TOKEN_URL: "https://authentik.{{ domain }}/application/o/token/"
+      GF_AUTH_GENERIC_OAUTH_API_URL: "https://authentik.{{ domain }}/application/o/userinfo/"
+      GF_AUTH_SIGNOUT_REDIRECT_URL: "https://authentik.{{ domain }}/application/o/grafana/end-session/"
       GF_AUTH_OAUTH_AUTO_LOGIN: "true"
-      GF_SERVER_ROOT_URL: "https://grafana.suskins.co.uk"
+      GF_SERVER_ROOT_URL: "https://grafana.{{ domain }}"
       GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH: "contains(groups, 'Suskins Admin') && 'Admin' || 'Viewer'"
     entrypoint:
       - sh

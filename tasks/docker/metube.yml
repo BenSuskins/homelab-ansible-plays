@@ -15,7 +15,6 @@
     name: metube
     image: ghcr.io/alexta69/metube:2025-03-07
     restart_policy: always
-    restart: true
     state: started
     pull: true
     networks:

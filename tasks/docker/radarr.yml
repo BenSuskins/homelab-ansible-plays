@@ -15,7 +15,6 @@
     name: radarr
     image: ghcr.io/linuxserver/radarr:5.28.0
     restart_policy: always
-    restart: true
     state: started
     pull: true
     networks:

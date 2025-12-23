@@ -66,11 +66,10 @@
     name: homepage
     image: ghcr.io/gethomepage/homepage:v1.8.0
     restart_policy: always
-    restart: true
     state: started
     pull: true
     env:
-      HOMEPAGE_ALLOWED_HOSTS: "192.168.0.102:3000,home.suskins.co.uk"
+      HOMEPAGE_ALLOWED_HOSTS: "{{ docker_ip }}:3000,home.{{ domain }}"
     networks:
       - name: homelab
     ports:

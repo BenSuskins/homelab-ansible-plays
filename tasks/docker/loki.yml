@@ -6,7 +6,7 @@
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: "0777"
+    mode: "0750"
   loop:
     - "{{ base_dir }}/loki"
     - "{{ base_dir }}/loki/config"
@@ -55,7 +55,6 @@
     name: loki
     image: grafana/loki:3.6.3
     restart_policy: always
-    restart: true
     state: started
     pull: true
     ports:

@@ -15,7 +15,6 @@
     name: gluetun
     image: qmcgaw/gluetun:v3.40.3
     restart_policy: always
-    restart: true
     state: started
     pull: true
     capabilities:

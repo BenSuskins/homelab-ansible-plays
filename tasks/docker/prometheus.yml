@@ -6,7 +6,7 @@
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: "0777"
+    mode: "0750"
   loop:
     - "{{ base_dir }}/prometheus"
     - "{{ base_dir }}/prometheus/config"
@@ -35,7 +35,6 @@
     name: prometheus
     image: prom/prometheus:v3.8.1
     restart_policy: always
-    restart: true
     state: started
     pull: true
     networks:

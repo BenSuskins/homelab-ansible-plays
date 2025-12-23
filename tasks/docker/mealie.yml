@@ -15,7 +15,6 @@
     name: mealie
     image: ghcr.io/mealie-recipes/mealie:v3.8.0
     restart_policy: always
-    restart: true
     state: started
     pull: true
     memory: 1000M
@@ -35,7 +34,7 @@
       ALLOW_PASSWORD_LOGIN: "false"
       OIDC_AUTH_ENABLED: "true"
       OIDC_PROVIDER_NAME: "authentik"
-      OIDC_CONFIGURATION_URL: "https://authentik.suskins.co.uk/application/o/mealie/.well-known/openid-configuration"
+      OIDC_CONFIGURATION_URL: "https://authentik.{{ domain }}/application/o/mealie/.well-known/openid-configuration"
       OIDC_CLIENT_ID: "{{ MEALIE_OIDC_CLIENT_ID }}"
       OIDC_CLIENT_SECRET: "{{ MEALIE_OIDC_CLIENT_SECRET }}"
       OIDC_SIGNUP_ENABLED: "true"

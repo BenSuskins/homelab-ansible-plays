@@ -17,7 +17,6 @@
     name: pubgolf-backend
     image: ghcr.io/bensuskins/pubgolf-backend:06d68fa
     restart_policy: always
-    restart: true
     state: started
     pull: true
     networks:

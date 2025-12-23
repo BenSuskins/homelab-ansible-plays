@@ -15,7 +15,6 @@
     name: pubgolf-postgres
     image: postgres:17-alpine
     restart_policy: always
-    restart: true
     state: started
     pull: true
     networks:

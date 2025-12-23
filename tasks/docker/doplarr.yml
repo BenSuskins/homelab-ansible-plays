@@ -15,12 +15,11 @@
     name: doplarr
     image: ghcr.io/kiranshila/doplarr:v3.7.0
     restart_policy: always
-    restart: true
     state: started
     pull: true
     networks:
       - name: homelab
     env:
       DISCORD__TOKEN: "{{ DISCORD__TOKEN }}"
-      OVERSEERR__URL: "http://192.168.0.101:5055"
+      OVERSEERR__URL: "http://{{ mediaserver_ip }}:5055"
       OVERSEERR__API: "{{ OVERSEERR__API }}"

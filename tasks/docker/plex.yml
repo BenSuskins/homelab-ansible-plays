@@ -15,7 +15,6 @@
     name: plex
     image: ghcr.io/linuxserver/plex:1.42.2
     restart_policy: always
-    restart: true
     state: started
     pull: true
     network_mode: host

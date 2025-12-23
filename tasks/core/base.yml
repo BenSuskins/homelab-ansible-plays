@@ -24,7 +24,7 @@
     owner: "{{ username }}"
     group: "{{ username }}"
     recurse: true
-    mode: "0777"
+    mode: "0750"
 
 - name: BASE - Suppress login messages
   ansible.builtin.file:
