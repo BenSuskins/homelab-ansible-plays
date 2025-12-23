@@ -29,7 +29,6 @@
       hidden: true
       metrics_enabled: true
       metrics_port: 9098
-      metrics_interval: 30s
 
 - name: CADVISOR - Append to docker_services
   ansible.builtin.set_fact:

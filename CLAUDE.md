@@ -105,7 +105,6 @@ Each service entry is a unified definition that controls Homepage, Traefik, Gatu
 | `metrics_enabled` | boolean | `false` | Enable Prometheus scraping for this service |
 | `metrics_port` | integer | `port` | Port exposing metrics (if different from service port) |
 | `metrics_path` | string | `/metrics` | Metrics endpoint path |
-| `metrics_interval` | string | `30s` | Scrape interval |
 
 #### Example Service Entry
 
@@ -126,7 +125,6 @@ Each service entry is a unified definition that controls Homepage, Traefik, Gatu
       metrics_enabled: true              # Optional: Prometheus scraping
       metrics_port: 9090                 # Optional: if metrics on different port
       metrics_path: /actuator/prometheus # Optional: custom metrics path
-      metrics_interval: 60s              # Optional: scrape frequency
 
 - name: MYAPP - Append to docker_services
   ansible.builtin.set_fact:

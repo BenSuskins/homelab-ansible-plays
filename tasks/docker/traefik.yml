@@ -93,7 +93,6 @@
       hidden: false
       metrics_enabled: true
       metrics_port: 8080
-      metrics_interval: 60s
 
 - name: TRAEFIK - Append to docker_services
   ansible.builtin.set_fact:

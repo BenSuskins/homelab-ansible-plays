@@ -8,7 +8,7 @@ scrape_configs:
 {% for svc in all_docker_services %}
 {% if svc.metrics_enabled | default(false) %}
   - job_name: "{{ svc.name }}"
-    scrape_interval: {{ svc.metrics_interval | default('30s') }}
+    scrape_interval: 60s
 {% if svc.metrics_path is defined %}
     metrics_path: {{ svc.metrics_path }}
 {% endif %}

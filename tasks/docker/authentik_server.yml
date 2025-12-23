@@ -51,7 +51,6 @@
       hidden: false
       metrics_enabled: true
       metrics_port: 9300
-      metrics_interval: 60s
 
 - name: AUTHENTIK - Append to docker_services
   ansible.builtin.set_fact:
