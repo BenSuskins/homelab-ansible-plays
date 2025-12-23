@@ -7,7 +7,23 @@
     - "~/.ansible/vault.yml"
 
   tasks:
+    - name: DEPLOY - Validate variables
+      ansible.builtin.assert:
+        that:
+          - containers is defined
+          - containers | length > 0
+        fail_msg: "containers must be defined and not empty"
+      tags: [validation]
+
     - name: DEPLOY - Deploy containers
-      ansible.builtin.include_tasks:
-        file: "../tasks/docker/{{ item }}.yml"
-      loop: "{{ containers }}"
+      block:
+        - name: DEPLOY - Include container tasks
+          ansible.builtin.include_tasks:
+            file: "../tasks/docker/{{ item }}.yml"
+          loop: "{{ containers }}"
+          register: deploy_results
+      rescue:
+        - name: DEPLOY - Report deployment failure
+          ansible.builtin.fail:
+            msg: "Container deployment failed"
+      tags: [docker]

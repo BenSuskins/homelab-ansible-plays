@@ -10,6 +10,7 @@ docker_services: []
 username: "{{ ansible_user }}"
 puid: 1000
 pgid: 1000
+journal_vacuum_time: 30d
 
 packages:
   - wget

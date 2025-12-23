@@ -7,38 +7,68 @@
     - "~/.ansible/vault.yml"
 
   tasks:
-    - name: Remove unused packages and clear apt cache
-      ansible.builtin.apt:
-        autoremove: true
-        autoclean: true
-        clean: true
-        purge: true
-      register: apt_clean_res
+    - name: CLEAN - Validate variables
+      ansible.builtin.assert:
+        that:
+          - journal_vacuum_time is defined
+        fail_msg: "journal_vacuum_time must be defined in group_vars"
+      tags: [validation]
 
-    - name: Clean journal logs older than 30 days
-      ansible.builtin.command: journalctl --vacuum-time=30d
-      register: journal_clean_res
+    - name: CLEAN - Remove unused packages and clear apt cache
+      block:
+        - name: CLEAN - Run apt cleanup
+          ansible.builtin.apt:
+            autoremove: true
+            autoclean: true
+            clean: true
+            purge: true
+          register: apt_clean_res
+      rescue:
+        - name: CLEAN - Warn apt cleanup failed
+          ansible.builtin.debug:
+            msg: "APT cleanup failed, continuing"
+      tags: [packages, cleanup]
+
+    - name: CLEAN - Clean journal logs
+      block:
+        - name: CLEAN - Run journalctl vacuum
+          ansible.builtin.command: journalctl --vacuum-time={{ journal_vacuum_time }}
+          register: journal_clean_res
+          changed_when: false
+      rescue:
+        - name: CLEAN - Warn journal cleanup failed
+          ansible.builtin.debug:
+            msg: "Journal cleanup failed, continuing"
+      tags: [cleanup]
 
     - name: CLEAN - Prune unused Docker resources
-      community.docker.docker_prune:
-        containers: false
-        images: true
-        images_filters:
-          dangling: true
-        networks: false
-        volumes: false
-        builder_cache: false
-      register: docker_prune_res
+      block:
+        - name: CLEAN - Run docker prune
+          community.docker.docker_prune:
+            containers: false
+            images: true
+            images_filters:
+              dangling: true
+            networks: false
+            volumes: false
+            builder_cache: false
+          register: docker_prune_res
+      rescue:
+        - name: CLEAN - Warn docker prune failed
+          ansible.builtin.debug:
+            msg: "Docker prune failed, continuing"
+      tags: [docker, cleanup]
 
     - name: CLEAN - Set reboot_required if cleanup changed anything
       ansible.builtin.set_fact:
         reboot_required: true
       when: >
         (apt_clean_res is defined and (apt_clean_res.changed | default(false))) or
-        (journal_clean_res is defined and (journal_clean_res.rc is defined and journal_clean_res.rc != 0)) or
         (docker_prune_res is defined and (docker_prune_res.changed | default(false)))
+      tags: [reboot]
 
     - name: CLEAN - Reboot server
       ansible.builtin.reboot:
         msg: "Rebooting server after cleanup"
       when: reboot_required | default(false)
+      tags: [reboot]

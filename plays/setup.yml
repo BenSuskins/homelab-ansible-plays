@@ -7,26 +7,49 @@
     - "~/.ansible/vault.yml"
 
   tasks:
+    - name: SETUP - Validate variables
+      ansible.builtin.assert:
+        that:
+          - ansible_os_family is defined
+        fail_msg: "ansible_os_family must be defined (run gather_facts)"
+      tags: [validation]
+
     - name: SETUP - Update server and install base packages
-      ansible.builtin.include_tasks:
-        file: "../tasks/core/base.yml"
-      register: base_results
+      block:
+        - name: SETUP - Include base tasks
+          ansible.builtin.include_tasks:
+            file: "../tasks/core/base.yml"
+          register: base_results
+      rescue:
+        - name: SETUP - Report base setup failure
+          ansible.builtin.fail:
+            msg: "Base setup failed"
+      tags: [packages]
 
     - name: SETUP - Install docker
-      ansible.builtin.include_tasks:
-        file: "../tasks/core/docker.yml"
-      register: docker_results
+      block:
+        - name: SETUP - Include docker tasks
+          ansible.builtin.include_tasks:
+            file: "../tasks/core/docker.yml"
+          register: docker_results
+      rescue:
+        - name: SETUP - Report docker setup failure
+          ansible.builtin.fail:
+            msg: "Docker setup failed"
+      tags: [docker]
 
     - name: SETUP - Set reboot_required if included tasks changed
       ansible.builtin.set_fact:
         reboot_required: true
       when: >
         (base_results is defined and (base_results.changed | default(false))) or
-        (base_results is defined and base_results.results is defined and (base_results.results | selectattr('changed') | select('equalto', True) | list | length) > 0) or
+        (base_results is defined and base_results.results is defined and (base_results.results | selectattr('changed', 'defined') | selectattr('changed') | list | length) > 0) or
         (docker_results is defined and (docker_results.changed | default(false))) or
-        (docker_results is defined and docker_results.results is defined and (docker_results.results | selectattr('changed') | select('equalto', True) | list | length) > 0)
+        (docker_results is defined and docker_results.results is defined and (docker_results.results | selectattr('changed', 'defined') | selectattr('changed') | list | length) > 0)
+      tags: [reboot]
 
     - name: SETUP - Reboot server
       ansible.builtin.reboot:
         msg: "Rebooting server after setup"
       when: reboot_required | default(false)
+      tags: [reboot]
