@@ -1,0 +1,11 @@
+---
+- name: AGGREGATE - Collect docker_services from all hosts
+  delegate_to: localhost
+  run_once: true
+  ansible.builtin.set_fact:
+    all_docker_services: >-
+      {{ groups['all']
+         | map('extract', hostvars, 'docker_services')
+         | reject('equalto', None)
+         | list
+         | sum(start=[]) }}

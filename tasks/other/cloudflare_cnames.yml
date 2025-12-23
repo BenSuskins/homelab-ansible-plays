@@ -1,11 +1,11 @@
 ---
-- name: CLOUDFLARE - Aggregate docker_services from all hosts
-  ansible.builtin.set_fact:
-    aggregated_docker_services: "{{ groups['all'] | map('extract', hostvars, 'docker_services') | reject('equalto', None) | list | sum(start=[]) }}"
+- name: CLOUDFLARE - Aggregate services from all hosts
+  ansible.builtin.include_tasks:
+    file: "../tasks/core/aggregate_services.yml"
 
 - name: CLOUDFLARE - Ensure CNAMEs for exposed services
   vars:
-    services: "{{ (static_services | default([])) + (aggregated_docker_services | default([])) }}"
+    services: "{{ (static_services | default([])) + (all_docker_services | default([])) }}"
   loop: "{{ services }}"
   loop_control:
     loop_var: svc

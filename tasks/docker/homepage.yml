@@ -10,19 +10,9 @@
   loop:
     - "{{ base_dir }}/homepage"
 
-- name: HOMEPAGE - Combine homepage entries
-  delegate_to: localhost
-  ansible.builtin.set_fact:
-    all_services: >-
-      {{
-        (all_services | default([])) +
-        ((hostvars
-          | dict2items
-          | selectattr('value.docker_services', 'defined')
-          | map(attribute='value.docker_services')
-          | list
-          | flatten) | default([]))
-      }}
+- name: HOMEPAGE - Aggregate services from all hosts
+  ansible.builtin.include_tasks:
+    file: "../tasks/core/aggregate_services.yml"
 
 - name: HOMEPAGE - Create bookmarks
   ansible.builtin.copy:
@@ -38,7 +28,7 @@
     owner: "{{ username }}"
     group: "{{ username }}"
   vars:
-    all_services: "{{ all_services }}"
+    all_services: "{{ all_docker_services }}"
 
 - name: HOMEPAGE - Create settings
   ansible.builtin.copy:

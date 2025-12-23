@@ -12,19 +12,9 @@
     - "{{ base_dir }}/traefik/dynamic"
     - "{{ base_dir }}/traefik/logs"
 
-- name: TRAEFIK - Combine traefik entries
-  delegate_to: localhost
-  ansible.builtin.set_fact:
-    traefik_entries: >-
-      {{
-        (traefik_entries | default([])) +
-        ((hostvars
-          | dict2items
-          | selectattr('value.docker_services', 'defined')
-          | map(attribute='value.docker_services')
-          | list
-          | flatten) | default([]))
-      }}
+- name: TRAEFIK - Aggregate services from all hosts
+  ansible.builtin.include_tasks:
+    file: "../tasks/core/aggregate_services.yml"
 
 - name: TRAEFIK - Create config
   ansible.builtin.copy:
@@ -68,7 +58,7 @@
     owner: "{{ username }}"
     group: "{{ username }}"
   vars:
-    all_services: "{{ traefik_entries }}"
+    all_services: "{{ all_docker_services }}"
 
 - name: TRAEFIK - Add to scrape configs
   ansible.builtin.set_fact:

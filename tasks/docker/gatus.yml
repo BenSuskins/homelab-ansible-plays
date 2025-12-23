@@ -10,19 +10,9 @@
   loop:
     - "{{ base_dir }}/gatus"
 
-- name: GATUS - Combines monitored entries
-  delegate_to: localhost
-  ansible.builtin.set_fact:
-    monitored_services: >-
-      {{
-        (monitored_services | default([])) +
-        ((hostvars
-          | dict2items
-          | selectattr('value.docker_services', 'defined')
-          | map(attribute='value.docker_services')
-          | list
-          | flatten) | default([]))
-      }}
+- name: GATUS - Aggregate services from all hosts
+  ansible.builtin.include_tasks:
+    file: "../tasks/core/aggregate_services.yml"
 
 - name: GATUS - Create config
   ansible.builtin.template:
@@ -31,7 +21,7 @@
     owner: "{{ username }}"
     group: "{{ username }}"
   vars:
-    monitored_services: "{{ monitored_services }}"
+    monitored_services: "{{ all_docker_services }}"
 
 - name: GATUS - Create container
   community.docker.docker_container:
