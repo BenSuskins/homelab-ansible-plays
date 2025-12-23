@@ -21,7 +21,7 @@ jobs:
   
   checkout-secrets:
     runs-on: self-hosted
-    needs: [checkout]
+    needs: [checkout-repo]
     steps:
       - name: Checkout secrets repo
         uses: actions/checkout@v6
