@@ -21,12 +21,13 @@
   ansible.builtin.set_fact:
     pubgolf_backend_entry:
       name: pubgolf-backend
-      host: pubgolf-backend.suskins.co.uk
+      host: api.pubgolf.me
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 8080
       scheme: http
       secured: false
+      proxied: true
       metrics: true
       metrics_port: 8080
       metrics_path: /actuator/prometheus

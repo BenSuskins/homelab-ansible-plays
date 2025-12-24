@@ -121,20 +121,3 @@ static_services:
     secured: true
     homepage: true
     proxied: true
-
-  # Pubgolf
-  - name: pubgolf
-    host: pubgolf.me
-    ip: 192.168.0.102
-    port: 3003
-    scheme: http
-    secured: false
-    proxied: true
-
-  - name: pubgolf-api
-    host: api.pubgolf.me
-    ip: 192.168.0.102
-    port: 8080
-    scheme: http
-    secured: false
-    proxied: true
