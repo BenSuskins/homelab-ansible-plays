@@ -10,12 +10,11 @@
   loop_control:
     loop_var: svc
   when: "svc.exposed | default(false)"
-
   community.general.cloudflare_dns:
-    zone: "suskins.co.uk"
-    value: "{{ svc.host | default(svc.name ~ '.suskins.co.uk') }}"
+    zone: "{{ domain }}"
+    record: "{{ svc.host | regex_replace('\\.' ~ domain ~ '$', '') }}"
     type: CNAME
+    value: "{{ domain }}"
     proxied: true
-    state: present
     api_token: "{{ CLOUDFLARE_API_TOKEN }}"
   delegate_to: localhost

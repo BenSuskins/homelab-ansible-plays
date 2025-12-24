@@ -89,6 +89,12 @@
             msg: "Docker operations failed"
       tags: [docker]
 
+    - name: UPDATE - Update Cloudflare DNS records
+      ansible.builtin.include_tasks:
+        file: "../tasks/other/cloudflare_cnames.yml"
+      run_once: true
+      tags: [dns]
+
     - name: UPDATE - Set reboot_required if important tasks changed
       ansible.builtin.set_fact:
         reboot_required: true
