@@ -25,6 +25,7 @@
       scheme: http
       secured: true
       homepage: true
+      proxied: true
 
 - name: OPENBOOKS - Append to docker_services
   ansible.builtin.set_fact:

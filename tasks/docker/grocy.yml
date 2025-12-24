@@ -39,6 +39,7 @@
       scheme: http
       secured: true
       homepage: true
+      proxied: true
 
 - name: GROCY - Append to docker_services
   ansible.builtin.set_fact:

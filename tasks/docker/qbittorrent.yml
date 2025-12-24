@@ -38,6 +38,7 @@
       scheme: http
       secured: true
       homepage: true
+      proxied: true
 
 - name: QBITTORRENT - Append to docker_services
   ansible.builtin.set_fact:

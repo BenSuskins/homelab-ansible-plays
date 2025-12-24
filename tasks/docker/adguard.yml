@@ -41,6 +41,7 @@
       scheme: http
       secured: false
       homepage: true
+      proxied: true
 
 - name: ADGUARD - Append to docker_services
   ansible.builtin.set_fact:

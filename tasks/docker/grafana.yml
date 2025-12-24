@@ -76,6 +76,7 @@
       scheme: http
       secured: true
       homepage: true
+      proxied: true
 
 - name: GRAFANA - Append to docker_services
   ansible.builtin.set_fact:

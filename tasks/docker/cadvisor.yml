@@ -27,7 +27,6 @@
       port: 9098
       scheme: http
       secured: false
-      proxied: false
       metrics_enabled: true
       metrics_port: 9098
 

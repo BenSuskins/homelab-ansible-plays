@@ -92,6 +92,7 @@
       scheme: http
       secured: true
       homepage: true
+      proxied: true
       metrics_enabled: true
       metrics_port: 8080
 

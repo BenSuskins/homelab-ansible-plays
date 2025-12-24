@@ -41,6 +41,7 @@
       scheme: http
       secured: true
       homepage: true
+      proxied: true
 
 - name: PLEX - Append to docker_services
   ansible.builtin.set_fact:

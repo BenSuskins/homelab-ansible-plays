@@ -23,6 +23,7 @@
       port: 3003
       scheme: http
       secured: false
+      proxied: true
 
 - name: PUBGOLF - Append to docker_services
   ansible.builtin.set_fact:

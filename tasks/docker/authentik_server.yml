@@ -50,6 +50,7 @@
       port: 9000
       scheme: http
       homepage: true
+      proxied: true
       metrics_enabled: true
       metrics_port: 9300
 

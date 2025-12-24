@@ -84,7 +84,7 @@ Each service entry is a unified definition that controls Homepage, Traefik, Gatu
 | Variable | Type | Default | Description |
 |----------|------|---------|-------------|
 | `homepage` | boolean | `false` | Show on Homepage dashboard |
-| `proxied` | boolean | `true` | Include in Traefik routing (set `false` for internal/metrics-only services) |
+| `proxied` | boolean | `false` | Include in Traefik routing |
 | `middleware` | string | none | Additional Traefik middleware (e.g., `unifi-headers`) |
 
 #### Cloudflare DNS
@@ -121,6 +121,7 @@ Each service entry is a unified definition that controls Homepage, Traefik, Gatu
       scheme: http
       secured: true
       homepage: true                     # Optional: show on Homepage
+      proxied: true                      # Optional: include in Traefik routing
       exposed: true                      # Optional: create DNS record
       healthcheck_path: /health          # Optional: Gatus health check
       metrics_enabled: true              # Optional: Prometheus scraping
