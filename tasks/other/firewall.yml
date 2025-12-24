@@ -32,7 +32,7 @@
     - 8080 # Traefik
     - 9300 # Authentik Metrics
     - 9098 # Cadvisor
-    - 3100 # Promtail
+    - 3100 # Loki
     - 9000 # Authentik
 
 - name: Allow traffic from Docker Subnets to port 9000

@@ -95,6 +95,12 @@
       run_once: true
       tags: [dns]
 
+    - name: UPDATE - Generate README
+      ansible.builtin.include_tasks:
+        file: "../tasks/other/generate_readme.yml"
+      run_once: true
+      tags: [docs]
+
     - name: UPDATE - Set reboot_required if important tasks changed
       ansible.builtin.set_fact:
         reboot_required: true
