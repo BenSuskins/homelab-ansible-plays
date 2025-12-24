@@ -20,7 +20,7 @@
 - name: CADVISOR - Define service entry
   ansible.builtin.set_fact:
     cadvisor_entry:
-      name: cadvisor
+      name: cadvisor-{{ friendly_name }}
       host: cadvisor.suskins.co.uk
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
