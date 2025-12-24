@@ -42,36 +42,46 @@
 
         - name: UPDATE - Stop all running containers
           community.docker.docker_container:
-            name: "{{ item }}"
+            name: "{{ container_name }}"
             state: stopped
           loop: "{{ docker_containers.stdout_lines | default([]) }}"
+          loop_control:
+            loop_var: container_name
           when: docker_containers.stdout_lines is defined and docker_containers.stdout_lines | length > 0
           register: stop_results
 
         - name: UPDATE - Update Core Docker Containers
           ansible.builtin.include_tasks:
-            file: "../tasks/docker/{{ item }}.yml"
+            file: "../tasks/docker/{{ container }}.yml"
           loop: "{{ core_containers | default([]) }}"
+          loop_control:
+            loop_var: container
           register: core_results
 
         - name: UPDATE - Update Docker Containers
           ansible.builtin.include_tasks:
-            file: "../tasks/docker/{{ item }}.yml"
+            file: "../tasks/docker/{{ container }}.yml"
           loop: "{{ containers | default([]) }}"
+          loop_control:
+            loop_var: container
           register: containers_results
 
         - name: UPDATE - Update Special Containers
           ansible.builtin.include_tasks:
-            file: "../tasks/docker/{{ item }}.yml"
+            file: "../tasks/docker/{{ container }}.yml"
           loop: "{{ special_containers | default([]) }}"
+          loop_control:
+            loop_var: container
           register: special_results
 
         - name: UPDATE - Remove stopped containers not wanted
           community.docker.docker_container:
-            name: "{{ item }}"
+            name: "{{ container_name }}"
             state: absent
           loop: "{{ docker_containers.stdout_lines | default([]) }}"
-          when: item not in (containers | default([]) + core_containers | default([]) + special_containers | default([]))
+          loop_control:
+            loop_var: container_name
+          when: container_name not in (containers | default([]) + core_containers | default([]) + special_containers | default([]))
           register: remove_results
       rescue:
         - name: UPDATE - Report docker failure

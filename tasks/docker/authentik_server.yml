@@ -43,7 +43,7 @@
   ansible.builtin.set_fact:
     authentik_entry:
       name: authentik
-      host: authentik.suskins.co.uk
+      host: "authentik.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       secured: false

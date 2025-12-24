@@ -33,7 +33,7 @@
   ansible.builtin.set_fact:
     sonarr_entry:
       name: sonarr
-      host: sonarr.suskins.co.uk
+      host: "sonarr.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 8989

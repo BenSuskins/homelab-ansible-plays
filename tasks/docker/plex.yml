@@ -33,7 +33,7 @@
   ansible.builtin.set_fact:
     plex_entry:
       name: plex
-      host: plex.suskins.co.uk
+      host: "plex.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 32400

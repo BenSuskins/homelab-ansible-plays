@@ -32,7 +32,7 @@
   ansible.builtin.set_fact:
     profilarr_entry:
       name: profilarr
-      host: profilarr.suskins.co.uk
+      host: "profilarr.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 6868

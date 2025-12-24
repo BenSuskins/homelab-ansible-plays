@@ -39,7 +39,7 @@ core_containers:
 static_services:
   # Bolsters
   - name: Home
-    host: home.suskins.co.uk
+    host: "home.{{ domain }}"
     ip: 192.168.0.102
     port: 3000
     scheme: http
@@ -48,7 +48,7 @@ static_services:
 
   - name: Gatus
     ip: 192.168.0.104
-    host: gatus.suskins.co.uk
+    host: "gatus.{{ domain }}"
     port: 8080
     scheme: http
     secured: true
@@ -57,7 +57,7 @@ static_services:
 
   # Proxmox
   - name: proxmox
-    host: pve.suskins.co.uk
+    host: "pve.{{ domain }}"
     ip: 192.168.0.253
     port: 8006
     scheme: https
@@ -67,7 +67,7 @@ static_services:
 
   # Unifi
   - name: unifi
-    host: unifi.suskins.co.uk
+    host: "unifi.{{ domain }}"
     ip: 192.168.0.1
     port: 443
     scheme: https
@@ -78,7 +78,7 @@ static_services:
 
   # NAS
   - name: truenas
-    host: nas.suskins.co.uk
+    host: "nas.{{ domain }}"
     ip: 192.168.0.100
     port: 443
     scheme: https
@@ -88,7 +88,7 @@ static_services:
 
   # Home Assistant
   - name: homeassistant
-    host: homeassistant.suskins.co.uk
+    host: "homeassistant.{{ domain }}"
     ip: 192.168.0.65
     port: 8123
     scheme: http
@@ -98,7 +98,7 @@ static_services:
 
   # Games
   - name: games
-    host: games.suskins.co.uk
+    host: "games.{{ domain }}"
     ip: 192.168.0.202
     port: 80
     scheme: http
@@ -107,7 +107,7 @@ static_services:
     proxied: true
 
   - name: starscream
-    host: starscream.suskins.co.uk
+    host: "starscream.{{ domain }}"
     ip: 192.168.0.125
     port: 8080
     scheme: http
@@ -115,7 +115,7 @@ static_services:
     proxied: true
 
   - name: minecraft
-    host: minecraft.suskins.co.uk
+    host: "minecraft.{{ domain }}"
     ip: 192.168.0.125
     port: 25566
     scheme: http

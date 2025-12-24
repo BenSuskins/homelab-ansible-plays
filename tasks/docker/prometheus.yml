@@ -50,7 +50,7 @@
   ansible.builtin.set_fact:
     prometheus_entry:
       name: prometheus
-      host: prometheus.suskins.co.uk
+      host: "prometheus.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 9090

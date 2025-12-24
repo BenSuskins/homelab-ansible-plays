@@ -32,7 +32,7 @@
   ansible.builtin.set_fact:
     grocy_entry:
       name: grocy
-      host: grocy.suskins.co.uk
+      host: "grocy.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 9283

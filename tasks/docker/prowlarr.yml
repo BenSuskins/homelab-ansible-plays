@@ -32,7 +32,7 @@
   ansible.builtin.set_fact:
     prowlarr_entry:
       name: prowlarr
-      host: prowlarr.suskins.co.uk
+      host: "prowlarr.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 9696
