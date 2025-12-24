@@ -40,6 +40,7 @@
       healthcheck_path: '/identity'
       scheme: http
       secured: true
+      healthcheck: true
       homepage: true
       proxied: true
 

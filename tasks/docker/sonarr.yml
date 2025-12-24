@@ -39,6 +39,7 @@
       port: 8989
       scheme: http
       secured: true
+      healthcheck: true
       homepage: true
       proxied: true
 

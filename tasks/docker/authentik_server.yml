@@ -47,6 +47,7 @@
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       secured: false
+      healthcheck: true
       port: 9000
       scheme: http
       homepage: true

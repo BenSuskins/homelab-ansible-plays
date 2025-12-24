@@ -40,6 +40,7 @@
       port: 80
       scheme: http
       secured: false
+      healthcheck: true
       homepage: true
       proxied: true
 

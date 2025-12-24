@@ -50,6 +50,7 @@
       port: 9925
       scheme: http
       secured: true
+      healthcheck: true
       homepage: true
       proxied: true
 

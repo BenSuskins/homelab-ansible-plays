@@ -39,6 +39,7 @@
       port: 7878
       scheme: http
       secured: true
+      healthcheck: true
       homepage: true
       proxied: true
 

@@ -12,6 +12,7 @@ alerting:
 
 endpoints:
 {% for svc in monitored_services %}
+{% if svc.healthcheck | default(false) %}
 {% set path = (svc.healthcheck_path | default('')) %}
 {% if path != '' and not path.startswith('/') %}{% set path = '/' ~ path %}{% endif %}
 {% set url = "http://" ~ svc.ip ~ ":" ~ svc.port ~ path %}
@@ -22,6 +23,7 @@ endpoints:
       - "[STATUS] == 200"
     alerts:
       - type: discord
+{% endif %}
 {% endfor %}
   - name: pelican
     url: http://192.168.0.202

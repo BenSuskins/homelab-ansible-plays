@@ -38,6 +38,7 @@
       port: 6868
       scheme: http
       secured: true
+      healthcheck: true
       homepage: true
       proxied: true
 

@@ -24,6 +24,7 @@
       port: 8080
       scheme: http
       secured: true
+      healthcheck: true
       homepage: true
       proxied: true
 

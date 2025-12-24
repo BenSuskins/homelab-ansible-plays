@@ -27,6 +27,8 @@
       port: 8080
       scheme: http
       secured: false
+      healthcheck: true
+      healthcheck_path: '/actuator/health'
       proxied: true
       metrics: true
       metrics_port: 8080

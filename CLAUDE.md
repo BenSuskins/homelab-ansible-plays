@@ -97,6 +97,7 @@ Each service entry is a unified definition that controls Homepage, Traefik, Gatu
 
 | Variable | Type | Default | Description |
 |----------|------|---------|-------------|
+| `healthcheck` | boolean | `false` | Enable Gatus health monitoring for this service |
 | `healthcheck_path` | string | none | Custom health endpoint path (e.g., `/health`, `/api/status`) |
 
 #### Prometheus Metrics
@@ -114,16 +115,17 @@ Each service entry is a unified definition that controls Homepage, Traefik, Gatu
   ansible.builtin.set_fact:
     myapp_entry:
       name: myapp
-      host: myapp.suskins.co.uk
+      host: "myapp.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 8080
       scheme: http
       secured: true
+      healthcheck: true                  # Optional: enable Gatus monitoring
+      healthcheck_path: /health          # Optional: custom health endpoint
       homepage: true                     # Optional: show on Homepage
       proxied: true                      # Optional: include in Traefik routing
       exposed: true                      # Optional: create DNS record
-      healthcheck_path: /health          # Optional: Gatus health check
       metrics: true              # Optional: Prometheus scraping
       metrics_port: 9090                 # Optional: if metrics on different port
       metrics_path: /actuator/prometheus # Optional: custom metrics path

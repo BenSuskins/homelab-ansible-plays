@@ -38,6 +38,7 @@
       port: 5055
       scheme: http
       secured: true
+      healthcheck: true
       homepage: true
       proxied: true
 
