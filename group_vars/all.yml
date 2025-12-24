@@ -62,6 +62,7 @@ static_services:
     port: 8006
     scheme: https
     secured: false
+    healthcheck: true
     homepage: true
     proxied: true
 
@@ -73,6 +74,7 @@ static_services:
     scheme: https
     middleware: unifi-headers
     secured: false
+    healthcheck: true
     homepage: true
     proxied: true
 
@@ -83,6 +85,7 @@ static_services:
     port: 443
     scheme: https
     secured: false
+    healthcheck: true
     homepage: true
     proxied: true
 
@@ -93,6 +96,7 @@ static_services:
     port: 8123
     scheme: http
     secured: false
+    healthcheck: true
     homepage: true
     proxied: true
 
@@ -102,6 +106,7 @@ static_services:
     ip: 192.168.0.202
     port: 80
     scheme: http
+    healthcheck: true
     secured: true
     homepage: true
     proxied: true
@@ -119,6 +124,7 @@ static_services:
     ip: 192.168.0.125
     port: 25566
     scheme: http
+    healthcheck: true
     secured: true
     homepage: true
     proxied: true
