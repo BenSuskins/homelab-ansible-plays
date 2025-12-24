@@ -27,7 +27,7 @@
       port: 9098
       scheme: http
       secured: false
-      metrics_enabled: true
+      metrics: true
       metrics_port: 9098
 
 - name: CADVISOR - Append to docker_services

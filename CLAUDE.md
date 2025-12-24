@@ -103,7 +103,7 @@ Each service entry is a unified definition that controls Homepage, Traefik, Gatu
 
 | Variable | Type | Default | Description |
 |----------|------|---------|-------------|
-| `metrics_enabled` | boolean | `false` | Enable Prometheus scraping for this service |
+| `metrics` | boolean | `false` | Enable Prometheus scraping for this service |
 | `metrics_port` | integer | `port` | Port exposing metrics (if different from service port) |
 | `metrics_path` | string | `/metrics` | Metrics endpoint path |
 
@@ -124,7 +124,7 @@ Each service entry is a unified definition that controls Homepage, Traefik, Gatu
       proxied: true                      # Optional: include in Traefik routing
       exposed: true                      # Optional: create DNS record
       healthcheck_path: /health          # Optional: Gatus health check
-      metrics_enabled: true              # Optional: Prometheus scraping
+      metrics: true              # Optional: Prometheus scraping
       metrics_port: 9090                 # Optional: if metrics on different port
       metrics_path: /actuator/prometheus # Optional: custom metrics path
 

@@ -6,7 +6,7 @@ rule_files:
 
 scrape_configs:
 {% for svc in all_docker_services %}
-{% if svc.metrics_enabled | default(false) %}
+{% if svc.metrics | default(false) %}
   - job_name: "{{ svc.name }}"
     scrape_interval: 60s
 {% if svc.metrics_path is defined %}

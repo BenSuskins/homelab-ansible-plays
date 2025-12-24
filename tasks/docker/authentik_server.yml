@@ -51,7 +51,7 @@
       scheme: http
       homepage: true
       proxied: true
-      metrics_enabled: true
+      metrics: true
       metrics_port: 9300
 
 - name: AUTHENTIK - Append to docker_services

@@ -49,7 +49,7 @@
       secured: true
       homepage: true
       proxied: true
-      metrics_enabled: true
+      metrics: true
       metrics_port: 8080
 
 - name: GATUS - Append to docker_services
