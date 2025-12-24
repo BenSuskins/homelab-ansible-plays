@@ -48,6 +48,7 @@
       friendly_name: "{{ friendly_name }}"
       secured: false
       healthcheck: true
+      exposed: true
       port: 9000
       scheme: http
       homepage: true
