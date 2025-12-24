@@ -1,4 +1,4 @@
-{% set services = static_services + all_services %}
+{% set services = static_services + (all_services | selectattr('proxied', 'undefined') | list) + (all_services | selectattr('proxied', 'defined') | selectattr('proxied') | list) %}
 
 ################################################################
 # HTTP Configuration (Routers & Services)

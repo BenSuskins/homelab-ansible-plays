@@ -39,7 +39,7 @@
       port: 7878
       scheme: http
       secured: true
-      hidden: false
+      homepage: true
 
 - name: RADARR - Append to docker_services
   ansible.builtin.set_fact:

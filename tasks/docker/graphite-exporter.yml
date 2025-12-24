@@ -115,7 +115,7 @@
       port: 9108
       scheme: http
       secured: false
-      hidden: true
+      proxied: false
       metrics_enabled: true
       metrics_port: 9108
 

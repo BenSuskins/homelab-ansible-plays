@@ -38,7 +38,7 @@
       port: 6868
       scheme: http
       secured: true
-      hidden: false
+      homepage: true
 
 - name: PROFILARR - Append to docker_services
   ansible.builtin.set_fact:

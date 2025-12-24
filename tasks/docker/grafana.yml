@@ -75,7 +75,7 @@
       healthcheck_path: '/api/health'
       scheme: http
       secured: true
-      hidden: false
+      homepage: true
 
 - name: GRAFANA - Append to docker_services
   ansible.builtin.set_fact:

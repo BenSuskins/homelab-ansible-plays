@@ -78,12 +78,13 @@ Each service entry is a unified definition that controls Homepage, Traefik, Gatu
 | `port` | integer | Primary service port |
 | `scheme` | string | Protocol: `http` or `https` |
 | `secured` | boolean | Requires Authentik authentication via Traefik middleware |
-| `hidden` | boolean | Hide from Homepage dashboard |
 
 #### Optional Fields
 
 | Variable | Type | Default | Description |
 |----------|------|---------|-------------|
+| `homepage` | boolean | `false` | Show on Homepage dashboard |
+| `proxied` | boolean | `true` | Include in Traefik routing (set `false` for internal/metrics-only services) |
 | `middleware` | string | none | Additional Traefik middleware (e.g., `unifi-headers`) |
 
 #### Cloudflare DNS
@@ -119,7 +120,7 @@ Each service entry is a unified definition that controls Homepage, Traefik, Gatu
       port: 8080
       scheme: http
       secured: true
-      hidden: false
+      homepage: true                     # Optional: show on Homepage
       exposed: true                      # Optional: create DNS record
       healthcheck_path: /health          # Optional: Gatus health check
       metrics_enabled: true              # Optional: Prometheus scraping

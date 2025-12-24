@@ -44,7 +44,6 @@ static_services:
     port: 3000
     scheme: http
     secured: true
-    hidden: true
 
   - name: Gatus
     ip: 192.168.0.104
@@ -52,7 +51,6 @@ static_services:
     port: 8080
     scheme: http
     secured: true
-    hidden: true
 
   # Proxmox
   - name: proxmox
@@ -61,7 +59,7 @@ static_services:
     port: 8006
     scheme: https
     secured: false
-    hidden: false
+    homepage: true
 
   # Unifi
   - name: unifi
@@ -71,7 +69,7 @@ static_services:
     scheme: https
     middleware: unifi-headers
     secured: false
-    hidden: false
+    homepage: true
 
   # NAS
   - name: truenas
@@ -80,7 +78,7 @@ static_services:
     port: 443
     scheme: https
     secured: false
-    hidden: false
+    homepage: true
 
   # Home Assistant
   - name: homeassistant
@@ -89,7 +87,7 @@ static_services:
     port: 8123
     scheme: http
     secured: false
-    hidden: false
+    homepage: true
 
   # Games
   - name: games
@@ -98,7 +96,7 @@ static_services:
     port: 80
     scheme: http
     secured: true
-    hidden: false
+    homepage: true
 
   - name: starscream
     host: starscream.suskins.co.uk
@@ -106,7 +104,6 @@ static_services:
     port: 8080
     scheme: http
     secured: false
-    hidden: true
 
   - name: minecraft
     host: minecraft.suskins.co.uk
@@ -114,7 +111,7 @@ static_services:
     port: 25566
     scheme: http
     secured: true
-    hidden: false
+    homepage: true
 
   # Pubgolf
   - name: pubgolf
@@ -123,7 +120,6 @@ static_services:
     port: 3003
     scheme: http
     secured: false
-    hidden: true
 
   - name: pubgolf-api
     host: api.pubgolf.me
@@ -131,4 +127,3 @@ static_services:
     port: 8080
     scheme: http
     secured: false
-    hidden: true

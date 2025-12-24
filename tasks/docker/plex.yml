@@ -40,7 +40,7 @@
       healthcheck_path: '/identity'
       scheme: http
       secured: true
-      hidden: false
+      homepage: true
 
 - name: PLEX - Append to docker_services
   ansible.builtin.set_fact:

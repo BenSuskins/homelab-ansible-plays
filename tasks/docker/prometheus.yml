@@ -56,7 +56,7 @@
       port: 9090
       scheme: http
       secured: true
-      hidden: false
+      homepage: true
 
 - name: PROMETHEUS - Append to docker_services
   ansible.builtin.set_fact:

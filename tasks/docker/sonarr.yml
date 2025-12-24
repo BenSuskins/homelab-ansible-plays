@@ -39,7 +39,7 @@
       port: 8989
       scheme: http
       secured: true
-      hidden: false
+      homepage: true
 
 - name: SONARR - Append to docker_services
   ansible.builtin.set_fact:

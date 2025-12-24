@@ -50,7 +50,7 @@
       port: 9925
       scheme: http
       secured: true
-      hidden: false
+      homepage: true
 
 - name: MEALIE - Append to docker_services
   ansible.builtin.set_fact:

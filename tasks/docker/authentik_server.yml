@@ -49,7 +49,7 @@
       secured: false
       port: 9000
       scheme: http
-      hidden: false
+      homepage: true
       metrics_enabled: true
       metrics_port: 9300
 

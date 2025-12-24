@@ -91,7 +91,7 @@
       port: 8080
       scheme: http
       secured: true
-      hidden: false
+      homepage: true
       metrics_enabled: true
       metrics_port: 8080
 

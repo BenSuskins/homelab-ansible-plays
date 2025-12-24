@@ -37,7 +37,7 @@
       port: 8081
       scheme: http
       secured: true
-      hidden: false
+      homepage: true
 
 - name: METUBE - Append to docker_services
   ansible.builtin.set_fact:

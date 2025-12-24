@@ -27,7 +27,7 @@
       port: 8080
       scheme: http
       secured: false
-      hidden: true
+      proxied: false
       metrics_enabled: true
       metrics_port: 8080
       metrics_path: /actuator/prometheus
