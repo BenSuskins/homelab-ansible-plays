@@ -53,6 +53,7 @@ static_services:
     scheme: http
     secured: true
     proxied: true
+    homepage: true
 
   # Proxmox
   - name: proxmox
