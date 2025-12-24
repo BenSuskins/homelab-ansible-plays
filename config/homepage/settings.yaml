@@ -31,32 +31,32 @@ quicklaunch:
 layout:
   Developer:
     icon: mdi-code-json
-    tab: First
+    tab: Homelab
     header: false
     style: row
     columns: 6
   Media Server:
     icon: mdi-play-pause
-    tab: First
+    tab: Homelab
     style: row
     columns: 4
   Docker Server:
     icon: si-docker
-    tab: First
+    tab: Homelab
     style: row
     columns: 4
   Monitoring Server:
     icon: mdi-chart-multiple
-    tab: First
+    tab: Homelab
     style: row
     columns: 4
   Development Server:
     icon: mdi-code-json
-    tab: First
+    tab: Homelab
     style: row
     columns: 4
   General:
     icon: mdi-server
-    tab: First
+    tab: Homelab
     style: row
     columns: 4
