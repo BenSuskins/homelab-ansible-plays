@@ -7,7 +7,6 @@ special_containers:
 containers:
   - grocy
   - mealie
-  - postgres
   - pubgolf-postgres
   - pubgolf-backend
   - pubgolf-frontend

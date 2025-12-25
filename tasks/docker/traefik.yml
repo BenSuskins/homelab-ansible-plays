@@ -57,6 +57,8 @@
     dest: "{{ base_dir }}/traefik/dynamic/http.yml"
     owner: "{{ username }}"
     group: "{{ username }}"
+  vars:
+    all_services: "{{ all_docker_services }}"
 
 - name: TRAEFIK - Deploy container
   community.docker.docker_container:
