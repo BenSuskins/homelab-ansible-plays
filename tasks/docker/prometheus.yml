@@ -21,8 +21,6 @@
     dest: "{{ base_dir }}/prometheus/config/prometheus.yml"
     owner: "{{ username }}"
     group: "{{ username }}"
-  vars:
-    all_docker_services: "{{ all_docker_services }}"
 
 - name: PROMETHEUS - Create alert rules
   ansible.builtin.copy:

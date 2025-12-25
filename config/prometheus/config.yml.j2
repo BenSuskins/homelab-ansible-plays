@@ -5,7 +5,7 @@ rule_files:
   - "alerts.rule.yml"
 
 scrape_configs:
-{% for svc in all_docker_services %}
+{% for svc in all_services %}
 {% if svc.metrics | default(false) %}
   - job_name: "{{ svc.name }}"
     scrape_interval: 60s
