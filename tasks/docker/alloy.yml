@@ -117,7 +117,7 @@
 - name: ALLOY - Define service entry
   ansible.builtin.set_fact:
     alloy_entry:
-      name: alloy-{{ friendly_name }}
+      name: alloy
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
 
