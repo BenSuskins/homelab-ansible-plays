@@ -40,6 +40,7 @@ static_services:
   - name: home
     host: "home.{{ domain }}"
     ip: 192.168.0.102
+    friendly_name: Docker Server
     port: 3000
     scheme: http
     secured: true
@@ -48,6 +49,7 @@ static_services:
   - name: gatus
     ip: 192.168.0.104
     host: "gatus.{{ domain }}"
+    friendly_name: Monitor Server
     port: 8080
     scheme: http
     secured: true
@@ -58,6 +60,7 @@ static_services:
   - name: proxmox
     host: "pve.{{ domain }}"
     ip: 192.168.0.253
+    friendly_name: General
     port: 8006
     scheme: https
     secured: false
@@ -69,6 +72,7 @@ static_services:
   - name: unifi
     host: "unifi.{{ domain }}"
     ip: 192.168.0.1
+    friendly_name: General
     port: 443
     scheme: https
     middleware: unifi-headers
@@ -81,6 +85,7 @@ static_services:
   - name: truenas
     host: "nas.{{ domain }}"
     ip: 192.168.0.100
+    friendly_name: General
     port: 443
     scheme: https
     secured: false
@@ -92,6 +97,7 @@ static_services:
   - name: homeassistant
     host: "homeassistant.{{ domain }}"
     ip: 192.168.0.65
+    friendly_name: General
     port: 8123
     scheme: http
     secured: false
@@ -103,6 +109,7 @@ static_services:
   - name: games
     host: "games.{{ domain }}"
     ip: 192.168.0.202
+    friendly_name: Games
     port: 80
     scheme: http
     healthcheck: true
@@ -113,6 +120,7 @@ static_services:
   - name: starscream
     host: "starscream.{{ domain }}"
     ip: 192.168.0.125
+    friendly_name: Games
     port: 8080
     scheme: http
     secured: false
@@ -121,6 +129,7 @@ static_services:
   - name: minecraft
     host: "minecraft.{{ domain }}"
     ip: 192.168.0.125
+    friendly_name: Games
     port: 25566
     scheme: http
     healthcheck: true

@@ -72,17 +72,17 @@ Each service entry is a unified definition that controls Homepage, Traefik, Gatu
 | Variable | Type | Description |
 |----------|------|-------------|
 | `name` | string | Service identifier, used for container name |
-| `host` | string | Full hostname for Traefik routing (e.g., `myapp.suskins.co.uk`) |
 | `ip` | string | Host IP address, typically `{{ inventory_hostname }}` |
 | `friendly_name` | string | Group name for Homepage display, typically `{{ friendly_name }}` |
-| `port` | integer | Primary service port |
-| `scheme` | string | Protocol: `http` or `https` |
-| `secured` | boolean | Requires Authentik authentication via Traefik middleware |
 
 #### Optional Fields
 
 | Variable | Type | Default | Description |
 |----------|------|---------|-------------|
+| `host` | string | none | Full hostname for Traefik routing (e.g., `myapp.suskins.co.uk`) |
+| `port` | integer | none | Primary service port |
+| `scheme` | string | none | Protocol: `http` or `https` |
+| `secured` | boolean | `false` | Requires Authentik authentication via Traefik middleware |
 | `homepage` | boolean | `false` | Show on Homepage dashboard |
 | `proxied` | boolean | `false` | Include in Traefik routing |
 | `middleware` | string | none | Additional Traefik middleware (e.g., `unifi-headers`) |
@@ -106,7 +106,7 @@ Each service entry is a unified definition that controls Homepage, Traefik, Gatu
 |----------|------|---------|-------------|
 | `metrics` | boolean | `false` | Enable Prometheus scraping for this service |
 | `metrics_port` | integer | `port` | Port exposing metrics (if different from service port) |
-| `metrics_path` | string | `/metrics` | Metrics endpoint path |
+| `metrics_path` | string | none | Metrics endpoint path (Prometheus assumes `/metrics` if not specified) |
 
 #### Example Service Entry
 
