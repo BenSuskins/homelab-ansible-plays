@@ -60,6 +60,7 @@
         external_labels = {}
       }
 
+      // Container metrics (replaces cadvisor)
       prometheus.exporter.cadvisor "containers" {
         docker_host      = "unix:///var/run/docker.sock"
         storage_duration = "5m"
@@ -67,6 +68,19 @@
 
       prometheus.scrape "cadvisor" {
         targets         = prometheus.exporter.cadvisor.containers.targets
+        forward_to      = [prometheus.remote_write.default.receiver]
+        scrape_interval = "60s"
+      }
+
+      // Host metrics (replaces node_exporter)
+      prometheus.exporter.unix "host" {
+        procfs_path = "/host/proc"
+        sysfs_path  = "/host/sys"
+        rootfs_path = "/rootfs"
+      }
+
+      prometheus.scrape "unix" {
+        targets         = prometheus.exporter.unix.host.targets
         forward_to      = [prometheus.remote_write.default.receiver]
         scrape_interval = "60s"
       }
@@ -95,7 +109,8 @@
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "/:/rootfs:ro"
       - "/var/run:/var/run:ro"
-      - "/sys:/sys:ro"
+      - "/sys:/host/sys:ro"
+      - "/proc:/host/proc:ro"
       - "/var/lib/docker/:/var/lib/docker:ro"
       - "/dev/disk/:/dev/disk:ro"
 
