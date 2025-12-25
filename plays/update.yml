@@ -28,9 +28,8 @@
       tags: [packages]
 
     - name: UPDATE - Update firewall
-      ansible.builtin.include_tasks:
-        file: "../tasks/other/firewall.yml"
-      register: firewall_results
+      ansible.builtin.include_role:
+        name: firewall
       when: firewall | default(false) | bool
       tags: [firewall]
 
@@ -40,29 +39,17 @@
           ansible.builtin.set_fact:
             expected_containers: "{{ (containers | default([])) + (core_containers | default([])) + (special_containers | default([])) }}"
 
-        - name: UPDATE - Update Core Docker Containers
-          ansible.builtin.include_tasks:
-            file: "../tasks/docker/{{ container }}.yml"
+        - name: UPDATE - Update core containers
+          ansible.builtin.include_role:
+            name: container
+          vars: "{{ core_container_definitions[item] }}"
           loop: "{{ core_containers | default([]) }}"
-          loop_control:
-            loop_var: container
-          register: core_results
 
-        - name: UPDATE - Update Docker Containers
-          ansible.builtin.include_tasks:
-            file: "../tasks/docker/{{ container }}.yml"
+        - name: UPDATE - Update regular containers
+          ansible.builtin.include_role:
+            name: container
+          vars: "{{ container_definitions[item] }}"
           loop: "{{ containers | default([]) }}"
-          loop_control:
-            loop_var: container
-          register: containers_results
-
-        - name: UPDATE - Update Special Containers
-          ansible.builtin.include_tasks:
-            file: "../tasks/docker/{{ container }}.yml"
-          loop: "{{ special_containers | default([]) }}"
-          loop_control:
-            loop_var: container
-          register: special_results
 
         - name: UPDATE - Get all containers
           community.docker.docker_host_info:
@@ -77,39 +64,47 @@
           loop_control:
             label: "{{ item.Names[0] | default('unknown') }}"
           when: (item.Names[0] | regex_replace('^/', '')) not in expected_containers
-          register: remove_results
-      rescue:
-        - name: UPDATE - Report docker failure
-          ansible.builtin.fail:
-            msg: "Docker operations failed"
       tags: [docker]
 
+- name: UPDATE - Deploy special containers
+  hosts: all
+  become: true
+  become_method: ansible.builtin.su
+  vars_files:
+    - "~/.ansible/vault.yml"
+
+  tasks:
+    - name: UPDATE - Deploy Traefik
+      ansible.builtin.include_role:
+        name: traefik
+      when: "'traefik' in (special_containers | default([]))"
+      tags: [docker, special]
+
+    - name: UPDATE - Deploy Prometheus
+      ansible.builtin.include_role:
+        name: prometheus
+      when: "'prometheus' in (special_containers | default([]))"
+      tags: [docker, special]
+
+    - name: UPDATE - Deploy Gatus
+      ansible.builtin.include_role:
+        name: gatus
+      when: "'gatus' in (special_containers | default([]))"
+      tags: [docker, special]
+
+    - name: UPDATE - Deploy Homepage
+      ansible.builtin.include_role:
+        name: homepage
+      when: "'homepage' in (special_containers | default([]))"
+      tags: [docker, special]
+
     - name: UPDATE - Update Cloudflare DNS records
-      ansible.builtin.include_tasks:
-        file: "../tasks/other/cloudflare_cnames.yml"
+      ansible.builtin.include_role:
+        name: cloudflare_dns
       run_once: true
       tags: [dns]
 
-    - name: UPDATE - Generate README
-      ansible.builtin.include_tasks:
-        file: "../tasks/other/generate_readme.yml"
-      run_once: true
-      tags: [docs]
-
-    - name: UPDATE - Set reboot_required if important tasks changed
-      ansible.builtin.set_fact:
-        reboot_required: true
-      when: >
-        (apt_update_res.changed | default(false)) or
-        (apt_upgrade_res.changed | default(false)) or
-        (firewall_results.changed | default(false)) or
-        (core_results.changed | default(false)) or
-        (containers_results.changed | default(false)) or
-        (special_results.changed | default(false)) or
-        (remove_results.changed | default(false))
-      tags: [reboot]
-
-    - name: UPDATE - Reboot server
+    - name: UPDATE - Reboot server if needed
       ansible.builtin.reboot:
         msg: "Rebooting server after update"
       when: reboot_required | default(false)

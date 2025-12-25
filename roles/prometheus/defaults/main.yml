@@ -1,0 +1,2 @@
+---
+prometheus_image: prom/prometheus:v3.8.1

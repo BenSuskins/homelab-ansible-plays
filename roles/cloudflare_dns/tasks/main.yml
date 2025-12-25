@@ -1,0 +1,21 @@
+---
+- name: Aggregate services from all hosts
+  ansible.builtin.include_role:
+    name: service_discovery
+    tasks_from: aggregate
+
+- name: Ensure CNAMEs for exposed services
+  vars:
+    services: "{{ all_services | default([]) }}"
+  loop: "{{ services }}"
+  loop_control:
+    loop_var: svc
+  when: "svc.exposed | default(false)"
+  community.general.cloudflare_dns:
+    zone: "{{ domain }}"
+    record: "{{ svc.host | regex_replace('\\.' ~ domain ~ '$', '') }}"
+    type: CNAME
+    value: "{{ domain }}"
+    proxied: true
+    api_token: "{{ CLOUDFLARE_API_TOKEN }}"
+  delegate_to: localhost

@@ -1,0 +1,39 @@
+---
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0750"
+  loop:
+    - "{{ base_dir }}/gatus"
+
+- name: Aggregate services from all hosts
+  ansible.builtin.include_role:
+    name: service_discovery
+    tasks_from: aggregate
+
+- name: Generate config
+  ansible.builtin.template:
+    src: config.yaml.j2
+    dest: "{{ base_dir }}/gatus/config.yaml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  vars:
+    monitored_services: "{{ all_services | default([]) }}"
+
+- name: Deploy container
+  community.docker.docker_container:
+    name: gatus
+    image: "{{ gatus_image }}"
+    restart_policy: always
+    state: started
+    pull: true
+    ports:
+      - "8080:8080"
+    networks:
+      - name: homelab
+    volumes:
+      - "{{ base_dir }}/gatus:/config"

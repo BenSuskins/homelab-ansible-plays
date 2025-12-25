@@ -33,35 +33,66 @@ For CI/CD, vault password is read from `~/.ansible_vault_pass` file.
 
 ### Inventory Structure
 - `inventory` - Defines 4 host groups: `mediaserver`, `docker`, `development`, `monitor`
-- `group_vars/all.yml` - Global variables (timezone, packages, static services)
-- `group_vars/<group>.yml` - Per-host variables including `base_dir` and `containers` list
+- `group_vars/all.yml` - Global variables (timezone, packages, static services, core_container_definitions)
+- `group_vars/<group>.yml` - Per-host variables including `base_dir`, `containers` list, and `container_definitions`
 
 ### Playbooks (`plays/`)
-- `setup.yml` - One-time host initialization (base packages, Docker install)
-- `deploy-containers.yml` - Deploys containers defined in each host's `containers` variable
-- `update.yml` - Full update cycle (apt, containers, special services like traefik/gatus/homepage)
+- `setup.yml` - One-time host initialization (uses common, docker, firewall roles)
+- `deploy-containers.yml` - Deploys containers using the container role
+- `update.yml` - Full update cycle (apt, containers, special services)
 - `clean.yml` - System cleanup (apt cache, journal logs, docker prune)
 
-### Task Organization
-- `tasks/core/` - Base setup tasks (base.yml, docker.yml)
-- `tasks/docker/` - One file per container (e.g., plex.yml, grafana.yml)
-- `tasks/other/` - Misc tasks (firewall.yml, cloudflare_cnames.yml)
+### Role Organization (`roles/`)
 
-### Container Task Pattern
+#### Infrastructure Roles
+- `common/` - Base system setup (packages, directories, NAS mount)
+- `docker/` - Docker installation and network setup
+- `firewall/` - UFW firewall configuration
 
-Each container task file in `tasks/docker/` follows a standard pattern:
-1. Create directory with permissions
-2. Create container using `community.docker.docker_container`
-3. Define service entry with metadata (name, ip, port, scheme, etc.)
-4. Append to `docker_services` list for Homepage integration
+#### Container Roles
+- `container/` - Generic container deployment role (replaces individual task files)
+- `service_discovery/` - Aggregates docker_services across all hosts
 
-Example structure:
+#### Special Container Roles (require aggregated services)
+- `traefik/` - Reverse proxy with dynamic routing config
+- `prometheus/` - Metrics collection with dynamic scrape config
+- `gatus/` - Health monitoring with dynamic endpoints
+- `homepage/` - Dashboard with dynamic service list
+- `cloudflare_dns/` - DNS CNAME management
+
+### Container Definition Pattern
+
+Containers are defined as data in `group_vars/<host>.yml` using `container_definitions`:
+
 ```yaml
-- name: Create directory
-- name: Create container
-- name: Define service entry (set_fact with name, ip, port, etc.)
-- name: Append to docker_services
+container_definitions:
+  myapp:
+    container_name: myapp
+    container_image: org/image:version
+    container_dirs:
+      - "{{ base_dir }}/myapp"
+    container_ports:
+      - "8080:8080"
+    container_volumes:
+      - "{{ base_dir }}/myapp:/config"
+    container_env:
+      PUID: "{{ puid | string }}"
+      TZ: "{{ timezone }}"
+    service_entry:
+      name: myapp
+      host: "myapp.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 8080
+      scheme: http
+      # ... other service metadata
 ```
+
+The `container` role handles:
+1. Creating directories with permissions
+2. Creating config files (if `container_config_files` is defined)
+3. Creating the Docker container
+4. Registering the service to `docker_services` list
 
 ### Service Entry Variables
 
@@ -137,13 +168,47 @@ Each service entry is a unified definition that controls Homepage, Traefik, Gatu
 
 ### Service Discovery
 
-The `docker_services` list is aggregated across all hosts via `tasks/core/aggregate_services.yml` and used to:
-- Auto-generate Homepage entries via `config/homepage/services.yaml.j2`
-- Configure Traefik routing via `config/traefik/dynamic/http.yml.j2`
-- Set up Gatus monitoring via `config/gatus/config.yaml.j2`
-- Generate Prometheus scrape configs via `config/prometheus/config.yml.j2`
-- Create Cloudflare DNS records via `tasks/other/cloudflare_cnames.yml`
+The `docker_services` list is aggregated across all hosts via the `service_discovery` role and used by special container roles to:
+- Auto-generate Homepage entries via `roles/homepage/templates/services.yaml.j2`
+- Configure Traefik routing via `roles/traefik/templates/http.yml.j2`
+- Set up Gatus monitoring via `roles/gatus/templates/config.yaml.j2`
+- Generate Prometheus scrape configs via `roles/prometheus/templates/config.yml.j2`
+- Create Cloudflare DNS records via the `cloudflare_dns` role
 
 ### Docker Image Updates
 
-Renovate monitors `tasks/docker/*.yml` for Docker image versions and creates PRs for updates. Images are pinned to specific versions (not `latest`).
+Renovate monitors `group_vars/*.yml` for Docker image versions in `container_definitions` and creates PRs for updates. Images are pinned to specific versions (not `latest`).
+
+### Adding a New Container
+
+1. Add the container name to the `containers` list in the appropriate `group_vars/<host>.yml`
+2. Add the container definition to `container_definitions` in the same file
+3. Run `ansible-playbook plays/deploy-containers.yml -K --ask-vault-pass`
+
+Example:
+```yaml
+containers:
+  - myapp  # Add to list
+
+container_definitions:
+  myapp:
+    container_name: myapp
+    container_image: org/image:1.0.0
+    container_dirs:
+      - "{{ base_dir }}/myapp"
+    container_ports:
+      - "8080:8080"
+    container_volumes:
+      - "{{ base_dir }}/myapp:/config"
+    container_env:
+      TZ: "{{ timezone }}"
+    service_entry:
+      name: myapp
+      host: "myapp.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 8080
+      scheme: http
+      homepage: true
+      proxied: true
+```

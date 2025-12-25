@@ -10,8 +10,298 @@ containers:
   - prowlarr
   - bazarr
   - gluetun
+  - qbittorrent  # Must come after gluetun (uses network_mode: container:gluetun)
   - metube
-  - qbittorrent
   - doplarr
   - open-books
   - profilarr
+
+container_definitions:
+  plex:
+    container_name: plex
+    container_image: ghcr.io/linuxserver/plex:1.42.2
+    container_dirs:
+      - "{{ base_dir }}/plex"
+    container_network_mode: host
+    container_volumes:
+      - "{{ base_dir }}/plex:/config"
+      - "/mnt/media:/media"
+    container_devices:
+      - /dev/dri:/dev/dri
+    container_env:
+      PUID: "{{ puid | string }}"
+      PGID: "{{ pgid | string }}"
+      TZ: "{{ timezone }}"
+      VERSION: "docker"
+    service_entry:
+      name: plex
+      host: "plex.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 32400
+      healthcheck_path: '/identity'
+      scheme: http
+      secured: true
+      healthcheck: true
+      homepage: true
+      proxied: true
+
+  sonarr:
+    container_name: sonarr
+    container_image: ghcr.io/linuxserver/sonarr:4.0.16
+    container_dirs:
+      - "{{ base_dir }}/sonarr"
+    container_ports:
+      - "8989:8989"
+    container_volumes:
+      - "{{ base_dir }}/sonarr:/config"
+      - "/mnt/media:/media"
+    container_env:
+      PUID: "{{ puid | string }}"
+      PGID: "{{ pgid | string }}"
+      TZ: "{{ timezone }}"
+    service_entry:
+      name: sonarr
+      host: "sonarr.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 8989
+      scheme: http
+      secured: true
+      healthcheck: true
+      homepage: true
+      proxied: true
+
+  radarr:
+    container_name: radarr
+    container_image: ghcr.io/linuxserver/radarr:5.28.0
+    container_dirs:
+      - "{{ base_dir }}/radarr"
+    container_ports:
+      - "7878:7878"
+    container_volumes:
+      - "{{ base_dir }}/radarr:/config"
+      - "/mnt/media:/media"
+    container_env:
+      PUID: "{{ puid | string }}"
+      PGID: "{{ pgid | string }}"
+      TZ: "{{ timezone }}"
+    service_entry:
+      name: radarr
+      host: "radarr.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 7878
+      scheme: http
+      secured: true
+      healthcheck: true
+      homepage: true
+      proxied: true
+
+  overseerr:
+    container_name: overseerr
+    container_image: sctx/overseerr:1.34.0
+    container_dirs:
+      - "{{ base_dir }}/overseerr"
+    container_ports:
+      - "5055:5055"
+    container_volumes:
+      - "{{ base_dir }}/overseerr:/app/config"
+    container_env:
+      PUID: "{{ puid | string }}"
+      PGID: "{{ pgid | string }}"
+      TZ: "{{ timezone }}"
+    service_entry:
+      name: overseerr
+      host: "overseerr.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 5055
+      scheme: http
+      secured: true
+      healthcheck: true
+      homepage: true
+      proxied: true
+
+  prowlarr:
+    container_name: prowlarr
+    container_image: ghcr.io/linuxserver/prowlarr:2.3.0
+    container_dirs:
+      - "{{ base_dir }}/prowlarr"
+    container_ports:
+      - "9696:9696"
+    container_volumes:
+      - "{{ base_dir }}/prowlarr:/config"
+    container_env:
+      PUID: "{{ puid | string }}"
+      PGID: "{{ pgid | string }}"
+      TZ: "{{ timezone }}"
+    service_entry:
+      name: prowlarr
+      host: "prowlarr.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 9696
+      scheme: http
+      secured: true
+      healthcheck: true
+      homepage: true
+      proxied: true
+
+  bazarr:
+    container_name: bazarr
+    container_image: ghcr.io/linuxserver/bazarr:1.5.3
+    container_dirs:
+      - "{{ base_dir }}/bazarr"
+    container_ports:
+      - "6767:6767"
+    container_volumes:
+      - "{{ base_dir }}/bazarr:/config"
+      - "/mnt/media:/media"
+    container_env:
+      PUID: "{{ puid | string }}"
+      PGID: "{{ pgid | string }}"
+      TZ: "{{ timezone }}"
+    service_entry:
+      name: bazarr
+      host: "bazarr.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 6767
+      scheme: http
+      secured: true
+      healthcheck: true
+      homepage: true
+      proxied: true
+
+  gluetun:
+    container_name: gluetun
+    container_image: qmcgaw/gluetun:v3.40.3
+    container_dirs:
+      - "{{ base_dir }}/gluetun"
+    container_capabilities:
+      - NET_ADMIN
+    container_devices:
+      - /dev/net/tun:/dev/net/tun
+    container_ports:
+      - "8888:8888/tcp"
+      - "8388:8388/tcp"
+      - "8388:8388/udp"
+      - "9091:9091"
+      - "51413:51413"
+      - "51413:51413/udp"
+    container_volumes:
+      - "{{ base_dir }}/gluetun:/gluetun"
+    container_env:
+      VPN_SERVICE_PROVIDER: "windscribe"
+      VPN_TYPE: "openvpn"
+      OPENVPN_USER: "{{ OPENVPN_USER }}"
+      OPENVPN_PASSWORD: "{{ OPENVPN_PASSWORD }}"
+      SERVER_REGIONS: "Netherlands"
+    register_service: false
+
+  qbittorrent:
+    container_name: qbittorrent
+    container_image: lscr.io/linuxserver/qbittorrent:5.1.4
+    container_dirs:
+      - "{{ base_dir }}/qbittorrent"
+    container_network_mode: container:gluetun
+    container_volumes:
+      - "{{ base_dir }}/qbittorrent:/config"
+      - "/mnt/media:/media"
+    container_env:
+      PUID: "{{ puid | string }}"
+      PGID: "{{ pgid | string }}"
+      TZ: "{{ timezone }}"
+      WEBUI_PORT: "9091"
+    service_entry:
+      name: qbittorrent
+      host: "qbittorrent.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 9091
+      scheme: http
+      secured: true
+      healthcheck: true
+      homepage: true
+      proxied: true
+
+  metube:
+    container_name: metube
+    container_image: ghcr.io/alexta69/metube:2025-03-07
+    container_dirs:
+      - "{{ base_dir }}/metube"
+    container_ports:
+      - "8081:8081"
+    container_volumes:
+      - "/mnt/media:/downloads"
+    container_env:
+      UID: "{{ puid | string }}"
+      GID: "{{ pgid | string }}"
+    service_entry:
+      name: metube
+      host: "metube.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 8081
+      scheme: http
+      secured: true
+      healthcheck: true
+      homepage: true
+      proxied: true
+
+  doplarr:
+    container_name: doplarr
+    container_image: ghcr.io/kiranshila/doplarr:v3.7.0
+    container_dirs:
+      - "{{ base_dir }}/doplarr"
+    container_env:
+      DISCORD__TOKEN: "{{ DISCORD__TOKEN }}"
+      OVERSEERR__URL: "http://{{ mediaserver_ip }}:5055"
+      OVERSEERR__API: "{{ OVERSEERR__API }}"
+    register_service: false
+
+  open-books:
+    container_name: open-books
+    container_image: evanbuss/openbooks:4.5.0
+    container_ports:
+      - "8080:80"
+    container_volumes:
+      - "/mnt/media/books:/books"
+    container_command: --persist -n CupcakeCreator
+    service_entry:
+      name: openbooks
+      host: "openbooks.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 8080
+      scheme: http
+      secured: true
+      healthcheck: true
+      homepage: true
+      proxied: true
+
+  profilarr:
+    container_name: profilarr
+    container_image: santiagosayshey/profilarr:v1.1.3
+    container_dirs:
+      - "{{ base_dir }}/profilarr"
+    container_ports:
+      - "6868:6868"
+    container_volumes:
+      - "{{ base_dir }}/profilarr:/config"
+    container_env:
+      PUID: "{{ puid | string }}"
+      PGID: "{{ pgid | string }}"
+      TZ: "{{ timezone }}"
+    service_entry:
+      name: profilarr
+      host: "profilarr.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 6868
+      scheme: http
+      secured: true
+      healthcheck: true
+      homepage: true
+      proxied: true

@@ -1,0 +1,49 @@
+---
+- name: "{{ container_name | upper }} - Create directories"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ container_dir_owner }}"
+    group: "{{ container_dir_group }}"
+    mode: "{{ container_dir_mode }}"
+  loop: "{{ container_dirs }}"
+  when: container_dirs | length > 0
+
+- name: "{{ container_name | upper }} - Create config files"
+  ansible.builtin.copy:
+    content: "{{ item.content }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ container_dir_owner }}"
+    group: "{{ container_dir_group }}"
+    mode: "{{ item.mode | default('0644') }}"
+  loop: "{{ container_config_files }}"
+  when: container_config_files | length > 0
+
+- name: "{{ container_name | upper }} - Create container"
+  community.docker.docker_container:
+    name: "{{ container_name }}"
+    image: "{{ container_image }}"
+    restart_policy: "{{ container_restart_policy }}"
+    state: "{{ container_state }}"
+    pull: "{{ container_pull }}"
+    network_mode: "{{ container_network_mode | default(omit) }}"
+    networks: "{{ container_networks if container_network_mode is none else omit }}"
+    ports: "{{ container_ports if container_ports | length > 0 else omit }}"
+    volumes: "{{ container_volumes if container_volumes | length > 0 else omit }}"
+    env: "{{ container_env if container_env | length > 0 else omit }}"
+    command: "{{ container_command | default(omit) }}"
+    entrypoint: "{{ container_entrypoint | default(omit) }}"
+    capabilities: "{{ container_capabilities if container_capabilities | length > 0 else omit }}"
+    devices: "{{ container_devices if container_devices | length > 0 else omit }}"
+    user: "{{ container_user | default(omit) }}"
+    memory: "{{ container_memory | default(omit) }}"
+    healthcheck: "{{ container_healthcheck | default(omit) }}"
+    labels: "{{ container_labels if container_labels | length > 0 else omit }}"
+
+- name: "{{ container_name | upper }} - Register service"
+  ansible.builtin.set_fact:
+    docker_services: "{{ docker_services + [service_entry] }}"
+  when:
+    - register_service | bool
+    - service_entry | length > 0

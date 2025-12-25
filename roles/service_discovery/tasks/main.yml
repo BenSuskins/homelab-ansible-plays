@@ -1,0 +1,4 @@
+---
+# Main entry point - includes aggregate task
+- name: Aggregate services from all hosts
+  ansible.builtin.include_tasks: aggregate.yml

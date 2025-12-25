@@ -1,0 +1,82 @@
+---
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0750"
+  loop:
+    - "{{ base_dir }}/traefik"
+    - "{{ base_dir }}/traefik/dynamic"
+    - "{{ base_dir }}/traefik/logs"
+
+- name: Aggregate services from all hosts
+  ansible.builtin.include_role:
+    name: service_discovery
+    tasks_from: aggregate
+
+- name: Deploy static config
+  ansible.builtin.copy:
+    src: traefik.toml
+    dest: "{{ base_dir }}/traefik/traefik.toml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: Deploy middleware configs
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ base_dir }}/traefik/dynamic/{{ item }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  loop:
+    - middlewares-authentik.toml
+    - middlewares-ratelimit.toml
+    - middlewares-unifi.toml
+    - ssl.toml
+
+- name: Generate dynamic HTTP config
+  ansible.builtin.template:
+    src: http.yml.j2
+    dest: "{{ base_dir }}/traefik/dynamic/http.yml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: Deploy container
+  community.docker.docker_container:
+    name: traefik
+    image: "{{ traefik_image }}"
+    restart_policy: always
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    command: --configFile=/config/traefik.yml
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - "{{ base_dir }}/traefik:/etc/traefik"
+      - "{{ base_dir }}/traefik/logs:/logs"
+    env:
+      TZ: "{{ timezone }}"
+
+- name: Register service
+  ansible.builtin.set_fact:
+    docker_services: "{{ docker_services + [traefik_service_entry] }}"
+  vars:
+    traefik_service_entry:
+      name: traefik
+      host: "traefik.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 8080
+      scheme: http
+      secured: true
+      healthcheck: true
+      homepage: true
+      proxied: true
+      metrics: true
+      metrics_port: 8080

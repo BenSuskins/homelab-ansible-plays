@@ -1,0 +1,15 @@
+---
+# Default packages to install
+packages:
+  - wget
+  - curl
+  - git
+  - qemu-guest-agent
+  - sudo
+  - ufw
+  - nfs-common
+
+# NAS mount settings
+mount_nas: false
+nas_ip: ""
+mediaserver_password: ""

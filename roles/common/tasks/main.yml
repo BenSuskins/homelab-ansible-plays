@@ -1,0 +1,46 @@
+---
+- name: Update apt packages
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+    upgrade: full
+  when: ansible_distribution in ["Ubuntu", "Debian"]
+
+- name: Install packages
+  ansible.builtin.package:
+    name: "{{ packages }}"
+    state: present
+
+- name: Start guest qemu-guest-agent
+  ansible.builtin.service:
+    name: qemu-guest-agent
+    state: started
+    enabled: true
+
+- name: Create base directory
+  ansible.builtin.file:
+    path: "{{ base_dir }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    recurse: true
+    mode: "0777"
+
+- name: Suppress login messages
+  ansible.builtin.file:
+    name: /home/{{ username }}/.hushlogin
+    mode: "0644"
+    state: touch
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    modification_time: preserve
+    access_time: preserve
+
+- name: Mount network drive
+  when: mount_nas | bool
+  ansible.posix.mount:
+    src: //{{ nas_ip }}/media
+    path: /mnt/media
+    fstype: cifs
+    opts: "vers=3.0,username=mediaserver,password={{ mediaserver_password }},uid=1000,gid=1000,rw,exec"
+    state: mounted

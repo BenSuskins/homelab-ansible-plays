@@ -1,0 +1,51 @@
+---
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0750"
+  loop:
+    - "{{ base_dir }}/homepage"
+
+- name: Aggregate services from all hosts
+  ansible.builtin.include_role:
+    name: service_discovery
+    tasks_from: aggregate
+
+- name: Deploy static config files
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ base_dir }}/homepage/{{ item }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  loop:
+    - bookmarks.yaml
+    - settings.yaml
+    - widgets.yaml
+    - custom.css
+
+- name: Generate services config
+  ansible.builtin.template:
+    src: services.yaml.j2
+    dest: "{{ base_dir }}/homepage/services.yaml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: Deploy container
+  community.docker.docker_container:
+    name: homepage
+    image: "{{ homepage_image }}"
+    restart_policy: always
+    state: started
+    pull: true
+    env:
+      HOMEPAGE_ALLOWED_HOSTS: "{{ docker_ip }}:3000,home.{{ domain }}"
+    networks:
+      - name: homelab
+    ports:
+      - "3000:3000"
+    volumes:
+      - "{{ base_dir }}/homepage:/app/config"

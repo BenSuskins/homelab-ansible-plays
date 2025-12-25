@@ -1,0 +1,22 @@
+global:
+  scrape_interval: 15s
+
+rule_files:
+  - "alerts.rule.yml"
+
+scrape_configs:
+{% for svc in all_services %}
+{% if svc.metrics | default(false) %}
+  - job_name: "{{ svc.name }}"
+    scrape_interval: 60s
+{% if svc.metrics_path is defined %}
+    metrics_path: {{ svc.metrics_path }}
+{% endif %}
+    static_configs:
+      - targets: ["{{ svc.ip }}:{{ svc.metrics_port | default(svc.port) }}"]
+{% endif %}
+{% endfor %}
+  - job_name: "prometheus"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ["localhost:9090"]

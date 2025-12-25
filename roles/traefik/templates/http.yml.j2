@@ -1,0 +1,38 @@
+{% set services = all_services | selectattr('proxied', 'defined') | selectattr('proxied') | list %}
+
+################################################################
+# HTTP Configuration (Routers & Services)
+################################################################
+http:
+  routers:
+{% for svc in services %}
+    {{ svc.name }}:
+      rule: "Host(`{{ svc.host }}`)"
+      service: "{{ svc.name }}"
+      entryPoints:
+        - websecure
+      middlewares:
+{% if svc.secured %}
+        - authentik
+{% endif %}
+        - ratelimit
+{% if svc.middleware is defined %}
+        - {{ svc.middleware }}
+{% endif %}
+      tls: true
+{% endfor %}
+
+  services:
+{% for svc in services %}
+    {{ svc.name }}:
+      loadBalancer:
+{% if svc.scheme == 'https' %}
+        serversTransport: httpsTransport
+{% endif %}
+        servers:
+          - url: "{{ svc.scheme }}://{{ svc.ip }}:{{ svc.port }}"
+{% endfor %}
+
+  serversTransports:
+    httpsTransport:
+      insecureSkipVerify: true

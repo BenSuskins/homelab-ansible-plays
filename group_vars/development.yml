@@ -6,7 +6,95 @@ special_containers:
   - traefik
 
 containers:
-  - authentik_server
-  - authentik_worker
   - authentik_postgres
   - authentik_redis
+  - authentik_server
+  - authentik_worker
+
+container_definitions:
+  authentik_postgres:
+    container_name: authentik_postgres
+    container_image: postgres:16-alpine
+    container_ports:
+      - "5432:5432"
+    container_volumes:
+      - "{{ base_dir }}/authentik/postgres/pgdata:/var/lib/postgresql/data"
+    container_env:
+      POSTGRES_PASSWORD: "{{ PG_PASS }}"
+      POSTGRES_USER: "authentik"
+      POSTGRES_DB: "authentik"
+    register_service: false
+
+  authentik_redis:
+    container_name: authentik_redis
+    container_image: redis:alpine
+    container_command: --save 60 1 --loglevel warning
+    container_healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      interval: 30s
+      retries: 5
+      timeout: 3s
+    container_ports:
+      - "6379:6379"
+    container_volumes:
+      - "{{ base_dir }}/authentik/redis:/data"
+    register_service: false
+
+  authentik_server:
+    container_name: authentik_server
+    container_image: ghcr.io/goauthentik/server:2025.10.3
+    container_dirs:
+      - "{{ base_dir }}/authentik/postgres/pgdata"
+      - "{{ base_dir }}/authentik/redis"
+      - "{{ base_dir }}/authentik/media"
+      - "{{ base_dir }}/authentik/custom-templates"
+      - "{{ base_dir }}/authentik/certs"
+    container_dir_mode: "0777"
+    container_command: server
+    container_ports:
+      - "9000:9000"
+      - "9443:9443"
+      - "9300:9300"
+    container_volumes:
+      - "{{ base_dir }}/authentik/media:/media"
+      - "{{ base_dir }}/authentik/custom-templates:/templates"
+    container_env:
+      AUTHENTIK_REDIS__HOST: "authentik_redis"
+      AUTHENTIK_POSTGRESQL__HOST: "authentik_postgres"
+      AUTHENTIK_POSTGRESQL__USER: "authentik"
+      AUTHENTIK_POSTGRESQL__NAME: "authentik"
+      AUTHENTIK_POSTGRESQL__PASSWORD: "{{ PG_PASS }}"
+      AUTHENTIK_SECRET_KEY: "{{ AUTHENTIK_SECRET_KEY }}"
+    service_entry:
+      name: authentik
+      host: "authentik.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      secured: false
+      healthcheck: true
+      exposed: true
+      port: 9000
+      scheme: http
+      homepage: true
+      proxied: true
+      metrics: true
+      metrics_port: 9300
+
+  authentik_worker:
+    container_name: authentik_worker
+    container_image: ghcr.io/goauthentik/server:2025.10.3
+    container_command: worker
+    container_user: root
+    container_volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "{{ base_dir }}/authentik/media:/media"
+      - "{{ base_dir }}/authentik/certs:/certs"
+      - "{{ base_dir }}/authentik/custom-templates:/templates"
+    container_env:
+      AUTHENTIK_REDIS__HOST: "authentik_redis"
+      AUTHENTIK_POSTGRESQL__HOST: "authentik_postgres"
+      AUTHENTIK_POSTGRESQL__USER: "authentik"
+      AUTHENTIK_POSTGRESQL__NAME: "authentik"
+      AUTHENTIK_POSTGRESQL__PASSWORD: "{{ PG_PASS }}"
+      AUTHENTIK_SECRET_KEY: "{{ AUTHENTIK_SECRET_KEY }}"
+    register_service: false

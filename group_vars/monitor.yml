@@ -9,3 +9,214 @@ containers:
   - grafana
   - loki
   - graphite-exporter
+
+container_definitions:
+  grafana:
+    container_name: grafana
+    container_image: grafana/grafana:12.3.1
+    container_dirs:
+      - "{{ base_dir }}/grafana"
+    container_dir_mode: "0777"
+    container_ports:
+      - "3000:3000"
+    container_volumes:
+      - "{{ base_dir }}/grafana:/var/lib/grafana"
+    container_env:
+      GF_AUTH_GENERIC_OAUTH_ENABLED: "true"
+      GF_AUTH_GENERIC_OAUTH_NAME: "authentik"
+      GF_AUTH_GENERIC_OAUTH_CLIENT_ID: "{{ GRAFANA_OIDC_CLIENT_ID }}"
+      GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: "{{ GRAFANA_OIDC_CLIENT_SECRET }}"
+      GF_AUTH_GENERIC_OAUTH_SCOPES: "openid profile email"
+      GF_AUTH_GENERIC_OAUTH_AUTH_URL: "https://authentik.{{ domain }}/application/o/authorize/"
+      GF_AUTH_GENERIC_OAUTH_TOKEN_URL: "https://authentik.{{ domain }}/application/o/token/"
+      GF_AUTH_GENERIC_OAUTH_API_URL: "https://authentik.{{ domain }}/application/o/userinfo/"
+      GF_AUTH_SIGNOUT_REDIRECT_URL: "https://authentik.{{ domain }}/application/o/grafana/end-session/"
+      GF_AUTH_OAUTH_AUTO_LOGIN: "true"
+      GF_SERVER_ROOT_URL: "https://grafana.{{ domain }}"
+      GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH: "contains(groups, 'Suskins Admin') && 'Admin' || 'Viewer'"
+    container_entrypoint:
+      - sh
+      - -euc
+      - |
+        mkdir -p /etc/grafana/provisioning/datasources
+        cat <<EOF > /etc/grafana/provisioning/datasources/ds.yaml
+        apiVersion: 1
+        datasources:
+        - name: Loki
+          type: loki
+          access: proxy
+          orgId: 1
+          url: http://loki:3100
+          basicAuth: false
+          version: 1
+          editable: false
+        - name: Prometheus
+          type: prometheus
+          access: proxy
+          orgId: 1
+          url: http://prometheus:9090
+          basicAuth: false
+          isDefault: true
+          version: 1
+          editable: false
+        EOF
+        /run.sh
+    service_entry:
+      name: grafana
+      host: "grafana.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 3000
+      healthcheck_path: '/api/health'
+      scheme: http
+      secured: true
+      healthcheck: true
+      homepage: true
+      proxied: true
+
+  loki:
+    container_name: loki
+    container_image: grafana/loki:3.6.3
+    container_dirs:
+      - "{{ base_dir }}/loki"
+      - "{{ base_dir }}/loki/config"
+    container_dir_mode: "0777"
+    container_ports:
+      - "3100:3100"
+    container_volumes:
+      - "{{ base_dir }}/loki/config:/etc/loki"
+    container_config_files:
+      - dest: "{{ base_dir }}/loki/config/local-config.yaml.j2"
+        content: |
+          auth_enabled: false
+
+          server:
+            http_listen_port: 3100
+
+          common:
+            instance_addr: 127.0.0.1
+            path_prefix: /loki
+            storage:
+              filesystem:
+                chunks_directory: /loki/chunks
+                rules_directory: /loki/rules
+            replication_factor: 1
+            ring:
+              kvstore:
+                store: inmemory
+
+          schema_config:
+            configs:
+              - from: 2020-10-24
+                store: tsdb
+                object_store: filesystem
+                schema: v13
+                index:
+                  prefix: index_
+                  period: 24h
+
+          ruler:
+            alertmanager_url: http://localhost:9093
+
+          limits_config:
+            reject_old_samples: false
+    register_service: false
+
+  graphite-exporter:
+    container_name: graphite-exporter
+    container_image: prom/graphite-exporter:v0.16.0
+    container_dirs:
+      - "{{ base_dir }}/graphite-exporter"
+    container_dir_mode: "0777"
+    container_ports:
+      - "9108:9108"
+      - "2003:9109"
+      - "2003:9109/udp"
+    container_volumes:
+      - "{{ base_dir }}/graphite-exporter/graphite_mapping.conf:/tmp/graphite_mapping.conf"
+    container_command: --graphite.mapping-config=/tmp/graphite_mapping.conf
+    container_config_files:
+      - dest: "{{ base_dir }}/graphite-exporter/graphite_mapping.conf"
+        content: |
+          mappings:
+            # ifstats mapping
+            - match: 'servers\.(.*)\.interface-(.*)\.if_(.*)'
+              match_type: regex
+              name: 'truenas_interface_${3}'
+              labels:
+                hostname: ${1}
+                device: ${2}
+            # dataset metrics mapping
+            - match: 'servers\.(.*)\.df-(.*)\.(.*)'
+              match_type: regex
+              name: 'truenas_dataset_${3}'
+              labels:
+                hostname: ${1}
+                device: ${2}
+            # memory metrics mapping
+            - match: 'servers\.(.*)\.memory\.(.*)'
+              match_type: regex
+              name: 'truenas_${2}'
+              labels:
+                hostname: ${1}
+            # zfs arc metrics mapping
+            - match: 'servers\.(.*)\.zfs_arc\.(.*)'
+              match_type: regex
+              name: 'truenas_zfs_arc_${2}'
+              labels:
+                hostname: ${1}
+            # processes metrics
+            - match: 'servers\.(.*)\.processes\.(.*)'
+              match_type: regex
+              name: 'truenas_processes_${2}'
+              labels:
+                hostname: ${1}
+            # LA metrics
+            - match: 'servers\.(.*)\.load\.load\.(.*)'
+              match_type: regex
+              name: 'truenas_load_${2}'
+              labels:
+                hostname: ${1}
+            # rrd cache metrics
+            - match: 'servers\.(.*)\.rrdcached\.(.*)'
+              match_type: regex
+              name: 'truenas_rrdcached_${2}'
+              labels:
+                hostname: ${1}
+            # swap metrics
+            - match: 'servers\.(.*)\.swap\.(.*)'
+              match_type: regex
+              name: 'truenas_swap_${2}'
+              labels:
+                hostname: ${1}
+            # uptime metric
+            - match: 'servers\.(.*)\.uptime\.(.*)'
+              match_type: regex
+              name: 'truenas_uptime_${2}'
+              labels:
+                hostname: ${1}
+            # disk metrics mapping
+            - match: 'servers\.(.*)\.disk-(.*)\.(.*)\.(.*)'
+              match_type: regex
+              name: 'truenas_${3}_${4}'
+              labels:
+                hostname: ${1}
+                device: ${2}
+            # cpu and nfs metrics mapping
+            - match: 'servers\.(.*)\.(.*)-(.*)\.(.*)'
+              match_type: regex
+              name: 'truenas_${2}_${4}'
+              labels:
+                hostname: ${1}
+                device: ${3}
+    service_entry:
+      name: graphite-exporter
+      host: "graphite-exporter.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 9108
+      scheme: http
+      secured: false
+      healthcheck: true
+      metrics: true
+      metrics_port: 9108

@@ -15,17 +15,48 @@
         fail_msg: "containers must be defined and not empty"
       tags: [validation]
 
-    - name: DEPLOY - Deploy containers
-      block:
-        - name: DEPLOY - Include container tasks
-          ansible.builtin.include_tasks:
-            file: "../tasks/docker/{{ container }}.yml"
-          loop: "{{ containers }}"
-          loop_control:
-            loop_var: container
-          register: deploy_results
-      rescue:
-        - name: DEPLOY - Report deployment failure
-          ansible.builtin.fail:
-            msg: "Container deployment failed"
+    - name: DEPLOY - Deploy regular containers
+      ansible.builtin.include_role:
+        name: container
+      vars: "{{ container_definitions[item] }}"
+      loop: "{{ containers }}"
       tags: [docker]
+
+    - name: DEPLOY - Deploy core containers
+      ansible.builtin.include_role:
+        name: container
+      vars: "{{ core_container_definitions[item] }}"
+      loop: "{{ core_containers | default([]) }}"
+      tags: [docker, core]
+
+- name: DEPLOY - Deploy special containers (require aggregated services)
+  hosts: all
+  become: true
+  become_method: ansible.builtin.su
+  vars_files:
+    - "~/.ansible/vault.yml"
+
+  tasks:
+    - name: DEPLOY - Deploy Traefik
+      ansible.builtin.include_role:
+        name: traefik
+      when: "'traefik' in (special_containers | default([]))"
+      tags: [docker, special]
+
+    - name: DEPLOY - Deploy Prometheus
+      ansible.builtin.include_role:
+        name: prometheus
+      when: "'prometheus' in (special_containers | default([]))"
+      tags: [docker, special]
+
+    - name: DEPLOY - Deploy Gatus
+      ansible.builtin.include_role:
+        name: gatus
+      when: "'gatus' in (special_containers | default([]))"
+      tags: [docker, special]
+
+    - name: DEPLOY - Deploy Homepage
+      ansible.builtin.include_role:
+        name: homepage
+      when: "'homepage' in (special_containers | default([]))"
+      tags: [docker, special]

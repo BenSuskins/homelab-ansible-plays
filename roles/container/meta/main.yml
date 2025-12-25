@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: Ben Suskins
+  description: Generic role for deploying Docker containers with service discovery
+  license: MIT
+  min_ansible_version: "2.10"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
+    - name: Debian
+      versions:
+        - bullseye
+        - bookworm
+
+dependencies: []

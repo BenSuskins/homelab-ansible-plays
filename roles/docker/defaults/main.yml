@@ -1,0 +1,16 @@
+---
+# Docker dependencies to install before Docker
+docker_dependencies:
+  - ca-certificates
+  - gnupg
+  - curl
+
+# Docker packages to install
+docker_packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-compose-plugin
+
+# Docker network name
+docker_network_name: homelab

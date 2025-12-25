@@ -12,3 +12,163 @@ containers:
   - pubgolf-frontend
   - cloudflare-ddns
   - adguard
+
+container_definitions:
+  grocy:
+    container_name: grocy
+    container_image: ghcr.io/linuxserver/grocy:4.5.0
+    container_dirs:
+      - "{{ base_dir }}/grocy"
+    container_ports:
+      - "9283:80"
+    container_volumes:
+      - "{{ base_dir }}/grocy:/config"
+    container_env:
+      PUID: "{{ puid | string }}"
+      PGID: "{{ pgid | string }}"
+      TZ: "{{ timezone }}"
+    service_entry:
+      name: grocy
+      host: "grocy.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 9283
+      scheme: http
+      secured: true
+      healthcheck: true
+      homepage: true
+      proxied: true
+
+  mealie:
+    container_name: mealie
+    container_image: ghcr.io/mealie-recipes/mealie:v3.8.0
+    container_dirs:
+      - "{{ base_dir }}/mealie"
+    container_memory: 1000M
+    container_ports:
+      - "9925:9000"
+    container_volumes:
+      - "{{ base_dir }}/mealie:/app/data/"
+    container_env:
+      PUID: "{{ puid | string }}"
+      PGID: "{{ pgid | string }}"
+      TZ: "{{ timezone }}"
+      ALLOW_SIGNUP: "true"
+      MAX_WORKERS: "1"
+      WEB_CONCURRENCY: "1"
+      ALLOW_PASSWORD_LOGIN: "false"
+      OIDC_AUTH_ENABLED: "true"
+      OIDC_PROVIDER_NAME: "authentik"
+      OIDC_CONFIGURATION_URL: "https://authentik.{{ domain }}/application/o/mealie/.well-known/openid-configuration"
+      OIDC_CLIENT_ID: "{{ MEALIE_OIDC_CLIENT_ID }}"
+      OIDC_CLIENT_SECRET: "{{ MEALIE_OIDC_CLIENT_SECRET }}"
+      OIDC_SIGNUP_ENABLED: "true"
+      OIDC_AUTO_REDIRECT: "true"
+    service_entry:
+      name: mealie
+      host: "mealie.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 9925
+      scheme: http
+      secured: true
+      healthcheck: true
+      homepage: true
+      proxied: true
+
+  pubgolf-postgres:
+    container_name: pubgolf-postgres
+    container_image: postgres:17-alpine
+    container_dirs:
+      - "{{ base_dir }}/pubgolf-postgres"
+    container_ports:
+      - "5433:5432"
+    container_volumes:
+      - "{{ base_dir }}/pubgolf-postgres/pgdata:/var/lib/postgresql/data"
+    container_env:
+      POSTGRES_USER: "{{ DB_USERNAME }}"
+      POSTGRES_PASSWORD: "{{ DB_PASSWORD }}"
+      POSTGRES_DB: "pubgolf"
+    register_service: false
+
+  pubgolf-backend:
+    container_name: pubgolf-backend
+    container_image: ghcr.io/bensuskins/pubgolf-backend:06d68fa
+    container_ports:
+      - "8080:8080"
+    container_env:
+      SPRING_PROFILES_ACTIVE: "prod"
+      DB_HOST: "pubgolf-postgres"
+      DB_USERNAME: "{{ DB_USERNAME }}"
+      DB_PASSWORD: "{{ DB_PASSWORD }}"
+      DB_PORT: "5432"
+    service_entry:
+      name: pubgolf-backend
+      host: api.pubgolf.me
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 8080
+      scheme: http
+      secured: false
+      healthcheck: true
+      healthcheck_path: '/actuator/health'
+      proxied: true
+      metrics: true
+      metrics_port: 8080
+      metrics_path: /actuator/prometheus
+
+  pubgolf-frontend:
+    container_name: pubgolf-frontend
+    container_image: ghcr.io/bensuskins/pubgolf-frontend:93cd9f5
+    container_ports:
+      - "3003:3000"
+    container_env:
+      NEXT_PUBLIC_API_URL: "https://api.pubgolf.me"
+    service_entry:
+      name: pubgolf
+      host: pubgolf.me
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 3003
+      scheme: http
+      secured: false
+      healthcheck: true
+      proxied: true
+
+  cloudflare-ddns:
+    container_name: cloudflare-ddns
+    container_image: favonia/cloudflare-ddns
+    container_env:
+      PROXIED: "true"
+      CLOUDFLARE_API_TOKEN: "{{ CLOUDFLARE_API_TOKEN }}"
+      DOMAINS: "{{ domain }},pubgolf.me"
+      UPTIMEKUMA: "http://{{ monitor_ip }}:3001/api/push/7nZobsusaR3Qduk42z2kWZTxj9vvuCcV?status=up&msg=OK&ping="
+      IP6_PROVIDER: "none"
+    register_service: false
+
+  adguard:
+    container_name: adguard
+    container_image: adguard/adguardhome:v0.107.71
+    container_dirs:
+      - "{{ base_dir }}/adguard/config"
+      - "{{ base_dir }}/adguard/data"
+    container_ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "3124:3000"
+      - "80:80"
+      - "443:443"
+    container_volumes:
+      - "{{ base_dir }}/adguard/config:/opt/adguardhome/conf"
+      - "{{ base_dir }}/adguard/data:/opt/adguardhome/work"
+    service_entry:
+      name: adguard-home
+      host: "adguard-home.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 80
+      scheme: http
+      secured: false
+      healthcheck: true
+      homepage: true
+      proxied: true

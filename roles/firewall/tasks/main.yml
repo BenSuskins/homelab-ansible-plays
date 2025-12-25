@@ -1,0 +1,29 @@
+---
+- name: Allow traffic from Cloudflare IP ranges on port 443
+  community.general.ufw:
+    rule: allow
+    from_ip: "{{ item }}"
+    to_port: 443
+    proto: tcp
+  loop: "{{ cloudflare_ip_ranges }}"
+
+- name: Allow traffic from local network on various ports
+  community.general.ufw:
+    rule: allow
+    from_ip: "{{ local_network }}"
+    to_port: "{{ item }}"
+    proto: tcp
+  loop: "{{ local_allowed_ports }}"
+
+- name: Allow traffic from Docker subnets to port 9000
+  community.general.ufw:
+    rule: allow
+    from_ip: "{{ item }}"
+    to_port: 9000
+    proto: tcp
+  loop: "{{ docker_subnets }}"
+
+- name: Enable UFW
+  community.general.ufw:
+    state: enabled
+    default: deny

@@ -1,0 +1,40 @@
+---
+# Container identification
+container_name: ""
+container_image: ""
+
+# Directory configuration
+container_dirs: []
+container_dir_mode: "0750"
+container_dir_owner: "{{ username }}"
+container_dir_group: "{{ username }}"
+
+# Docker container settings
+container_restart_policy: always
+container_state: started
+container_pull: true
+container_network_mode: null
+container_networks:
+  - name: homelab
+container_ports: []
+container_volumes: []
+container_env: {}
+container_command: null
+container_entrypoint: null
+container_capabilities: []
+container_devices: []
+container_user: null
+container_memory: null
+container_healthcheck: null
+container_labels: {}
+
+# Embedded configuration files (for containers like loki, alloy, graphite-exporter)
+# List of {content, dest, mode} dicts
+container_config_files: []
+
+# Service entry for service discovery
+# Should contain: name, ip, friendly_name, and optional fields like host, port, scheme, etc.
+service_entry: {}
+
+# Whether to register this service in docker_services
+register_service: true

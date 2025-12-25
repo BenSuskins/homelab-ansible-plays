@@ -1,0 +1,42 @@
+metrics: true
+
+alerting:
+  discord:
+    webhook-url: "{{ GATUS_DISCORD_WEBHOOK | default('') }}"
+    title: "Gatus"
+    default-alert:
+      description: "Health check failed"
+      send-on-resolved: true
+      failure-threshold: 3
+      success-threshold: 2
+
+endpoints:
+{% for svc in monitored_services %}
+{% if svc.healthcheck | default(false) %}
+{% set path = (svc.healthcheck_path | default('')) %}
+{% if path != '' and not path.startswith('/') %}{% set path = '/' ~ path %}{% endif %}
+{% set url = "http://" ~ svc.ip ~ ":" ~ svc.port ~ path %}
+  - name: {{ svc.name }}
+    url: "{{ url }}"
+    interval: 60s
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: discord
+{% endif %}
+{% endfor %}
+  - name: pelican
+    url: http://192.168.0.202
+    interval: 60s
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: discord
+
+security:
+  oidc:
+    issuer-url: https://authentik.{{ domain }}/application/o/gatus/
+    client-id: {{ GATUS_OIDC_CLIENT_ID }}
+    client-secret: {{ GATUS_OIDC_CLIENT_SECRET }}
+    redirect-url: https://gatus.{{ domain }}/authorization-code/callback
+    scopes: [openid]
