@@ -36,3 +36,18 @@
       OPENVPN_USER: "{{ OPENVPN_USER }}"
       OPENVPN_PASSWORD: "{{ OPENVPN_PASSWORD }}"
       SERVER_REGIONS: "Netherlands"
+
+- name: GLUETUN - Define service entry
+  ansible.builtin.set_fact:
+    gluetun_entry:
+      name: gluetun
+      host: "gluetun.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 8888
+      scheme: http
+      secured: false
+
+- name: GLUETUN - Append to docker_services
+  ansible.builtin.set_fact:
+    docker_services: "{{ docker_services + [gluetun_entry] }}"

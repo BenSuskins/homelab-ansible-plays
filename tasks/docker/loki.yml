@@ -63,3 +63,18 @@
       - name: homelab
     volumes:
       - "{{ base_dir }}/loki/config:/etc/loki"
+
+- name: LOKI - Define service entry
+  ansible.builtin.set_fact:
+    loki_entry:
+      name: loki
+      host: "loki.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 3100
+      scheme: http
+      secured: false
+
+- name: LOKI - Append to docker_services
+  ansible.builtin.set_fact:
+    docker_services: "{{ docker_services + [loki_entry] }}"
