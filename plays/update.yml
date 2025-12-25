@@ -36,19 +36,9 @@
 
     - name: UPDATE - Docker operations
       block:
-        - name: UPDATE - Gather Docker container facts
-          ansible.builtin.command: docker ps -a --format '{% raw %}{{ .Names }}{% endraw %}'
-          register: docker_containers
-
-        - name: UPDATE - Stop all running containers
-          community.docker.docker_container:
-            name: "{{ container_name }}"
-            state: stopped
-          loop: "{{ docker_containers.stdout_lines | default([]) }}"
-          loop_control:
-            loop_var: container_name
-          when: docker_containers.stdout_lines is defined and docker_containers.stdout_lines | length > 0
-          register: stop_results
+        - name: UPDATE - Build expected container list
+          ansible.builtin.set_fact:
+            expected_containers: "{{ (containers | default([])) + (core_containers | default([])) + (special_containers | default([])) }}"
 
         - name: UPDATE - Update Core Docker Containers
           ansible.builtin.include_tasks:
@@ -74,14 +64,19 @@
             loop_var: container
           register: special_results
 
-        - name: UPDATE - Remove stopped containers not wanted
+        - name: UPDATE - Get all containers
+          community.docker.docker_host_info:
+            containers: true
+          register: all_containers
+
+        - name: UPDATE - Remove containers no longer defined
           community.docker.docker_container:
-            name: "{{ container_name }}"
+            name: "{{ item.Names[0] | regex_replace('^/', '') }}"
             state: absent
-          loop: "{{ docker_containers.stdout_lines | default([]) }}"
+          loop: "{{ all_containers.containers | default([]) }}"
           loop_control:
-            loop_var: container_name
-          when: container_name not in (containers | default([]) + core_containers | default([]) + special_containers | default([]))
+            label: "{{ item.Names[0] | default('unknown') }}"
+          when: (item.Names[0] | regex_replace('^/', '')) not in expected_containers
           register: remove_results
       rescue:
         - name: UPDATE - Report docker failure
@@ -108,7 +103,6 @@
         (apt_update_res.changed | default(false)) or
         (apt_upgrade_res.changed | default(false)) or
         (firewall_results.changed | default(false)) or
-        (stop_results.changed | default(false)) or
         (core_results.changed | default(false)) or
         (containers_results.changed | default(false)) or
         (special_results.changed | default(false)) or
