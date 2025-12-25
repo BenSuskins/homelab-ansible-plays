@@ -5,7 +5,7 @@
 
 - name: CLOUDFLARE - Ensure CNAMEs for exposed services
   vars:
-    services: "{{ (static_services | default([])) + (all_docker_services | default([])) }}"
+    services: "{{ all_services | default([]) }}"
   loop: "{{ services }}"
   loop_control:
     loop_var: svc

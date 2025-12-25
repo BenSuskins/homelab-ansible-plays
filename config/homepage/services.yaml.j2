@@ -13,15 +13,3 @@
 {% endif %}
 {% endfor %}
 {% endfor %}
-###########################
-#        General          #
-###########################
-- General:
-{% for svc in static_services %}
-{% if svc.homepage | default(false) %}
-    - {{ svc.name | capitalize }}:
-        href: https://{{ svc.host }}
-        icon: {{ svc.name | lower }}
-        description: {{ svc.name | capitalize }}
-{% endif %}
-{% endfor %}

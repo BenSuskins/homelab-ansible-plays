@@ -7,6 +7,4 @@
   ansible.builtin.template:
     src: ../config/readme/README.md.j2
     dest: "../README.md"
-  vars:
-    all_services: "{{ (static_services | default([])) + (all_docker_services | default([])) }}"
   delegate_to: localhost

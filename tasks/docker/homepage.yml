@@ -27,8 +27,6 @@
     dest: "{{ base_dir }}/homepage/services.yaml"
     owner: "{{ username }}"
     group: "{{ username }}"
-  vars:
-    all_services: "{{ all_docker_services }}"
 
 - name: HOMEPAGE - Create settings
   ansible.builtin.copy:

@@ -21,7 +21,7 @@
     owner: "{{ username }}"
     group: "{{ username }}"
   vars:
-    monitored_services: "{{ (static_services | default([])) + (all_docker_services | default([])) }}"
+    monitored_services: "{{ all_services | default([]) }}"
 
 - name: GATUS - Create container
   community.docker.docker_container:

@@ -9,3 +9,10 @@
          | reject('equalto', None)
          | list
          | sum(start=[]) }}
+
+- name: AGGREGATE - Combine static_services and docker_services
+  delegate_to: localhost
+  run_once: true
+  ansible.builtin.set_fact:
+    all_services: >-
+      {{ (static_services | default([])) + (all_docker_services | default([])) }}
