@@ -19,12 +19,8 @@
   ansible.builtin.set_fact:
     cloudflare_ddns_entry:
       name: cloudflare-ddns
-      host: "cloudflare-ddns.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
-      port: -1
-      scheme: http
-      secured: false
 
 - name: CLOUDFLARE-DDNS - Append to docker_services
   ansible.builtin.set_fact:

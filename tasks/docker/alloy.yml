@@ -118,12 +118,8 @@
   ansible.builtin.set_fact:
     alloy_entry:
       name: alloy-{{ friendly_name }}
-      host: "alloy.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
-      port: -1
-      scheme: http
-      secured: false
 
 - name: ALLOY - Append to docker_services
   ansible.builtin.set_fact:

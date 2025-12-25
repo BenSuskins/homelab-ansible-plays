@@ -28,12 +28,8 @@
   ansible.builtin.set_fact:
     doplarr_entry:
       name: doplarr
-      host: "doplarr.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
-      port: -1
-      scheme: http
-      secured: false
 
 - name: DOPLARR - Append to docker_services
   ansible.builtin.set_fact:
