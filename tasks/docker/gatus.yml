@@ -36,7 +36,3 @@
       - name: homelab
     volumes:
       - "{{ base_dir }}/gatus:/config"
-
-- name: GATUS - Append to docker_services
-  ansible.builtin.set_fact:
-    docker_services: "{{ docker_services + [gatus_entry] }}"
