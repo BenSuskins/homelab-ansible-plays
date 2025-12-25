@@ -41,6 +41,7 @@
       healthcheck: true
       homepage: true
       proxied: true
+      exposed: true
 
 - name: OVERSEERR - Append to docker_services
   ansible.builtin.set_fact:
