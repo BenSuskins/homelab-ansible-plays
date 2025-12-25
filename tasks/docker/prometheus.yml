@@ -38,6 +38,9 @@
     restart_policy: always
     state: started
     pull: true
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--web.enable-remote-write-receiver"
     networks:
       - name: homelab
     ports:

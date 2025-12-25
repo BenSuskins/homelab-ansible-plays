@@ -13,6 +13,13 @@
 - name: ALLOY - Create config
   ansible.builtin.copy:
     content: |
+      // Logging configuration
+      logging {
+        level  = "info"
+        format = "logfmt"
+      }
+
+      // Docker log collection
       discovery.docker "log_scrape" {
         host             = "unix:///var/run/docker.sock"
         refresh_interval = "5s"
@@ -38,11 +45,6 @@
         }
       }
 
-      logging {
-        level  = "info"
-        format = "logfmt"
-      }
-
       loki.source.docker "log_scrape" {
         host             = "unix:///var/run/docker.sock"
         targets          = discovery.docker.log_scrape.targets
@@ -56,6 +58,23 @@
           url = "http://{{ monitor_ip }}:3100/loki/api/v1/push"
         }
         external_labels = {}
+      }
+
+      prometheus.exporter.cadvisor "containers" {
+        docker_host      = "unix:///var/run/docker.sock"
+        storage_duration = "5m"
+      }
+
+      prometheus.scrape "cadvisor" {
+        targets         = prometheus.exporter.cadvisor.containers.targets
+        forward_to      = [prometheus.remote_write.default.receiver]
+        scrape_interval = "60s"
+      }
+
+      prometheus.remote_write "default" {
+        endpoint {
+          url = "http://{{ monitor_ip }}:9090/api/v1/write"
+        }
       }
     dest: "{{ base_dir }}/alloy/config/config.alloy"
     owner: "{{ username }}"
@@ -74,15 +93,20 @@
     volumes:
       - "{{ base_dir }}/alloy/config:/etc/alloy/config"
       - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/:/rootfs:ro"
+      - "/var/run:/var/run:ro"
+      - "/sys:/sys:ro"
+      - "/var/lib/docker/:/var/lib/docker:ro"
+      - "/dev/disk/:/dev/disk:ro"
 
 - name: ALLOY - Define service entry
   ansible.builtin.set_fact:
     alloy_entry:
-      name: alloy
+      name: alloy-{{ friendly_name }}
       host: "alloy.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
-      port: 0
+      port: -1
       scheme: http
       secured: false
 

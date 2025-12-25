@@ -33,7 +33,6 @@ docker_packages:
   - docker-compose-plugin
 
 core_containers:
-  - cadvisor
   - alloy
 
 static_services:
