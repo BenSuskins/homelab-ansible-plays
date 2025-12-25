@@ -85,11 +85,15 @@ ansible-playbook plays/clean.yml -K --ask-vault-pass
 ---
 
 # Services
+{% for group, services in all_services | groupby('friendly_name') %}
+
+## {{ group }}
 
 | Service | Host | Port | URL | Exposed |
 |---------|------|------|-----|---------|
-{% for svc in all_services | sort(attribute='name') %}
+{% for svc in services | sort(attribute='name') %}
 | {{ svc.name }} | {{ svc.ip }} | {{ svc.port | default('-') }} | {% if svc.proxied | default(false) %}[{{ svc.host }}](https://{{ svc.host }}){% else %}-{% endif %} | {{ svc.exposed | default(false) }} |
+{% endfor %}
 {% endfor %}
 
 ---
