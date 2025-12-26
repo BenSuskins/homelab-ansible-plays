@@ -2,7 +2,7 @@
 - name: PUBGOLF-BACKEND - Create container
   community.docker.docker_container:
     name: pubgolf-backend
-    image: ghcr.io/bensuskins/pubgolf-backend:06d68fa
+    image: ghcr.io/bensuskins/pubgolf-backend:727c478
     restart_policy: always
     state: started
     pull: true
@@ -12,10 +12,6 @@
       - "8080:8080"
     env:
       SPRING_PROFILES_ACTIVE: "prod"
-      DB_HOST: "pubgolf-postgres"
-      DB_USERNAME: "{{ DB_USERNAME }}"
-      DB_PASSWORD: "{{ DB_PASSWORD }}"
-      DB_PORT: "5432"
 
 - name: PUBGOLF-BACKEND - Define service entry
   ansible.builtin.set_fact:
