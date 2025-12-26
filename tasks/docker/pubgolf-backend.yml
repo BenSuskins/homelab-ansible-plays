@@ -1,4 +1,15 @@
 ---
+- name: PUBGOLF-BACKEND - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0750"
+  loop:
+    - "{{ base_dir }}/pubgolf"
+
 - name: PUBGOLF-BACKEND - Create container
   community.docker.docker_container:
     name: pubgolf-backend
@@ -8,6 +19,8 @@
     pull: true
     networks:
       - name: homelab
+    volumes:
+      - "{{ base_dir }}/pubgolf:/data"      
     ports:
       - "8080:8080"
     env:
