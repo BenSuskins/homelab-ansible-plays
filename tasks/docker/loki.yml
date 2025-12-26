@@ -4,12 +4,13 @@
     path: "{{ item }}"
     recurse: true
     state: directory
-    owner: "{{ username }}"
-    group: "{{ username }}"
-    mode: "0777"
+    owner: "10001"
+    group: "10001"
+    mode: "0755"
   loop:
     - "{{ base_dir }}/loki"
     - "{{ base_dir }}/loki/config"
+    - "{{ base_dir }}/loki/data"
 
 - name: LOKI - Create config
   ansible.builtin.copy:
@@ -63,6 +64,7 @@
       - name: homelab
     volumes:
       - "{{ base_dir }}/loki/config:/etc/loki"
+      - "{{ base_dir }}/loki/data:/loki"
 
 - name: LOKI - Define service entry
   ansible.builtin.set_fact:

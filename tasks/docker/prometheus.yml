@@ -4,12 +4,13 @@
     path: "{{ item }}"
     recurse: true
     state: directory
-    owner: "{{ username }}"
-    group: "{{ username }}"
-    mode: "0777"
+    owner: "65534"
+    group: "65534"
+    mode: "0755"
   loop:
     - "{{ base_dir }}/prometheus"
     - "{{ base_dir }}/prometheus/config"
+    - "{{ base_dir }}/prometheus/data"
 
 - name: PROMETHEUS - Aggregate services from all hosts
   ansible.builtin.include_tasks:
