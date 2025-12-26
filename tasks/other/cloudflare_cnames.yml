@@ -1,8 +1,4 @@
 ---
-- name: CLOUDFLARE - Aggregate services from all hosts
-  ansible.builtin.include_tasks:
-    file: "../tasks/core/aggregate_services.yml"
-
 - name: CLOUDFLARE - Ensure CNAMEs for exposed services
   vars:
     services: "{{ all_services | default([]) }}"

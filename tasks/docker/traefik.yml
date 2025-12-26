@@ -17,8 +17,8 @@
     file: "../tasks/core/aggregate_services.yml"
 
 - name: TRAEFIK - Create config
-  ansible.builtin.copy:
-    src: ../config/traefik/traefik.toml
+  ansible.builtin.template:
+    src: ../config/traefik/traefik.toml.j2
     dest: "{{ base_dir }}/traefik/traefik.toml"
     owner: "{{ username }}"
     group: "{{ username }}"

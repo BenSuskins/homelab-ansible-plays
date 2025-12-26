@@ -40,29 +40,14 @@
           ansible.builtin.set_fact:
             expected_containers: "{{ (containers | default([])) + (core_containers | default([])) + (special_containers | default([])) }}"
 
-        - name: UPDATE - Update Core Docker Containers
+        - name: UPDATE - Update All Docker Containers
           ansible.builtin.include_tasks:
             file: "../tasks/docker/{{ container }}.yml"
-          loop: "{{ core_containers | default([]) }}"
+          loop: "{{ (core_containers | default([])) + (containers | default([])) + (special_containers | default([])) }}"
           loop_control:
             loop_var: container
-          register: core_results
-
-        - name: UPDATE - Update Docker Containers
-          ansible.builtin.include_tasks:
-            file: "../tasks/docker/{{ container }}.yml"
-          loop: "{{ containers | default([]) }}"
-          loop_control:
-            loop_var: container
-          register: containers_results
-
-        - name: UPDATE - Update Special Containers
-          ansible.builtin.include_tasks:
-            file: "../tasks/docker/{{ container }}.yml"
-          loop: "{{ special_containers | default([]) }}"
-          loop_control:
-            loop_var: container
-          register: special_results
+            label: "{{ container }}"
+          register: all_container_results
 
         - name: UPDATE - Get all containers
           community.docker.docker_host_info:
@@ -84,6 +69,12 @@
             msg: "Docker operations failed"
       tags: [docker]
 
+    - name: UPDATE - Aggregate services from all hosts
+      ansible.builtin.include_tasks:
+        file: "../tasks/core/aggregate_services.yml"
+      run_once: true
+      tags: [services]
+
     - name: UPDATE - Update Cloudflare DNS records
       ansible.builtin.include_tasks:
         file: "../tasks/other/cloudflare_cnames.yml"
@@ -103,9 +94,7 @@
         (apt_update_res.changed | default(false)) or
         (apt_upgrade_res.changed | default(false)) or
         (firewall_results.changed | default(false)) or
-        (core_results.changed | default(false)) or
-        (containers_results.changed | default(false)) or
-        (special_results.changed | default(false)) or
+        (all_container_results.changed | default(false)) or
         (remove_results.changed | default(false))
       tags: [reboot]
 

@@ -1,8 +1,4 @@
 ---
-- name: README - Aggregate services from all hosts
-  ansible.builtin.include_tasks:
-    file: "../tasks/core/aggregate_services.yml"
-
 - name: README - Generate README.md
   ansible.builtin.template:
     src: ../config/readme/README.md.j2
