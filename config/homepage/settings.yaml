@@ -35,23 +35,28 @@ layout:
     header: false
     style: row
     columns: 6
-  Media Server:
+  Media:
     icon: mdi-play-pause
     tab: Homelab
     style: row
     columns: 4
-  Docker Server:
+  Docker:
     icon: si-docker
     tab: Homelab
     style: row
     columns: 4
-  Monitoring Server:
+  Monitoring:
     icon: mdi-chart-multiple
     tab: Homelab
     style: row
     columns: 4
-  Development Server:
+  Development:
     icon: mdi-code-json
+    tab: Homelab
+    style: row
+    columns: 4
+  Games:
+    icon: mdi-server
     tab: Homelab
     style: row
     columns: 4
@@ -60,3 +65,9 @@ layout:
     tab: Homelab
     style: row
     columns: 4
+  Other:
+    icon: mdi-code-json
+    tab: Other
+    header: false
+    style: row
+    columns: 6
