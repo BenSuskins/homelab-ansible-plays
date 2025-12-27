@@ -15,7 +15,7 @@ endpoints:
 {% if svc.healthcheck | default(false) %}
 {% set path = (svc.healthcheck_path | default('')) %}
 {% if path != '' and not path.startswith('/') %}{% set path = '/' ~ path %}{% endif %}
-{% set url = "http://" ~ svc.ip ~ ":" ~ svc.port ~ path %}
+{% set url = svc.schme ~ "://" ~ svc.ip ~ ":" ~ svc.port ~ path %}
   - name: {{ svc.name }}
     url: "{{ url }}"
     interval: 60s
