@@ -176,14 +176,6 @@ The modular task structure allows you to enable/disable services by including/ex
 └── vault.yml                          # Encrypted secrets (Ansible Vault)
 ```
 
-## Documentation
-
-See [CLAUDE.md](CLAUDE.md) for detailed documentation on:
-- Service definition variables
-- Container task patterns
-- Configuration template system
-- Automated update workflow
-
 ## Deployed Services
 {% for group, services in all_services | groupby('friendly_name') %}
 
