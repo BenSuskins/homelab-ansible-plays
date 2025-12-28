@@ -35,7 +35,8 @@ Each service is defined using a unified schema in `tasks/docker/*.yml`:
     service_entry:
       name: myapp                        # Service identifier
       host: "myapp.example.com"          # Hostname for Traefik routing
-      ip: "192.168.0.101"     # Host IP address
+      ip: "{{ ip address }}"             # Host IP address
+      friendly_name: "{{ host }}"        # Friendly name for host for grouping
       port: 8080                         # Service port
       scheme: http                       # http or https
       secured: true                      # Require authentication
@@ -62,11 +63,6 @@ This single definition automatically:
 - Configures Docker and container runtime
 - Sets up monitoring agents (Alloy, cAdvisor)
 - Performs system configuration and reboot
-
-**`deploy-containers.yml`** - Container deployment
-- Deploys all containers defined in host group variables
-- Aggregates service definitions across all hosts
-- Generates unified configuration for Traefik, Gatus, Prometheus, and Homepage
 
 **`update.yml`** - Maintenance and updates
 - Updates system packages
@@ -119,7 +115,7 @@ This single definition automatically:
 
    Deploy containers and generate configuration:
    ```bash
-   ansible-playbook plays/deploy-containers.yml -K --ask-vault-pass
+   ansible-playbook plays/update.yml -K --ask-vault-pass
    ```
 
 ### Common Operations
@@ -161,7 +157,6 @@ The modular task structure allows you to enable/disable services by including/ex
 │   └── <group>.yml                    # Per-group containers and settings
 ├── plays/                             # Ansible playbooks
 │   ├── setup.yml
-│   ├── deploy-containers.yml
 │   ├── update.yml
 │   └── clean.yml
 ├── tasks/
