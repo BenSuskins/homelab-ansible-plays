@@ -63,6 +63,16 @@ static_services:
     secured: true
     proxied: true
 
+  - name: prometheus
+    ip: 192.168.0.104
+    host: "gatus.{{ domain }}"
+    friendly_name: Monitoring
+    port: 9090
+    scheme: http
+    secured: true
+    proxied: true
+    homepage: true
+
   - name: gatus
     ip: 192.168.0.104
     host: "gatus.{{ domain }}"

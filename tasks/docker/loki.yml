@@ -75,6 +75,7 @@
       friendly_name: "{{ friendly_name }}"
       port: 3100
       scheme: http
+      healthcheck: true
       secured: false
 
 - name: LOKI - Append to docker_services
