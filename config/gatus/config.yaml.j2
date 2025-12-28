@@ -23,6 +23,10 @@ endpoints:
       - "[STATUS] == 200"
     alerts:
       - type: discord
+{% if svc.scheme == 'https' %}      
+    client:
+      insecure: true
+{% endif %}
 {% endif %}
 {% endfor %}
 
