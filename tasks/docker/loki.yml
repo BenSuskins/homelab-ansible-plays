@@ -76,6 +76,7 @@
       port: 3100
       scheme: http
       healthcheck: true
+      healthcheck_path: "/ready"
       secured: false
 
 - name: LOKI - Append to docker_services
