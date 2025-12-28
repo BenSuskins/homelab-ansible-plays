@@ -19,6 +19,7 @@ endpoints:
   - name: {{ svc.name }}
     url: "{{ url }}"
     interval: 60s
+    group: "{{ svc.friendly_name }}"
     conditions:
       - "[STATUS] == 200"
     alerts:
