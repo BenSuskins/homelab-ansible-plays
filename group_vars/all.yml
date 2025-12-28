@@ -82,6 +82,7 @@ static_services:
     scheme: https
     secured: false
     healthcheck: true
+    healthcheck_path: "/#v1:0:18:4:::::::"
     homepage: true
     proxied: true
 
@@ -107,6 +108,7 @@ static_services:
     scheme: https
     secured: false
     healthcheck: true
+    healthcheck_path: "/ui/signin"
     homepage: true
     proxied: true
 
