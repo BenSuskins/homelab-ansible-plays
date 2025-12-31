@@ -14,7 +14,7 @@
 - name: BOOKLORE - Create container
   community.docker.docker_container:
     name: booklore
-    image: ghcr.io/booklore-app/booklore:1.16.2
+    image: booklore/booklore:latest
     restart_policy: always
     state: started
     pull: true
