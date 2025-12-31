@@ -17,3 +17,5 @@ containers:
   - profilarr
   - booklore_mariadb
   - booklore
+  - flaresolverr
+  - ephemera

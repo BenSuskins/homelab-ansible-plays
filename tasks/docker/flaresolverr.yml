@@ -1,0 +1,27 @@
+---
+- name: FLARESOLVERR - Create container
+  community.docker.docker_container:
+    name: flaresolverr
+    image: ghcr.io/flaresolverr/flaresolverr:v3.3.21
+    restart_policy: always
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    ports:
+      - "8191:8191"
+    env:
+      TZ: "{{ timezone }}"
+
+- name: FLARESOLVERR - Define service entry
+  ansible.builtin.set_fact:
+    flaresolverr_entry:
+      name: flaresolverr
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 8191
+      scheme: http
+
+- name: FLARESOLVERR - Append to docker_services
+  ansible.builtin.set_fact:
+    docker_services: "{{ docker_services + [flaresolverr_entry] }}"
