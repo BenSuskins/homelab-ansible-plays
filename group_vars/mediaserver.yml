@@ -15,3 +15,5 @@ containers:
   - doplarr
   - open-books
   - profilarr
+  - booklore_mariadb
+  - booklore
