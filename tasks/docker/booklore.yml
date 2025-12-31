@@ -9,7 +9,6 @@
     mode: "0750"
   loop:
     - "{{ base_dir }}/booklore/data"
-    - "{{ base_dir }}/booklore/bookdrop"
 
 - name: BOOKLORE - Create container
   community.docker.docker_container:
@@ -24,8 +23,8 @@
       - "6060:6060"
     volumes:
       - "{{ base_dir }}/booklore/data:/app/data"
-      - "/mnt/media/books:/books"
-      - "{{ base_dir }}/booklore/bookdrop:/bookdrop"
+      - "/mnt/media/books/data:/books"
+      - "/mnt/media/books/bookdrop:/bookdrop"
     env:
       USER_ID: "{{ puid | string }}"
       GROUP_ID: "{{ pgid | string }}"
