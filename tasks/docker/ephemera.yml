@@ -28,7 +28,7 @@
       - "/mnt/media/books/data:/app/ingest"
     env:
       TZ: "{{ timezone }}"
-      AA_BASE_URL: "https://annas-archive.org/"
+      AA_BASE_URL: "https://annas-archive.li"
       FLARESOLVERR_URL: "http://flaresolverr:8191"
 
 - name: EPHEMERA - Define service entry
