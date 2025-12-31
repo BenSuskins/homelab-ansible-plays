@@ -11,7 +11,7 @@
     ports:
       - "8080:80"
     volumes:
-      - "/mnt/media/books:/books"
+      - "/mnt/media/books/data:/books"
     command: --persist -n CupcakeCreator
 
 - name: OPENBOOKS - Define service entry
