@@ -97,7 +97,7 @@
 - name: ALLOY - Create container
   community.docker.docker_container:
     name: alloy
-    image: grafana/alloy:v1.12.1
+    image: grafana/alloy:v1.12.2
     restart_policy: always
     state: started
     pull: true
