@@ -10,4 +10,3 @@ containers:
   - authentik_worker
   - authentik_postgres
   - authentik_redis
-  - github_runner
