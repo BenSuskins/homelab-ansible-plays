@@ -82,7 +82,7 @@
   block:
     - name: RUNNER - Generate registration token
       ansible.builtin.uri:
-        url: "https://api.github.com/orgs/{{ github_org }}/actions/runners/registration-token"
+        url: "https://api.github.com/repos/BenSuskins/homelab-ansible-plays/actions/runners/registration-token"
         method: POST
         headers:
           Accept: application/vnd.github.v3+json
@@ -95,7 +95,7 @@
       ansible.builtin.command:
         cmd: >
           ./config.sh
-          --url https://github.com/{{ github_org }}
+          --url https://github.com/BenSuskins/homelab-ansible-plays
           --token {{ registration_token_response.json.token }}
           --name {{ inventory_hostname_short }}
           --unattended
@@ -104,20 +104,18 @@
       become: true
       become_user: "{{ username }}"
 
-- name: RUNNER - Check if systemd service exists
-  ansible.builtin.stat:
-    path: "/etc/systemd/system/actions.runner.{{ github_org }}.{{ inventory_hostname_short }}.service"
-  register: runner_service_exists
+    - name: RUNNER - Configure runner with organization
+      ansible.builtin.command:
+        cmd: >
+          ./svc.sh install
+        chdir: "{{ runner_install_dir }}"
+      become: true
+      become_user: "{{ username }}"
 
-- name: RUNNER - Install systemd service
-  ansible.builtin.command:
-    cmd: "./svc.sh install {{ username }}"
-    chdir: "{{ runner_install_dir }}"
-  when: not runner_service_exists.stat.exists
-
-- name: RUNNER - Start and enable runner service
-  ansible.builtin.systemd:
-    name: "actions.runner.{{ github_org }}.{{ inventory_hostname_short }}"
-    state: started
-    enabled: true
-    daemon_reload: true
+    - name: RUNNER - Configure runner with organization
+      ansible.builtin.command:
+        cmd: >
+          ./svc.sh start
+        chdir: "{{ runner_install_dir }}"
+      become: true
+      become_user: "{{ username }}"
