@@ -26,3 +26,9 @@ ansible_become_flags="-"
 
 [monitor:vars]
 ansible_user=monitor
+
+[bumblebee]
+192.168.0.106 friendly_name="Bumblebee"
+
+[bumblebee:vars]
+ansible_user=bumblebee

@@ -1,0 +1,9 @@
+---
+base_dir: /home/bumblebee/server-cicd
+
+runner_install_dir: "{{ base_dir }}/actions-runner"
+github_org: BenSuskins
+
+special_containers: []
+
+containers: []

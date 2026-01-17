@@ -1,0 +1,79 @@
+---
+- name: RUNNER - Setup GitHub Actions runner
+  hosts: bumblebee
+  become: true
+  become_method: ansible.builtin.su
+  vars_files:
+    - "~/.ansible/vault.yml"
+
+  tasks:
+    - name: RUNNER - Validate variables
+      ansible.builtin.assert:
+        that:
+          - ansible_os_family is defined
+          - runner_install_dir is defined
+          - github_org is defined
+          - GITHUB_RUNNER_TOKEN is defined
+          - ANSIBLE_VAULT_PASS is defined
+        fail_msg: "Required runner variables must be defined"
+      tags: [validation]
+
+    - name: RUNNER - Update server and install base packages
+      block:
+        - name: RUNNER - Include base tasks
+          ansible.builtin.include_tasks:
+            file: "../tasks/core/base.yml"
+          register: base_results
+      rescue:
+        - name: RUNNER - Report base setup failure
+          ansible.builtin.fail:
+            msg: "Base setup failed"
+      tags: [packages]
+
+    - name: RUNNER - Install docker
+      block:
+        - name: RUNNER - Include docker tasks
+          ansible.builtin.include_tasks:
+            file: "../tasks/core/docker.yml"
+          register: docker_results
+      rescue:
+        - name: RUNNER - Report docker setup failure
+          ansible.builtin.fail:
+            msg: "Docker setup failed"
+      tags: [docker]
+
+    - name: RUNNER - Install ansible
+      ansible.builtin.apt:
+        name: ansible
+        state: present
+      tags: [packages]
+
+    - name: RUNNER - Setup GitHub Actions runner
+      block:
+        - name: RUNNER - Include runner tasks
+          ansible.builtin.include_tasks:
+            file: "../tasks/other/github_runner.yml"
+          register: runner_results
+      rescue:
+        - name: RUNNER - Report runner setup failure
+          ansible.builtin.fail:
+            msg: "GitHub Actions runner setup failed"
+      tags: [runner]
+
+    - name: RUNNER - Set reboot_required if included tasks changed
+      ansible.builtin.set_fact:
+        reboot_required: true
+      when: >
+        (base_results is defined and (base_results.changed | default(false))) or
+        (base_results is defined and base_results.results is defined and (base_results.results | selectattr('changed', 'defined') | selectattr('changed') | list | length) > 0) or
+        (docker_results is defined and (docker_results.changed | default(false))) or
+        (docker_results is defined and docker_results.results is defined and (docker_results.results | selectattr('changed', 'defined') | selectattr('changed') | list | length) > 0) or
+        (runner_results is defined and (runner_results.changed | default(false))) or
+        (runner_results is defined and runner_results.results is defined and (runner_results.results | selectattr('changed', 'defined') | selectattr('changed') | list | length) > 0)
+      tags: [reboot]
+
+    - name: RUNNER - Reboot server
+      ansible.builtin.reboot:
+        msg: "Rebooting server after runner setup"
+      when: reboot_required | default(false)
+      tags: [reboot]
