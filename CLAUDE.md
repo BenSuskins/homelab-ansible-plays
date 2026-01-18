@@ -85,6 +85,7 @@ Each service entry is a unified definition that controls Homepage, Traefik, Gatu
 | `secured` | boolean | `false` | Requires Authentik authentication via Traefik middleware |
 | `homepage` | boolean | `false` | Show on Homepage dashboard |
 | `proxied` | boolean | `false` | Include in Traefik routing |
+| `path_prefix` | string | none | Restrict Traefik routing to specific path (e.g., `/api/v1`) |
 | `middleware` | string | none | Additional Traefik middleware (e.g., `unifi-headers`) |
 
 #### Cloudflare DNS
@@ -125,6 +126,7 @@ Each service entry is a unified definition that controls Homepage, Traefik, Gatu
       healthcheck_path: /health          # Optional: custom health endpoint
       homepage: true                     # Optional: show on Homepage
       proxied: true                      # Optional: include in Traefik routing
+      path_prefix: /api/v1               # Optional: restrict to specific path
       exposed: true                      # Optional: create DNS record
       metrics: true              # Optional: Prometheus scraping
       metrics_port: 9090                 # Optional: if metrics on different port

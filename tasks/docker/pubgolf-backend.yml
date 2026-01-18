@@ -39,7 +39,7 @@
       healthcheck: true
       healthcheck_path: '/actuator/health'
       proxied: true
-      metrics: true
+      path_prefix: /api/v1
       metrics_port: 8080
       metrics_path: /actuator/prometheus
 

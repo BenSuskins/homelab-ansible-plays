@@ -7,7 +7,7 @@ http:
   routers:
 {% for svc in services %}
     {{ svc.name }}:
-      rule: "Host(`{{ svc.host }}`)"
+      rule: "Host(`{{ svc.host }}`){% if svc.path_prefix is defined %} && PathPrefix(`{{ svc.path_prefix }}`){% endif %}"
       service: "{{ svc.name }}"
       entryPoints:
         - websecure
