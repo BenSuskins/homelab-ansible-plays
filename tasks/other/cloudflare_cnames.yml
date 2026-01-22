@@ -14,3 +14,5 @@
     proxied: true
     api_token: "{{ CLOUDFLARE_API_TOKEN }}"
   delegate_to: localhost
+  become: false
+  run_once: true

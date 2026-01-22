@@ -4,3 +4,5 @@
     src: ../config/readme/README.md.j2
     dest: "../README.md"
   delegate_to: localhost
+  become: false
+  run_once: true

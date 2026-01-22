@@ -178,6 +178,12 @@ The modular task structure allows you to enable/disable services by including/ex
 
 ## Deployed Services
 
+### Bumblebee
+
+| Service | Host | Port | Direct URL | URL | Exposed |
+|---------|------|------|------------|-----|---------|
+| alloy | 192.168.0.106 | - | - | - | False |
+
 ### Development
 
 | Service | Host | Port | Direct URL | URL | Exposed |
@@ -225,7 +231,6 @@ The modular task structure allows you to enable/disable services by including/ex
 | alloy | 192.168.0.101 | - | - | - | False |
 | bazarr | 192.168.0.101 | 6767 | [192.168.0.101:6767](http://192.168.0.101:6767) | [bazarr.suskins.co.uk](https://bazarr.suskins.co.uk) | False |
 | doplarr | 192.168.0.101 | - | - | - | False |
-| ephemera | 192.168.0.101 | 8286 | [192.168.0.101:8286](http://192.168.0.101:8286) | [ephemera.suskins.co.uk](https://ephemera.suskins.co.uk) | False |
 | flaresolverr | 192.168.0.101 | 8191 | [192.168.0.101:8191](http://192.168.0.101:8191) | - | False |
 | gluetun | 192.168.0.101 | 8888 | [192.168.0.101:8888](http://192.168.0.101:8888) | - | False |
 | metube | 192.168.0.101 | 8081 | [192.168.0.101:8081](http://192.168.0.101:8081) | [metube.suskins.co.uk](https://metube.suskins.co.uk) | False |
@@ -257,4 +262,4 @@ The modular task structure allows you to enable/disable services by including/ex
 
 ---
 
-*Infrastructure managed with Ansible - Generated 2026-01-12T20:30:58Z*
+*Infrastructure managed with Ansible - Generated 2026-01-22T18:24:28Z*
