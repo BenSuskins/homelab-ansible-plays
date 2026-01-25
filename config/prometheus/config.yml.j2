@@ -5,6 +5,7 @@ rule_files:
   - "alerts.rule.yml"
 
 scrape_configs:
+
 {%- for svc in all_services %}
 {%- if svc.metrics | default(false) %}
   - job_name: "{{ svc.name }}"
@@ -16,6 +17,7 @@ scrape_configs:
       - targets: ["{{ svc.ip }}:{{ svc.metrics_port | default(svc.port) }}"]
 {%- endif %}
 {%- endfor %}
+
   - job_name: "prometheus"
     scrape_interval: 5s
     static_configs:
