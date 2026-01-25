@@ -6,7 +6,7 @@ rule_files:
 
 scrape_configs:
 
-{%- for svc in all_services %}
+{% for svc in all_services %}
 {%- if svc.metrics | default(false) %}
   - job_name: "{{ svc.name }}"
     scrape_interval: 60s
