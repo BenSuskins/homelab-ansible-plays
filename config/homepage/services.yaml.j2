@@ -3,13 +3,14 @@
 {% set grouped = (all_services | sort(attribute='friendly_name')) | groupby('friendly_name') %}
 
 {% for friendly_name, services in grouped %}
+{% set homepage_services = services | selectattr('homepage', 'defined') | selectattr('homepage', 'equalto', true) | list %}
+{% if homepage_services | length > 0 %}
 - {{ friendly_name }}:
-{% for svc in services %}
-{% if svc.homepage | default(false) %}
+{% for svc in homepage_services %}
     - {{ svc.name | capitalize }}:
         href: https://{{ svc.host }}
         icon: {{ svc.name | lower }}
         description: {{ svc.name | capitalize }} container
-{% endif %}
 {% endfor %}
+{% endif %}
 {% endfor %}
