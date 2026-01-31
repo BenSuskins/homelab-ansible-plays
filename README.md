@@ -189,6 +189,7 @@ The modular task structure allows you to enable/disable services by including/ex
 | Service | Host | Port | Direct URL | URL | Exposed |
 |---------|------|------|------------|-----|---------|
 | alloy | 192.168.0.105 | - | - | - | False |
+| authelia | 192.168.0.105 | 9091 | [192.168.0.105:9091](http://192.168.0.105:9091) | [authelia.suskins.co.uk](https://authelia.suskins.co.uk) | True |
 | authentik | 192.168.0.105 | 9000 | [192.168.0.105:9000](http://192.168.0.105:9000) | [authentik.suskins.co.uk](https://authentik.suskins.co.uk) | True |
 | authentik-postgres | 192.168.0.105 | 5432 | [192.168.0.105:5432](http://192.168.0.105:5432) | - | False |
 | authentik-redis | 192.168.0.105 | 6379 | [192.168.0.105:6379](http://192.168.0.105:6379) | - | False |
@@ -241,6 +242,7 @@ The modular task structure allows you to enable/disable services by including/ex
 | prowlarr | 192.168.0.101 | 9696 | [192.168.0.101:9696](http://192.168.0.101:9696) | [prowlarr.suskins.co.uk](https://prowlarr.suskins.co.uk) | False |
 | qbittorrent | 192.168.0.101 | 9091 | [192.168.0.101:9091](http://192.168.0.101:9091) | [qbittorrent.suskins.co.uk](https://qbittorrent.suskins.co.uk) | False |
 | radarr | 192.168.0.101 | 7878 | [192.168.0.101:7878](http://192.168.0.101:7878) | [radarr.suskins.co.uk](https://radarr.suskins.co.uk) | False |
+| shelfmark | 192.168.0.101 | 8084 | [192.168.0.101:8084](http://192.168.0.101:8084) | [shelfmark.suskins.co.uk](https://shelfmark.suskins.co.uk) | False |
 | sonarr | 192.168.0.101 | 8989 | [192.168.0.101:8989](http://192.168.0.101:8989) | [sonarr.suskins.co.uk](https://sonarr.suskins.co.uk) | False |
 
 ### Monitoring
@@ -262,4 +264,4 @@ The modular task structure allows you to enable/disable services by including/ex
 
 ---
 
-*Infrastructure managed with Ansible - Generated 2026-01-24T19:49:00Z*
+*Infrastructure managed with Ansible - Generated 2026-01-31T23:12:45Z*

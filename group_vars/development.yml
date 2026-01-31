@@ -6,6 +6,7 @@ special_containers:
   - traefik
 
 containers:
+  - authelia
   - authentik_server
   - authentik_worker
   - authentik_postgres
