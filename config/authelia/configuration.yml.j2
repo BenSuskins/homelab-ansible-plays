@@ -44,6 +44,14 @@ authentication_backend:
 access_control:
   default_policy: deny
   rules:
+    - domain:
+        - "pve.{{ domain }}"
+        - "grafana.{{ domain }}"
+        - "games.{{ domain }}"
+      policy: two_factor
+      subject:
+        - "group:Suskins Admin"
+
     - domain: "*.{{ domain }}"
       policy: two_factor
 

@@ -189,7 +189,7 @@ The modular task structure allows you to enable/disable services by including/ex
 | Service | Host | Port | Direct URL | URL | Exposed |
 |---------|------|------|------------|-----|---------|
 | alloy | 192.168.0.105 | - | - | - | False |
-| authelia | 192.168.0.105 | 9091 | [192.168.0.105:9091](http://192.168.0.105:9091) | [authelia.suskins.co.uk](https://authelia.suskins.co.uk) | True |
+| authelia | authelia | 9091 | [authelia:9091](http://authelia:9091) | [authelia.suskins.co.uk](https://authelia.suskins.co.uk) | True |
 | authentik | 192.168.0.105 | 9000 | [192.168.0.105:9000](http://192.168.0.105:9000) | [authentik.suskins.co.uk](https://authentik.suskins.co.uk) | True |
 | authentik-postgres | 192.168.0.105 | 5432 | [192.168.0.105:5432](http://192.168.0.105:5432) | - | False |
 | authentik-redis | 192.168.0.105 | 6379 | [192.168.0.105:6379](http://192.168.0.105:6379) | - | False |
@@ -264,4 +264,4 @@ The modular task structure allows you to enable/disable services by including/ex
 
 ---
 
-*Infrastructure managed with Ansible - Generated 2026-02-01T19:15:40Z*
+*Infrastructure managed with Ansible - Generated 2026-02-01T22:45:05Z*
