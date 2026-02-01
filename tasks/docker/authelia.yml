@@ -46,7 +46,7 @@
     authelia_entry:
       name: authelia
       host: "authelia.{{ domain }}"
-      ip: "{{ inventory_hostname }}"
+      ip: authelia
       friendly_name: "{{ friendly_name }}"
       port: 9091
       scheme: http
