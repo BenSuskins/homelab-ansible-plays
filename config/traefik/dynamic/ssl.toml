@@ -2,12 +2,12 @@
 # SSL
 ################################################################
 [[tls.certificates]]
-  certFile = "/etc/traefik/certs/cert.pem"
-  keyFile = "/etc/traefik/certs/key.pem"
-
-[[tls.certificates]]
   certFile = "/etc/traefik/certs/authelia.pem"
   keyFile = "/etc/traefik/certs/authelia_key.pem"  
+
+[[tls.certificates]]
+  certFile = "/etc/traefik/certs/cert.pem"
+  keyFile = "/etc/traefik/certs/key.pem"
 
 [[tls.certificates]]
   certFile = "/etc/traefik/certs/pubgolfCert.pem"
