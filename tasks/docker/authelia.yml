@@ -14,11 +14,17 @@
     dest: "{{ base_dir }}/authelia/config/configuration.yml"
     mode: "0600"
 
+- name: AUTHELIA - Stat users database
+  ansible.builtin.stat:
+    path: "{{ base_dir }}/authelia/config/users_database.yml"
+  register: users_database
+
 - name: AUTHELIA - Template users database
   ansible.builtin.template:
     src: ../config/authelia/users_database.yml.j2
     dest: "{{ base_dir }}/authelia/config/users_database.yml"
     mode: "0600"
+  when: not users_database.stat.exists
 
 - name: AUTHELIA - Create container
   community.docker.docker_container:
