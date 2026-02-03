@@ -23,7 +23,7 @@
 - name: AUTHELIA - Create container
   community.docker.docker_container:
     name: authelia
-    image: authelia/authelia:4.38
+    image: authelia/authelia:4.39.15
     restart_policy: always
     state: started
     pull: true
