@@ -231,9 +231,11 @@ The modular task structure allows you to enable/disable services by including/ex
 |---------|------|------|------------|-----|---------|
 | alloy | 192.168.0.101 | - | - | - | False |
 | bazarr | 192.168.0.101 | 6767 | [192.168.0.101:6767](http://192.168.0.101:6767) | [bazarr.suskins.co.uk](https://bazarr.suskins.co.uk) | False |
+| cleanuparr | 192.168.0.101 | 11011 | [192.168.0.101:11011](http://192.168.0.101:11011) | [cleanuparr.suskins.co.uk](https://cleanuparr.suskins.co.uk) | False |
 | doplarr | 192.168.0.101 | - | - | - | False |
 | flaresolverr | 192.168.0.101 | 8191 | [192.168.0.101:8191](http://192.168.0.101:8191) | - | False |
 | gluetun | 192.168.0.101 | 8888 | [192.168.0.101:8888](http://192.168.0.101:8888) | - | False |
+| huntarr | 192.168.0.101 | 9705 | [192.168.0.101:9705](http://192.168.0.101:9705) | [huntarr.suskins.co.uk](https://huntarr.suskins.co.uk) | False |
 | metube | 192.168.0.101 | 8081 | [192.168.0.101:8081](http://192.168.0.101:8081) | [metube.suskins.co.uk](https://metube.suskins.co.uk) | False |
 | openbooks | 192.168.0.101 | 8080 | [192.168.0.101:8080](http://192.168.0.101:8080) | [openbooks.suskins.co.uk](https://openbooks.suskins.co.uk) | False |
 | overseerr | 192.168.0.101 | 5055 | [192.168.0.101:5055](http://192.168.0.101:5055) | [overseerr.suskins.co.uk](https://overseerr.suskins.co.uk) | False |
@@ -264,4 +266,4 @@ The modular task structure allows you to enable/disable services by including/ex
 
 ---
 
-*Infrastructure managed with Ansible - Generated 2026-02-01T22:45:05Z*
+*Infrastructure managed with Ansible - Generated 2026-02-03T18:20:06Z*
