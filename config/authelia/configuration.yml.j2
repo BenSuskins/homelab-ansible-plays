@@ -21,12 +21,8 @@ totp:
 webauthn:
   disable: false
   display_name: Homelab
-  enable_passkey_login: true
   attestation_conveyance_preference: indirect
   timeout: 60s
-  selection_criteria:
-    user_verification: required
-    discoverability: preferred
 
 authentication_backend:
   password_reset:
