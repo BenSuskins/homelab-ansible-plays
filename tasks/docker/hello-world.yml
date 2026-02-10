@@ -1,0 +1,42 @@
+---
+- name: HELLO-WORLD - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0750"
+  loop:
+    - "{{ base_dir }}/hello-world"
+
+- name: HELLO-WORLD - Create container
+  community.docker.docker_container:
+    name: hello-world
+    image: nginxdemos/hello:0.4
+    restart_policy: always
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    ports:
+      - "8080:8080"
+    env:
+      TZ: "{{ timezone }}"
+
+- name: HELLO-WORLD - Define service entry
+  ansible.builtin.set_fact:
+    hello_world_entry:
+      name: hello-world
+      host: "hello-world.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 8080
+      scheme: http
+      healthcheck: true
+      homepage: true
+      proxied: true
+
+- name: HELLO-WORLD - Append to docker_services
+  ansible.builtin.set_fact:
+    docker_services: "{{ docker_services + [hello_world_entry] }}"
