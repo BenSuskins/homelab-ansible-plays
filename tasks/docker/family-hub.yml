@@ -29,6 +29,7 @@
       SESSION_SECRET: {{ SESSION_SECRET }}
       OIDC_CLIENT_ID: {{ HUB_OIDC_CLIENT_ID }}
       OIDC_CLIENT_SECRET: {{ HUB_OIDC_CLIENT_SECRET }}
+      DATABASE_PATH: /data/family-hub.db
 
 - name: FAMILY-HUB - Define service entry
   ansible.builtin.set_fact:
