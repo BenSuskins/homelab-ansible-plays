@@ -26,9 +26,9 @@
     env:
       OIDC_ISSUER: https://authentik.suskins.co.uk/application/o/family-hub/
       OIDC_REDIRECT_URL: https://hub.suskins.co.uk/auth/callback
-      SESSION_SECRET: {{ SESSION_SECRET }}
-      OIDC_CLIENT_ID: {{ HUB_OIDC_CLIENT_ID }}
-      OIDC_CLIENT_SECRET: {{ HUB_OIDC_CLIENT_SECRET }}
+      SESSION_SECRET: "{{ SESSION_SECRET }}"
+      OIDC_CLIENT_ID: "{{ HUB_OIDC_CLIENT_ID }}"
+      OIDC_CLIENT_SECRET: "{{ HUB_OIDC_CLIENT_SECRET }}"
       DATABASE_PATH: /data/family-hub.db
 
 - name: FAMILY-HUB - Define service entry
