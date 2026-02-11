@@ -1,0 +1,53 @@
+---
+- name: FAMILY-HUB - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0750"
+  loop:
+    - "{{ base_dir }}/family-hub"
+
+- name: FAMILY-HUB - Create container
+  community.docker.docker_container:
+    name: family-hub
+    image: ghcr.io/bensuskins/family-hub:latest
+    restart_policy: always
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    volumes:
+      - "{{ base_dir }}/family-hub:/data"      
+    ports:
+      - "8081:8080"
+    env:
+      OIDC_ISSUER: https://authentik.suskins.co.uk/application/o/family-hub/
+      OIDC_REDIRECT_URL: https://hub.suskins.co.uk/auth/callback
+      SESSION_SECRET: {{ SESSION_SECRET }}
+      OIDC_CLIENT_ID: {{ HUB_OIDC_CLIENT_ID }}
+      OIDC_CLIENT_SECRET: {{ HUB_OIDC_CLIENT_SECRET }}
+
+- name: FAMILY-HUB - Define service entry
+  ansible.builtin.set_fact:
+    family_hub_entry:
+      name: family-hub
+      host: hub.{{ domain }}
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 8081
+      scheme: http
+      secured: false
+      healthcheck: true
+      proxied: true
+      # exposed: true
+      # healthcheck_path: '/actuator/health'
+      # path_prefix: /api/v1
+      # metrics_port: 8080
+      # metrics_path: /actuator/prometheus
+
+- name: FAMILY-HUB - Append to docker_services
+  ansible.builtin.set_fact:
+    docker_services: "{{ docker_services + [family_hub_entry] }}"

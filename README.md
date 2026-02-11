@@ -202,6 +202,7 @@ The modular task structure allows you to enable/disable services by including/ex
 | adguard-home | 192.168.0.102 | 80 | [192.168.0.102:80](http://192.168.0.102:80) | [adguard-home.suskins.co.uk](https://adguard-home.suskins.co.uk) | False |
 | alloy | 192.168.0.102 | - | - | - | False |
 | cloudflare-ddns | 192.168.0.102 | - | - | - | False |
+| family-hub | 192.168.0.102 | 8081 | [192.168.0.102:8081](http://192.168.0.102:8081) | [hub.suskins.co.uk](https://hub.suskins.co.uk) | False |
 | grocy | 192.168.0.102 | 9283 | [192.168.0.102:9283](http://192.168.0.102:9283) | [grocy.suskins.co.uk](https://grocy.suskins.co.uk) | False |
 | home | 192.168.0.102 | 3000 | [192.168.0.102:3000](http://192.168.0.102:3000) | [home.suskins.co.uk](https://home.suskins.co.uk) | False |
 | mealie | 192.168.0.102 | 9925 | [192.168.0.102:9925](http://192.168.0.102:9925) | [mealie.suskins.co.uk](https://mealie.suskins.co.uk) | False |
@@ -266,4 +267,4 @@ The modular task structure allows you to enable/disable services by including/ex
 
 ---
 
-*Infrastructure managed with Ansible - Generated 2026-02-03T19:39:51Z*
+*Infrastructure managed with Ansible - Generated 2026-02-11T18:43:15Z*
