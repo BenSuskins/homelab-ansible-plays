@@ -13,7 +13,7 @@
 - name: GLUETUN - Create container
   community.docker.docker_container:
     name: gluetun
-    image: qmcgaw/gluetun:v3.41.0
+    image: qmcgaw/gluetun:v3.41.1
     restart_policy: always
     state: started
     pull: true

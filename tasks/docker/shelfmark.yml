@@ -13,7 +13,7 @@
 - name: SHELFMARK - Create container
   community.docker.docker_container:
     name: shelfmark
-    image: ghcr.io/calibrain/shelfmark:v1.0.3
+    image: ghcr.io/calibrain/shelfmark:v1.0.4
     restart_policy: always
     state: started
     pull: true
