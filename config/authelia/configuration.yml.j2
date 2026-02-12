@@ -116,3 +116,74 @@ identity_providers:
           - code
 
         token_endpoint_auth_method: client_secret_basic
+
+    - client_id: gatus
+        client_name: Gatus
+        client_secret: '{{ AUTHELIA_OIDC_GATUS_SECRET }}'
+        public: false
+        authorization_policy: two_factor
+        redirect_uris:
+          - 'https://gatus.{{ domain }}/authorization-code/callback'
+        scopes:
+          - openid
+          - profile
+          - email
+        userinfo_signed_response_alg: none
+        token_endpoint_auth_method: client_secret_basic
+
+      - client_id: mealie
+        client_name: Mealie
+        client_secret: '{{ AUTHELIA_OIDC_MEALIE_SECRET }}'
+        public: false
+        authorization_policy: two_factor
+        redirect_uris:
+          - 'https://mealie.{{ domain }}/login'
+        scopes:
+          - openid
+          - profile
+          - email
+          - groups
+        userinfo_signed_response_alg: none
+        token_endpoint_auth_method: client_secret_post
+
+      - client_id: homeassistant
+        client_name: Home Assistant
+        client_secret: '{{ AUTHELIA_OIDC_HOMEASSISTANT_SECRET }}'
+        public: false
+        authorization_policy: two_factor
+        redirect_uris:
+          - 'https://homeassistant.{{ domain }}/auth/external/callback'
+        scopes:
+          - openid
+          - profile
+          - email
+        userinfo_signed_response_alg: none
+        token_endpoint_auth_method: client_secret_post
+
+      - client_id: proxmox
+        client_name: Proxmox
+        client_secret: '{{ AUTHELIA_OIDC_PROXMOX_SECRET }}'
+        public: false
+        authorization_policy: two_factor
+        redirect_uris:
+          - 'https://pve.{{ domain }}'
+        scopes:
+          - openid
+          - profile
+          - email
+        userinfo_signed_response_alg: none
+        token_endpoint_auth_method: client_secret_post
+
+      - client_id: hub
+        client_name: Hub
+        client_secret: '{{ AUTHELIA_OIDC_HUB_SECRET }}'
+        public: false
+        authorization_policy: two_factor
+        redirect_uris:
+          - 'https://hub.{{ domain }}/auth/callback'
+        scopes:
+          - openid
+          - profile
+          - email
+        userinfo_signed_response_alg: none
+        token_endpoint_auth_method: client_secret_post
