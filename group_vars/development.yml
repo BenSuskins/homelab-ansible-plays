@@ -7,7 +7,3 @@ special_containers:
 
 containers:
   - authelia
-  - authentik_server
-  - authentik_worker
-  - authentik_postgres
-  - authentik_redis
