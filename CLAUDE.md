@@ -82,7 +82,7 @@ Each service entry is a unified definition that controls Homepage, Traefik, Gatu
 | `host` | string | none | Full hostname for Traefik routing (e.g., `myapp.suskins.co.uk`) |
 | `port` | integer | none | Primary service port |
 | `scheme` | string | none | Protocol: `http` or `https` |
-| `secured` | boolean | `false` | Requires Authentik authentication via Traefik middleware |
+| `secured` | boolean | `false` | Requires Authelia authentication via Traefik middleware |
 | `homepage` | boolean | `false` | Show on Homepage dashboard |
 | `proxied` | boolean | `false` | Include in Traefik routing |
 | `path_prefix` | string | none | Restrict Traefik routing to specific path (e.g., `/api/v1`) |

@@ -190,9 +190,6 @@ The modular task structure allows you to enable/disable services by including/ex
 |---------|------|------|------------|-----|---------|
 | alloy | 192.168.0.105 | - | - | - | False |
 | authelia | authelia | 9091 | [authelia:9091](http://authelia:9091) | [authelia.suskins.co.uk](https://authelia.suskins.co.uk) | True |
-| authentik | 192.168.0.105 | 9000 | [192.168.0.105:9000](http://192.168.0.105:9000) | [authentik.suskins.co.uk](https://authentik.suskins.co.uk) | True |
-| authentik-postgres | 192.168.0.105 | 5432 | [192.168.0.105:5432](http://192.168.0.105:5432) | - | False |
-| authentik-redis | 192.168.0.105 | 6379 | [192.168.0.105:6379](http://192.168.0.105:6379) | - | False |
 | traefik | 192.168.0.105 | 8080 | [192.168.0.105:8080](http://192.168.0.105:8080) | [traefik.suskins.co.uk](https://traefik.suskins.co.uk) | False |
 
 ### Docker
@@ -267,4 +264,4 @@ The modular task structure allows you to enable/disable services by including/ex
 
 ---
 
-*Infrastructure managed with Ansible - Generated 2026-02-12T11:51:27Z*
+*Infrastructure managed with Ansible - Generated 2026-02-12T12:28:38Z*

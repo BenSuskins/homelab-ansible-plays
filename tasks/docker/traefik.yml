@@ -37,13 +37,6 @@
     owner: "{{ username }}"
     group: "{{ username }}"
 
-- name: TRAEFIK - Create authentik middleware
-  ansible.builtin.copy:
-    src: ../config/traefik/dynamic/middlewares-authentik.toml
-    dest: "{{ base_dir }}/traefik/dynamic/middlewares-authentik.toml"
-    owner: "{{ username }}"
-    group: "{{ username }}"
-
 - name: TRAEFIK - Create authelia middleware
   ansible.builtin.copy:
     src: ../config/traefik/dynamic/middlewares-authelia.toml
