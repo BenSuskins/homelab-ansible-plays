@@ -18,6 +18,7 @@
     - 9300 # Authentik Metrics
     - 3100 # Loki
     - 9000 # Authentik
+    - 9091 # Authelia
 
 - name: Allow traffic from Docker Subnets to port 9000
   community.general.ufw:
