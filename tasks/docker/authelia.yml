@@ -58,7 +58,6 @@
       scheme: http
       secured: false
       healthcheck: true
-      healthcheck_path: '/api/health'
       homepage: true
       proxied: true
       exposed: true
