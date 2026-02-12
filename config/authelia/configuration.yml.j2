@@ -117,7 +117,7 @@ identity_providers:
 
         token_endpoint_auth_method: client_secret_basic
 
-    - client_id: gatus
+      - client_id: gatus
         client_name: Gatus
         client_secret: '{{ AUTHELIA_OIDC_GATUS_SECRET }}'
         public: false
@@ -125,11 +125,39 @@ identity_providers:
         redirect_uris:
           - 'https://gatus.{{ domain }}/authorization-code/callback'
         scopes:
-          - openid
-          - profile
-          - email
-        userinfo_signed_response_alg: none
-        token_endpoint_auth_method: client_secret_basic
+          - 'openid'
+          - 'profile'
+          - 'email'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
+
+      - client_id: grafana
+        client_name: Grafana
+        client_secret: '{{ AUTHELIA_OIDC_GRAFANA_SECRET }}'
+        public: false
+        authorization_policy: 'two_factor'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://grafana.{{ domain }}/login/generic_oaut'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'groups'
+          - 'email'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
+
 
       - client_id: mealie
         client_name: Mealie
@@ -139,12 +167,17 @@ identity_providers:
         redirect_uris:
           - 'https://mealie.{{ domain }}/login'
         scopes:
-          - openid
-          - profile
-          - email
-          - groups
-        userinfo_signed_response_alg: none
-        token_endpoint_auth_method: client_secret_post
+          - 'openid'
+          - 'email'
+          - 'profile'
+          - 'groups'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
 
       - client_id: homeassistant
         client_name: Home Assistant
