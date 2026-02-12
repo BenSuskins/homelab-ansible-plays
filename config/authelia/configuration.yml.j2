@@ -100,21 +100,16 @@ identity_providers:
         client_name: Family Hub
         client_secret: '{{ AUTHELIA_OIDC_HUB_SECRET }}'
         public: false
-
         redirect_uris:
           - https://hub.suskins.co.uk/auth/callback
-
         scopes:
           - openid
           - profile
           - email
-
         grant_types:
           - authorization_code
-
         response_types:
           - code
-
         token_endpoint_auth_method: client_secret_basic
 
       - client_id: gatus
@@ -158,7 +153,6 @@ identity_providers:
         userinfo_signed_response_alg: 'none'
         token_endpoint_auth_method: 'client_secret_basic'
 
-
       - client_id: mealie
         client_name: Mealie
         client_secret: '{{ AUTHELIA_OIDC_MEALIE_SECRET }}'
@@ -193,30 +187,24 @@ identity_providers:
         userinfo_signed_response_alg: none
         token_endpoint_auth_method: client_secret_post
 
-      - client_id: proxmox
-        client_name: Proxmox
+      - client_id: 'proxmox'
+        client_name: 'Proxmox'
         client_secret: '{{ AUTHELIA_OIDC_PROXMOX_SECRET }}'
         public: false
-        authorization_policy: two_factor
+        authorization_policy: 'two_factor'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
         redirect_uris:
           - 'https://pve.{{ domain }}'
         scopes:
-          - openid
-          - profile
-          - email
-        userinfo_signed_response_alg: none
-        token_endpoint_auth_method: client_secret_post
-
-      - client_id: hub
-        client_name: Hub
-        client_secret: '{{ AUTHELIA_OIDC_HUB_SECRET }}'
-        public: false
-        authorization_policy: two_factor
-        redirect_uris:
-          - 'https://hub.{{ domain }}/auth/callback'
-        scopes:
-          - openid
-          - profile
-          - email
-        userinfo_signed_response_alg: none
-        token_endpoint_auth_method: client_secret_post
+          - 'openid'
+          - 'profile'
+          - 'email'
+          - 'groups'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
