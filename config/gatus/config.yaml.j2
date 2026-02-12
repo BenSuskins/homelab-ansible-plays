@@ -36,8 +36,8 @@ endpoints:
 
 security:
   oidc:
-    issuer-url: https://authentik.{{ domain }}/application/o/gatus/
-    client-id: {{ GATUS_OIDC_CLIENT_ID }}
-    client-secret: {{ GATUS_OIDC_CLIENT_SECRET }}
+    issuer-url: https://authelia.{{ domain }}
+    client-id: gatus
+    client-secret: {{ AUTHELIA_OIDC_GATUS_SECRET }}
     redirect-url: https://gatus.{{ domain }}/authorization-code/callback
     scopes: [openid]
