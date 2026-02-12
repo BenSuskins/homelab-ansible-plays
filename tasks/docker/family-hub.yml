@@ -27,7 +27,7 @@
       OIDC_ISSUER: https://authelia.suskins.co.uk
       OIDC_REDIRECT_URL: https://hub.suskins.co.uk/auth/callback
       SESSION_SECRET: "{{ SESSION_SECRET }}"
-      OIDC_CLIENT_ID: "hub"
+      OIDC_CLIENT_ID: "family-hub"
       OIDC_CLIENT_SECRET: "{{ AUTHELIA_OIDC_HUB_SECRET }}"
       DATABASE_PATH: /data/family-hub.db
 
