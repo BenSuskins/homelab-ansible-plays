@@ -1,0 +1,68 @@
+---
+- name: AUTHELIA - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ base_dir }}/authelia/config"
+
+- name: AUTHELIA - Template configuration file
+  ansible.builtin.template:
+    src: ../config/authelia/configuration.yml.j2
+    dest: "{{ base_dir }}/authelia/config/configuration.yml"
+    mode: "0600"
+
+- name: AUTHELIA - Stat users database
+  ansible.builtin.stat:
+    path: "{{ base_dir }}/authelia/config/users_database.yml"
+  register: users_database
+
+- name: AUTHELIA - Template users database
+  ansible.builtin.template:
+    src: ../config/authelia/users_database.yml.j2
+    dest: "{{ base_dir }}/authelia/config/users_database.yml"
+    mode: "0600"
+  when: not users_database.stat.exists
+
+- name: AUTHELIA - Create container
+  community.docker.docker_container:
+    name: authelia
+    image: authelia/authelia:4.39.15
+    restart_policy: always
+    state: started
+    pull: true
+    ports:
+      - "9091:9091"
+    networks:
+      - name: homelab
+    volumes:
+      - "{{ base_dir }}/authelia/config:/config"
+    env:
+      TZ: "{{ timezone }}"
+      AUTHELIA_JWT_SECRET: "{{ AUTHELIA_JWT_SECRET }}"
+      AUTHELIA_SESSION_SECRET: "{{ AUTHELIA_SESSION_SECRET }}"
+      AUTHELIA_STORAGE_ENCRYPTION_KEY: "{{ AUTHELIA_STORAGE_ENCRYPTION_KEY }}"
+      AUTHELIA_IDENTITY_PROVIDERS_OIDC_HMAC_SECRET: "{{ AUTHELIA_OIDC_HMAC_SECRET }}"
+      AUTHELIA_IDENTITY_PROVIDERS_OIDC_ISSUER_PRIVATE_KEY: "{{ AUTHELIA_OIDC_PRIVATE_KEY }}"
+
+- name: AUTHELIA - Define service entry
+  ansible.builtin.set_fact:
+    authelia_entry:
+      name: authelia
+      host: "authelia.{{ domain }}"
+      ip: authelia
+      friendly_name: "{{ friendly_name }}"
+      port: 9091
+      scheme: http
+      secured: false
+      healthcheck: true
+      healthcheck_path: '/api/health'
+      homepage: true
+      proxied: true
+      exposed: true
+
+- name: AUTHELIA - Append to docker_services
+  ansible.builtin.set_fact:
+    docker_services: "{{ docker_services + [authelia_entry] }}"

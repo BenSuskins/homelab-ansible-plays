@@ -35,7 +35,7 @@ Each service is defined using a unified schema in `tasks/docker/*.yml`:
     service_entry:
       name: myapp                        # Service identifier
       host: "myapp.example.com"          # Hostname for Traefik routing
-      ip: "192.168.0.106"     # Host IP address
+      ip: "192.168.0.101"     # Host IP address
       port: 8080                         # Service port
       scheme: http                       # http or https
       secured: true                      # Require authentication
@@ -189,6 +189,11 @@ The modular task structure allows you to enable/disable services by including/ex
 | Service | Host | Port | Direct URL | URL | Exposed |
 |---------|------|------|------------|-----|---------|
 | alloy | 192.168.0.105 | - | - | - | False |
+| authelia | authelia | 9091 | [authelia:9091](http://authelia:9091) | [authelia.suskins.co.uk](https://authelia.suskins.co.uk) | True |
+| authentik | 192.168.0.105 | 9000 | [192.168.0.105:9000](http://192.168.0.105:9000) | [authentik.suskins.co.uk](https://authentik.suskins.co.uk) | True |
+| authentik-postgres | 192.168.0.105 | 5432 | [192.168.0.105:5432](http://192.168.0.105:5432) | - | False |
+| authentik-redis | 192.168.0.105 | 6379 | [192.168.0.105:6379](http://192.168.0.105:6379) | - | False |
+| traefik | 192.168.0.105 | 8080 | [192.168.0.105:8080](http://192.168.0.105:8080) | [traefik.suskins.co.uk](https://traefik.suskins.co.uk) | False |
 
 ### Docker
 
@@ -262,4 +267,4 @@ The modular task structure allows you to enable/disable services by including/ex
 
 ---
 
-*Infrastructure managed with Ansible - Generated 2026-02-11T20:08:48Z*
+*Infrastructure managed with Ansible - Generated 2026-02-11T18:43:15Z*
