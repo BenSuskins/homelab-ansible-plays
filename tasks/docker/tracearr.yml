@@ -25,7 +25,9 @@
     ports:
       - "3000:3000"
     volumes:
-      - "{{ base_dir }}/tracearr:/data"
+      - "{{ base_dir }}/tracearr/postgres:/data/postgres"
+      - "{{ base_dir }}/tracearr/redis:/data/redis"
+      - "{{ base_dir }}/tracearr/tracearr:/data/tracearr"
     env:
       TZ: "{{ timezone }}"
  
