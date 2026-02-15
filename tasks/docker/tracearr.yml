@@ -9,6 +9,9 @@
     mode: "0750"
   loop:
     - "{{ base_dir }}/tracearr"
+    - "{{ base_dir }}/tracearr/postgres"
+    - "{{ base_dir }}/tracearr/redis"
+    - "{{ base_dir }}/tracearr/tracearr"
  
 - name: TRACEARR - Create container
   community.docker.docker_container:
