@@ -200,9 +200,7 @@ The modular task structure allows you to enable/disable services by including/ex
 | alloy | 192.168.0.102 | - | - | - | False |
 | cloudflare-ddns | 192.168.0.102 | - | - | - | False |
 | family-hub | 192.168.0.102 | 8081 | [192.168.0.102:8081](http://192.168.0.102:8081) | [hub.suskins.co.uk](https://hub.suskins.co.uk) | False |
-| grocy | 192.168.0.102 | 9283 | [192.168.0.102:9283](http://192.168.0.102:9283) | [grocy.suskins.co.uk](https://grocy.suskins.co.uk) | False |
 | home | 192.168.0.102 | 3000 | [192.168.0.102:3000](http://192.168.0.102:3000) | [home.suskins.co.uk](https://home.suskins.co.uk) | False |
-| mealie | 192.168.0.102 | 9925 | [192.168.0.102:9925](http://192.168.0.102:9925) | [mealie.suskins.co.uk](https://mealie.suskins.co.uk) | False |
 | pubgolf | 192.168.0.102 | 3003 | [192.168.0.102:3003](http://192.168.0.102:3003) | [pubgolf.me](https://pubgolf.me) | False |
 | pubgolf-backend | 192.168.0.102 | 8080 | [192.168.0.102:8080](http://192.168.0.102:8080) | [api.pubgolf.me](https://api.pubgolf.me) | False |
 
@@ -244,6 +242,7 @@ The modular task structure allows you to enable/disable services by including/ex
 | radarr | 192.168.0.101 | 7878 | [192.168.0.101:7878](http://192.168.0.101:7878) | [radarr.suskins.co.uk](https://radarr.suskins.co.uk) | False |
 | shelfmark | 192.168.0.101 | 8084 | [192.168.0.101:8084](http://192.168.0.101:8084) | [shelfmark.suskins.co.uk](https://shelfmark.suskins.co.uk) | False |
 | sonarr | 192.168.0.101 | 8989 | [192.168.0.101:8989](http://192.168.0.101:8989) | [sonarr.suskins.co.uk](https://sonarr.suskins.co.uk) | False |
+| tracearr | 192.168.0.101 | 3000 | [192.168.0.101:3000](http://192.168.0.101:3000) | [tracearr.suskins.co.uk](https://tracearr.suskins.co.uk) | False |
 
 ### Monitoring
 
@@ -264,4 +263,4 @@ The modular task structure allows you to enable/disable services by including/ex
 
 ---
 
-*Infrastructure managed with Ansible - Generated 2026-02-12T14:44:13Z*
+*Infrastructure managed with Ansible - Generated 2026-02-15T12:28:49Z*
