@@ -13,7 +13,7 @@
 - name: HUNTARR - Create container
   community.docker.docker_container:
     name: huntarr
-    image: ghcr.io/plexguide/huntarr:9.2.3
+    image: ghcr.io/plexguide/huntarr:9.3.0
     restart_policy: always
     state: started
     pull: true
