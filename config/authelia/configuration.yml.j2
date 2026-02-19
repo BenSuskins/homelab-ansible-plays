@@ -81,10 +81,10 @@ notifier:
 identity_providers:
   oidc:
     lifespans:
-      access_token: 1h
+      access_token: 4h
       authorize_code: 1m
-      id_token: 1h
-      refresh_token: 7d
+      id_token: 4h
+      refresh_token: 30d
     enable_client_debug_messages: false
     enforce_pkce: public_clients_only
     cors:
