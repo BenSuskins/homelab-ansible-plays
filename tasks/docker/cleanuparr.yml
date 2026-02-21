@@ -13,7 +13,7 @@
 - name: CLEANUPARR - Create container
   community.docker.docker_container:
     name: cleanuparr
-    image: ghcr.io/cleanuparr/cleanuparr:2.6.3
+    image: ghcr.io/cleanuparr/cleanuparr:2.6.4
     restart_policy: always
     state: started
     pull: true
