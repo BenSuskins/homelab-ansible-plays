@@ -26,7 +26,7 @@
 - name: GATUS - Create container
   community.docker.docker_container:
     name: gatus
-    image: twinproduction/gatus:v5.34.0
+    image: twinproduction/gatus:v5.35.0
     restart_policy: always
     state: started
     pull: true
