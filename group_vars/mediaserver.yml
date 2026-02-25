@@ -6,7 +6,7 @@ containers:
   - plex
   - sonarr
   - radarr
-  - overseerr
+  - seerr
   - prowlarr
   - bazarr
   - gluetun
