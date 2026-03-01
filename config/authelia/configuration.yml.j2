@@ -45,6 +45,10 @@ access_control:
   default_policy: deny
   rules:
     - domain:
+        - "authelia.{{ domain }}"
+      policy: one_factor
+
+    - domain:
         - "pve.{{ domain }}"
         - "grafana.{{ domain }}"
         - "games.{{ domain }}"
