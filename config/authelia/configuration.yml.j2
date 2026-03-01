@@ -13,14 +13,13 @@ log:
   level: info
   format: text
 
-theme: oled
+theme: light
 
 totp:
   disable: true
 
 webauthn:
   disable: false
-  enable_passkey_login: true
   display_name: Homelab
   attestation_conveyance_preference: indirect
   timeout: 60s
@@ -48,8 +47,12 @@ access_control:
         - "pve.{{ domain }}"
         - "grafana.{{ domain }}"
         - "games.{{ domain }}"
+      policy: two_factor
       subject:
         - "group:Suskins Admin"
+
+    - domain: "*.{{ domain }}"
+      policy: two_factor
 
 session:
   cookies:
@@ -113,6 +116,7 @@ identity_providers:
         client_name: Gatus
         client_secret: '{{ AUTHELIA_OIDC_GATUS_SECRET }}'
         public: false
+        authorization_policy: two_factor
         redirect_uris:
           - 'https://gatus.{{ domain }}/authorization-code/callback'
         scopes:
@@ -131,6 +135,7 @@ identity_providers:
         client_name: Grafana
         client_secret: '{{ AUTHELIA_OIDC_GRAFANA_SECRET }}'
         public: false
+        authorization_policy: 'two_factor'
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
@@ -152,6 +157,7 @@ identity_providers:
         client_name: Home Assistant
         client_secret: '{{ AUTHELIA_OIDC_HOMEASSISTANT_SECRET }}'
         public: false
+        authorization_policy: two_factor
         redirect_uris:
           - 'https://homeassistant.{{ domain }}/auth/openid/callback'
         scopes:
@@ -165,6 +171,7 @@ identity_providers:
         client_name: 'Proxmox'
         client_secret: '{{ AUTHELIA_OIDC_PROXMOX_SECRET }}'
         public: false
+        authorization_policy: 'two_factor'
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
