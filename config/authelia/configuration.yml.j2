@@ -193,3 +193,19 @@ identity_providers:
         access_token_signed_response_alg: 'none'
         userinfo_signed_response_alg: 'none'
         token_endpoint_auth_method: 'client_secret_basic'
+
+      - client_id: familyhub-ios
+        client_name: FamilyHub iOS
+        public: true          # no client secret — uses PKCE
+        redirect_uris:
+          - familyhub://callback
+        scopes:
+          - openid
+          - email
+          - profile
+        grant_types:
+          - authorization_code
+        response_types:
+          - code
+        pkce_challenge_method: S256
+        userinfo_signed_response_alg: none
