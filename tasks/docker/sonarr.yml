@@ -13,7 +13,7 @@
 - name: SONARR - Create container
   community.docker.docker_container:
     name: sonarr
-    image: ghcr.io/linuxserver/sonarr:4.0.16
+    image: ghcr.io/linuxserver/sonarr:4.0.17
     restart_policy: always
     state: started
     pull: true
