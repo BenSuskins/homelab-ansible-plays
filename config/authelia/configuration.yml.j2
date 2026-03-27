@@ -196,7 +196,8 @@ identity_providers:
 
       - client_id: familyhub-ios
         client_name: FamilyHub iOS
-        public: true          # no client secret — uses PKCE
+        public: true
+        token_endpoint_auth_method: none
         redirect_uris:
           - familyhub://callback
         scopes:

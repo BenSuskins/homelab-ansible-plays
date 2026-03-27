@@ -29,6 +29,7 @@
       SESSION_SECRET: "{{ SESSION_SECRET }}"
       OIDC_CLIENT_ID: "family-hub"
       OIDC_CLIENT_SECRET: "{{ AUTHELIA_OIDC_HUB_SECRET }}"
+      IOS_OIDC_CLIENT_ID: "familyhub-ios"
       DATABASE_PATH: /data/family-hub.db
 
 - name: FAMILY-HUB - Define service entry
