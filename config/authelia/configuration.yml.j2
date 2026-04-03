@@ -5,8 +5,8 @@ server:
     read: 4096
     write: 4096
   timeouts:
-    read: '6s'
-    write: '6s'
+    read: '15s'
+    write: '15s'
     idle: '30s'
 
 log:
@@ -65,14 +65,14 @@ session:
       authelia_url: "https://authelia.{{ domain }}"
       name: authelia_session
       same_site: lax
-      expiration: 1h
-      inactivity: 5m
+      expiration: 1w
+      inactivity: 1w
       remember_me: 1M
 
 regulation:
   max_retries: 3
-  find_time: 2m
-  ban_time: 5m
+  find_time: 5m
+  ban_time: 30m
 
 storage:
   local:
