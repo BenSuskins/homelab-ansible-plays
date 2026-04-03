@@ -9,6 +9,15 @@
     mode: "0755"
   loop:
     - "{{ base_dir }}/grafana"
+    - "{{ base_dir }}/grafana/dashboards"
+
+- name: GRAFANA - Copy dashboards
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/../config/grafana/dashboards/"
+    dest: "{{ base_dir }}/grafana/dashboards/"
+    owner: "472"
+    group: "472"
+    mode: "0644"
 
 - name: GRAFANA - Create container
   community.docker.docker_container:
@@ -23,6 +32,7 @@
       - name: homelab
     volumes:
       - "{{ base_dir }}/grafana:/var/lib/grafana"
+      - "{{ base_dir }}/grafana/dashboards:/var/lib/grafana/dashboards"
     env:
       GF_AUTH_GENERIC_OAUTH_ENABLED: "true"
       GF_AUTH_GENERIC_OAUTH_NAME: "authelia"
@@ -47,11 +57,25 @@
       - -euc
       - |
         mkdir -p /etc/grafana/provisioning/datasources
+        mkdir -p /etc/grafana/provisioning/dashboards
+        cat <<DEOF > /etc/grafana/provisioning/dashboards/dashboards.yaml
+        apiVersion: 1
+        providers:
+          - name: default
+            orgId: 1
+            folder: ''
+            type: file
+            disableDeletion: false
+            updateIntervalSeconds: 30
+            options:
+              path: /var/lib/grafana/dashboards
+        DEOF
         cat <<EOF > /etc/grafana/provisioning/datasources/ds.yaml
         apiVersion: 1
         datasources:
         - name: Loki
           type: loki
+          uid: loki
           access: proxy
           orgId: 1
           url: http://loki:3100
@@ -60,6 +84,7 @@
           editable: false
         - name: Prometheus
           type: prometheus
+          uid: prometheus
           access: proxy
           orgId: 1
           url: http://prometheus:9090
