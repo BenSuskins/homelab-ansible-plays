@@ -34,6 +34,7 @@
   ansible.builtin.set_fact:
     adguard_entry:
       name: adguard-home
+      description: DNS ad blocker
       host: "adguard-home.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"

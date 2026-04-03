@@ -99,6 +99,7 @@
   ansible.builtin.set_fact:
     grafana_entry:
       name: grafana
+      description: Observability dashboards
       host: "grafana.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"

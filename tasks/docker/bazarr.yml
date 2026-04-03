@@ -33,6 +33,7 @@
   ansible.builtin.set_fact:
     bazarr_entry:
       name: bazarr
+      description: Subtitle management
       host: "bazarr.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"

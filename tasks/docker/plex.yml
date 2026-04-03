@@ -33,6 +33,7 @@
   ansible.builtin.set_fact:
     plex_entry:
       name: plex
+      description: Media streaming server
       host: "plex.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"

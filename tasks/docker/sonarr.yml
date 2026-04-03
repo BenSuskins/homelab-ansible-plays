@@ -33,6 +33,7 @@
   ansible.builtin.set_fact:
     sonarr_entry:
       name: sonarr
+      description: TV show management
       host: "sonarr.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"

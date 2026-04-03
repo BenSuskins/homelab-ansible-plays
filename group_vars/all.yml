@@ -56,6 +56,7 @@ core_containers:
 static_services:
   # Bolsters
   - name: home
+    description: Homepage dashboard
     host: "home.{{ domain }}"
     ip: 192.168.0.102
     friendly_name: Docker
@@ -65,6 +66,7 @@ static_services:
     proxied: true
 
   - name: prometheus
+    description: Metrics database
     ip: 192.168.0.104
     host: "prometheus.{{ domain }}"
     friendly_name: Monitoring
@@ -75,6 +77,7 @@ static_services:
     homepage: true
 
   - name: gatus
+    description: Uptime monitoring
     ip: 192.168.0.104
     host: "gatus.{{ domain }}"
     friendly_name: Monitoring
@@ -86,6 +89,7 @@ static_services:
 
   # Proxmox
   - name: proxmox
+    description: Hypervisor management
     host: "pve.{{ domain }}"
     ip: 192.168.0.253
     friendly_name: General
@@ -99,6 +103,8 @@ static_services:
 
   # Unifi
   - name: unifi
+    description: Network management
+    icon: unifi-controller
     host: "unifi.{{ domain }}"
     ip: 192.168.0.1
     friendly_name: General
@@ -112,6 +118,7 @@ static_services:
 
   # NAS
   - name: truenas
+    description: Network attached storage
     host: "nas.{{ domain }}"
     ip: 192.168.0.100
     friendly_name: General
@@ -125,6 +132,8 @@ static_services:
 
   # Home Assistant
   - name: homeassistant
+    description: Smart home automation
+    icon: home-assistant
     host: "homeassistant.{{ domain }}"
     ip: 192.168.0.65
     friendly_name: General
@@ -137,6 +146,7 @@ static_services:
 
   # Games
   - name: games
+    description: Game server panel
     host: "games.{{ domain }}"
     ip: 192.168.0.202
     friendly_name: Games
@@ -157,6 +167,7 @@ static_services:
     proxied: true
 
   - name: minecraft
+    description: Minecraft server
     host: "minecraft.{{ domain }}"
     ip: 192.168.0.125
     friendly_name: Games

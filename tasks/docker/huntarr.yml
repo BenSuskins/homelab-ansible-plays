@@ -30,6 +30,7 @@
   ansible.builtin.set_fact:
     huntarr_entry:
       name: huntarr
+      description: Missing media hunter
       host: "huntarr.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"

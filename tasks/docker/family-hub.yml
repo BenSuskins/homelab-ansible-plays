@@ -36,6 +36,7 @@
   ansible.builtin.set_fact:
     family_hub_entry:
       name: family-hub
+      description: Family dashboard
       host: hub.{{ domain }}
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"

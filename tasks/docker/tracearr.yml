@@ -35,6 +35,7 @@
   ansible.builtin.set_fact:
     tracearr_entry:
       name: tracearr
+      description: Arr stack tracing
       host: "tracearr.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"

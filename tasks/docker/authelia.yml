@@ -51,6 +51,7 @@
   ansible.builtin.set_fact:
     authelia_entry:
       name: authelia
+      description: Authentication portal
       host: "authelia.{{ domain }}"
       ip: authelia
       friendly_name: "{{ friendly_name }}"

@@ -32,6 +32,7 @@
   ansible.builtin.set_fact:
     seerr_entry:
       name: seerr
+      description: Media request management
       host: "seerr.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"

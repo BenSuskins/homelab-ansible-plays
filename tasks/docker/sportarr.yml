@@ -33,6 +33,7 @@
   ansible.builtin.set_fact:
     sportarr_entry:
       name: sportarr
+      description: Sports media management
       host: "sportarr.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"

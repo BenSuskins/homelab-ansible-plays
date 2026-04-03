@@ -32,6 +32,7 @@
   ansible.builtin.set_fact:
     prowlarr_entry:
       name: prowlarr
+      description: Indexer management
       host: "prowlarr.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"

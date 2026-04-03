@@ -13,9 +13,3 @@
         - abbr: CF
           href: "https://cloudflare.com/"
           icon: si-cloudflare
-
-- Other:
-    - Github:
-        - abbr: GH
-          href: "https://github.com/"
-          icon: si-github

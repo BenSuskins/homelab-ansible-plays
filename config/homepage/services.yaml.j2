@@ -9,8 +9,8 @@
 {% for svc in homepage_services %}
     - {{ svc.name | capitalize }}:
         href: https://{{ svc.host }}
-        icon: {{ svc.name | lower }}
-        description: {{ svc.name | capitalize }} container
+        icon: {{ svc.icon | default(svc.name | lower) }}
+        description: {{ svc.description | default(svc.name | capitalize) }}
 {% endfor %}
 {% endif %}
 {% endfor %}

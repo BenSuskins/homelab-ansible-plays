@@ -32,6 +32,7 @@
   ansible.builtin.set_fact:
     profilarr_entry:
       name: profilarr
+      description: Quality profile sync
       host: "profilarr.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"

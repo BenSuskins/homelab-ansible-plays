@@ -33,6 +33,7 @@
   ansible.builtin.set_fact:
     shelfmark_entry:
       name: shelfmark
+      description: Book tracker
       host: "shelfmark.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"

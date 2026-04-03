@@ -32,6 +32,7 @@
   ansible.builtin.set_fact:
     cleanuparr_entry:
       name: cleanuparr
+      description: Media library cleanup
       host: "cleanuparr.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
