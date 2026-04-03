@@ -47,7 +47,7 @@
 
       limits_config:
         reject_old_samples: false
-    dest: "{{ base_dir }}/loki/config/local-config.yaml.j2"
+    dest: "{{ base_dir }}/loki/config/local-config.yaml"
     owner: "{{ username }}"
     group: "{{ username }}"
 
