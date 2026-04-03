@@ -1,6 +1,6 @@
 ---
 - name: CLEAN - Perform system cleanup
-  hosts: all
+  hosts: all:!bumblebee
   become: true
   become_method: ansible.builtin.su
   vars_files:
