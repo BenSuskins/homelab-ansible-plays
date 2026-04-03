@@ -5,8 +5,10 @@ special_containers:
   - homepage
 
 containers:
+  # Apps
+  - family-hub
   - pubgolf-backend
   - pubgolf-frontend
-  - cloudflare-ddns
+  # Infrastructure
   - adguard
-  - family-hub
+  - cloudflare-ddns

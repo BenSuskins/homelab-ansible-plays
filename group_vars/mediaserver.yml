@@ -3,19 +3,22 @@ base_dir: /home/mediaserver/server-mediaserver
 mount_nas: true
 
 containers:
+  # Streaming
   - plex
+  - tracearr
+  # Media management
   - sonarr
   - radarr
+  - bazarr
   - seerr
   - prowlarr
-  - bazarr
-  - gluetun
-  - metube
-  - qbittorrent
-  - doplarr
-  - open-books
-  - profilarr
-  - flaresolverr
-  - shelfmark
-  - tracearr
   - sportarr
+  - profilarr
+  # Downloads
+  - gluetun
+  - qbittorrent
+  - flaresolverr
+  - doplarr
+  - metube
+  - open-books
+  - shelfmark

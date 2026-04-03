@@ -79,6 +79,8 @@ Each service entry is a unified definition that controls Homepage, Traefik, Gatu
 
 | Variable | Type | Default | Description |
 |----------|------|---------|-------------|
+| `description` | string | `name` capitalized | Human-readable description shown on Homepage |
+| `icon` | string | `name` lowercase | Homepage dashboard icon (from [Dashboard Icons](https://github.com/walkxcode/dashboard-icons)) |
 | `host` | string | none | Full hostname for Traefik routing (e.g., `myapp.suskins.co.uk`) |
 | `port` | integer | none | Primary service port |
 | `scheme` | string | none | Protocol: `http` or `https` |
@@ -116,6 +118,8 @@ Each service entry is a unified definition that controls Homepage, Traefik, Gatu
   ansible.builtin.set_fact:
     myapp_entry:
       name: myapp
+      description: My application
+      icon: myapp
       host: "myapp.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"

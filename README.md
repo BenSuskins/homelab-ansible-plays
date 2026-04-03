@@ -34,6 +34,8 @@ Each service is defined using a unified schema in `tasks/docker/*.yml`:
   ansible.builtin.set_fact:
     service_entry:
       name: myapp                        # Service identifier
+      description: My application        # Homepage description
+      icon: myapp                        # Homepage icon (from dashboard-icons)
       host: "myapp.example.com"          # Hostname for Traefik routing
       ip: "192.168.0.101"     # Host IP address
       port: 8080                         # Service port

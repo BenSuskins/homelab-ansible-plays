@@ -87,7 +87,7 @@ static_services:
     proxied: true
     homepage: true
 
-  # Proxmox
+  # Infrastructure
   - name: proxmox
     description: Hypervisor management
     host: "pve.{{ domain }}"
@@ -101,7 +101,19 @@ static_services:
     homepage: true
     proxied: true
 
-  # Unifi
+  - name: truenas
+    description: Network attached storage
+    host: "nas.{{ domain }}"
+    ip: 192.168.0.100
+    friendly_name: General
+    port: 443
+    scheme: https
+    secured: false
+    healthcheck: true
+    healthcheck_path: "/ui/signin"
+    homepage: true
+    proxied: true
+
   - name: unifi
     description: Network management
     icon: unifi-controller
@@ -116,21 +128,7 @@ static_services:
     homepage: true
     proxied: true
 
-  # NAS
-  - name: truenas
-    description: Network attached storage
-    host: "nas.{{ domain }}"
-    ip: 192.168.0.100
-    friendly_name: General
-    port: 443
-    scheme: https
-    secured: false
-    healthcheck: true
-    healthcheck_path: "/ui/signin"
-    homepage: true
-    proxied: true
-
-  # Home Assistant
+  # Smart home
   - name: homeassistant
     description: Smart home automation
     icon: home-assistant
