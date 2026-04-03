@@ -19,6 +19,7 @@
     openbooks_entry:
       name: openbooks
       description: eBook downloader
+      icon: bookstack
       host: "openbooks.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"

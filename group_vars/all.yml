@@ -150,6 +150,7 @@ static_services:
     host: "games.{{ domain }}"
     ip: 192.168.0.202
     friendly_name: Games
+    icon: pelican
     port: 80
     scheme: http
     healthcheck: true

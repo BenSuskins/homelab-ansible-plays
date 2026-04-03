@@ -37,6 +37,7 @@
     family_hub_entry:
       name: family-hub
       description: Family dashboard
+      icon: homehub
       host: hub.{{ domain }}
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
