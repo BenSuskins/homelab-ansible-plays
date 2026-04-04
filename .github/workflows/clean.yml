@@ -7,6 +7,9 @@ jobs:
   clean:
     runs-on: self-hosted
     steps:
+      - name: Cleanup workspace
+        run: rm -rf "${{ github.workspace }}"/*
+
       - name: Checkout repo
         uses: actions/checkout@v6
 
