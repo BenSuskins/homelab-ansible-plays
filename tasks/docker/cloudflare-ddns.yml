@@ -12,7 +12,6 @@
       PROXIED: "true"
       CLOUDFLARE_API_TOKEN: "{{ CLOUDFLARE_API_TOKEN }}"
       DOMAINS: "{{ domain }},pubgolf.me"
-      UPTIMEKUMA: "http://{{ monitor_ip }}:3001/api/push/7nZobsusaR3Qduk42z2kWZTxj9vvuCcV?status=up&msg=OK&ping="
       IP6_PROVIDER: "none"
 
 - name: CLOUDFLARE-DDNS - Define service entry
