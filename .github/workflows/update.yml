@@ -6,16 +6,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  checkout-repo:
+  update:
     runs-on: self-hosted
     steps:
       - name: Checkout repo
         uses: actions/checkout@v6
-  
-  checkout-secrets:
-    runs-on: self-hosted
-    needs: [checkout-repo]
-    steps:
+
       - name: Checkout secrets repo
         uses: actions/checkout@v6
         with:
@@ -23,20 +19,18 @@ jobs:
           path: secrets
           token: ${{ secrets.SECRETS_REPO_TOKEN }}
 
-      - name: Move vault file
+      - name: Setup secrets
         run: |
           mkdir -p ~/.ansible
           mv secrets/vault.yml ~/.ansible/vault.yml
-  
-  run-ansible:
-    runs-on: self-hosted
-    needs: [checkout-repo, checkout-secrets]
-    steps:
-      - name: Create vault password file
-        run: |
           echo "${{ secrets.ANSIBLE_VAULT_PASS }}" > ~/.ansible_vault_pass
-          chmod 600 ~/.ansible_vault_pass
+          chmod 600 ~/.ansible_vault_pass ~/.ansible/vault.yml
 
       - name: Run Ansible
         run: |
           ansible-playbook plays/update.yml --vault-password-file ~/.ansible_vault_pass
+
+      - name: Cleanup secrets
+        if: always()
+        run: |
+          rm -f ~/.ansible_vault_pass ~/.ansible/vault.yml

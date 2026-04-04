@@ -5,18 +5,30 @@ on:
 
 jobs:
   clean:
-    if: github.event_name == 'workflow_dispatch'
     runs-on: self-hosted
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v6
 
-      - name: Create vault password file
+      - name: Checkout secrets repo
+        uses: actions/checkout@v6
+        with:
+          repository: bensuskins/secrets
+          path: secrets
+          token: ${{ secrets.SECRETS_REPO_TOKEN }}
+
+      - name: Setup secrets
         run: |
+          mkdir -p ~/.ansible
+          mv secrets/vault.yml ~/.ansible/vault.yml
           echo "${{ secrets.ANSIBLE_VAULT_PASS }}" > ~/.ansible_vault_pass
-          chmod 600 ~/.ansible_vault_pass
+          chmod 600 ~/.ansible_vault_pass ~/.ansible/vault.yml
 
       - name: Run Ansible
         run: |
           ansible-playbook plays/clean.yml --vault-password-file ~/.ansible_vault_pass
+
+      - name: Cleanup secrets
+        if: always()
+        run: |
+          rm -f ~/.ansible_vault_pass ~/.ansible/vault.yml
