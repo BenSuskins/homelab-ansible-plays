@@ -68,7 +68,7 @@
 
       prometheus.scrape "cadvisor" {
         targets         = prometheus.exporter.cadvisor.containers.targets
-        forward_to      = [prometheus.remote_write.default.receiver]
+        forward_to      = [prometheus.relabel.set_instance.receiver]
         scrape_interval = "60s"
       }
 
@@ -81,8 +81,17 @@
 
       prometheus.scrape "unix" {
         targets         = prometheus.exporter.unix.host.targets
-        forward_to      = [prometheus.remote_write.default.receiver]
+        forward_to      = [prometheus.relabel.set_instance.receiver]
         scrape_interval = "60s"
+      }
+
+      // Rewrite instance label to the host's inventory name so dashboards can filter/group by host
+      prometheus.relabel "set_instance" {
+        forward_to = [prometheus.remote_write.default.receiver]
+        rule {
+          target_label = "instance"
+          replacement  = "{{ inventory_hostname }}"
+        }
       }
 
       prometheus.remote_write "default" {

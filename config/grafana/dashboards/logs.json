@@ -79,7 +79,7 @@
         "name": "container",
         "type": "query",
         "datasource": { "type": "loki", "uid": "loki" },
-        "query": "label_values({job=~\".+\"}, container)",
+        "query": "label_values({container=~\".+\"}, container)",
         "includeAll": true,
         "allValue": ".+",
         "current": { "selected": true, "text": "All", "value": "$__all" },
