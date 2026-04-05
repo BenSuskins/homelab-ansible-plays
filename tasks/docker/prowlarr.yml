@@ -13,7 +13,7 @@
 - name: PROWLARR - Create container
   community.docker.docker_container:
     name: prowlarr
-    image: ghcr.io/linuxserver/prowlarr:2.3.0
+    image: ghcr.io/linuxserver/prowlarr:2.3.5
     restart_policy: always
     state: started
     pull: true
