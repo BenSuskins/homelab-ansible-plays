@@ -62,8 +62,10 @@
 
       // Container metrics (replaces cadvisor)
       prometheus.exporter.cadvisor "containers" {
-        docker_host      = "unix:///var/run/docker.sock"
-        storage_duration = "5m"
+        docker_host             = "unix:///var/run/docker.sock"
+        docker_only             = true
+        store_container_labels  = false
+        storage_duration        = "5m"
       }
 
       prometheus.scrape "cadvisor" {
@@ -122,6 +124,7 @@
       - "/proc:/host/proc:ro"
       - "/var/lib/docker/:/var/lib/docker:ro"
       - "/dev/disk/:/dev/disk:ro"
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
 
 - name: ALLOY - Define service entry
   ansible.builtin.set_fact:
