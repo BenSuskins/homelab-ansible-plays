@@ -120,7 +120,7 @@
         },
         "overrides": []
       },
-      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "options": { "textMode": "value_and_name", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
       "targets": [
         {
           "expr": "time() - node_boot_time_seconds",
