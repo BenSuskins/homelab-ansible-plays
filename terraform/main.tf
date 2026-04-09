@@ -14,7 +14,7 @@ terraform {
 
     # Cloudflare R2 endpoint — replace <ACCOUNT_ID> with your Cloudflare account ID
     endpoints = {
-      s3 = "https://<ACCOUNT_ID>.r2.cloudflarestorage.com"
+      s3 = "https://5f5532f14ac2515183403022a0148383.r2.cloudflarestorage.com"
     }
 
     region                      = "auto"
