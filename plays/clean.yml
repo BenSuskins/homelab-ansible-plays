@@ -41,6 +41,27 @@
             msg: "Journal cleanup failed, continuing"
       tags: [cleanup]
 
+    - name: CLEAN - Truncate Docker container logs
+      block:
+        - name: CLEAN - Find container log files
+          ansible.builtin.find:
+            paths: /var/lib/docker/containers
+            patterns: "*-json.log"
+            recurse: true
+          register: container_logs
+
+        - name: CLEAN - Truncate container log files
+          ansible.builtin.command: truncate -s 0 {{ item.path }}
+          loop: "{{ container_logs.files }}"
+          loop_control:
+            label: "{{ item.path | basename }}"
+          changed_when: item.size > 0
+      rescue:
+        - name: CLEAN - Warn log truncation failed
+          ansible.builtin.debug:
+            msg: "Docker log truncation failed, continuing"
+      tags: [docker, cleanup]
+
     - name: CLEAN - Prune unused Docker resources
       block:
         - name: CLEAN - Run docker prune
