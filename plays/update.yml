@@ -34,6 +34,28 @@
       when: firewall | default(false) | bool
       tags: [firewall]
 
+    - name: UPDATE - Configure Docker daemon log limits
+      ansible.builtin.copy:
+        dest: /etc/docker/daemon.json
+        content: |
+          {
+            "log-driver": "json-file",
+            "log-opts": {
+              "max-size": "10m",
+              "max-file": "3"
+            }
+          }
+        mode: "0644"
+      register: docker_daemon_config
+      tags: [docker]
+
+    - name: UPDATE - Restart Docker if daemon config changed
+      ansible.builtin.service:
+        name: docker
+        state: restarted
+      when: docker_daemon_config.changed
+      tags: [docker]
+
     - name: UPDATE - Docker operations
       block:
         - name: UPDATE - Build expected container list

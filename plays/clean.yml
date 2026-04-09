@@ -47,11 +47,9 @@
           community.docker.docker_prune:
             containers: false
             images: true
-            images_filters:
-              dangling: true
             networks: false
             volumes: false
-            builder_cache: false
+            builder_cache: true
           register: docker_prune_res
       rescue:
         - name: CLEAN - Warn docker prune failed
