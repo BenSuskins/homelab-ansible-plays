@@ -41,6 +41,29 @@
             msg: "Journal cleanup failed, continuing"
       tags: [cleanup]
 
+    - name: CLEAN - Remove old tmp files
+      block:
+        - name: CLEAN - Find tmp files older than 7 days
+          ansible.builtin.find:
+            paths: /tmp
+            age: 7d
+            recurse: true
+            file_type: any
+          register: old_tmp_files
+
+        - name: CLEAN - Delete old tmp files
+          ansible.builtin.file:
+            path: "{{ item.path }}"
+            state: absent
+          loop: "{{ old_tmp_files.files }}"
+          loop_control:
+            label: "{{ item.path | basename }}"
+      rescue:
+        - name: CLEAN - Warn tmp cleanup failed
+          ansible.builtin.debug:
+            msg: "Tmp cleanup failed, continuing"
+      tags: [cleanup]
+
     - name: CLEAN - Truncate Docker container logs
       block:
         - name: CLEAN - Find container log files
@@ -66,10 +89,10 @@
       block:
         - name: CLEAN - Run docker prune
           community.docker.docker_prune:
-            containers: false
+            containers: true
             images: true
             networks: false
-            volumes: false
+            volumes: true
             builder_cache: true
           register: docker_prune_res
       rescue:
