@@ -61,7 +61,6 @@
       healthcheck: true
       homepage: true
       proxied: true
-      exposed: true
 
 - name: AUTHELIA - Append to docker_services
   ansible.builtin.set_fact:

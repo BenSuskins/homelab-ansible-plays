@@ -45,7 +45,7 @@ For CI/CD, vault password is read from `~/.ansible_vault_pass` file.
 ### Task Organization
 - `tasks/core/` - Base setup tasks (base.yml, docker.yml)
 - `tasks/docker/` - One file per container (e.g., plex.yml, grafana.yml)
-- `tasks/other/` - Misc tasks (firewall.yml, cloudflare_cnames.yml)
+- `tasks/other/` - Misc tasks (firewall.yml)
 
 ### Container Task Pattern
 
@@ -65,7 +65,7 @@ Example structure:
 
 ### Service Entry Variables
 
-Each service entry is a unified definition that controls Homepage, Traefik, Gatus, Prometheus, and Cloudflare. Variables are defined in the `set_fact` task for each container.
+Each service entry is a unified definition that controls Homepage, Traefik, Gatus, and Prometheus. Variables are defined in the `set_fact` task for each container.
 
 #### Required Fields
 
@@ -89,12 +89,6 @@ Each service entry is a unified definition that controls Homepage, Traefik, Gatu
 | `proxied` | boolean | `false` | Include in Traefik routing |
 | `path_prefix` | string | none | Restrict Traefik routing to specific path (e.g., `/api/v1`) |
 | `middleware` | string | none | Additional Traefik middleware (e.g., `unifi-headers`) |
-
-#### Cloudflare DNS
-
-| Variable | Type | Default | Description |
-|----------|------|---------|-------------|
-| `exposed` | boolean | `false` | Create Cloudflare CNAME record for external access |
 
 #### Gatus Health Monitoring
 
@@ -131,7 +125,6 @@ Each service entry is a unified definition that controls Homepage, Traefik, Gatu
       homepage: true                     # Optional: show on Homepage
       proxied: true                      # Optional: include in Traefik routing
       path_prefix: /api/v1               # Optional: restrict to specific path
-      exposed: true                      # Optional: create DNS record
       metrics: true              # Optional: Prometheus scraping
       metrics_port: 9090                 # Optional: if metrics on different port
       metrics_path: /actuator/prometheus # Optional: custom metrics path
@@ -148,7 +141,7 @@ The `docker_services` list is aggregated across all hosts via `tasks/core/aggreg
 - Configure Traefik routing via `config/traefik/dynamic/http.yml.j2`
 - Set up Gatus monitoring via `config/gatus/config.yaml.j2`
 - Generate Prometheus scrape configs via `config/prometheus/config.yml.j2`
-- Create Cloudflare DNS records via `tasks/other/cloudflare_cnames.yml`
+- Cloudflare DNS records are managed via Terraform in `terraform/`
 
 ### Docker Image Updates
 
