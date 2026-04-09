@@ -8,7 +8,11 @@ http:
 {% for svc in services %}
     {{ svc.name }}:
       rule: "Host(`{{ svc.host }}`){% if svc.path_prefix is defined %} && PathPrefix(`{{ svc.path_prefix }}`){% endif %}"
+{% if svc.name == 'traefik' %}
+      service: "api@internal"
+{% else %}
       service: "{{ svc.name }}"
+{% endif %}
       entryPoints:
         - websecure
       middlewares:
@@ -24,6 +28,7 @@ http:
 
   services:
 {% for svc in services %}
+{% if svc.name != 'traefik' %}
     {{ svc.name }}:
       loadBalancer:
 {% if svc.scheme == 'https' %}
@@ -31,6 +36,7 @@ http:
 {% endif %}
         servers:
           - url: "{{ svc.scheme }}://{{ svc.ip }}:{{ svc.port }}"
+{% endif %}
 {% endfor %}
 
   serversTransports:

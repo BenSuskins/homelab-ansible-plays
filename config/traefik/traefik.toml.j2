@@ -12,6 +12,13 @@
   [entryPoints.web]
     address = ":80"
 
+    [entryPoints.web.http]
+      [entryPoints.web.http.redirections]
+        [entryPoints.web.http.redirections.entryPoint]
+          to = "websecure"
+          scheme = "https"
+          permanent = true
+
     [entryPoints.web.forwardedHeaders]
       trustedIPs = [
 {% for ip in cloudflare_ips %}
@@ -21,6 +28,9 @@
 
   [entryPoints.websecure]
     address = ":443"
+
+  [entryPoints.metrics]
+    address = ":8082"
 
 ################################################################
 # Logging Configuration
@@ -47,7 +57,6 @@
 ################################################################
 [api]
   dashboard = true
-  insecure = true
 
 ################################################################
 # Ping Configuration
@@ -59,6 +68,7 @@
 ################################################################
 [metrics]
   [metrics.prometheus]
+    entryPoint = "metrics"
 
 ################################################################
 # Providers

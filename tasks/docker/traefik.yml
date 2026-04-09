@@ -74,7 +74,7 @@
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"
+      - "8082:8082"
     volumes:
       - "{{ base_dir }}/traefik:/etc/traefik"
       - "{{ base_dir }}/traefik/logs:/logs"
@@ -89,14 +89,14 @@
       host: "traefik.{{ domain }}"
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
-      port: 8080
+      port: 8082
       scheme: http
       secured: true
       healthcheck: true
       homepage: true
       proxied: true
       metrics: true
-      metrics_port: 8080
+      metrics_port: 8082
 
 - name: TRAEFIK - Append to docker_services
   ansible.builtin.set_fact:

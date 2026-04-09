@@ -14,7 +14,7 @@
     proto: tcp
   loop:
     - 22 # SSH
-    - 8080 # Traefik
+    - 8082 # Traefik metrics
     - 3100 # Loki
     - 9091 # Authelia
 

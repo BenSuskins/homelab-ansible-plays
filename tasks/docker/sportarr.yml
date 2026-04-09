@@ -13,7 +13,7 @@
 - name: SPORTARR - Create container
   community.docker.docker_container:
     name: sportarr
-    image: sportarr/sportarr:latest
+    image: sportarr/sportarr:4.0
     restart_policy: always
     state: started
     pull: true

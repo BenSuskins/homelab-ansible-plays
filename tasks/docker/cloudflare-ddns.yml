@@ -2,7 +2,7 @@
 - name: CLOUDFLARE-DDNS - Create container
   community.docker.docker_container:
     name: cloudflare-ddns
-    image: favonia/cloudflare-ddns
+    image: favonia/cloudflare-ddns:1.16.2
     restart_policy: always
     state: started
     pull: true
