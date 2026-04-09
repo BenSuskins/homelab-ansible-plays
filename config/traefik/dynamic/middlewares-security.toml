@@ -1,0 +1,11 @@
+[http.middlewares]
+  [http.middlewares.security-headers.headers]
+    stsSeconds = 31536000
+    stsIncludeSubdomains = true
+    stsPreload = true
+    forceSTSHeader = true
+    contentTypeNosniff = true
+    frameDeny = true
+    referrerPolicy = "strict-origin-when-cross-origin"
+    [http.middlewares.security-headers.headers.customResponseHeaders]
+      Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"

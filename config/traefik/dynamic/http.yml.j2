@@ -20,6 +20,7 @@ http:
         - authelia
 {% endif %}
         - ratelimit
+        - security-headers
 {% if svc.middleware is defined %}
         - {{ svc.middleware }}
 {% endif %}

@@ -29,6 +29,13 @@
   [entryPoints.websecure]
     address = ":443"
 
+    [entryPoints.websecure.forwardedHeaders]
+      trustedIPs = [
+{% for ip in cloudflare_ips %}
+        "{{ ip }}",
+{% endfor %}
+      ]
+
   [entryPoints.metrics]
     address = ":8082"
 
