@@ -20,6 +20,9 @@
       "groupName": "Ansible Docker Images"
     }
   ],
+  "terraform": {
+    "enabled": true
+  },
   "ansible": {
     "managerFilePatterns": [
       "/tasks/docker/.+\\.ya?ml$/"

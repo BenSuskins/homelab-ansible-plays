@@ -13,6 +13,7 @@ This project provides a declarative approach to homelab infrastructure managemen
 - **Integrated Monitoring Stack** - Prometheus metrics, Loki logging, Grafana dashboards, and Gatus health checks
 - **Secrets Management** - Ansible Vault for encrypted credential storage
 - **Automated Updates** - Renovate integration for tracking and updating container image versions
+- **Infrastructure as Code DNS** - Cloudflare DNS managed via Terraform with approval-gated CI/CD
 - **Service Discovery** - Automatic aggregation of services across all hosts for centralized configuration
 
 ## Architecture
@@ -40,7 +41,6 @@ Each service is defined using a unified schema in `tasks/docker/*.yml`:
       scheme: http                       # http or https
       secured: true                      # Require authentication
       proxied: true                      # Enable Traefik routing
-      exposed: true                      # Create Cloudflare DNS record
       healthcheck: true                  # Enable Gatus monitoring
       healthcheck_path: /health          # Health endpoint
       metrics: true                      # Enable Prometheus scraping
@@ -181,10 +181,10 @@ The modular task structure allows you to enable/disable services by including/ex
 
 ### {{ group }}
 
-| Service | Host | Port | Direct URL | URL | Exposed |
-|---------|------|------|------------|-----|---------|
+| Service | Host | Port | Direct URL | URL |
+|---------|------|------|------------|-----|
 {% for svc in services | sort(attribute='name') %}
-| {{ svc.name }} | {{ svc.ip }} | {{ svc.port | default('-') }} | {% if svc.port is defined and svc.port != '' %}[{{ svc.ip }}:{{ svc.port }}](http://{{ svc.ip }}:{{ svc.port }}){% else %}-{% endif %} | {% if svc.proxied | default(false) %}[{{ svc.host }}](https://{{ svc.host }}){% else %}-{% endif %} | {{ svc.exposed | default(false) }} |
+| {{ svc.name }} | {{ svc.ip }} | {{ svc.port | default('-') }} | {% if svc.port is defined and svc.port != '' %}[{{ svc.ip }}:{{ svc.port }}](http://{{ svc.ip }}:{{ svc.port }}){% else %}-{% endif %} | {% if svc.proxied | default(false) %}[{{ svc.host }}](https://{{ svc.host }}){% else %}-{% endif %} |
 {% endfor %}
 {% endfor %}
 

@@ -42,7 +42,6 @@
       healthcheck: true
       homepage: true
       proxied: true
-      exposed: false
 
 - name: SEERR - Append to docker_services
   ansible.builtin.set_fact:

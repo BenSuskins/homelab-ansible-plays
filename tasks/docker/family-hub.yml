@@ -46,7 +46,6 @@
       secured: false
       healthcheck: true
       proxied: true
-      exposed: true
       healthcheck_path: '/health'
       # path_prefix: /api/v1
       # metrics_port: 8080
