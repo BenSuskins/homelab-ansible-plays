@@ -81,8 +81,32 @@ resource "cloudflare_ruleset" "suskins_rate_limit" {
       action      = "block"
       ratelimit = {
         characteristics     = ["ip.src", "cf.colo.id"]
-        period              = 60
-        requests_per_period = 10
+        period              = 10
+        requests_per_period = 5
+        mitigation_timeout  = 600
+      }
+      enabled = true
+    },
+  ]
+}
+
+# Rate limiting ruleset for pubgolf.me (Free plan: 1 rate limit rule)
+resource "cloudflare_ruleset" "pubgolf_rate_limit" {
+  zone_id     = data.cloudflare_zone.pubgolf.zone_id
+  name        = "pubgolf-rate-limit"
+  description = "Rate limit rules for pubgolf.me"
+  kind        = "zone"
+  phase       = "http_ratelimit"
+
+  rules = [
+    {
+      description = "Rate limit all pubgolf.me traffic"
+      expression  = "(http.host eq \"pubgolf.me\" or ends_with(http.host, \".pubgolf.me\"))"
+      action      = "block"
+      ratelimit = {
+        characteristics     = ["ip.src", "cf.colo.id"]
+        period              = 10
+        requests_per_period = 5
         mitigation_timeout  = 600
       }
       enabled = true
