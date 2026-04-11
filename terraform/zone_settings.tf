@@ -33,3 +33,19 @@ resource "cloudflare_zone_setting" "hardening" {
   setting_id = each.value.setting_id
   value      = each.value.value
 }
+
+resource "cloudflare_zone_setting" "hsts" {
+  for_each = local.cloudflare_zones
+
+  zone_id    = each.value
+  setting_id = "security_header"
+  value = {
+    strict_transport_security = {
+      enabled            = true
+      max_age            = 31536000
+      include_subdomains = true
+      preload            = true
+      nosniff            = true
+    }
+  }
+}
