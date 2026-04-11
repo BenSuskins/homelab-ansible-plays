@@ -11,10 +11,10 @@ jobs:
         run: rm -rf "${{ github.workspace }}"/*
 
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Checkout secrets repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: bensuskins/secrets
           path: secrets
