@@ -29,48 +29,6 @@ locals {
   ]
 }
 
-# Managed WAF — deploy Cloudflare Managed Ruleset at the zone level.
-# If Free plan rejects execution of this ruleset, remove these two resources.
-resource "cloudflare_ruleset" "suskins_managed_waf" {
-  zone_id     = data.cloudflare_zone.suskins.zone_id
-  name        = "suskins-managed-waf"
-  description = "Deploy Cloudflare Managed Ruleset for suskins.co.uk"
-  kind        = "zone"
-  phase       = "http_request_firewall_managed"
-
-  rules = [
-    {
-      description = "Execute Cloudflare Managed Ruleset"
-      expression  = "true"
-      action      = "execute"
-      action_parameters = {
-        id = "efb7b8c949ac4650a09736fc376e9aee"
-      }
-      enabled = true
-    },
-  ]
-}
-
-resource "cloudflare_ruleset" "pubgolf_managed_waf" {
-  zone_id     = data.cloudflare_zone.pubgolf.zone_id
-  name        = "pubgolf-managed-waf"
-  description = "Deploy Cloudflare Managed Ruleset for pubgolf.me"
-  kind        = "zone"
-  phase       = "http_request_firewall_managed"
-
-  rules = [
-    {
-      description = "Execute Cloudflare Managed Ruleset"
-      expression  = "true"
-      action      = "execute"
-      action_parameters = {
-        id = "efb7b8c949ac4650a09736fc376e9aee"
-      }
-      enabled = true
-    },
-  ]
-}
-
 # Custom WAF ruleset for suskins.co.uk
 # Cloudflare Free plan allows up to 5 custom rules per zone.
 resource "cloudflare_ruleset" "suskins_waf" {
