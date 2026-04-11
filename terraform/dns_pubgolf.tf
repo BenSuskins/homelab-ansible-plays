@@ -31,4 +31,22 @@ resource "cloudflare_dns_record" "pubgolf_www" {
   ttl     = 1
 }
 
+resource "cloudflare_dns_record" "pubgolf_api" {
+  zone_id = data.cloudflare_zone.pubgolf.zone_id
+  name    = "api"
+  type    = "CNAME"
+  content = "pubgolf.me"
+  proxied = true
+  ttl     = 1
+}
+
+resource "cloudflare_dns_record" "pubgolf_google_verification" {
+  zone_id = data.cloudflare_zone.pubgolf.zone_id
+  name    = "pubgolf.me"
+  type    = "TXT"
+  content = "\"google-site-verification=kgHV8yKJS6iaORrmVm2wiE_KXhPPECZZ85KYBh_UQ-8\""
+  proxied = false
+  ttl     = 3600
+}
+
 # Add DNS records for the pubgolf.me zone below.
