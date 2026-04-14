@@ -1,0 +1,56 @@
+---
+- name: ETERNAL-VOWS - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0750"
+  loop:
+    - "{{ base_dir }}/eternal-vows"
+
+- name: ETERNAL-VOWS - Create ratelimit middleware
+  ansible.builtin.copy:
+    src: ../config/eternal-vows/eternal-vows.yaml
+    dest: "{{ base_dir }}/eternal-vows/config.yaml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: ETERNAL-VOWS - Create container
+  community.docker.docker_container:
+    name: eternal-vows
+    image: ghcr.io/jacoknapp/eternalvows:latest
+    restart_policy: always
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    volumes:
+      - "{{ base_dir }}/eternal-vows:/app/config"      
+    ports:
+      - "5500:5500"
+
+- name: ETERNAL-VOWS - Define service entry
+  ansible.builtin.set_fact:
+    eternal_vows_entry:
+      name: eternal-vows
+      description: Wedding Plan
+      icon: homehub
+      host: wedding.{{ domain }}
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 5500
+      scheme: http
+      homepage: true
+      secured: false
+      healthcheck: true
+      proxied: true
+      # healthcheck_path: '/health'
+      # path_prefix: /api/v1
+      # metrics_port: 8080
+      # metrics_path: /actuator/prometheus
+
+- name: ETERNAL-VOWS - Append to docker_services
+  ansible.builtin.set_fact:
+    docker_services: "{{ docker_services + [eternal_vows_entry] }}"

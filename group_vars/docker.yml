@@ -9,6 +9,7 @@ containers:
   - family-hub
   - pubgolf-backend
   - pubgolf-frontend
+  - eternal-vows
   # Infrastructure
   - adguard
   - cloudflare-ddns
