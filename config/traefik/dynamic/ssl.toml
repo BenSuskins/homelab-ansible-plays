@@ -10,6 +10,10 @@
   keyFile = "/etc/traefik/certs/hub_key.pem"  
 
 [[tls.certificates]]
+  certFile = "/etc/traefik/certs/wedding.pem"
+  keyFile = "/etc/traefik/certs/wedding_key.pem"  
+
+[[tls.certificates]]
   certFile = "/etc/traefik/certs/cert.pem"
   keyFile = "/etc/traefik/certs/key.pem"
 
