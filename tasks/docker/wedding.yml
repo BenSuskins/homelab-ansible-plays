@@ -30,6 +30,9 @@
       OIDC_ISSUER: "https://authelia.{{ domain }}"
       OIDC_CLIENT_ID: wedding-admin
       OIDC_CLIENT_SECRET: "{{ AUTHELIA_OIDC_WEDDING_SECRET }}"
+      AUTH_URL: "https://wedding.{{ domain }}"
+      AUTH_TRUST_HOST: "true"
+      PUBLIC_BASE_URL: "https://wedding.{{ domain }}"
 
 - name: WEDDING - Define service entry
   ansible.builtin.set_fact:
