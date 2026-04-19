@@ -9,12 +9,7 @@
   loop:
     - "{{ base_dir }}/wedding-db/data"
 
-- name: WEDDING-DB - Stat pg_logical/snapshots
-  ansible.builtin.stat:
-    path: "{{ base_dir }}/wedding-db/data/pg_logical/snapshots"
-  register: pg_snapshots_dir
-
-- name: WEDDING-DB - Pre-create pg_logical/snapshots with correct ownership
+- name: WEDDING-DB - Ensure pg_logical/snapshots ownership before container starts
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
@@ -24,7 +19,6 @@
   loop:
     - "{{ base_dir }}/wedding-db/data/pg_logical"
     - "{{ base_dir }}/wedding-db/data/pg_logical/snapshots"
-  when: not pg_snapshots_dir.stat.exists
 
 - name: WEDDING-DB - Create container
   community.docker.docker_container:
