@@ -1,0 +1,38 @@
+---
+- name: WEDDING-DB - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "999"
+    group: "999"
+    mode: "0700"
+  loop:
+    - "{{ base_dir }}/wedding-db/data"
+
+- name: WEDDING-DB - Create container
+  community.docker.docker_container:
+    name: wedding-db
+    image: postgres:16-alpine
+    restart_policy: always
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    volumes:
+      - "{{ base_dir }}/wedding-db/data:/var/lib/postgresql/data"
+    env:
+      POSTGRES_DB: wedding
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "{{ WEDDING_DB_PASSWORD }}"
+
+- name: WEDDING-DB - Define service entry
+  ansible.builtin.set_fact:
+    wedding_db_entry:
+      name: wedding-db
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+
+- name: WEDDING-DB - Append to docker_services
+  ansible.builtin.set_fact:
+    docker_services: "{{ docker_services + [wedding_db_entry] }}"
