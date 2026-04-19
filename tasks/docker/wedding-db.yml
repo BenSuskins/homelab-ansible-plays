@@ -1,24 +1,11 @@
 ---
-- name: WEDDING-DB - Create directory and permissions
+- name: WEDDING-DB - Create directory and fix ownership
   ansible.builtin.file:
-    path: "{{ item }}"
+    path: "{{ base_dir }}/wedding-db/data"
     state: directory
+    recurse: true
     owner: "999"
     group: "999"
-    mode: "0700"
-  loop:
-    - "{{ base_dir }}/wedding-db/data"
-
-- name: WEDDING-DB - Ensure pg_logical/snapshots ownership before container starts
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: directory
-    owner: "999"
-    group: "999"
-    mode: "0700"
-  loop:
-    - "{{ base_dir }}/wedding-db/data/pg_logical"
-    - "{{ base_dir }}/wedding-db/data/pg_logical/snapshots"
 
 - name: WEDDING-DB - Create container
   community.docker.docker_container:
