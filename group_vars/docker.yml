@@ -9,6 +9,8 @@ containers:
   - family-hub
   - pubgolf-backend
   - pubgolf-frontend
+  - wedding-db
+  - wedding
   # Infrastructure
   - adguard
   - cloudflare-ddns
