@@ -42,8 +42,8 @@ resource "cloudflare_dns_record" "hub" {
 
 resource "cloudflare_dns_record" "wedding" {
   zone_id = data.cloudflare_zone.suskins.zone_id
-  name    = "hub"
-  type    = "wedding"
+  name    = "wedding"
+  type    = "CNAME"
   content = "suskins.co.uk"
   proxied = true
   ttl     = 1
