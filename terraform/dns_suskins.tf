@@ -40,6 +40,15 @@ resource "cloudflare_dns_record" "hub" {
   ttl     = 1
 }
 
+resource "cloudflare_dns_record" "wedding" {
+  zone_id = data.cloudflare_zone.suskins.zone_id
+  name    = "hub"
+  type    = "wedding"
+  content = "suskins.co.uk"
+  proxied = true
+  ttl     = 1
+}
+
 resource "cloudflare_dns_record" "suskins_www" {
   zone_id = data.cloudflare_zone.suskins.zone_id
   name    = "www"
