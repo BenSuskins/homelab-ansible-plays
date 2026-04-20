@@ -1,11 +1,11 @@
 ---
-- name: WEDDING-DB - Create directory and fix ownership
-  ansible.builtin.file:
-    path: "{{ base_dir }}/wedding-db/data"
-    state: directory
-    recurse: true
-    owner: "999"
-    group: "999"
+# - name: WEDDING-DB - Create directory and fix ownership
+#   ansible.builtin.file:
+#     path: "{{ base_dir }}/wedding-db/data"
+#     state: directory
+#     recurse: true
+#     owner: "999"
+#     group: "999"
 
 - name: WEDDING-DB - Create container
   community.docker.docker_container:
