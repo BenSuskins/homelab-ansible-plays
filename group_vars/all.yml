@@ -37,6 +37,7 @@ packages:
   - sudo
   - ufw
   - nfs-common
+  - cron
 
 docker_dependencies:
   - ca-certificates
