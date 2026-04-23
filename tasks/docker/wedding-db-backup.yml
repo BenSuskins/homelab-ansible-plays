@@ -1,7 +1,7 @@
 ---
 - name: WEDDING-DB-BACKUP - Create backup directory
   ansible.builtin.file:
-    path: "{{ base_dir }}/wedding-db/backups"
+    path: "{{ base_dir }}/backups"
     state: directory
     mode: "0750"
 
@@ -12,7 +12,7 @@
     content: |
       #!/bin/sh
       set -eu
-      BACKUP_DIR="{{ base_dir }}/wedding-db/backups"
+      BACKUP_DIR="{{ base_dir }}/backups"
       RETENTION_DAYS=14
       SLUG=$(date -u +%Y-%m-%dT%H-%M-%SZ)
       OUT="$BACKUP_DIR/pgdump-$SLUG.dump"
