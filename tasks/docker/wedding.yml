@@ -1,14 +1,14 @@
 ---
-- name: WEDDING - Create directory and permissions
-  ansible.builtin.file:
-    path: "{{ item }}"
-    recurse: true
-    state: directory
-    owner: "{{ username }}"
-    group: "{{ username }}"
-    mode: "0750"
-  loop:
-    - "{{ base_dir }}/wedding/uploads"
+# - name: WEDDING - Create directory and permissions
+#   ansible.builtin.file:
+#     path: "{{ item }}"
+#     recurse: true
+#     state: directory
+#     owner: "{{ username }}"
+#     group: "{{ username }}"
+#     mode: "0750"
+#   loop:
+#     - "{{ base_dir }}/wedding/uploads"
 
 - name: WEDDING - Create container
   community.docker.docker_container:

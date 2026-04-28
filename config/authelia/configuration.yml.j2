@@ -205,7 +205,7 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: S256
         redirect_uris:
-          - 'https://wedding.{{ domain }}/api/auth/callback/authelia'
+          - 'https://wedding.{{ domain }}/api/auth/callback/oidc'
         scopes:
           - openid
           - profile
