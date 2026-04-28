@@ -33,7 +33,7 @@
 - name: PROMETHEUS - Create container
   community.docker.docker_container:
     name: prometheus
-    image: prom/prometheus:v3.11.2
+    image: prom/prometheus:v3.11.3
     restart_policy: always
     state: started
     pull: true
