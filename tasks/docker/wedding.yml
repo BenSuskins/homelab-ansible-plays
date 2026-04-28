@@ -22,7 +22,7 @@
     ports:
       - "3004:3000"
     volumes:
-      - "{{ base_dir }}/wedding/uploads:/app/uploads"
+      - "{{ base_dir }}/wedding/uploads:/app/public/images"
     env:
       DATABASE_URL: "postgresql://postgres:{{ WEDDING_DB_PASSWORD }}@wedding-db:5432/wedding?schema=public"
       INVITE_TOKEN_SECRET: "{{ WEDDING_INVITE_TOKEN_SECRET }}"
