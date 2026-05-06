@@ -29,7 +29,15 @@ jobs:
 
       - name: Run Ansible
         run: |
-          ansible-playbook plays/clean.yml --vault-password-file ~/.ansible_vault_pass
+          ansible-playbook plays/clean.yml --vault-password-file ~/.ansible_vault_pass 2>&1 | tee /tmp/ansible_output.txt
+
+      - name: Post to job summary
+        if: always()
+        run: |
+          echo '### Ansible Clean Output' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat /tmp/ansible_output.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
 
       - name: Cleanup secrets
         if: always()
