@@ -106,7 +106,7 @@ resource "cloudflare_ruleset" "pubgolf_rate_limit" {
       ratelimit = {
         characteristics     = ["ip.src", "cf.colo.id"]
         period              = 10
-        requests_per_period = 5
+        requests_per_period = 100
         mitigation_timeout  = 10
       }
       enabled = true
