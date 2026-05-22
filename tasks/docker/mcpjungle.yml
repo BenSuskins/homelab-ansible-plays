@@ -34,6 +34,7 @@
       scheme: http
       secured: true
       healthcheck: true
+      healthcheck_path: /health
       homepage: true
       proxied: true
 

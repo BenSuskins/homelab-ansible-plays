@@ -30,6 +30,8 @@
       friendly_name: "{{ friendly_name }}"
       port: 3000
       scheme: http
+      healthcheck: true
+      healthcheck_path: /health
 
 - name: MCP-ARR - Append to docker_services
   ansible.builtin.set_fact:
