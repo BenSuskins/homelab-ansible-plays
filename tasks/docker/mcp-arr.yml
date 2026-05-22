@@ -1,0 +1,36 @@
+---
+- name: MCP-ARR - Create container
+  community.docker.docker_container:
+    name: mcp-arr
+    image: ghcr.io/bensuskins/mcp-arr:latest
+    restart_policy: always
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    ports:
+      - "3000:3000"
+    env:
+      MCP_TRANSPORT: http
+      HOST: "0.0.0.0"
+      PORT: "3000"
+      SONARR_URL: "http://{{ inventory_hostname }}:8989"
+      SONARR_API_KEY: "{{ SONARR_API_KEY }}"
+      RADARR_URL: "http://{{ inventory_hostname }}:7878"
+      RADARR_API_KEY: "{{ RADARR_API_KEY }}"
+      PROWLARR_URL: "http://{{ inventory_hostname }}:9696"
+      PROWLARR_API_KEY: "{{ PROWLARR_API_KEY }}"
+
+- name: MCP-ARR - Define service entry
+  ansible.builtin.set_fact:
+    mcp_arr_entry:
+      name: mcp-arr
+      description: Arr suite MCP server
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 3000
+      scheme: http
+
+- name: MCP-ARR - Append to docker_services
+  ansible.builtin.set_fact:
+    docker_services: "{{ docker_services + [mcp_arr_entry] }}"
