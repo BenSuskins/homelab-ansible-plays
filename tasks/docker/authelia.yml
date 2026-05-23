@@ -57,6 +57,7 @@
       friendly_name: "{{ friendly_name }}"
       port: 9091
       scheme: http
+      internal_host: authelia
       secured: false
       healthcheck: true
       healthcheck_path: /api/health
