@@ -36,7 +36,7 @@ http:
         serversTransport: httpsTransport
 {% endif %}
         servers:
-          - url: "{{ svc.scheme }}://{{ svc.internal_host if svc.internal_host is defined else svc.ip }}:{{ svc.port }}"
+          - url: "{{ svc.scheme }}://{{ svc.ip }}:{{ svc.port }}"
 {% endif %}
 {% endfor %}
 
