@@ -1,0 +1,24 @@
+---
+- name: MARGINALIA-WORKER-METADATA - Create container
+  community.docker.docker_container:
+    name: marginalia-worker-metadata
+    image: ghcr.io/bensuskins/marginalia-worker-metadata:latest
+    restart_policy: always
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    env:
+      DATABASE_URL: "postgres://marginalia:{{ MARGINALIA_POSTGRES_PASSWORD }}@marginalia-postgres:5432/marginalia?sslmode=disable"
+      SECRET_ENCRYPTION_KEY: "{{ MARGINALIA_SECRET_ENCRYPTION_KEY }}"
+
+- name: MARGINALIA-WORKER-METADATA - Define service entry
+  ansible.builtin.set_fact:
+    marginalia_worker_metadata_entry:
+      name: marginalia-worker-metadata
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+
+- name: MARGINALIA-WORKER-METADATA - Append to docker_services
+  ansible.builtin.set_fact:
+    docker_services: "{{ docker_services + [marginalia_worker_metadata_entry] }}"
