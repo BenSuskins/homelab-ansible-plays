@@ -47,7 +47,6 @@
       secured: false
       healthcheck: true
       healthcheck_path: /healthz
-      homepage: true
       proxied: true
 
 - name: MARGINALIA-API - Append to docker_services
