@@ -100,7 +100,6 @@
       scheme: http
       secured: true
       healthcheck: true
-      healthcheck_path: /metrics
       homepage: true
       proxied: true
       metrics: true

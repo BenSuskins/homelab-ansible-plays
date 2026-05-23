@@ -53,13 +53,12 @@
       name: authelia
       description: Authentication portal
       host: "authelia.{{ domain }}"
-      ip: "{{ inventory_hostname }}"
+      ip: authelia
       friendly_name: "{{ friendly_name }}"
       port: 9091
       scheme: http
       secured: false
       healthcheck: true
-      healthcheck_path: /api/health
       homepage: true
       proxied: true
 
