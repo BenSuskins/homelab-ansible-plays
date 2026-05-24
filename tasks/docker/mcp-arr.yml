@@ -11,15 +11,12 @@
     ports:
       - "3000:3000"
     env:
-      MCP_TRANSPORT: http
-      HOST: "0.0.0.0"
-      PORT: "3000"
-      SONARR_URL: "http://{{ inventory_hostname }}:8989"
+      NAS_IP: "{{ inventory_hostname }}"
       SONARR_API_KEY: "{{ SONARR_API_KEY }}"
-      RADARR_URL: "http://{{ inventory_hostname }}:7878"
+      SONARR_PORT: "8989"
       RADARR_API_KEY: "{{ RADARR_API_KEY }}"
-      PROWLARR_URL: "http://{{ inventory_hostname }}:9696"
-      PROWLARR_API_KEY: "{{ PROWLARR_API_KEY }}"
+      RADARR_PORT: "7878"
+      MCP_SERVER_PORT: "3000"
 
 - name: MCP-ARR - Define service entry
   ansible.builtin.set_fact:
