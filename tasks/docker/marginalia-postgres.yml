@@ -1,14 +1,14 @@
 ---
-- name: MARGINALIA-POSTGRES - Create directory and permissions
-  ansible.builtin.file:
-    path: "{{ item }}"
-    recurse: true
-    state: directory
-    owner: "999"
-    group: "999"
-    mode: "0750"
-  loop:
-    - "{{ base_dir }}/marginalia/postgres"
+# - name: MARGINALIA-POSTGRES - Create directory and permissions
+#   ansible.builtin.file:
+#     path: "{{ item }}"
+#     recurse: true
+#     state: directory
+#     owner: "999"
+#     group: "999"
+#     mode: "0750"
+#   loop:
+#     - "{{ base_dir }}/marginalia/postgres"
 
 - name: MARGINALIA-POSTGRES - Create container
   community.docker.docker_container:
