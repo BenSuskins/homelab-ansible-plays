@@ -9,11 +9,11 @@ containers:
   - mcpjungle
   # Apps
   - family-hub
-  - marginalia-postgres
-  - marginalia-api
-  - marginalia-worker-metadata
-  - marginalia-worker-import
-  - marginalia-worker-reviews
+  # - marginalia-postgres
+  # - marginalia-api
+  # - marginalia-worker-metadata
+  # - marginalia-worker-import
+  # - marginalia-worker-reviews
   - pubgolf-backend
   - pubgolf-frontend
   - wedding-db
