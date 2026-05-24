@@ -1,0 +1,25 @@
+---
+- name: METAMCP-POSTGRES - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ base_dir }}/metamcp/postgres"
+    recurse: true
+    state: directory
+    owner: "999"
+    group: "999"
+    mode: "0750"
+
+- name: METAMCP-POSTGRES - Create container
+  community.docker.docker_container:
+    name: metamcp-postgres
+    image: postgres:16-alpine
+    restart_policy: always
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    volumes:
+      - "{{ base_dir }}/metamcp/postgres:/var/lib/postgresql/data"
+    env:
+      POSTGRES_DB: metamcp
+      POSTGRES_USER: metamcp
+      POSTGRES_PASSWORD: "{{ METAMCP_POSTGRES_PASSWORD }}"

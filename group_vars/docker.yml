@@ -6,7 +6,8 @@ special_containers:
 
 containers:
   # MCP
-  - mcpjungle
+  - metamcp-postgres
+  - metamcp
   # Apps
   - family-hub
   # - marginalia-postgres
