@@ -4,7 +4,8 @@ mount_nas: true
 
 containers:
   # MCP
-  - mcp-arr
+  - sonarr-mcp
+  - radarr-mcp
   # Streaming
   - plex
   # Media management

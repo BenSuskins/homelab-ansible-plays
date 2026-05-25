@@ -1,0 +1,33 @@
+---
+- name: SONARR-MCP - Create container
+  community.docker.docker_container:
+    name: sonarr-mcp
+    image: ghcr.io/bensuskins/sonarr-mcp:latest
+    restart_policy: always
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    ports:
+      - "9171:9171"
+    env:
+      SONARR_URL: "http://{{ inventory_hostname }}:8989"
+      SONARR_API_KEY: "{{ SONARR_API_KEY }}"
+      SONARR_MCP_HOST: "0.0.0.0"
+      SONARR_MCP_PORT: "9171"
+
+- name: SONARR-MCP - Define service entry
+  ansible.builtin.set_fact:
+    sonarr_mcp_entry:
+      name: sonarr-mcp
+      description: Sonarr MCP server
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 9171
+      scheme: http
+      healthcheck: true
+      healthcheck_path: /mcp
+
+- name: SONARR-MCP - Append to docker_services
+  ansible.builtin.set_fact:
+    docker_services: "{{ docker_services + [sonarr_mcp_entry] }}"
