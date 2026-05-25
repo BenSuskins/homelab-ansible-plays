@@ -21,9 +21,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - uses: actions/checkout@v4
+
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: "https://github.com/aplaceforallmystuff/mcp-arr.git"
+          context: .
+          file: docker/mcp-arr/Dockerfile
           push: true
           tags: ghcr.io/bensuskins/mcp-arr:latest
