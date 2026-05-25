@@ -6,6 +6,8 @@
     restart_policy: always
     state: started
     pull: true
+    memory: 1g
+    cpus: "1.0"
     networks:
       - name: homelab
     ports:
