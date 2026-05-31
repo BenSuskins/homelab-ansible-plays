@@ -1,8 +1,27 @@
 ---
-- name: README - Generate README.md
+- name: DOCS - Ensure docs/ directory exists
+  ansible.builtin.file:
+    path: "../docs"
+    state: directory
+    mode: "0755"
+  delegate_to: localhost
+  become: false
+  run_once: true
+
+- name: DOCS - Generate README.md
   ansible.builtin.template:
     src: ../config/readme/README.md.j2
-    dest: "../README.md"
+    dest: "../docs/README.md"
+    mode: "0644"
+  delegate_to: localhost
+  become: false
+  run_once: true
+
+- name: DOCS - Generate ARCHITECTURE.md
+  ansible.builtin.template:
+    src: ../config/readme/ARCHITECTURE.md.j2
+    dest: "../docs/ARCHITECTURE.md"
+    mode: "0644"
   delegate_to: localhost
   become: false
   run_once: true

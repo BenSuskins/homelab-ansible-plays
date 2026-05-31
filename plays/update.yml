@@ -112,7 +112,7 @@
       run_once: true
       tags: [services]
 
-    - name: UPDATE - Generate README
+    - name: UPDATE - Generate docs (README, ARCHITECTURE)
       ansible.builtin.include_tasks:
         file: "../tasks/other/generate_readme.yml"
       run_once: true
