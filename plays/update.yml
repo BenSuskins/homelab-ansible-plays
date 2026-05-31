@@ -112,7 +112,7 @@
       run_once: true
       tags: [services]
 
-    - name: UPDATE - Generate docs (README, ARCHITECTURE)
+    - name: UPDATE - Generate ARCHITECTURE.md (deployed-services from live inventory)
       ansible.builtin.include_tasks:
         file: "../tasks/other/generate_readme.yml"
       run_once: true

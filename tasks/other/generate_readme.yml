@@ -8,16 +8,7 @@
   become: false
   run_once: true
 
-- name: DOCS - Generate README.md
-  ansible.builtin.template:
-    src: ../config/readme/README.md.j2
-    dest: "../docs/README.md"
-    mode: "0644"
-  delegate_to: localhost
-  become: false
-  run_once: true
-
-- name: DOCS - Generate ARCHITECTURE.md
+- name: DOCS - Generate ARCHITECTURE.md (deployed-services appendix is dynamic)
   ansible.builtin.template:
     src: ../config/readme/ARCHITECTURE.md.j2
     dest: "../docs/ARCHITECTURE.md"
