@@ -2,6 +2,12 @@
 
 > Ansible-driven infrastructure-as-code for a multi-host homelab.
 
+
+## Diagram
+
+![Diagram](diagram.png?raw=true "Diagram")
+
+
 ## Overview
 
 Declarative homelab management: containers are defined once per host group
