@@ -6,4 +6,5 @@ special_containers:
   - traefik
 
 containers:
+  - redis
   - authelia
