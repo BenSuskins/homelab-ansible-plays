@@ -36,6 +36,7 @@
       OPENVPN_USER: "{{ OPENVPN_USER }}"
       OPENVPN_PASSWORD: "{{ OPENVPN_PASSWORD }}"
       SERVER_REGIONS: "Netherlands"
+      UPDATER_PERIOD: "24h"
 
 - name: GLUETUN - Define service entry
   ansible.builtin.set_fact:
