@@ -23,7 +23,7 @@
       - "8084:8084"
     volumes:
       - "{{ base_dir }}/shelfmark:/config"
-      - "/mnt/media/books:/books"
+      - "/mnt/media/books/data:/books"
     env:
       TZ: "{{ timezone }}"
       PUID: "{{ puid | string }}"
