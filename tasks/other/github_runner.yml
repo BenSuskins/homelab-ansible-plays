@@ -91,7 +91,7 @@
         return_content: true
       register: registration_token_response
 
-    - name: RUNNER - Configure runner with organization
+    - name: RUNNER - Register runner with GitHub
       ansible.builtin.command:
         cmd: >
           ./config.sh
@@ -103,19 +103,22 @@
         chdir: "{{ runner_install_dir }}"
       become: true
       become_user: "{{ username }}"
+      changed_when: true
 
-    - name: RUNNER - Configure runner with organization
+    - name: RUNNER - Install runner service
       ansible.builtin.command:
         cmd: >
           ./svc.sh install
         chdir: "{{ runner_install_dir }}"
       become: true
       become_user: "{{ username }}"
+      changed_when: true
 
-    - name: RUNNER - Configure runner with organization
+    - name: RUNNER - Start runner service
       ansible.builtin.command:
         cmd: >
           ./svc.sh start
         chdir: "{{ runner_install_dir }}"
       become: true
       become_user: "{{ username }}"
+      changed_when: true

@@ -10,8 +10,8 @@
     - name: SETUP - Validate variables
       ansible.builtin.assert:
         that:
-          - ansible_os_family is defined
-        fail_msg: "ansible_os_family must be defined (run gather_facts)"
+          - ansible_facts['os_family'] is defined
+        fail_msg: "ansible_facts['os_family'] must be defined (run gather_facts)"
       tags: [validation]
 
     - name: SETUP - Update server and install base packages

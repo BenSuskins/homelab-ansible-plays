@@ -23,7 +23,7 @@
 #        Search           #
 ###########################
 - search:
-    provider: google 
-    focus: false 
-    showSearchSuggestions: true 
+    provider: google
+    focus: false
+    showSearchSuggestions: true
     target: _blank

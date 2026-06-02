@@ -20,7 +20,7 @@
     networks:
       - name: homelab
     volumes:
-      - "{{ base_dir }}/family-hub:/data"      
+      - "{{ base_dir }}/family-hub:/data"
     ports:
       - "8081:8080"
     env:
@@ -46,7 +46,7 @@
       secured: false
       healthcheck: true
       proxied: true
-      healthcheck_path: '/health'
+      healthcheck_path: "/health"
       # path_prefix: /api/v1
       # metrics_port: 8080
       # metrics_path: /actuator/prometheus

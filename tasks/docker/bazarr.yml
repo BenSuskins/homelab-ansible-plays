@@ -42,7 +42,7 @@
       secured: true
       healthcheck: true
       homepage: true
-      proxied: true      
+      proxied: true
 
 - name: BAZARR - Append to docker_services
   ansible.builtin.set_fact:

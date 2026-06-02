@@ -10,7 +10,7 @@
     - name: RUNNER - Validate variables
       ansible.builtin.assert:
         that:
-          - ansible_os_family is defined
+          - ansible_facts['os_family'] is defined
           - runner_install_dir is defined
           - github_org is defined
           - GITHUB_RUNNER_TOKEN is defined

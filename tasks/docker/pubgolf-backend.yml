@@ -20,7 +20,7 @@
     networks:
       - name: homelab
     volumes:
-      - "{{ base_dir }}/pubgolf:/data"      
+      - "{{ base_dir }}/pubgolf:/data"
     ports:
       - "8080:8080"
     env:
@@ -37,7 +37,7 @@
       scheme: http
       secured: false
       healthcheck: true
-      healthcheck_path: '/actuator/health'
+      healthcheck_path: "/actuator/health"
       proxied: true
       path_prefix: /api/v1
       metrics: true

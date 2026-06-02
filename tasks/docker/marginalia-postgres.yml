@@ -25,4 +25,3 @@
       POSTGRES_DB: marginalia
       POSTGRES_USER: marginalia
       POSTGRES_PASSWORD: "{{ MARGINALIA_POSTGRES_PASSWORD }}"
-

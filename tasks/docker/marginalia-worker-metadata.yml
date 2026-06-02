@@ -11,4 +11,3 @@
     env:
       DATABASE_URL: "postgres://marginalia:{{ MARGINALIA_POSTGRES_PASSWORD }}@marginalia-postgres:5432/marginalia?sslmode=disable"
       SECRET_ENCRYPTION_KEY: "{{ MARGINALIA_SECRET_ENCRYPTION_KEY }}"
-

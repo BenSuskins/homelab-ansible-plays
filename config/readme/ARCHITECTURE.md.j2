@@ -117,7 +117,7 @@ Images are pinned to specific versions — never `:latest`.
 
 ## Appendix: Deployed Services
 
-_Generated from live inventory on {{ ansible_date_time.iso8601 }}. Source of truth is `group_vars/`._
+_Generated from live inventory on {{ ansible_facts.date_time.iso8601 }}. Source of truth is `group_vars/`._
 {% for group, services in all_services | groupby('friendly_name') %}
 
 ### {{ group }}

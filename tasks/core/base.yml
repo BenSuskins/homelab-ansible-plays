@@ -4,7 +4,7 @@
     update_cache: true
     cache_valid_time: 3600
     upgrade: full
-  when: ansible_distribution in ["Ubuntu", "Debian"]
+  when: ansible_facts['distribution'] in ["Ubuntu", "Debian"]
 
 - name: BASE - Install packages
   ansible.builtin.package:
