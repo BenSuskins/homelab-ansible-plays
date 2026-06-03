@@ -66,16 +66,39 @@
         "log-opts": {
           "max-size": "10m",
           "max-file": "3"
-        }
+        },
+        "dns": ["8.8.8.8", "8.8.4.4"]
       }
     mode: "0644"
   register: docker_daemon_config
 
+- name: DOCKER - Ensure docker.service drop-in directory exists
+  ansible.builtin.file:
+    path: /etc/systemd/system/docker.service.d
+    state: directory
+    mode: "0755"
+  when: mount_nas | bool
+
+- name: DOCKER - Require media mount before Docker starts
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/docker.service.d/wait-for-media.conf
+    content: |
+      [Unit]
+      RequiresMountsFor=/mnt/media
+    mode: "0644"
+  register: docker_mount_dropin
+  when: mount_nas | bool
+
 - name: DOCKER - Enable Docker service
-  ansible.builtin.service:
+  ansible.builtin.systemd_service:
     name: docker
     enabled: true
-    state: "{{ 'restarted' if docker_daemon_config.changed else 'started' }}"
+    daemon_reload: true
+    state: >-
+      {{ 'restarted'
+         if docker_daemon_config.changed
+            or (docker_mount_dropin.changed | default(false))
+         else 'started' }}
 
 - name: DOCKER - Create custom docker network
   community.docker.docker_network:
