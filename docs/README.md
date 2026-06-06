@@ -93,16 +93,17 @@ CI reads the vault password from `~/.ansible_vault_pass`.
 ## Infrastructure (Terraform)
 
 Two independent Terraform roots manage cloud/hypervisor infrastructure, each with its
-own remote state in Cloudflare R2 and its own GitHub Actions workflow (plan →
-manually-approved apply against the `production` environment):
+own remote state in Cloudflare R2:
 
-| Root | Manages | Runner | Workflow |
-|------|---------|--------|----------|
-| `terraform/cloudflare/` | Cloudflare DNS, WAF, zone settings | `ubuntu-latest` | `terraform-cloudflare.yml` |
-| `terraform/proxmox/` | Proxmox VMs (`bpg/proxmox`) | `self-hosted` | `terraform-proxmox.yml` |
+| Root | Manages |
+|------|---------|
+| `terraform/cloudflare/` | Cloudflare DNS, WAF, zone settings |
+| `terraform/proxmox/` | Proxmox VMs (`bpg/proxmox`) |
 
-The Proxmox jobs run on the **self-hosted** runner because the Proxmox API
-(`192.168.0.253:8006`) is only reachable on the LAN.
+A single `terraform.yml` workflow runs a **matrix** over both roots (plan →
+manually-approved apply against the `production` environment). It runs on the
+**self-hosted** runner because the Proxmox API (`192.168.0.253:8006`) is only reachable
+on the LAN.
 
 **Adding a new VM:** copy the commented module block in `terraform/proxmox/vms.tf`,
 uncomment it, and set a unique `vm_id`, `ip_address`, and `clone_template_id` (the VM ID

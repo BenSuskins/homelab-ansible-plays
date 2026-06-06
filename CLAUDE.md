@@ -143,7 +143,7 @@ The `docker_services` list is aggregated across all hosts via `tasks/core/aggreg
 - Generate Prometheus scrape configs via `config/prometheus/config.yml.j2`
 - Cloudflare DNS records are managed via Terraform in `terraform/cloudflare/`
 
-Proxmox VMs are managed via a separate Terraform root in `terraform/proxmox/` (bpg/proxmox provider). Each Terraform root has its own R2 state key and its own GitHub Actions workflow (`terraform-cloudflare.yml` on `ubuntu-latest`, `terraform-proxmox.yml` on the `self-hosted` runner since the Proxmox API is LAN-only). Add a new VM by copying the commented module block in `terraform/proxmox/vms.tf`.
+Proxmox VMs are managed via a separate Terraform root in `terraform/proxmox/` (bpg/proxmox provider). Each Terraform root has its own R2 state key. A single `terraform.yml` workflow runs a matrix (plan → approved apply) over both roots on the `self-hosted` runner, since the Proxmox API is LAN-only. Add a new VM by copying the commented module block in `terraform/proxmox/vms.tf`.
 
 ### Docker Image Updates
 
