@@ -2,7 +2,6 @@
 - name: RUNNER - Setup GitHub Actions runner
   hosts: bumblebee
   become: true
-  become_method: ansible.builtin.su
   vars_files:
     - "~/.ansible/vault.yml"
 

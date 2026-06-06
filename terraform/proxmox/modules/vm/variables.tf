@@ -3,6 +3,12 @@ variable "name" {
   type        = string
 }
 
+variable "username" {
+  description = "Login user cloud-init creates (matches the Ansible ansible_user). Defaults to the VM name."
+  type        = string
+  default     = null
+}
+
 variable "vm_id" {
   description = "Numeric Proxmox VM ID"
   type        = number
