@@ -7,6 +7,13 @@ on:
       - 'terraform/**'
   workflow_dispatch:
 
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+  TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  TF_VAR_proxmox_api_token: ${{ secrets.PROXMOX_API_TOKEN }}
+  TF_VAR_proxmox_endpoint: ${{ secrets.PROXMOX_ENDPOINT }}
+
 jobs:
   plan:
     runs-on: self-hosted
@@ -25,19 +32,9 @@ jobs:
         uses: hashicorp/setup-terraform@v4
 
       - name: Terraform Init
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: terraform init
 
       - name: Terraform Plan
-        id: plan
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          TF_VAR_proxmox_api_token: ${{ secrets.PROXMOX_API_TOKEN }}
-          TF_VAR_proxmox_endpoint: ${{ secrets.PROXMOX_ENDPOINT }}
         run: terraform plan -no-color -out=tfplan
 
       - name: Post plan to job summary
@@ -72,9 +69,6 @@ jobs:
         uses: hashicorp/setup-terraform@v4
 
       - name: Terraform Init
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: terraform init
 
       - name: Download plan artifact
@@ -84,19 +78,10 @@ jobs:
           path: terraform/${{ matrix.dir }}
 
       - name: Terraform Apply
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          TF_VAR_proxmox_api_token: ${{ secrets.PROXMOX_API_TOKEN }}
-          TF_VAR_proxmox_endpoint: ${{ secrets.PROXMOX_ENDPOINT }}
         run: terraform apply tfplan
 
       - name: Post apply to job summary
         if: always()
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: |
           echo "### Terraform Apply Output (${{ matrix.dir }})" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
