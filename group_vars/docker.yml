@@ -5,8 +5,6 @@ special_containers:
   - homepage
 
 containers:
-  # MCP
-  - mcpjungle
   # Apps
   - family-hub
   # - marginalia-postgres

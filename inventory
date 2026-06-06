@@ -32,3 +32,9 @@ ansible_user=monitor
 
 [bumblebee:vars]
 ansible_user=bumblebee
+
+[hermes]
+192.168.0.107 friendly_name="Hermes"
+
+[hermes:vars]
+ansible_user=hermes

@@ -1,0 +1,35 @@
+---
+# Shares the /opt/data directory with the hermes-agent gateway container.
+- name: HERMES-AGENT-DASHBOARD - Create dashboard container
+  community.docker.docker_container:
+    name: hermes-agent-dashboard
+    image: nousresearch/hermes-agent:latest
+    restart_policy: always
+    state: started
+    pull: true
+    network_mode: host
+    command: ["dashboard", "--host", "0.0.0.0", "--no-open"]
+    env:
+      HERMES_UID: "{{ puid | string }}"
+      HERMES_GID: "{{ pgid | string }}"
+    volumes:
+      - "{{ base_dir }}/hermes-agent:/opt/data"
+
+- name: HERMES-AGENT-DASHBOARD - Define service entry
+  ansible.builtin.set_fact:
+    hermes_agent_entry:
+      name: hermes-agent
+      description: Self-improving AI agent
+      host: "hermes.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 9119
+      scheme: http
+      secured: true
+      healthcheck: true
+      homepage: true
+      proxied: true
+
+- name: HERMES-AGENT-DASHBOARD - Append to docker_services
+  ansible.builtin.set_fact:
+    docker_services: "{{ docker_services + [hermes_agent_entry] }}"

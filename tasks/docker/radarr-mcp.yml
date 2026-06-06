@@ -11,7 +11,7 @@
     ports:
       - "4200:4200"
     env:
-      RADARR_URL: "http://{{ inventory_hostname }}:7878"
+      RADARR_URL: "http://{{ mediaserver_ip }}:7878"
       RADARR_API_KEY: "{{ RADARR_API_KEY }}"
       RADARR_MCP_HOST: "0.0.0.0"
       RADARR_MCP_PORT: "4200"
