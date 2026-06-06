@@ -30,7 +30,7 @@ Renovate.
 - `community.docker.docker_container` for container lifecycle
 - Ansible Vault for secrets
 - Renovate for image updates
-- Terraform (in `terraform/`) for Cloudflare DNS
+- Terraform (in `terraform/cloudflare/`) for Cloudflare DNS and (in `terraform/proxmox/`) for Proxmox VMs
 
 ## Project Structure
 
@@ -44,7 +44,9 @@ Renovate.
 │   ├── docker/              # one file per container (plex.yml, grafana.yml, ...)
 │   └── other/               # firewall.yml, etc.
 ├── config/                  # Traefik, Gatus, Prometheus, Homepage templates
-├── terraform/               # Cloudflare DNS records
+├── terraform/
+│   ├── cloudflare/          # Cloudflare DNS, WAF, zone settings
+│   └── proxmox/             # Proxmox VM definitions (bpg/proxmox)
 └── vault.yml                # Encrypted secrets
 ```
 
@@ -87,6 +89,34 @@ All playbooks require sudo (`-K`) and vault (`--ask-vault-pass`).
 | `ansible-vault edit vault.yml` | Edit encrypted secrets |
 
 CI reads the vault password from `~/.ansible_vault_pass`.
+
+## Infrastructure (Terraform)
+
+Two independent Terraform roots manage cloud/hypervisor infrastructure, each with its
+own remote state in Cloudflare R2:
+
+| Root | Manages |
+|------|---------|
+| `terraform/cloudflare/` | Cloudflare DNS, WAF, zone settings |
+| `terraform/proxmox/` | Proxmox VMs (`bpg/proxmox`) |
+
+A single `terraform.yml` workflow runs a **matrix** over both roots (plan →
+manually-approved apply against the `production` environment). It runs on the
+**self-hosted** runner because the Proxmox API (`192.168.0.253:8006`) is only reachable
+on the LAN.
+
+**Adding a new VM:** copy the commented module block in `terraform/proxmox/vms.tf`,
+uncomment it, and set a unique `vm_id`, `ip_address`, and `clone_template_id` (the VM ID
+of a prepared cloud-init template). The `./modules/vm` module clones the template and
+applies a static IP via cloud-init. New VMs are added to the Ansible `inventory` by hand.
+
+**Prerequisites** (one-time, outside this repo):
+
+- A Proxmox API token (`terraform@pve!<tokenid>=<secret>`) for a user/role with VM
+  lifecycle privileges (`VM.Allocate`, `VM.Clone`, `VM.Config.*`, `VM.PowerMgmt`,
+  `Datastore.AllocateSpace`, `Datastore.Audit`).
+- A cloud-init-ready VM template to clone from.
+- GitHub secrets `PROXMOX_API_TOKEN` and `PROXMOX_ENDPOINT` (R2 secrets already exist).
 
 ## Architecture
 

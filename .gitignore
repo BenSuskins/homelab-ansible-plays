@@ -66,10 +66,11 @@ Temporary Items
 .idea/
 
 # Terraform
-terraform/.terraform/
-terraform/*.tfstate
-terraform/*.tfstate.backup
-terraform/*.tfvars
-terraform/crash.log
+terraform/**/.terraform/
+terraform/**/*.tfstate
+terraform/**/*.tfstate.backup
+terraform/**/*.tfvars
+terraform/**/crash.log
+terraform/**/tfplan
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,visualstudiocode,ansible,ssh
