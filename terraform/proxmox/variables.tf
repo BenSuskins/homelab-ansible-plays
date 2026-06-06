@@ -13,5 +13,5 @@ variable "proxmox_api_token" {
 variable "proxmox_node" {
   description = "Name of the Proxmox node that owns the VMs"
   type        = string
-  default     = "sensible"
+  default     = "pve"
 }
