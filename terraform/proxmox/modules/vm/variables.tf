@@ -144,9 +144,9 @@ variable "bios" {
 }
 
 variable "machine" {
-  description = "Machine type, e.g. pc or q35"
+  description = "Machine type, e.g. q35 or pc"
   type        = string
-  default     = "pc"
+  default     = "q35"
 }
 
 variable "tablet_device" {

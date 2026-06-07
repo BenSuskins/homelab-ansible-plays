@@ -41,7 +41,7 @@
 #   # memory_floating     = 0             # set = memory to enable ballooning
 #   #
 #   # bios                = "seabios"     # or "ovmf"
-#   # machine             = "pc"          # or "q35"
+#   # machine             = "q35"         # or "pc"
 #   # tablet_device       = true
 #   #
 #   # disk_ssd            = false
