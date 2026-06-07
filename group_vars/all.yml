@@ -38,6 +38,8 @@ packages:
   - ufw
   - nfs-common
   - cron
+  - unzip
+  - nodejs
 
 docker_dependencies:
   - ca-certificates

@@ -48,7 +48,8 @@ resource "proxmox_virtual_environment_vm" "this" {
     }
 
     user_account {
-      keys = var.ssh_public_keys
+      username = coalesce(var.username, var.name)
+      keys     = var.ssh_public_keys
     }
   }
 }

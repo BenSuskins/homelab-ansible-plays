@@ -3,6 +3,12 @@ variable "name" {
   type        = string
 }
 
+variable "username" {
+  description = "Login user cloud-init creates (matches the Ansible ansible_user). Defaults to the VM name."
+  type        = string
+  default     = null
+}
+
 variable "vm_id" {
   description = "Numeric Proxmox VM ID"
   type        = number
@@ -33,13 +39,13 @@ variable "memory" {
 variable "disk_size" {
   description = "Primary disk size in GiB"
   type        = number
-  default     = 20
+  default     = 64
 }
 
 variable "datastore_id" {
-  description = "Datastore for the VM disk, e.g. local-lvm"
+  description = "Datastore for the VM disk (e.g. local-zfs, local-lvm)"
   type        = string
-  default     = "local-lvm"
+  default     = "local-zfs"
 }
 
 variable "bridge" {
