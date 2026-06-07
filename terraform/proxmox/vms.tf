@@ -15,7 +15,7 @@
 #   clone_template_id = 9000          # VM ID of a prepared cloud-init template
 #   cores             = 2
 #   memory            = 2048
-#   disk_size         = 20
+#   disk_size         = 64
 #   datastore_id      = "local-zfs"
 #   ip_address        = "192.168.0.110/24"
 #   gateway           = "192.168.0.1"

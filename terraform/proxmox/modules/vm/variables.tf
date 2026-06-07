@@ -39,7 +39,7 @@ variable "memory" {
 variable "disk_size" {
   description = "Primary disk size in GiB"
   type        = number
-  default     = 20
+  default     = 64
 }
 
 variable "datastore_id" {
