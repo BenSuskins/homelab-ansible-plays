@@ -43,9 +43,9 @@ variable "disk_size" {
 }
 
 variable "datastore_id" {
-  description = "Datastore for the VM disk, e.g. local-lvm"
+  description = "Datastore for the VM disk (e.g. local-zfs, local-lvm)"
   type        = string
-  default     = "local-lvm"
+  default     = "local-zfs"
 }
 
 variable "bridge" {
