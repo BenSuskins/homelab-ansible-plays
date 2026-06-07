@@ -1,0 +1,27 @@
+---
+- name: GHA DEPS - Create apt keyrings directory
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+
+- name: GHA DEPS - Download HashiCorp GPG key
+  ansible.builtin.get_url:
+    url: https://apt.releases.hashicorp.com/gpg
+    dest: /etc/apt/keyrings/hashicorp.asc
+    mode: "0644"
+
+- name: GHA DEPS - Add HashiCorp apt repository
+  ansible.builtin.apt_repository:
+    repo: >-
+      deb [signed-by=/etc/apt/keyrings/hashicorp.asc]
+      https://apt.releases.hashicorp.com
+      {{ ansible_facts['distribution_release'] }} main
+    state: present
+    filename: hashicorp
+
+- name: GHA DEPS - Install GitHub Actions dependencies
+  ansible.builtin.apt:
+    name: "{{ runner_dependencies }}"
+    state: present
+    update_cache: true
