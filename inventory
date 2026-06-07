@@ -7,18 +7,21 @@ ansible_ssh_private_key_file=~/.ssh/homelab
 
 [mediaserver:vars]
 ansible_user=mediaserver
+ansible_become_method=su
 
 [docker]
 192.168.0.102 friendly_name="Docker"
 
 [docker:vars]
 ansible_user=docker
+ansible_become_method=su
 
 [development]
 192.168.0.105 friendly_name="Development"
 
 [development:vars]
 ansible_user=development
+ansible_become_method=su
 ansible_become_flags="-"
 
 [monitor]
@@ -26,9 +29,11 @@ ansible_become_flags="-"
 
 [monitor:vars]
 ansible_user=monitor
+ansible_become_method=su
 
 [bumblebee]
 192.168.0.106 friendly_name="Bumblebee"
 
 [bumblebee:vars]
 ansible_user=bumblebee
+ansible_become_method=su
