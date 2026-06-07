@@ -23,7 +23,6 @@
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
-    recurse: true
     mode: "0777"
 
 - name: BASE - Suppress login messages
