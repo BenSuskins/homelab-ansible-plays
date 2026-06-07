@@ -2,6 +2,7 @@
 - name: SETUP - Setup homeserver
   hosts: all
   become: true
+  become_method: ansible.builtin.su
   vars_files:
     - "~/.ansible/vault.yml"
 

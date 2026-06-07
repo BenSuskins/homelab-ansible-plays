@@ -2,6 +2,7 @@
 - name: UPDATE - Update and upgrade host
   hosts: all:!bumblebee
   become: true
+  become_method: ansible.builtin.su
   vars_files:
     - "~/.ansible/vault.yml"
 
