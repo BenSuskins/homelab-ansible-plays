@@ -115,8 +115,38 @@ applies a static IP via cloud-init. New VMs are added to the Ansible `inventory`
 - A Proxmox API token (`terraform@pve!<tokenid>=<secret>`) for a user/role with VM
   lifecycle privileges (`VM.Allocate`, `VM.Clone`, `VM.Config.*`, `VM.PowerMgmt`,
   `Datastore.AllocateSpace`, `Datastore.Audit`).
-- A cloud-init-ready VM template to clone from.
+- The cloud-init template described below.
 - GitHub secrets `PROXMOX_API_TOKEN` and `PROXMOX_ENDPOINT` (R2 secrets already exist).
+
+### Cloud-init template
+
+`terraform/proxmox/modules/vm` clones every VM from a single golden template
+(`clone_template_id`, VM ID **9000** on `local-zfs`):
+
+| Property | Value |
+|----------|-------|
+| Base image | **Debian 13 "trixie"** generic cloud image (`debian-13-genericcloud-amd64.qcow2`, tracks the latest point release, e.g. 13.5) |
+| Guest agent | **`qemu-guest-agent`** baked into the image with `virt-customize` |
+| Disk | ~3 GiB native; clones resize up (default 64 GiB) and cloud-init `growpart` expands the root filesystem on first boot |
+| Cloud-init | user, SSH key and IP are injected **per clone** by Terraform — the template's cloud-init is left blank so it stays reusable |
+
+The guest agent is baked in (not installed later by Ansible) so the bpg provider
+can read each clone's IP at create time — important for DHCP VMs, where the
+address isn't known in advance.
+
+Build it once on the Proxmox node:
+
+```bash
+cd /var/lib/vz/template
+wget https://cloud.debian.org/images/cloud/trixie/latest/debian-13-genericcloud-amd64.qcow2
+virt-customize -a debian-13-genericcloud-amd64.qcow2 --install qemu-guest-agent   # needs libguestfs-tools
+qm create 9000 --name debian-13-cloudinit --memory 2048 --cores 2 --net0 virtio,bridge=vmbr0
+qm importdisk 9000 debian-13-genericcloud-amd64.qcow2 local-zfs
+qm set 9000 --scsihw virtio-scsi-pci --scsi0 local-zfs:vm-9000-disk-0
+qm set 9000 --ide2 local-zfs:cloudinit
+qm set 9000 --boot c --bootdisk scsi0 --serial0 socket --vga serial0 --agent enabled=1
+qm template 9000
+```
 
 ## Architecture
 
