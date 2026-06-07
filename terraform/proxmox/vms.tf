@@ -22,3 +22,20 @@
 #   ssh_public_keys   = [file("~/.ssh/homelab.pub")]
 #   tags              = ["terraform"]
 # }
+
+ module "example_vm" {
+   source            = "./modules/vm"
+   name              = "example"
+   username          = "example"     # Ansible ansible_user; defaults to name
+   vm_id             = 500
+   node_name         = var.proxmox_node
+   clone_template_id = 9000           # VM ID of a prepared cloud-init template
+   cores             = 2
+   memory            = 2048
+   disk_size         = 64
+   datastore_id      = "local-zfs"
+   ip_address        = "192.168.0.110/24"
+   gateway           = "192.168.0.1"
+   ssh_public_keys   = [file("~/.ssh/homelab.pub")]
+   tags              = ["terraform"]
+ }
