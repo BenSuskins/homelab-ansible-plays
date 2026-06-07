@@ -1,4 +1,19 @@
 ---
+- name: PREFLIGHT - Verify inventory loaded
+  hosts: localhost
+  gather_facts: false
+  become: false
+  tasks:
+    - name: PREFLIGHT - Fail fast when no managed hosts resolved
+      ansible.builtin.assert:
+        that:
+          - groups['all'] | default([]) | length > 0
+        fail_msg: >
+          Inventory resolved zero hosts. ansible.cfg is likely being ignored
+          (e.g. a world-writable working directory), so the 'inventory'
+          setting never loaded. Set ANSIBLE_CONFIG or pass -i inventory.
+      tags: [always]
+
 - name: UPDATE - Update and upgrade host
   hosts: all:!bumblebee
   become: true
