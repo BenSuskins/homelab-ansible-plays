@@ -37,6 +37,22 @@ flowchart LR
 | `plays/update.yml` | Full update cycle (apt, containers, Traefik/Gatus/Homepage); runs on push to `main` |
 | `plays/clean.yml` | apt cache, journal logs, `docker prune` |
 
+## Proxmox VMs
+
+Hosts themselves are provisioned with Terraform (`terraform/proxmox/`,
+`bpg/proxmox`) and made Ansible-ready by cloud-init:
+
+- **Golden template** — VM ID `9000` on `local-zfs`, built once from the
+  **Debian 13 "trixie"** generic cloud image with **`qemu-guest-agent`** baked in
+  (so the provider can read each clone's IP at create time).
+- **`./modules/vm`** clones the template, injects the login user, SSH key and IP
+  via cloud-init, and exposes knobs for CPU, memory, disk, network, boot order
+  (`startup`), and protection.
+- **Hand-off to Ansible** — cloud-init grants the user passwordless sudo, so a new
+  VM is reachable for `plays/setup.yml` (base packages + Docker) with no manual prep.
+
+See the [README](README.md#cloud-init-template) for the one-time template build.
+
 ## Service Definition Pattern
 
 Every container in `tasks/docker/*.yml` follows the same pattern:
