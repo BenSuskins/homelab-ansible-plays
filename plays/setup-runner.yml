@@ -14,6 +14,7 @@
           - runner_dependencies is defined
           - GITHUB_RUNNER_TOKEN is defined
           - ANSIBLE_VAULT_PASS is defined
+          - HOMELAB_SSH_PRIVATE_KEY is defined
         fail_msg: "Required runner variables must be defined"
       tags: [validation]
 

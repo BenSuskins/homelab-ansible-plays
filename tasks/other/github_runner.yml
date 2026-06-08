@@ -15,6 +15,23 @@
     group: "{{ username }}"
     mode: "0600"
 
+- name: RUNNER - Create ssh directory
+  ansible.builtin.file:
+    path: "/home/{{ username }}/.ssh"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0700"
+
+- name: RUNNER - Install homelab ssh private key
+  ansible.builtin.copy:
+    content: "{{ HOMELAB_SSH_PRIVATE_KEY }}"
+    dest: "/home/{{ username }}/.ssh/homelab"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0600"
+  no_log: true
+
 - name: RUNNER - Get latest runner release from GitHub
   ansible.builtin.uri:
     url: https://api.github.com/repos/actions/runner/releases/latest
