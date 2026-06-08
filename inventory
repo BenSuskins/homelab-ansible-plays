@@ -32,8 +32,7 @@ ansible_user=monitor
 ansible_become_method=su
 
 [bumblebee]
-192.168.0.106 friendly_name="Bumblebee"
+192.168.0.200 friendly_name="Bumblebee"
 
 [bumblebee:vars]
 ansible_user=bumblebee
-ansible_become_method=su
