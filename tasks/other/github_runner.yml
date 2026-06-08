@@ -125,10 +125,9 @@
     - name: RUNNER - Install runner service
       ansible.builtin.command:
         cmd: >
-          ./svc.sh install
+          ./svc.sh install {{ username }}
         chdir: "{{ runner_install_dir }}"
       become: true
-      become_user: "{{ username }}"
       changed_when: true
 
     - name: RUNNER - Start runner service
@@ -137,5 +136,4 @@
           ./svc.sh start
         chdir: "{{ runner_install_dir }}"
       become: true
-      become_user: "{{ username }}"
       changed_when: true
