@@ -122,18 +122,34 @@
       become_user: "{{ username }}"
       changed_when: true
 
-    - name: RUNNER - Install runner service
-      ansible.builtin.command:
-        cmd: >
-          ./svc.sh install {{ username }}
-        chdir: "{{ runner_install_dir }}"
-      become: true
-      changed_when: true
+- name: RUNNER - Check if runner service is installed
+  ansible.builtin.stat:
+    path: "{{ runner_install_dir }}/.service"
+  register: runner_service_installed
 
-    - name: RUNNER - Start runner service
-      ansible.builtin.command:
-        cmd: >
-          ./svc.sh start
-        chdir: "{{ runner_install_dir }}"
-      become: true
-      changed_when: true
+- name: RUNNER - Install runner service
+  ansible.builtin.command:
+    cmd: >
+      ./svc.sh install {{ username }}
+    chdir: "{{ runner_install_dir }}"
+  become: true
+  changed_when: true
+  when: not runner_service_installed.stat.exists
+
+- name: RUNNER - Check runner service status
+  ansible.builtin.command:
+    cmd: >
+      ./svc.sh status
+    chdir: "{{ runner_install_dir }}"
+  become: true
+  changed_when: false
+  register: runner_service_status
+
+- name: RUNNER - Start runner service
+  ansible.builtin.command:
+    cmd: >
+      ./svc.sh start
+    chdir: "{{ runner_install_dir }}"
+  become: true
+  changed_when: true
+  when: "'active (running)' not in runner_service_status.stdout"
