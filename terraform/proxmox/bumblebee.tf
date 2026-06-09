@@ -12,6 +12,7 @@ module "bumblebee" {
   description       = "Github Actions Runner"
   bios              = "ovmf"
   startup_order     = 1
+  started           = true
 }
 
 output "bumblebee_ipv4" {
