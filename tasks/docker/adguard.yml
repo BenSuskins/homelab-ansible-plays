@@ -48,3 +48,38 @@
 - name: ADGUARD - Append to docker_services
   ansible.builtin.set_fact:
     docker_services: "{{ docker_services + [adguard_entry] }}"
+
+# AdGuard reads its config only at startup and writes it as root (0600).
+# Compare parsed YAML (not bytes) so formatting/key-order differences between our
+# template and AdGuard's own serialization never trigger a needless restart.
+# Only on a real content change do we stop -> write -> start, avoiding a restart
+# race where AdGuard could flush stale in-memory config over our file.
+- name: ADGUARD - Render desired config
+  ansible.builtin.set_fact:
+    adguard_desired_config: "{{ lookup('ansible.builtin.template', playbook_dir + '/../config/adguard/AdGuardHome.yaml.j2') | from_yaml }}"
+
+- name: ADGUARD - Read current config
+  ansible.builtin.slurp:
+    src: "{{ base_dir }}/adguard/config/AdGuardHome.yaml"
+  register: adguard_current_raw
+
+- name: ADGUARD - Apply managed config
+  when: (adguard_current_raw.content | b64decode | from_yaml) != adguard_desired_config
+  block:
+    - name: ADGUARD - Stop container before writing config
+      community.docker.docker_container:
+        name: adguard
+        state: stopped
+
+    - name: ADGUARD - Write managed config
+      ansible.builtin.template:
+        src: ../config/adguard/AdGuardHome.yaml.j2
+        dest: "{{ base_dir }}/adguard/config/AdGuardHome.yaml"
+        owner: root
+        group: root
+        mode: "0600"
+
+    - name: ADGUARD - Start container with updated config
+      community.docker.docker_container:
+        name: adguard
+        state: started
