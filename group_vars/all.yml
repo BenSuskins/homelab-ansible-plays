@@ -40,6 +40,10 @@ packages:
   - cron
   - unzip
   - nodejs
+  - zsh
+  - zsh-autosuggestions
+  - zsh-syntax-highlighting
+  - neovim
 
 docker_dependencies:
   - ca-certificates

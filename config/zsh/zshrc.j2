@@ -1,0 +1,37 @@
+# Managed by Ansible — do not edit by hand.
+
+autoload -U compinit && compinit
+
+# History
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=10000
+SAVEHIST=10000
+setopt HIST_FCNTL_LOCK HIST_IGNORE_DUPS HIST_IGNORE_SPACE SHARE_HISTORY
+setopt NO_APPEND_HISTORY NO_EXTENDED_HISTORY NO_HIST_EXPIRE_DUPS_FIRST
+setopt NO_HIST_FIND_NO_DUPS NO_HIST_IGNORE_ALL_DUPS NO_HIST_SAVE_NO_DUPS
+
+# Editor
+export EDITOR=nvim
+alias vim=nvim
+
+# eza
+alias l="eza -lah"
+alias ls="eza"
+
+# Autosuggestions
+if [[ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+  source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+  ZSH_AUTOSUGGEST_STRATEGY=(history)
+fi
+
+# Prompt and navigation
+if [[ $TERM != "dumb" ]]; then
+  eval "$(starship init zsh)"
+fi
+eval "$(zoxide init zsh)"
+
+# Syntax highlighting (must be sourced last)
+if [[ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+  source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  ZSH_HIGHLIGHT_HIGHLIGHTERS=(main)
+fi

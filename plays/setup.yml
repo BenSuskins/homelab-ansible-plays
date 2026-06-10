@@ -37,6 +37,18 @@
             msg: "Docker setup failed"
       tags: [docker]
 
+    - name: SETUP - Configure shell environment
+      block:
+        - name: SETUP - Include shell tasks
+          ansible.builtin.include_tasks:
+            file: "../tasks/core/shell.yml"
+          register: shell_results
+      rescue:
+        - name: SETUP - Report shell setup failure
+          ansible.builtin.fail:
+            msg: "Shell setup failed"
+      tags: [shell]
+
     - name: SETUP - Set reboot_required if included tasks changed
       ansible.builtin.set_fact:
         reboot_required: true
