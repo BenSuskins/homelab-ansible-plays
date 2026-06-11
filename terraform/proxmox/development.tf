@@ -13,7 +13,7 @@ module "development" {
   description       = "Development"
   bios              = "ovmf"
   startup_order     = 4
-  started           = false
+  started           = true
   # up_delay gates the NEXT guest in boot order (mediaserver, order 5):
   # hold 240s after this VM so the NAS is online before mediaserver mounts it.
   startup_up_delay = 240

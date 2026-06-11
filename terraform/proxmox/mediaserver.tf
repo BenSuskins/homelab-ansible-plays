@@ -12,7 +12,7 @@ module "mediaserver" {
   ssh_public_keys   = [file("~/.ssh/homelab.pub")]
   description       = "Media Server"
   bios              = "ovmf"
-  started           = false
+  started           = true
 
   # Boots last so the NAS has time to come up first; the 240s gap is set as
   # development's up_delay (the preceding guest), since Proxmox up_delay

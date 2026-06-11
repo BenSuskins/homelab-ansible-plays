@@ -13,7 +13,7 @@ module "docker" {
   description       = "Docker Host"
   bios              = "ovmf"
   startup_order     = 2
-  started           = false
+  started           = true
 }
 
 output "docker_ipv4" {

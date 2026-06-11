@@ -13,7 +13,7 @@ module "monitor" {
   description       = "Monitoring"
   bios              = "ovmf"
   startup_order     = 3
-  started           = false
+  started           = true
 }
 
 output "monitor_ipv4" {
