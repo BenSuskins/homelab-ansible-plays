@@ -41,7 +41,6 @@ packages:
   - unzip
   - nodejs
   - zsh
-  - zsh-syntax-highlighting
   - neovim
 
 docker_dependencies:
