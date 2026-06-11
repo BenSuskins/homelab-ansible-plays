@@ -11,6 +11,41 @@
     - "{{ base_dir }}/adguard/config"
     - "{{ base_dir }}/adguard/data"
 
+# AdGuard binds host port 53 for DNS, which collides with systemd-resolved's
+# stub listener on 127.0.0.53:53. Disable the stub (resolved still resolves host
+# DNS via the real upstreams) so port 53 is free before the container starts.
+- name: ADGUARD - Ensure resolved drop-in directory exists
+  ansible.builtin.file:
+    path: /etc/systemd/resolved.conf.d
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: ADGUARD - Disable systemd-resolved stub listener
+  ansible.builtin.copy:
+    dest: /etc/systemd/resolved.conf.d/disable-stub.conf
+    content: |
+      [Resolve]
+      DNSStubListener=no
+    owner: root
+    group: root
+    mode: "0644"
+  register: adguard_resolved_stub
+
+- name: ADGUARD - Point resolv.conf at upstream resolvers
+  ansible.builtin.file:
+    src: /run/systemd/resolve/resolv.conf
+    dest: /etc/resolv.conf
+    state: link
+    force: true
+
+- name: ADGUARD - Restart systemd-resolved to release port 53
+  ansible.builtin.service:
+    name: systemd-resolved
+    state: restarted
+  when: adguard_resolved_stub.changed
+
 - name: ADGUARD - Create container
   community.docker.docker_container:
     name: adguard
