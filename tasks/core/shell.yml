@@ -30,7 +30,7 @@
   ansible.builtin.shell:
     cmd: |
       set -o pipefail
-      curl -sS https://starship.rs/install/install.sh | sh -s -- -y -b /usr/local/bin
+      curl -sS https://starship.rs/install.sh | sh -s -- -y -b /usr/local/bin
     creates: /usr/local/bin/starship
     executable: /bin/bash
 
