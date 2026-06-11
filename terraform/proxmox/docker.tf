@@ -5,7 +5,8 @@ module "docker" {
   node_name         = var.proxmox_node
   clone_template_id = 9000
   cores             = 2
-  memory            = 2048
+  memory            = 4096
+  memory_floating   = 2048
   disk_size         = 64
   ip_address        = "192.168.0.202/24"
   ssh_public_keys   = [file("~/.ssh/homelab.pub")]

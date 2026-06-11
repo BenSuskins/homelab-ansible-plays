@@ -6,6 +6,7 @@ module "development" {
   clone_template_id = 9000
   cores             = 2
   memory            = 2048
+  memory_floating   = 1024
   disk_size         = 64
   ip_address        = "192.168.0.204/24"
   ssh_public_keys   = [file("~/.ssh/homelab.pub")]

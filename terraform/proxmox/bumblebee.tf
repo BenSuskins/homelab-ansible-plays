@@ -4,8 +4,9 @@ module "bumblebee" {
   vm_id             = 200
   node_name         = var.proxmox_node
   clone_template_id = 9000
-  cores             = 2
-  memory            = 2048
+  cores             = 4
+  memory            = 4096
+  memory_floating   = 2048
   disk_size         = 128
   ip_address        = "192.168.0.200/24"
   ssh_public_keys   = [file("~/.ssh/homelab.pub")]
