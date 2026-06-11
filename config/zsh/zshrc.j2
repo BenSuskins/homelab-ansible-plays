@@ -18,12 +18,6 @@ alias vim=nvim
 alias l="eza -lah"
 alias ls="eza"
 
-# Autosuggestions
-if [[ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
-  source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-  ZSH_AUTOSUGGEST_STRATEGY=(history)
-fi
-
 # Prompt and navigation
 if [[ $TERM != "dumb" ]]; then
   eval "$(starship init zsh)"
