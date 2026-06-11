@@ -18,7 +18,7 @@ adguard_rewrites:
     answer: "A"
     enabled: true
   - domain: "*.suskins.co.uk"
-    answer: "192.168.0.105"
+    answer: "192.168.0.204"
     enabled: true
 
 special_containers:

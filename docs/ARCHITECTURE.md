@@ -133,30 +133,28 @@ Images are pinned to specific versions — never `:latest`.
 
 ## Appendix: Deployed Services
 
-_Generated from live inventory on 2026-06-02T19:39:06Z. Source of truth is `group_vars/`._
+_Generated from live inventory on 2026-06-11T19:47:02Z. Source of truth is `group_vars/`._
 
 ### Development
 
 | Service | Host | Port | Direct URL | URL | Exposed |
 |---------|------|------|------------|-----|---------|
-| alloy | 192.168.0.105 | — | — | — | false |
+| alloy | 192.168.0.204 | — | — | — | false |
 | authelia | authelia | 9091 | [authelia:9091](http://authelia:9091) | [authelia.suskins.co.uk](https://authelia.suskins.co.uk) | false |
-| traefik | 192.168.0.105 | 8082 | [192.168.0.105:8082](http://192.168.0.105:8082) | [traefik.suskins.co.uk](https://traefik.suskins.co.uk) | false |
+| traefik | 192.168.0.204 | 8082 | [192.168.0.204:8082](http://192.168.0.204:8082) | [traefik.suskins.co.uk](https://traefik.suskins.co.uk) | false |
 
 ### Docker
 
 | Service | Host | Port | Direct URL | URL | Exposed |
 |---------|------|------|------------|-----|---------|
-| adguard-home | 192.168.0.102 | 80 | [192.168.0.102:80](http://192.168.0.102:80) | [adguard-home.suskins.co.uk](https://adguard-home.suskins.co.uk) | false |
-| alloy | 192.168.0.102 | — | — | — | false |
-| cloudflare-ddns | 192.168.0.102 | — | — | — | false |
-| family-hub | 192.168.0.102 | 8081 | [192.168.0.102:8081](http://192.168.0.102:8081) | [hub.suskins.co.uk](https://hub.suskins.co.uk) | false |
-| home | 192.168.0.102 | 3000 | [192.168.0.102:3000](http://192.168.0.102:3000) | [home.suskins.co.uk](https://home.suskins.co.uk) | false |
-| mcpjungle | 192.168.0.102 | 8090 | [192.168.0.102:8090](http://192.168.0.102:8090) | [mcp.suskins.co.uk](https://mcp.suskins.co.uk) | false |
-| pubgolf | 192.168.0.102 | 3003 | [192.168.0.102:3003](http://192.168.0.102:3003) | [pubgolf.me](https://pubgolf.me) | false |
-| pubgolf-backend | 192.168.0.102 | 8080 | [192.168.0.102:8080](http://192.168.0.102:8080) | [api.pubgolf.me](https://api.pubgolf.me) | false |
-| wedding | 192.168.0.102 | 3004 | [192.168.0.102:3004](http://192.168.0.102:3004) | [wedding.suskins.co.uk](https://wedding.suskins.co.uk) | false |
-| wedding-db | 192.168.0.102 | — | — | — | false |
+| alloy | 192.168.0.202 | — | — | — | false |
+| family-hub | 192.168.0.202 | 8081 | [192.168.0.202:8081](http://192.168.0.202:8081) | [hub.suskins.co.uk](https://hub.suskins.co.uk) | false |
+| home | 192.168.0.202 | 3000 | [192.168.0.202:3000](http://192.168.0.202:3000) | [home.suskins.co.uk](https://home.suskins.co.uk) | false |
+| mcpjungle | 192.168.0.202 | 8090 | [192.168.0.202:8090](http://192.168.0.202:8090) | [mcp.suskins.co.uk](https://mcp.suskins.co.uk) | false |
+| pubgolf | 192.168.0.202 | 3003 | [192.168.0.202:3003](http://192.168.0.202:3003) | [pubgolf.me](https://pubgolf.me) | false |
+| pubgolf-backend | 192.168.0.202 | 8080 | [192.168.0.202:8080](http://192.168.0.202:8080) | [api.pubgolf.me](https://api.pubgolf.me) | false |
+| wedding | 192.168.0.202 | 3004 | [192.168.0.202:3004](http://192.168.0.202:3004) | [wedding.suskins.co.uk](https://wedding.suskins.co.uk) | false |
+| wedding-db | 192.168.0.202 | — | — | — | false |
 
 ### Games
 
@@ -179,32 +177,17 @@ _Generated from live inventory on 2026-06-02T19:39:06Z. Source of truth is `grou
 
 | Service | Host | Port | Direct URL | URL | Exposed |
 |---------|------|------|------------|-----|---------|
-| alloy | 192.168.0.101 | — | — | — | false |
-| bazarr | 192.168.0.101 | 6767 | [192.168.0.101:6767](http://192.168.0.101:6767) | [bazarr.suskins.co.uk](https://bazarr.suskins.co.uk) | false |
-| doplarr | 192.168.0.101 | — | — | — | false |
-| flaresolverr | 192.168.0.101 | 8191 | [192.168.0.101:8191](http://192.168.0.101:8191) | — | false |
-| gluetun | 192.168.0.101 | 8888 | [192.168.0.101:8888](http://192.168.0.101:8888) | — | false |
-| metube | 192.168.0.101 | 8081 | [192.168.0.101:8081](http://192.168.0.101:8081) | [metube.suskins.co.uk](https://metube.suskins.co.uk) | false |
-| openbooks | 192.168.0.101 | 8080 | [192.168.0.101:8080](http://192.168.0.101:8080) | [openbooks.suskins.co.uk](https://openbooks.suskins.co.uk) | false |
-| plex | 192.168.0.101 | 32400 | [192.168.0.101:32400](http://192.168.0.101:32400) | [plex.suskins.co.uk](https://plex.suskins.co.uk) | false |
-| profilarr | 192.168.0.101 | 6868 | [192.168.0.101:6868](http://192.168.0.101:6868) | [profilarr.suskins.co.uk](https://profilarr.suskins.co.uk) | false |
-| prowlarr | 192.168.0.101 | 9696 | [192.168.0.101:9696](http://192.168.0.101:9696) | [prowlarr.suskins.co.uk](https://prowlarr.suskins.co.uk) | false |
-| qbittorrent | 192.168.0.101 | 9091 | [192.168.0.101:9091](http://192.168.0.101:9091) | [qbittorrent.suskins.co.uk](https://qbittorrent.suskins.co.uk) | false |
-| radarr | 192.168.0.101 | 7878 | [192.168.0.101:7878](http://192.168.0.101:7878) | [radarr.suskins.co.uk](https://radarr.suskins.co.uk) | false |
-| radarr-mcp | 192.168.0.101 | 4200 | [192.168.0.101:4200](http://192.168.0.101:4200) | — | false |
-| seerr | 192.168.0.101 | 5055 | [192.168.0.101:5055](http://192.168.0.101:5055) | [seerr.suskins.co.uk](https://seerr.suskins.co.uk) | false |
-| shelfmark | 192.168.0.101 | 8084 | [192.168.0.101:8084](http://192.168.0.101:8084) | [shelfmark.suskins.co.uk](https://shelfmark.suskins.co.uk) | false |
-| sonarr | 192.168.0.101 | 8989 | [192.168.0.101:8989](http://192.168.0.101:8989) | [sonarr.suskins.co.uk](https://sonarr.suskins.co.uk) | false |
-| sonarr-mcp | 192.168.0.101 | 9171 | [192.168.0.101:9171](http://192.168.0.101:9171) | — | false |
-| sportarr | 192.168.0.101 | 1867 | [192.168.0.101:1867](http://192.168.0.101:1867) | [sportarr.suskins.co.uk](https://sportarr.suskins.co.uk) | false |
+| alloy | 192.168.0.201 | — | — | — | false |
+| radarr-mcp | 192.168.0.201 | 4200 | [192.168.0.201:4200](http://192.168.0.201:4200) | — | false |
+| sonarr-mcp | 192.168.0.201 | 9171 | [192.168.0.201:9171](http://192.168.0.201:9171) | — | false |
 
 ### Monitoring
 
 | Service | Host | Port | Direct URL | URL | Exposed |
 |---------|------|------|------------|-----|---------|
-| alloy | 192.168.0.104 | — | — | — | false |
-| gatus | 192.168.0.104 | 8080 | [192.168.0.104:8080](http://192.168.0.104:8080) | [gatus.suskins.co.uk](https://gatus.suskins.co.uk) | false |
-| grafana | 192.168.0.104 | 3000 | [192.168.0.104:3000](http://192.168.0.104:3000) | [grafana.suskins.co.uk](https://grafana.suskins.co.uk) | false |
-| graphite-exporter | 192.168.0.104 | 9108 | [192.168.0.104:9108](http://192.168.0.104:9108) | — | false |
-| loki | 192.168.0.104 | 3100 | [192.168.0.104:3100](http://192.168.0.104:3100) | — | false |
-| prometheus | 192.168.0.104 | 9090 | [192.168.0.104:9090](http://192.168.0.104:9090) | [prometheus.suskins.co.uk](https://prometheus.suskins.co.uk) | false |
+| alloy | 192.168.0.203 | — | — | — | false |
+| gatus | 192.168.0.203 | 8080 | [192.168.0.203:8080](http://192.168.0.203:8080) | [gatus.suskins.co.uk](https://gatus.suskins.co.uk) | false |
+| grafana | 192.168.0.203 | 3000 | [192.168.0.203:3000](http://192.168.0.203:3000) | [grafana.suskins.co.uk](https://grafana.suskins.co.uk) | false |
+| graphite-exporter | 192.168.0.203 | 9108 | [192.168.0.203:9108](http://192.168.0.203:9108) | — | false |
+| loki | 192.168.0.203 | 3100 | [192.168.0.203:3100](http://192.168.0.203:3100) | — | false |
+| prometheus | 192.168.0.203 | 9090 | [192.168.0.203:9090](http://192.168.0.203:9090) | [prometheus.suskins.co.uk](https://prometheus.suskins.co.uk) | false |

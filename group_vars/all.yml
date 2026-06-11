@@ -1,7 +1,7 @@
 domain: suskins.co.uk
-mediaserver_ip: 192.168.0.101
-docker_ip: 192.168.0.102
-monitor_ip: 192.168.0.104
+mediaserver_ip: 192.168.0.201
+docker_ip: 192.168.0.202
+monitor_ip: 192.168.0.203
 nas_ip: 192.168.0.100
 timezone: Europe/London
 
@@ -65,7 +65,7 @@ static_services:
   - name: home
     description: Homepage dashboard
     host: "home.{{ domain }}"
-    ip: 192.168.0.102
+    ip: 192.168.0.202
     friendly_name: Docker
     port: 3000
     scheme: http
@@ -74,7 +74,7 @@ static_services:
 
   - name: prometheus
     description: Metrics database
-    ip: 192.168.0.104
+    ip: 192.168.0.203
     host: "prometheus.{{ domain }}"
     friendly_name: Monitoring
     port: 9090
@@ -85,7 +85,7 @@ static_services:
 
   - name: gatus
     description: Uptime monitoring
-    ip: 192.168.0.104
+    ip: 192.168.0.203
     host: "gatus.{{ domain }}"
     friendly_name: Monitoring
     port: 8080
