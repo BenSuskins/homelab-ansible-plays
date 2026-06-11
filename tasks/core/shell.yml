@@ -54,3 +54,19 @@
     owner: "{{ username }}"
     group: "{{ username }}"
     mode: "0644"
+
+- name: SHELL - Create config directory
+  ansible.builtin.file:
+    path: "/home/{{ username }}/.config"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0755"
+
+- name: SHELL - Copy starship config
+  ansible.builtin.copy:
+    src: ../config/starship/starship.toml
+    dest: "/home/{{ username }}/.config/starship.toml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0644"
