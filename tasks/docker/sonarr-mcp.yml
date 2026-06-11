@@ -11,7 +11,7 @@
     ports:
       - "9171:9171"
     env:
-      SONARR_URL: "http://{{ inventory_hostname }}:8989"
+      SONARR_URL: "http://{{ mediaserver_ip }}:8989"
       SONARR_API_KEY: "{{ SONARR_API_KEY }}"
       SONARR_MCP_HOST: "0.0.0.0"
       SONARR_MCP_PORT: "9171"

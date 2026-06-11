@@ -1,0 +1,24 @@
+---
+- name: HERMES-AGENT - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ base_dir }}/hermes-agent"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0750"
+
+- name: HERMES-AGENT - Create gateway container
+  community.docker.docker_container:
+    name: hermes-agent
+    image: nousresearch/hermes-agent:latest
+    restart_policy: always
+    state: started
+    pull: true
+    network_mode: host
+    command: ["gateway", "run"]
+    env:
+      HERMES_UID: "{{ puid | string }}"
+      HERMES_GID: "{{ pgid | string }}"
+    volumes:
+      - "{{ base_dir }}/hermes-agent:/opt/data"

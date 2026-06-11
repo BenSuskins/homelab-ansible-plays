@@ -1,0 +1,13 @@
+---
+base_dir: /home/hermes/server-hermes
+
+special_containers: []
+
+containers:
+  # Agent
+  - hermes-agent
+  - hermes-agent-dashboard
+  # MCP
+  - mcpjungle
+  - sonarr-mcp
+  - radarr-mcp
