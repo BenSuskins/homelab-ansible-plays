@@ -68,24 +68,24 @@ cd homelab-ansible-plays
 vim inventory group_vars/all.yml
 
 # Provision base packages and Docker
-ansible-playbook plays/setup.yml -K --ask-vault-pass
+ansible-playbook plays/setup.yml --ask-vault-pass
 
 # Deploy all containers + generate Traefik/Gatus/Prometheus/Homepage configs
-ansible-playbook plays/deploy-containers.yml -K --ask-vault-pass
+ansible-playbook plays/deploy-containers.yml --ask-vault-pass
 ```
 
 Verify: visit the Homepage dashboard hostname configured in `group_vars/all.yml` — every container with `homepage: true` should appear.
 
 ## Commands
 
-All playbooks require sudo (`-K`) and vault (`--ask-vault-pass`).
+All playbooks require the vault password (`--ask-vault-pass`). Hosts are Terraform-provisioned with passwordless sudo via cloud-init, so `-K` is not needed.
 
 | Command | Purpose |
 |---------|---------|
-| `ansible-playbook plays/setup.yml -K --ask-vault-pass` | One-time host initialisation (base packages, Docker) |
-| `ansible-playbook plays/deploy-containers.yml -K --ask-vault-pass` | Deploy/refresh all containers |
-| `ansible-playbook plays/update.yml -K --ask-vault-pass` | Full update cycle (apt + containers + Traefik/Gatus/Homepage configs); runs on push to `main` |
-| `ansible-playbook plays/clean.yml -K --ask-vault-pass` | apt cache, journal logs, Docker prune |
+| `ansible-playbook plays/setup.yml --ask-vault-pass` | One-time host initialisation (base packages, Docker) |
+| `ansible-playbook plays/deploy-containers.yml --ask-vault-pass` | Deploy/refresh all containers |
+| `ansible-playbook plays/update.yml --ask-vault-pass` | Full update cycle (apt + containers + Traefik/Gatus/Homepage configs); runs on push to `main` |
+| `ansible-playbook plays/clean.yml --ask-vault-pass` | apt cache, journal logs, Docker prune |
 | `ansible-vault edit vault.yml` | Edit encrypted secrets |
 
 CI reads the vault password from `~/.ansible_vault_pass`.

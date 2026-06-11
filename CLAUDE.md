@@ -8,20 +8,20 @@ Ansible configuration for managing a homelab infrastructure with multiple server
 
 ## Common Commands
 
-All playbooks require sudo password (`-K`) and vault password (`--ask-vault-pass`):
+All playbooks require the vault password (`--ask-vault-pass`). Hosts are Terraform-provisioned with passwordless sudo via cloud-init, so `-K` is not needed:
 
 ```bash
 # Initial host setup (installs dependencies, docker, reboots)
-ansible-playbook plays/setup.yml -K --ask-vault-pass
+ansible-playbook plays/setup.yml --ask-vault-pass
 
 # Deploy containers to all hosts
-ansible-playbook plays/deploy-containers.yml -K --ask-vault-pass
+ansible-playbook plays/deploy-containers.yml --ask-vault-pass
 
 # Update packages and containers (runs automatically on push to main)
-ansible-playbook plays/update.yml -K --ask-vault-pass
+ansible-playbook plays/update.yml --ask-vault-pass
 
 # Cleanup docker and system files
-ansible-playbook plays/clean.yml -K --ask-vault-pass
+ansible-playbook plays/clean.yml --ask-vault-pass
 
 # Edit vault secrets
 ansible-vault edit vault.yml
