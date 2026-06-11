@@ -18,8 +18,20 @@ alias vim=nvim
 alias l="eza -lah"
 alias ls="eza"
 
+# Autosuggestions
+if [[ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+  source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+  ZSH_AUTOSUGGEST_STRATEGY=(history)
+fi
+
 # Prompt and navigation
 if [[ $TERM != "dumb" ]]; then
   eval "$(starship init zsh)"
 fi
 eval "$(zoxide init zsh)"
+
+# Syntax highlighting (must be sourced last)
+if [[ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+  source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  ZSH_HIGHLIGHT_HIGHLIGHTERS=(main)
+fi

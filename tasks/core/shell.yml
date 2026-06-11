@@ -26,6 +26,29 @@
     name: eza
     state: present
 
+- name: SHELL - Install ncurses-bin (provides tic)
+  ansible.builtin.package:
+    name: ncurses-bin
+    state: present
+
+- name: SHELL - Create terminfo source directory
+  ansible.builtin.file:
+    path: /etc/terminfo-src
+    state: directory
+    mode: "0755"
+
+- name: SHELL - Copy ghostty terminfo source
+  ansible.builtin.copy:
+    src: ../config/terminfo/xterm-ghostty.terminfo
+    dest: /etc/terminfo-src/xterm-ghostty.terminfo
+    mode: "0644"
+  register: ghostty_terminfo
+
+- name: SHELL - Compile ghostty terminfo into system database
+  ansible.builtin.command:
+    cmd: tic -x -o /etc/terminfo /etc/terminfo-src/xterm-ghostty.terminfo
+  when: ghostty_terminfo.changed
+
 - name: SHELL - Install starship prompt
   ansible.builtin.shell:
     cmd: |
