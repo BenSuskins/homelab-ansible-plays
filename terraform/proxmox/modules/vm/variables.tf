@@ -22,6 +22,7 @@ variable "node_name" {
 variable "clone_template_id" {
   description = "VM ID of the cloud-init template to clone from"
   type        = number
+  default     = 9000
 }
 
 variable "cores" {
@@ -140,7 +141,7 @@ variable "startup_down_delay" {
 variable "bios" {
   description = "BIOS implementation: seabios or ovmf"
   type        = string
-  default     = "seabios"
+  default     = "ovmf"
 }
 
 variable "machine" {

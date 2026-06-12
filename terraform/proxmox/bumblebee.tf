@@ -1,19 +1,16 @@
 module "bumblebee" {
-  source            = "./modules/vm"
-  name              = "bumblebee"
-  vm_id             = 200
-  node_name         = var.proxmox_node
-  clone_template_id = 9000
-  cores             = 4
-  memory            = 4096
-  memory_floating   = 2048
-  disk_size         = 128
-  ip_address        = "192.168.0.200/24"
-  ssh_public_keys   = [file("~/.ssh/homelab.pub")]
-  description       = "Github Actions Runner"
-  bios              = "ovmf"
-  startup_order     = 1
-  started           = true
+  source          = "./modules/vm"
+  name            = "bumblebee"
+  vm_id           = 200
+  node_name       = var.proxmox_node
+  cores           = 4
+  memory          = 4096
+  memory_floating = 2048
+  disk_size       = 128
+  ip_address      = "192.168.0.200/24"
+  ssh_public_keys = [file("~/.ssh/homelab.pub")]
+  description     = "Github Actions Runner"
+  startup_order   = 1
 }
 
 output "bumblebee_ipv4" {

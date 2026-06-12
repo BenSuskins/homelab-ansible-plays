@@ -22,40 +22,36 @@ resource "cloudflare_dns_record" "suskins_root" {
   }
 }
 
-resource "cloudflare_dns_record" "authelia" {
+# Proxied CNAMEs pointing at the apex. Add a subdomain by extending the set.
+resource "cloudflare_dns_record" "suskins_apex_cnames" {
+  for_each = toset(["authelia", "hub", "wedding", "www"])
+
   zone_id = data.cloudflare_zone.suskins.zone_id
-  name    = "authelia"
+  name    = each.value
   type    = "CNAME"
   content = "suskins.co.uk"
   proxied = true
   ttl     = 1
 }
 
-resource "cloudflare_dns_record" "hub" {
-  zone_id = data.cloudflare_zone.suskins.zone_id
-  name    = "hub"
-  type    = "CNAME"
-  content = "suskins.co.uk"
-  proxied = true
-  ttl     = 1
+moved {
+  from = cloudflare_dns_record.authelia
+  to   = cloudflare_dns_record.suskins_apex_cnames["authelia"]
 }
 
-resource "cloudflare_dns_record" "wedding" {
-  zone_id = data.cloudflare_zone.suskins.zone_id
-  name    = "wedding"
-  type    = "CNAME"
-  content = "suskins.co.uk"
-  proxied = true
-  ttl     = 1
+moved {
+  from = cloudflare_dns_record.hub
+  to   = cloudflare_dns_record.suskins_apex_cnames["hub"]
 }
 
-resource "cloudflare_dns_record" "suskins_www" {
-  zone_id = data.cloudflare_zone.suskins.zone_id
-  name    = "www"
-  type    = "CNAME"
-  content = "suskins.co.uk"
-  proxied = true
-  ttl     = 1
+moved {
+  from = cloudflare_dns_record.wedding
+  to   = cloudflare_dns_record.suskins_apex_cnames["wedding"]
+}
+
+moved {
+  from = cloudflare_dns_record.suskins_www
+  to   = cloudflare_dns_record.suskins_apex_cnames["www"]
 }
 
 # iCloud Custom Email Domain — DKIM, MX, SPF, and Apple domain verification.
