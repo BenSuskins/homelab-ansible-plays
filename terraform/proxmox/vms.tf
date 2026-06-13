@@ -15,7 +15,6 @@
 #   username          = "example"        # Ansible ansible_user; defaults to name
 #   vm_id             = 110
 #   node_name         = var.proxmox_node
-#   clone_template_id = 9000             # VM ID of the cloud-init template
 #   cores             = 2
 #   memory            = 2048
 #   disk_size         = 64
@@ -26,6 +25,7 @@
 #   tags              = ["terraform"]
 #
 #   # --- Optional knobs (all have sensible defaults; shown with their defaults) ---
+#   # clone_template_id   = 9000          # VM ID of the cloud-init template
 #   # description         = "Web server"
 #   # pool_id             = "production"   # for pool-targeted backup jobs
 #   # protection          = false         # block accidental destroy
@@ -43,7 +43,7 @@
 #   # cpu_flags           = []
 #   # memory_floating     = 0             # set = memory to enable ballooning
 #   #
-#   # bios                = "seabios"     # or "ovmf"
+#   # bios                = "ovmf"        # or "seabios"
 #   # machine             = "q35"         # or "pc"
 #   # tablet_device       = true
 #   #

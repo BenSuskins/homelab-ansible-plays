@@ -22,22 +22,26 @@ resource "cloudflare_dns_record" "pubgolf_root" {
   }
 }
 
-resource "cloudflare_dns_record" "pubgolf_www" {
+# Proxied CNAMEs pointing at the apex. Add a subdomain by extending the set.
+resource "cloudflare_dns_record" "pubgolf_apex_cnames" {
+  for_each = toset(["www", "api"])
+
   zone_id = data.cloudflare_zone.pubgolf.zone_id
-  name    = "www"
+  name    = each.value
   type    = "CNAME"
   content = "pubgolf.me"
   proxied = true
   ttl     = 1
 }
 
-resource "cloudflare_dns_record" "pubgolf_api" {
-  zone_id = data.cloudflare_zone.pubgolf.zone_id
-  name    = "api"
-  type    = "CNAME"
-  content = "pubgolf.me"
-  proxied = true
-  ttl     = 1
+moved {
+  from = cloudflare_dns_record.pubgolf_www
+  to   = cloudflare_dns_record.pubgolf_apex_cnames["www"]
+}
+
+moved {
+  from = cloudflare_dns_record.pubgolf_api
+  to   = cloudflare_dns_record.pubgolf_apex_cnames["api"]
 }
 
 resource "cloudflare_dns_record" "pubgolf_google_verification" {

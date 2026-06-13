@@ -17,23 +17,25 @@ locals {
 
 # Redirect rules — canonicalize www to apex.
 
-resource "cloudflare_ruleset" "suskins_redirects" {
-  zone_id     = data.cloudflare_zone.suskins.zone_id
-  name        = "suskins-redirects"
-  description = "Dynamic redirects for suskins.co.uk"
+resource "cloudflare_ruleset" "redirects" {
+  for_each = local.zones
+
+  zone_id     = each.value.zone_id
+  name        = "${each.key}-redirects"
+  description = "Dynamic redirects for ${each.value.hostname}"
   kind        = "zone"
   phase       = "http_request_dynamic_redirect"
 
   rules = [
     {
-      description = "Redirect www.suskins.co.uk to apex"
-      expression  = "(http.host eq \"www.suskins.co.uk\")"
+      description = "Redirect www.${each.value.hostname} to apex"
+      expression  = "(http.host eq \"www.${each.value.hostname}\")"
       action      = "redirect"
       action_parameters = {
         from_value = {
           status_code = 301
           target_url = {
-            expression = "concat(\"https://suskins.co.uk\", http.request.uri.path)"
+            expression = "concat(\"https://${each.value.hostname}\", http.request.uri.path)"
           }
           preserve_query_string = true
         }
@@ -43,38 +45,24 @@ resource "cloudflare_ruleset" "suskins_redirects" {
   ]
 }
 
-resource "cloudflare_ruleset" "pubgolf_redirects" {
-  zone_id     = data.cloudflare_zone.pubgolf.zone_id
-  name        = "pubgolf-redirects"
-  description = "Dynamic redirects for pubgolf.me"
-  kind        = "zone"
-  phase       = "http_request_dynamic_redirect"
+moved {
+  from = cloudflare_ruleset.suskins_redirects
+  to   = cloudflare_ruleset.redirects["suskins"]
+}
 
-  rules = [
-    {
-      description = "Redirect www.pubgolf.me to apex"
-      expression  = "(http.host eq \"www.pubgolf.me\")"
-      action      = "redirect"
-      action_parameters = {
-        from_value = {
-          status_code = 301
-          target_url = {
-            expression = "concat(\"https://pubgolf.me\", http.request.uri.path)"
-          }
-          preserve_query_string = true
-        }
-      }
-      enabled = true
-    },
-  ]
+moved {
+  from = cloudflare_ruleset.pubgolf_redirects
+  to   = cloudflare_ruleset.redirects["pubgolf"]
 }
 
 # Response header transform rules — inject security headers at the edge.
 
-resource "cloudflare_ruleset" "suskins_response_headers" {
-  zone_id     = data.cloudflare_zone.suskins.zone_id
-  name        = "suskins-response-headers"
-  description = "Inject security response headers for suskins.co.uk"
+resource "cloudflare_ruleset" "response_headers" {
+  for_each = local.zones
+
+  zone_id     = each.value.zone_id
+  name        = "${each.key}-response-headers"
+  description = "Inject security response headers for ${each.value.hostname}"
   kind        = "zone"
   phase       = "http_response_headers_transform"
 
@@ -91,22 +79,12 @@ resource "cloudflare_ruleset" "suskins_response_headers" {
   ]
 }
 
-resource "cloudflare_ruleset" "pubgolf_response_headers" {
-  zone_id     = data.cloudflare_zone.pubgolf.zone_id
-  name        = "pubgolf-response-headers"
-  description = "Inject security response headers for pubgolf.me"
-  kind        = "zone"
-  phase       = "http_response_headers_transform"
+moved {
+  from = cloudflare_ruleset.suskins_response_headers
+  to   = cloudflare_ruleset.response_headers["suskins"]
+}
 
-  rules = [
-    {
-      description = "Set security response headers"
-      expression  = "true"
-      action      = "rewrite"
-      action_parameters = {
-        headers = local.security_response_headers
-      }
-      enabled = true
-    },
-  ]
+moved {
+  from = cloudflare_ruleset.pubgolf_response_headers
+  to   = cloudflare_ruleset.response_headers["pubgolf"]
 }

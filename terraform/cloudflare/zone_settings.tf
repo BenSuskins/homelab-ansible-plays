@@ -1,25 +1,20 @@
 locals {
-  cloudflare_zones = {
-    suskins = data.cloudflare_zone.suskins.zone_id
-    pubgolf = data.cloudflare_zone.pubgolf.zone_id
-  }
-
-  # Zone settings applied identically to every zone in cloudflare_zones.
+  # Zone settings applied identically to every zone in local.zones.
   cloudflare_zone_settings = {
     ssl                      = "strict"
     always_use_https         = "on"
     automatic_https_rewrites = "on"
     min_tls_version          = "1.2"
-    tls_1_3                  = "on"
+    tls_1_3                  = "zrt" # 0-RTT enabled, so Cloudflare reports tls_1_3 as "zrt"
     opportunistic_encryption = "on"
     "0rtt"                   = "on"
     brotli                   = "on"
   }
 
   zone_setting_pairs = {
-    for pair in setproduct(keys(local.cloudflare_zones), keys(local.cloudflare_zone_settings)) :
+    for pair in setproduct(keys(local.zones), keys(local.cloudflare_zone_settings)) :
     "${pair[0]}_${pair[1]}" => {
-      zone_id    = local.cloudflare_zones[pair[0]]
+      zone_id    = local.zones[pair[0]].zone_id
       setting_id = pair[1]
       value      = local.cloudflare_zone_settings[pair[1]]
     }
@@ -35,9 +30,9 @@ resource "cloudflare_zone_setting" "hardening" {
 }
 
 resource "cloudflare_zone_setting" "hsts" {
-  for_each = local.cloudflare_zones
+  for_each = local.zones
 
-  zone_id    = each.value
+  zone_id    = each.value.zone_id
   setting_id = "security_header"
   value = {
     strict_transport_security = {
