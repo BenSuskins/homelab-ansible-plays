@@ -5,7 +5,7 @@ locals {
     always_use_https         = "on"
     automatic_https_rewrites = "on"
     min_tls_version          = "1.2"
-    tls_1_3                  = "on"
+    tls_1_3                  = "zrt" # 0-RTT enabled, so Cloudflare reports tls_1_3 as "zrt"
     opportunistic_encryption = "on"
     "0rtt"                   = "on"
     brotli                   = "on"
