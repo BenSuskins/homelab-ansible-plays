@@ -4,7 +4,7 @@ module "bumblebee" {
   vm_id           = 200
   node_name       = var.proxmox_node
   cores           = 4
-  memory          = 4096
+  memory          = 2048
   memory_floating = 2048
   disk_size       = 128
   ip_address      = "192.168.0.200/24"

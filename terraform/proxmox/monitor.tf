@@ -4,7 +4,7 @@ module "monitor" {
   vm_id           = 203
   node_name       = var.proxmox_node
   cores           = 2
-  memory          = 4096
+  memory          = 2048
   memory_floating = 2048
   disk_size       = 64
   ip_address      = "192.168.0.203/24"
