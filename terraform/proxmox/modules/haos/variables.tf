@@ -95,3 +95,9 @@ variable "startup_order" {
   type        = number
   default     = null
 }
+
+variable "lan_ipv4_prefix" {
+  description = "Only IPv4 addresses with this prefix are surfaced in the ipv4_addresses output, filtering out the guest agent's Docker/CNI bridge IPs and loopback."
+  type        = string
+  default     = "192.168."
+}

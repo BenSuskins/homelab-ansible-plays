@@ -21,7 +21,7 @@
 #   datastore_id      = "local-zfs"
 #   ip_address        = "192.168.0.110/24" # or "dhcp"
 #   gateway           = "192.168.0.1"
-#   ssh_public_keys   = [file("~/.ssh/homelab.pub")]
+#   ssh_public_keys   = [trimspace(file("~/.ssh/homelab.pub"))]
 #   tags              = ["terraform"]
 #
 #   # --- Optional knobs (all have sensible defaults; shown with their defaults) ---

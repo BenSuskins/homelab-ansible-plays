@@ -9,8 +9,11 @@ output "name" {
 }
 
 output "ipv4_addresses" {
-  description = "IPv4 addresses reported by the guest agent"
-  value       = proxmox_virtual_environment_vm.this.ipv4_addresses
+  description = "LAN IPv4 addresses reported by the guest agent (Docker/CNI bridges and loopback filtered out via lan_ipv4_prefix)"
+  value = [
+    for ip in flatten(proxmox_virtual_environment_vm.this.ipv4_addresses) :
+    ip if startswith(ip, var.lan_ipv4_prefix)
+  ]
 }
 
 output "mac_address" {
