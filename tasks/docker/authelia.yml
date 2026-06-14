@@ -53,7 +53,7 @@
       name: authelia
       description: Authentication portal
       host: "authelia.{{ domain }}"
-      ip: authelia
+      ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
       port: 9091
       scheme: http

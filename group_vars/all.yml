@@ -140,7 +140,7 @@ static_services:
     description: Smart home automation
     icon: home-assistant
     host: "homeassistant.{{ domain }}"
-    ip: 192.168.0.65
+    ip: 192.168.0.205
     friendly_name: General
     port: 8123
     scheme: http
