@@ -24,6 +24,12 @@ variable "usb_device_id" {
   type        = string
 }
 
+variable "usb_device_path" {
+  description = "Optional port-based path for the USB mapping (e.g. 1-8.2 from `lsusb -t` / the node's /sys path). null maps by vendor:product id alone; set this to disambiguate between two identical chips."
+  type        = string
+  default     = null
+}
+
 variable "mac_address" {
   description = "MAC for the NIC. null lets Proxmox auto-assign one; read the mac_address output and add a matching DHCP reservation for a stable IP (HAOS ignores cloud-init networking)."
   type        = string
