@@ -19,18 +19,20 @@
 - name: HERMES - Create container
   community.docker.docker_container:
     name: hermes
-    image: ghcr.io/bensuskins/hermes-agent:latest
+    image: nousresearch/hermes-agent:v2026.6.5
     restart_policy: always
     state: started
     pull: true
     networks:
       - name: homelab
-    command: dashboard --host 0.0.0.0 --no-open
+    command: gateway run
     ports:
+      - "8642:8642"
       - "9119:9119"
     volumes:
       - "{{ base_dir }}/hermes/data:/opt/data"
     env:
+      HERMES_DASHBOARD: "1"
       OPENROUTER_API_KEY: "{{ OPENROUTER_API_KEY }}"
 
 - name: HERMES - Define service entry
