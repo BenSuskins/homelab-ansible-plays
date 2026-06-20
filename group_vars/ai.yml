@@ -1,0 +1,10 @@
+---
+base_dir: /home/ai/server-ai
+
+containers:
+  # MCP
+  - mcpjungle
+  - sonarr-mcp
+  - radarr-mcp
+  # AI
+  - hermes
