@@ -31,3 +31,9 @@ ansible_user=monitor
 
 [bumblebee:vars]
 ansible_user=bumblebee
+
+[ai]
+192.168.0.206 friendly_name="AI"
+
+[ai:vars]
+ansible_user=ai

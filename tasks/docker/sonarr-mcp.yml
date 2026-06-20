@@ -11,10 +11,21 @@
     ports:
       - "9171:9171"
     env:
-      SONARR_URL: "http://{{ inventory_hostname }}:8989"
+      SONARR_URL: "http://{{ mediaserver_ip }}:8989"
       SONARR_API_KEY: "{{ SONARR_API_KEY }}"
       SONARR_MCP_HOST: "0.0.0.0"
       SONARR_MCP_PORT: "9171"
+
+- name: SONARR-MCP - Register with mcpjungle gateway
+  community.docker.docker_container_exec:
+    container: mcpjungle
+    command: >-
+      mcpjungle register --name sonarr
+      --description "Sonarr MCP server"
+      --url http://{{ inventory_hostname }}:9171/mcp
+  register: sonarr_mcp_register
+  changed_when: false
+  failed_when: false
 
 - name: SONARR-MCP - Define service entry
   ansible.builtin.set_fact:
