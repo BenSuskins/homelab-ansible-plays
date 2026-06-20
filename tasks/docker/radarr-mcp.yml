@@ -11,10 +11,21 @@
     ports:
       - "4200:4200"
     env:
-      RADARR_URL: "http://{{ inventory_hostname }}:7878"
+      RADARR_URL: "http://{{ mediaserver_ip }}:7878"
       RADARR_API_KEY: "{{ RADARR_API_KEY }}"
       RADARR_MCP_HOST: "0.0.0.0"
       RADARR_MCP_PORT: "4200"
+
+- name: RADARR-MCP - Register with mcpjungle gateway
+  community.docker.docker_container_exec:
+    container: mcpjungle
+    command: >-
+      mcpjungle register --name radarr
+      --description "Radarr MCP server"
+      --url http://{{ inventory_hostname }}:4200/mcp
+  register: radarr_mcp_register
+  changed_when: false
+  failed_when: false
 
 - name: RADARR-MCP - Define service entry
   ansible.builtin.set_fact:

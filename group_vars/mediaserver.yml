@@ -3,9 +3,6 @@ base_dir: /home/mediaserver/server-mediaserver
 mount_nas: true
 
 containers:
-  # MCP
-  - sonarr-mcp
-  - radarr-mcp
   # Streaming
   - plex
   # Media management
