@@ -8,14 +8,6 @@
     group: "{{ username }}"
     mode: "0750"
 
-- name: HERMES - Create config
-  ansible.builtin.template:
-    src: ../config/hermes/cli-config.yaml.j2
-    dest: "{{ base_dir }}/hermes/data/cli-config.yaml"
-    owner: "{{ username }}"
-    group: "{{ username }}"
-    mode: "0640"
-
 - name: HERMES - Create container
   community.docker.docker_container:
     name: hermes
