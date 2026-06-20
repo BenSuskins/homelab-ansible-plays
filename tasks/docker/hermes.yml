@@ -1,13 +1,4 @@
 ---
-- name: HERMES - Create directory and permissions
-  ansible.builtin.file:
-    path: "{{ base_dir }}/hermes/data"
-    recurse: true
-    state: directory
-    owner: "{{ username }}"
-    group: "{{ username }}"
-    mode: "0750"
-
 - name: HERMES - Create container
   community.docker.docker_container:
     name: hermes
@@ -22,7 +13,7 @@
       - "8642:8642"
       - "9119:9119"
     volumes:
-      - "{{ base_dir }}/hermes/data:/opt/data"
+      - "{{ base_dir }}/hermes:/opt/data"
     env:
       HERMES_DASHBOARD: "1"
       OPENROUTER_API_KEY: "{{ OPENROUTER_API_KEY }}"
