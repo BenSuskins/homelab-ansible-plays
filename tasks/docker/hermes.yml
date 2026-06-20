@@ -34,6 +34,7 @@
     env:
       HERMES_DASHBOARD: "1"
       OPENROUTER_API_KEY: "{{ OPENROUTER_API_KEY }}"
+      HERMES_DASHBOARD_INSECURE: "1"
 
 - name: HERMES - Define service entry
   ansible.builtin.set_fact:
