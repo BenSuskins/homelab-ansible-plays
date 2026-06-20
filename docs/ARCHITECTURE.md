@@ -133,7 +133,7 @@ Images are pinned to specific versions — never `:latest`.
 
 ## Appendix: Deployed Services
 
-_Generated from live inventory on 2026-06-11T20:07:48Z. Source of truth is `group_vars/`._
+_Generated from live inventory on 2026-06-20T20:29:39Z. Source of truth is `group_vars/`._
 
 ### Development
 
@@ -152,7 +152,6 @@ _Generated from live inventory on 2026-06-11T20:07:48Z. Source of truth is `grou
 | cloudflare-ddns | 192.168.0.202 | — | — | — | false |
 | family-hub | 192.168.0.202 | 8081 | [192.168.0.202:8081](http://192.168.0.202:8081) | [hub.suskins.co.uk](https://hub.suskins.co.uk) | false |
 | home | 192.168.0.202 | 3000 | [192.168.0.202:3000](http://192.168.0.202:3000) | [home.suskins.co.uk](https://home.suskins.co.uk) | false |
-| mcpjungle | 192.168.0.202 | 8090 | [192.168.0.202:8090](http://192.168.0.202:8090) | [mcp.suskins.co.uk](https://mcp.suskins.co.uk) | false |
 | pubgolf | 192.168.0.202 | 3003 | [192.168.0.202:3003](http://192.168.0.202:3003) | [pubgolf.me](https://pubgolf.me) | false |
 | pubgolf-backend | 192.168.0.202 | 8080 | [192.168.0.202:8080](http://192.168.0.202:8080) | [api.pubgolf.me](https://api.pubgolf.me) | false |
 | wedding | 192.168.0.202 | 3004 | [192.168.0.202:3004](http://192.168.0.202:3004) | [wedding.suskins.co.uk](https://wedding.suskins.co.uk) | false |
@@ -170,7 +169,7 @@ _Generated from live inventory on 2026-06-11T20:07:48Z. Source of truth is `grou
 
 | Service | Host | Port | Direct URL | URL | Exposed |
 |---------|------|------|------------|-----|---------|
-| homeassistant | 192.168.0.65 | 8123 | [192.168.0.65:8123](http://192.168.0.65:8123) | [homeassistant.suskins.co.uk](https://homeassistant.suskins.co.uk) | false |
+| homeassistant | 192.168.0.205 | 8123 | [192.168.0.205:8123](http://192.168.0.205:8123) | [homeassistant.suskins.co.uk](https://homeassistant.suskins.co.uk) | false |
 | proxmox | 192.168.0.253 | 8006 | [192.168.0.253:8006](http://192.168.0.253:8006) | [pve.suskins.co.uk](https://pve.suskins.co.uk) | false |
 | truenas | 192.168.0.100 | 443 | [192.168.0.100:443](http://192.168.0.100:443) | [nas.suskins.co.uk](https://nas.suskins.co.uk) | false |
 | unifi | 192.168.0.1 | 443 | [192.168.0.1:443](http://192.168.0.1:443) | [unifi.suskins.co.uk](https://unifi.suskins.co.uk) | false |
@@ -191,11 +190,9 @@ _Generated from live inventory on 2026-06-11T20:07:48Z. Source of truth is `grou
 | prowlarr | 192.168.0.201 | 9696 | [192.168.0.201:9696](http://192.168.0.201:9696) | [prowlarr.suskins.co.uk](https://prowlarr.suskins.co.uk) | false |
 | qbittorrent | 192.168.0.201 | 9091 | [192.168.0.201:9091](http://192.168.0.201:9091) | [qbittorrent.suskins.co.uk](https://qbittorrent.suskins.co.uk) | false |
 | radarr | 192.168.0.201 | 7878 | [192.168.0.201:7878](http://192.168.0.201:7878) | [radarr.suskins.co.uk](https://radarr.suskins.co.uk) | false |
-| radarr-mcp | 192.168.0.201 | 4200 | [192.168.0.201:4200](http://192.168.0.201:4200) | — | false |
 | seerr | 192.168.0.201 | 5055 | [192.168.0.201:5055](http://192.168.0.201:5055) | [seerr.suskins.co.uk](https://seerr.suskins.co.uk) | false |
 | shelfmark | 192.168.0.201 | 8084 | [192.168.0.201:8084](http://192.168.0.201:8084) | [shelfmark.suskins.co.uk](https://shelfmark.suskins.co.uk) | false |
 | sonarr | 192.168.0.201 | 8989 | [192.168.0.201:8989](http://192.168.0.201:8989) | [sonarr.suskins.co.uk](https://sonarr.suskins.co.uk) | false |
-| sonarr-mcp | 192.168.0.201 | 9171 | [192.168.0.201:9171](http://192.168.0.201:9171) | — | false |
 | sportarr | 192.168.0.201 | 1867 | [192.168.0.201:1867](http://192.168.0.201:1867) | [sportarr.suskins.co.uk](https://sportarr.suskins.co.uk) | false |
 
 ### Monitoring
