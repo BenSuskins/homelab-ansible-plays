@@ -133,7 +133,17 @@ Images are pinned to specific versions — never `:latest`.
 
 ## Appendix: Deployed Services
 
-_Generated from live inventory on 2026-06-20T20:29:39Z. Source of truth is `group_vars/`._
+_Generated from live inventory on 2026-06-20T20:52:52Z. Source of truth is `group_vars/`._
+
+### AI
+
+| Service | Host | Port | Direct URL | URL | Exposed |
+|---------|------|------|------------|-----|---------|
+| alloy | 192.168.0.206 | — | — | — | false |
+| hermes | 192.168.0.206 | 9119 | [192.168.0.206:9119](http://192.168.0.206:9119) | [hermes.suskins.co.uk](https://hermes.suskins.co.uk) | false |
+| mcpjungle | 192.168.0.206 | 8090 | [192.168.0.206:8090](http://192.168.0.206:8090) | [mcp.suskins.co.uk](https://mcp.suskins.co.uk) | false |
+| radarr-mcp | 192.168.0.206 | 4200 | [192.168.0.206:4200](http://192.168.0.206:4200) | — | false |
+| sonarr-mcp | 192.168.0.206 | 9171 | [192.168.0.206:9171](http://192.168.0.206:9171) | — | false |
 
 ### Development
 
