@@ -1,7 +1,9 @@
 # Hermes Agent configuration — rendered by tasks/docker/hermes.yml
 # Model defaults to OpenRouter; the OPENROUTER_API_KEY env var supplies the key.
+# Using a free, tool-calling-capable model for testing. Free model slugs drift —
+# verify the exact ":free" id and tool-calling support at https://openrouter.ai/models
 model:
-  default: "anthropic/claude-opus-4.6"
+  default: "qwen/qwen3-coder:free"
   provider: "auto"
   base_url: "https://openrouter.ai/api/v1"
 
