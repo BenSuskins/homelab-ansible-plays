@@ -66,6 +66,11 @@ layout:
     tab: Homelab
     style: row
     columns: 4
+  AI:
+    icon: mdi-server
+    tab: Homelab
+    style: row
+    columns: 4
   Other:
     icon: mdi-code-json
     tab: Other
