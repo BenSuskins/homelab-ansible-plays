@@ -12,6 +12,7 @@
     ports:
       - "8642:8642"
       - "9119:9119"
+      - "8080:8080"
     volumes:
       - "{{ base_dir }}/hermes:/opt/data"
     env:
