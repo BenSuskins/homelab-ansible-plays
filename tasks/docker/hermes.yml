@@ -2,7 +2,7 @@
 - name: HERMES - Create container
   community.docker.docker_container:
     name: hermes
-    image: nousresearch/hermes-agent:v2026.6.19
+    image: nousresearch/hermes-agent:v2026.7.1
     restart_policy: always
     state: started
     pull: true
