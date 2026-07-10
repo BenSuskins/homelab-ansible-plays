@@ -91,7 +91,7 @@
 - name: GRAPHITE-EXPORTER - Create container
   community.docker.docker_container:
     name: graphite-exporter
-    image: prom/graphite-exporter:v0.16.0
+    image: prom/graphite-exporter:v0.17.0
     restart_policy: always
     state: started
     pull: true
