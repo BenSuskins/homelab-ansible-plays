@@ -8,3 +8,6 @@ containers:
   - radarr-mcp
   # AI
   - hermes
+  # Work
+  - workboard
+  - workboard-mcp
