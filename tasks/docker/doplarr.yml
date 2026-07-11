@@ -13,16 +13,14 @@
 - name: DOPLARR - Create container
   community.docker.docker_container:
     name: doplarr
-    image: ghcr.io/kiranshila/doplarr:v3.8.0
+    image: ghcr.io/activexray/doplarr_rs:latest
     restart_policy: always
     state: started
     pull: true
     networks:
       - name: homelab
-    env:
-      DISCORD__TOKEN: "{{ DISCORD__TOKEN }}"
-      OVERSEERR__URL: "http://{{ mediaserver_ip }}:5055"
-      OVERSEERR__API: "{{ OVERSEERR__API }}"
+    volumes:
+      - "{{ base_dir }}/doplarr/config.toml:/config.toml"
 
 - name: DOPLARR - Define service entry
   ansible.builtin.set_fact:
