@@ -1,0 +1,40 @@
+---
+- name: WORKBOARD-MCP - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ base_dir }}/workboard"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0750"
+
+- name: WORKBOARD-MCP - Create container
+  community.docker.docker_container:
+    name: workboard-mcp
+    image: ghcr.io/bensuskins/workboard:latest
+    restart_policy: always
+    state: started
+    pull: true
+    networks:
+      - name: homelab
+    command: npx tsx packages/mcp/src/http.ts
+    ports:
+      - "8787:8787"
+    volumes:
+      - "{{ base_dir }}/workboard:/data"
+
+- name: WORKBOARD-MCP - Define service entry
+  ansible.builtin.set_fact:
+    workboard_mcp_entry:
+      name: workboard-mcp
+      description: Workboard MCP server
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 8787
+      scheme: http
+      healthcheck: true
+      healthcheck_path: /healthz
+
+- name: WORKBOARD-MCP - Append to docker_services
+  ansible.builtin.set_fact:
+    docker_services: "{{ docker_services + [workboard_mcp_entry] }}"
