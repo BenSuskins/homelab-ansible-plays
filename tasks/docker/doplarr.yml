@@ -19,6 +19,10 @@
     pull: true
     networks:
       - name: homelab
+    env:
+      DISCORD__TOKEN: "{{ DISCORD__TOKEN }}"
+      OVERSEERR__URL: "http://{{ mediaserver_ip }}:5055"
+      OVERSEERR__API: "{{ OVERSEERR__API }}"      
     volumes:
       - "{{ base_dir }}/doplarr/config.toml:/config.toml"
 
