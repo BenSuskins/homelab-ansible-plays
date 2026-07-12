@@ -2,7 +2,7 @@
 - name: PUBGOLF-FRONTEND - Create container
   community.docker.docker_container:
     name: pubgolf-frontend
-    image: ghcr.io/bensuskins/pubgolf-frontend:9ebe2d4
+    image: ghcr.io/bensuskins/pubgolf-frontend:b790ecb
     restart_policy: always
     state: started
     pull: true
