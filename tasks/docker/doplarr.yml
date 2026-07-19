@@ -10,6 +10,15 @@
   loop:
     - "{{ base_dir }}/doplarr"
 
+- name: DOPLARR - Ensure config file exists
+  ansible.builtin.copy:
+    content: ""
+    dest: "{{ base_dir }}/doplarr/config.toml"
+    force: false
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0640"
+
 - name: DOPLARR - Create container
   community.docker.docker_container:
     name: doplarr
