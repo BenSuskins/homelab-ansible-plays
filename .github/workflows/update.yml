@@ -5,6 +5,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: update-homelab
+  cancel-in-progress: false
+
 jobs:
   update:
     runs-on: self-hosted
