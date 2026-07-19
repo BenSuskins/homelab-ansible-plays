@@ -49,7 +49,7 @@
 - name: ADGUARD - Create container
   community.docker.docker_container:
     name: adguard
-    image: adguard/adguardhome:v0.107.77
+    image: adguard/adguardhome:v0.107.78
     restart_policy: always
     state: started
     pull: true
