@@ -4,8 +4,7 @@ base_dir: /home/ai/server-ai
 containers:
   # MCP
   - mcpjungle
-  - sonarr-mcp
-  - radarr-mcp
+  - media-server-mcp
   # AI
   - hermes
   # Work
