@@ -27,6 +27,8 @@
       PUID: "{{ puid | string }}"
       PGID: "{{ pgid | string }}"
       TZ: "{{ timezone }}"
+      AUTH: "off"
+      ORIGIN: "https://profilarr.{{ domain }}"
 
 - name: PROFILARR - Define service entry
   ansible.builtin.set_fact:
