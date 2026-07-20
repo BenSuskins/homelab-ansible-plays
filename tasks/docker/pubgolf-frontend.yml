@@ -1,11 +1,19 @@
 ---
+- name: PUBGOLF-FRONTEND - Pre-pull image
+  community.docker.docker_image:
+    name: "{{ image }}"
+    source: pull
+    force_source: true
+  vars:
+    image: ghcr.io/bensuskins/pubgolf-frontend:4f59462
+
 - name: PUBGOLF-FRONTEND - Create container
   community.docker.docker_container:
     name: pubgolf-frontend
     image: ghcr.io/bensuskins/pubgolf-frontend:latest
     restart_policy: always
     state: started
-    pull: true
+    pull: false
     networks:
       - name: homelab
     ports:

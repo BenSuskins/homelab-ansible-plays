@@ -23,13 +23,21 @@
   vars:
     monitored_services: "{{ all_services | default([]) }}"
 
+- name: GATUS - Pre-pull image
+  community.docker.docker_image:
+    name: "{{ image }}"
+    source: pull
+    force_source: true
+  vars:
+    image: twinproduction/gatus:v5.36.0
+
 - name: GATUS - Create container
   community.docker.docker_container:
     name: gatus
     image: twinproduction/gatus:v5.36.0
     restart_policy: always
     state: started
-    pull: true
+    pull: false
     ports:
       - "8080:8080"
     networks:

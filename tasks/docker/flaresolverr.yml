@@ -1,11 +1,19 @@
 ---
+- name: FLARESOLVERR - Pre-pull image
+  community.docker.docker_image:
+    name: "{{ image }}"
+    source: pull
+    force_source: true
+  vars:
+    image: ghcr.io/flaresolverr/flaresolverr:v3.5.0
+
 - name: FLARESOLVERR - Create container
   community.docker.docker_container:
     name: flaresolverr
     image: ghcr.io/flaresolverr/flaresolverr:v3.5.0
     restart_policy: always
     state: started
-    pull: true
+    pull: false
     memory: 1g
     cpus: "1.0"
     networks:

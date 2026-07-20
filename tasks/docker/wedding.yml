@@ -10,13 +10,21 @@
 #   loop:
 #     - "{{ base_dir }}/wedding/uploads"
 
+- name: WEDDING - Pre-pull image
+  community.docker.docker_image:
+    name: "{{ image }}"
+    source: pull
+    force_source: true
+  vars:
+    image: ghcr.io/bensuskins/wedding:latest
+
 - name: WEDDING - Create container
   community.docker.docker_container:
     name: wedding
     image: ghcr.io/bensuskins/wedding:latest
     restart_policy: always
     state: started
-    pull: true
+    pull: false
     networks:
       - name: homelab
     ports:

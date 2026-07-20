@@ -51,14 +51,18 @@ For CI/CD, vault password is read from `~/.ansible_vault_pass` file.
 
 Each container task file in `tasks/docker/` follows a standard pattern:
 1. Create directory with permissions
-2. Create container using `community.docker.docker_container`
-3. Define service entry with metadata (name, ip, port, scheme, etc.)
-4. Append to `docker_services` list for Homepage integration
+2. Pre-pull the image using `community.docker.docker_image` (`source: pull`, `force_source: true`), so the download happens before the old container is stopped and the stop→start window stays minimal
+3. Create container using `community.docker.docker_container` with `pull: false`
+4. Define service entry with metadata (name, ip, port, scheme, etc.)
+5. Append to `docker_services` list for Homepage integration
+
+The pre-pull task holds the image reference in a task-level `vars: image:` key and the container task repeats the same literal in its `image:` parameter — Renovate matches `image:` lines, so both are updated together. Keep the two in sync when editing manually.
 
 Example structure:
 ```yaml
 - name: Create directory
-- name: Create container
+- name: Pre-pull image (docker_image with vars: image: repo/name:tag)
+- name: Create container (docker_container with image: repo/name:tag, pull: false)
 - name: Define service entry (set_fact with name, ip, port, etc.)
 - name: Append to docker_services
 ```

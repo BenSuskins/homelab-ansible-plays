@@ -10,13 +10,21 @@
   loop:
     - "{{ base_dir }}/cleanuparr"
 
+- name: CLEANUPARR - Pre-pull image
+  community.docker.docker_image:
+    name: "{{ image }}"
+    source: pull
+    force_source: true
+  vars:
+    image: ghcr.io/cleanuparr/cleanuparr:2.9.16
+
 - name: CLEANUPARR - Create container
   community.docker.docker_container:
     name: cleanuparr
     image: ghcr.io/cleanuparr/cleanuparr:2.10.0
     restart_policy: always
     state: started
-    pull: true
+    pull: false
     networks:
       - name: homelab
     ports:

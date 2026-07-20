@@ -10,13 +10,21 @@
   loop:
     - "{{ base_dir }}/pubgolf"
 
+- name: PUBGOLF-BACKEND - Pre-pull image
+  community.docker.docker_image:
+    name: "{{ image }}"
+    source: pull
+    force_source: true
+  vars:
+    image: ghcr.io/bensuskins/pubgolf-backend:a893647
+
 - name: PUBGOLF-BACKEND - Create container
   community.docker.docker_container:
     name: pubgolf-backend
     image: ghcr.io/bensuskins/pubgolf-backend:latest
     restart_policy: always
     state: started
-    pull: true
+    pull: false
     networks:
       - name: homelab
     volumes:

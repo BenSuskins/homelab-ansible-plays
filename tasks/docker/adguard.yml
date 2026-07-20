@@ -46,13 +46,21 @@
     state: restarted
   when: adguard_resolved_stub.changed
 
+- name: ADGUARD - Pre-pull image
+  community.docker.docker_image:
+    name: "{{ image }}"
+    source: pull
+    force_source: true
+  vars:
+    image: adguard/adguardhome:v0.107.78
+
 - name: ADGUARD - Create container
   community.docker.docker_container:
     name: adguard
     image: adguard/adguardhome:v0.107.78
     restart_policy: always
     state: started
-    pull: true
+    pull: false
     ports:
       - "53:53/tcp"
       - "53:53/udp"

@@ -10,13 +10,21 @@
   loop:
     - "{{ base_dir }}/qbittorrent"
 
+- name: QBITTORRENT - Pre-pull image
+  community.docker.docker_image:
+    name: "{{ image }}"
+    source: pull
+    force_source: true
+  vars:
+    image: lscr.io/linuxserver/qbittorrent:latest
+
 - name: QBITTORRENT - Create container
   community.docker.docker_container:
     name: qbittorrent
     image: lscr.io/linuxserver/qbittorrent:latest
     restart_policy: always
     state: started
-    pull: true
+    pull: false
     network_mode: container:gluetun
     volumes:
       - "{{ base_dir }}/qbittorrent:/config"
