@@ -58,6 +58,8 @@ Each container task file in `tasks/docker/` follows a standard pattern:
 
 The pre-pull task holds the image reference in a task-level `vars: image:` key and the container task repeats the same literal in its `image:` parameter — Renovate matches `image:` lines, so both are updated together. Keep the two in sync when editing manually.
 
+A container task file may also carry host-level prerequisites for that container, so they only apply where the container is registered: `adguard.yml` disables the systemd-resolved stub listener to free port 53, and `tailscale.yml` loads the `tun` module and enables `net.ipv4.ip_forward` for subnet routing.
+
 Example structure:
 ```yaml
 - name: Create directory
@@ -147,7 +149,15 @@ The `docker_services` list is aggregated across all hosts via `tasks/core/aggreg
 - Generate Prometheus scrape configs via `config/prometheus/config.yml.j2`
 - Cloudflare DNS records are managed via Terraform in `terraform/cloudflare/`
 
-Proxmox VMs are managed via a separate Terraform root in `terraform/proxmox/` (bpg/proxmox provider). Each Terraform root has its own R2 state key. A single `terraform.yml` workflow runs a matrix (plan → approved apply) over both roots on the `self-hosted` runner, since the Proxmox API is LAN-only. Each VM lives in its own `<name>.tf` file (e.g. `bumblebee.tf`) holding its `module` block and IP `output`; add a new VM by copying the commented template in `terraform/proxmox/vms.tf` into a new per-host file.
+Proxmox VMs are managed via a separate Terraform root in `terraform/proxmox/` (bpg/proxmox provider). Each VM lives in its own `<name>.tf` file (e.g. `bumblebee.tf`) holding its `module` block and IP `output`; add a new VM by copying the commented template in `terraform/proxmox/vms.tf` into a new per-host file.
+
+Tailnet configuration lives in a third root, `terraform/tailscale/` (tailscale/tailscale provider): the policy file (`tag:subnet-router` tag owners plus `autoApprovers` so the advertised LAN route needs no manual approval) and split DNS sending `suskins.co.uk` at AdGuard Home. Note `tailscale_acl` owns the *whole* policy file, so import it before the first apply if the console copy has been hand-edited.
+
+Each Terraform root has its own R2 state key. A single `terraform.yml` workflow runs a matrix (plan → approved apply) over all three roots on the `self-hosted` runner, since the Proxmox API is LAN-only.
+
+### Remote Access
+
+A Tailscale subnet router runs on the `docker` host (`tasks/docker/tailscale.yml`) advertising `192.168.0.0/24`, so every homelab service is reachable remotely with no inbound port forwards. Tailnet split DNS points `suskins.co.uk` at AdGuard Home on the same host, whose `*.suskins.co.uk` rewrite resolves to Traefik — so remote clients get the identical name resolution and TLS path as LAN clients. There is no `tailscale` binary on the host; use `docker exec tailscale tailscale status`.
 
 ### Docker Image Updates
 

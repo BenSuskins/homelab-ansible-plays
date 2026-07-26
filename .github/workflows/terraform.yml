@@ -20,6 +20,9 @@ env:
   TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
   TF_VAR_proxmox_api_token: ${{ secrets.PROXMOX_API_TOKEN }}
   TF_VAR_proxmox_endpoint: ${{ secrets.PROXMOX_ENDPOINT }}
+  TF_VAR_tailscale_oauth_client_id: ${{ secrets.TAILSCALE_OAUTH_CLIENT_ID }}
+  TF_VAR_tailscale_oauth_client_secret: ${{ secrets.TAILSCALE_OAUTH_CLIENT_SECRET }}
+  TF_VAR_tailscale_tag_owner: ${{ secrets.TAILSCALE_TAG_OWNER }}
 
 jobs:
   plan-pr:
@@ -28,7 +31,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        dir: [cloudflare, proxmox]
+        dir: [cloudflare, proxmox, tailscale]
     defaults:
       run:
         working-directory: terraform/${{ matrix.dir }}
@@ -130,7 +133,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        dir: [cloudflare, proxmox]
+        dir: [cloudflare, proxmox, tailscale]
     defaults:
       run:
         working-directory: terraform/${{ matrix.dir }}
@@ -168,7 +171,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        dir: [cloudflare, proxmox]
+        dir: [cloudflare, proxmox, tailscale]
     defaults:
       run:
         working-directory: terraform/${{ matrix.dir }}

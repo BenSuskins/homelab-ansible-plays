@@ -1,0 +1,114 @@
+---
+- name: TAILSCALE - Validate variables
+  ansible.builtin.assert:
+    that:
+      - TAILSCALE_AUTHKEY is defined
+      - TAILSCALE_AUTHKEY | length > 0
+      - tailscale_routes is defined
+      - tailscale_routes | length > 0
+      - tailscale_hostname is defined
+    fail_msg: TAILSCALE_AUTHKEY (vault), tailscale_routes and tailscale_hostname must be set
+
+- name: TAILSCALE - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0750"
+  loop:
+    - "{{ base_dir }}/tailscale"
+
+# Kernel-mode networking needs a TUN device present on the host before the
+# container is created, otherwise the devices: bind fails. Persist for reboots.
+- name: TAILSCALE - Load tun kernel module
+  community.general.modprobe:
+    name: tun
+    state: present
+    persistent: present
+
+# A subnet router forwards packets between tailscale0 and the LAN NIC.
+# containerboot tries to set this itself, but Docker mounts /proc/sys read-only
+# in an unprivileged container, so it would exit with "failed to enable IP
+# forwarding". Setting it on the host makes containerboot's pre-flight pass.
+# This cannot live in a container sysctls: key — Docker rejects net.* sysctls
+# when network_mode is host.
+- name: TAILSCALE - Enable IP forwarding for subnet routing
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: "1"
+    sysctl_file: /etc/sysctl.d/99-tailscale.conf
+    sysctl_set: true
+    reload: true
+    state: present
+
+- name: TAILSCALE - Pre-pull image
+  community.docker.docker_image:
+    name: "{{ image }}"
+    source: pull
+    force_source: true
+  vars:
+    image: tailscale/tailscale:v1.98.9
+
+# network_mode: host puts tailscale0 in the host network namespace, which is what
+# makes the host itself route the advertised subnet. In bridge mode the interface
+# would live in the container namespace and the LAN would stay unreachable.
+# Docker rejects ports: alongside host networking, so tailscaled binds UDP 41641
+# and the health/metrics port directly on the host.
+- name: TAILSCALE - Create container
+  community.docker.docker_container:
+    name: tailscale
+    image: tailscale/tailscale:v1.98.9
+    restart_policy: always
+    state: started
+    pull: false
+    network_mode: host
+    capabilities:
+      - NET_ADMIN
+      - NET_RAW
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    volumes:
+      - "{{ base_dir }}/tailscale:/var/lib/tailscale"
+    env:
+      # Consumed only on first login; node identity then lives in the state dir.
+      TS_AUTHKEY: "{{ TAILSCALE_AUTHKEY }}"
+      # Defaults to false, which re-runs `tailscale up --authkey` on every start
+      # and hard-fails once the key expires. true = log in only if not already.
+      TS_AUTH_ONCE: "true"
+      TS_HOSTNAME: "{{ tailscale_hostname }}"
+      TS_ROUTES: "{{ tailscale_routes }}"
+      TS_STATE_DIR: /var/lib/tailscale
+      # Defaults to true. Userspace mode cannot route a subnet.
+      TS_USERSPACE: "false"
+      # Tailnet DNS points at AdGuard on this same host, in a container this very
+      # playbook stops and restarts to write config. Accepting tailnet DNS here
+      # would make the tunnel's own resolver depend on the container it exposes.
+      TS_ACCEPT_DNS: "false"
+      TS_ENABLE_HEALTH_CHECK: "true"
+      TS_ENABLE_METRICS: "true"
+      TS_LOCAL_ADDR_PORT: "0.0.0.0:9002"
+
+# No web UI, so no homepage/proxied — same shape as gluetun. port/scheme point at
+# containerboot's health and metrics listener so Gatus and Prometheus can see the
+# state of the tunnel itself.
+- name: TAILSCALE - Define service entry
+  ansible.builtin.set_fact:
+    tailscale_entry:
+      name: tailscale
+      description: Tailnet subnet router
+      icon: tailscale
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 9002
+      scheme: http
+      secured: false
+      healthcheck: true
+      healthcheck_path: /healthz
+      metrics: true
+      metrics_port: 9002
+
+- name: TAILSCALE - Append to docker_services
+  ansible.builtin.set_fact:
+    docker_services: "{{ docker_services + [tailscale_entry] }}"
