@@ -30,7 +30,8 @@ Renovate.
 - `community.docker.docker_container` for container lifecycle
 - Ansible Vault for secrets
 - Renovate for image updates
-- Terraform (in `terraform/cloudflare/`) for Cloudflare DNS and (in `terraform/proxmox/`) for Proxmox VMs
+- Terraform (in `terraform/cloudflare/`) for Cloudflare DNS, (in `terraform/proxmox/`) for Proxmox VMs, and (in `terraform/tailscale/`) for tailnet policy and DNS
+- Tailscale for remote access (subnet router on the `docker` host)
 
 ## Project Structure
 
@@ -46,7 +47,8 @@ Renovate.
 ├── config/                  # Traefik, Gatus, Prometheus, Homepage templates
 ├── terraform/
 │   ├── cloudflare/          # Cloudflare DNS, WAF, zone settings
-│   └── proxmox/             # Proxmox VM definitions (bpg/proxmox)
+│   ├── proxmox/             # Proxmox VM definitions (bpg/proxmox)
+│   └── tailscale/           # Tailnet policy + split DNS (tailscale/tailscale)
 └── vault.yml                # Encrypted secrets
 ```
 
@@ -92,15 +94,16 @@ CI reads the vault password from `~/.ansible_vault_pass`.
 
 ## Infrastructure (Terraform)
 
-Two independent Terraform roots manage cloud/hypervisor infrastructure, each with its
+Three independent Terraform roots manage cloud/hypervisor infrastructure, each with its
 own remote state in Cloudflare R2:
 
 | Root | Manages |
 |------|---------|
 | `terraform/cloudflare/` | Cloudflare DNS, WAF, zone settings |
 | `terraform/proxmox/` | Proxmox VMs (`bpg/proxmox`) |
+| `terraform/tailscale/` | Tailnet policy file and split DNS (`tailscale/tailscale`) |
 
-A single `terraform.yml` workflow runs a **matrix** over both roots (plan →
+A single `terraform.yml` workflow runs a **matrix** over all three roots (plan →
 manually-approved apply against the `production` environment). It runs on the
 **self-hosted** runner because the Proxmox API (`192.168.0.253:8006`) is only reachable
 on the LAN.
@@ -147,6 +150,33 @@ qm set 9000 --ide2 local-zfs:cloudinit
 qm set 9000 --boot c --bootdisk scsi0 --serial0 socket --vga serial0 --agent enabled=1
 qm template 9000
 ```
+
+## Remote Access (Tailscale)
+
+A Tailscale subnet router runs on the `docker` host (`tasks/docker/tailscale.yml`)
+advertising `192.168.0.0/24`, so every service is reachable off-LAN with **no inbound
+port forwards**. Tailnet split DNS points `suskins.co.uk` at AdGuard Home on the same
+host, whose `*.suskins.co.uk` rewrite resolves to Traefik — remote clients therefore
+get exactly the same names, routing and TLS as LAN clients.
+
+The tailnet side (policy file, tag owners, route auto-approval, split DNS) is managed
+by `terraform/tailscale/`.
+
+**Prerequisites** (one-time, outside this repo):
+
+- A Tailscale **auth key**: reusable, pre-approved, **non-ephemeral** (ephemeral nodes
+  are deleted when offline, which would withdraw the route on every reboot), tagged
+  `tag:subnet-router`. Store it in the vault as `TAILSCALE_AUTHKEY`.
+- A Tailscale **OAuth client** with the `devices:core`, `dns` and `policy_file` scopes,
+  for Terraform.
+- GitHub secrets `TAILSCALE_OAUTH_CLIENT_ID`, `TAILSCALE_OAUTH_CLIENT_SECRET` and
+  `TAILSCALE_TAG_OWNER`.
+- `tag:subnet-router` must exist in the tailnet policy before an auth key can carry it,
+  so apply `terraform/tailscale/` before minting the key.
+
+Linux clients need `tailscale up --accept-routes`; iOS, Android and macOS accept
+advertised routes by default. There is no `tailscale` binary on the host itself — use
+`docker exec tailscale tailscale status`.
 
 ## Architecture
 

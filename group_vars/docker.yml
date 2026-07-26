@@ -1,6 +1,13 @@
 ---
 base_dir: /home/docker/server-docker
 
+# Tailscale subnet router. Advertises the whole home LAN so remote clients reach
+# every host, including Traefik on 192.168.0.204 via names resolved by the AdGuard
+# instance on this host. Never let tailscale_routes render empty — containerboot
+# reads an empty TS_ROUTES as "withdraw all previously advertised routes".
+tailscale_hostname: docker-subnet-router
+tailscale_routes: "192.168.0.0/24"
+
 # AdGuard Home DNS rewrites, rendered into config/adguard/AdGuardHome.yaml.j2.
 # Format matches AdGuard's own schema. `answer` may be an IP or a hostname.
 # NOTE: the three "answer: A" entries are reproduced from the live config as-is;
@@ -40,3 +47,4 @@ containers:
   # Infrastructure
   - adguard
   - cloudflare-ddns
+  - tailscale

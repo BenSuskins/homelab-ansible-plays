@@ -26,6 +26,7 @@ flowchart LR
     Monitor --> Loki
     Monitor --> Grafana
     Control -.->|Terraform| CF[Cloudflare DNS]
+    Remote[Remote client] -.->|Tailscale subnet route| Docker
 ```
 
 ## Playbooks
@@ -52,6 +53,28 @@ Hosts themselves are provisioned with Terraform (`terraform/proxmox/`,
   VM is reachable for `plays/setup.yml` (base packages + Docker) with no manual prep.
 
 See the [README](README.md#cloud-init-template) for the one-time template build.
+
+## Remote Access
+
+A Tailscale subnet router runs on the `docker` host and advertises the whole home
+LAN (`192.168.0.0/24`), so every service is reachable remotely with **no inbound
+port forwards** — Tailscale makes only outbound connections.
+
+- **Names resolve the same off-LAN as on it.** Tailnet *split DNS* sends
+  `{{ '{{ domain }}' }}` queries to AdGuard Home on the same host, whose
+  `*.{{ '{{ domain }}' }}` rewrite points at Traefik. Only that domain is
+  redirected, so general internet DNS on a remote device is unaffected if the
+  homelab is down.
+- **Terraform-managed.** `terraform/tailscale/` owns the policy file (tag owners
+  plus `autoApprovers`, so the route needs no manual approval after a rebuild) and
+  the split-DNS record.
+- **Ansible-managed.** `tasks/docker/tailscale.yml` runs the container with host
+  networking, `NET_ADMIN` and `/dev/net/tun`, and sets the host's
+  `net.ipv4.ip_forward` that subnet routing requires.
+- Subnet-routed traffic is masqueraded to the router's LAN address, so services
+  behind Traefik see all remote clients as one source IP.
+- There is no `tailscale` binary on the host — use
+  `docker exec tailscale tailscale status`.
 
 ## Service Definition Pattern
 
