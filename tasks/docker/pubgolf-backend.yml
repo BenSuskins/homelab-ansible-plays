@@ -16,7 +16,7 @@
     source: pull
     force_source: true
   vars:
-    image: ghcr.io/bensuskins/pubgolf-backend:a893647
+    image: ghcr.io/bensuskins/pubgolf-backend:latest
 
 - name: PUBGOLF-BACKEND - Create container
   community.docker.docker_container:

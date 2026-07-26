@@ -57,7 +57,7 @@
     source: pull
     force_source: true
   vars:
-    image: grafana/loki:3.7.3
+    image: grafana/loki:3.7.4
 
 - name: LOKI - Create container
   community.docker.docker_container:

@@ -111,7 +111,7 @@
     source: pull
     force_source: true
   vars:
-    image: grafana/alloy:v1.17.1
+    image: grafana/alloy:v1.18.0
 
 - name: ALLOY - Create container
   community.docker.docker_container:

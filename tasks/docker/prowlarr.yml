@@ -16,7 +16,7 @@
     source: pull
     force_source: true
   vars:
-    image: ghcr.io/linuxserver/prowlarr:2.4.0
+    image: ghcr.io/linuxserver/prowlarr:2.5.2
 
 - name: PROWLARR - Create container
   community.docker.docker_container:
