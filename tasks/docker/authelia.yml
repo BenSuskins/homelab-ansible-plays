@@ -26,13 +26,21 @@
     mode: "0600"
   when: not users_database.stat.exists
 
+- name: AUTHELIA - Pre-pull image
+  community.docker.docker_image:
+    name: "{{ image }}"
+    source: pull
+    force_source: true
+  vars:
+    image: authelia/authelia:4.39.20
+
 - name: AUTHELIA - Create container
   community.docker.docker_container:
     name: authelia
     image: authelia/authelia:4.39.20
     restart_policy: always
     state: started
-    pull: true
+    pull: false
     ports:
       - "9091:9091"
     networks:

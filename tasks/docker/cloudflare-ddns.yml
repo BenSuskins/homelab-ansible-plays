@@ -1,11 +1,19 @@
 ---
+- name: CLOUDFLARE-DDNS - Pre-pull image
+  community.docker.docker_image:
+    name: "{{ image }}"
+    source: pull
+    force_source: true
+  vars:
+    image: favonia/cloudflare-ddns:1.16.2
+
 - name: CLOUDFLARE-DDNS - Create container
   community.docker.docker_container:
     name: cloudflare-ddns
     image: favonia/cloudflare-ddns:1.16.2
     restart_policy: always
     state: started
-    pull: true
+    pull: false
     networks:
       - name: homelab
     env:

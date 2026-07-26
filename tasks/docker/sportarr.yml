@@ -10,13 +10,21 @@
   loop:
     - "{{ base_dir }}/sportarr"
 
+- name: SPORTARR - Pre-pull image
+  community.docker.docker_image:
+    name: "{{ image }}"
+    source: pull
+    force_source: true
+  vars:
+    image: sportarr/sportarr:4.0
+
 - name: SPORTARR - Create container
   community.docker.docker_container:
     name: sportarr
     image: sportarr/sportarr:4.0
     restart_policy: always
     state: started
-    pull: true
+    pull: false
     networks:
       - name: homelab
     ports:

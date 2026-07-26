@@ -8,13 +8,21 @@
     group: "{{ username }}"
     mode: "0750"
 
+- name: MCPJUNGLE - Pre-pull image
+  community.docker.docker_image:
+    name: "{{ image }}"
+    source: pull
+    force_source: true
+  vars:
+    image: ghcr.io/mcpjungle/mcpjungle:latest
+
 - name: MCPJUNGLE - Create container
   community.docker.docker_container:
     name: mcpjungle
     image: ghcr.io/mcpjungle/mcpjungle:latest
     restart_policy: always
     state: started
-    pull: true
+    pull: false
     networks:
       - name: homelab
     ports:

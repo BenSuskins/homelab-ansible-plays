@@ -19,13 +19,21 @@
     group: "{{ username }}"
     mode: "0640"
 
+- name: DOPLARR - Pre-pull image
+  community.docker.docker_image:
+    name: "{{ image }}"
+    source: pull
+    force_source: true
+  vars:
+    image: ghcr.io/activexray/doplarr_rs:latest
+
 - name: DOPLARR - Create container
   community.docker.docker_container:
     name: doplarr
     image: ghcr.io/activexray/doplarr_rs:latest
     restart_policy: always
     state: started
-    pull: true
+    pull: false
     networks:
       - name: homelab
     env:

@@ -67,13 +67,21 @@
   vars:
     all_services: "{{ all_docker_services }}"
 
+- name: TRAEFIK - Pre-pull image
+  community.docker.docker_image:
+    name: "{{ image }}"
+    source: pull
+    force_source: true
+  vars:
+    image: "traefik:v3.7"
+
 - name: TRAEFIK - Deploy container
   community.docker.docker_container:
     name: traefik
     image: "traefik:v3.7"
     restart_policy: always
     state: started
-    pull: true
+    pull: false
     networks:
       - name: homelab
     command: >

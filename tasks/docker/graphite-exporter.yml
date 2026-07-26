@@ -88,13 +88,21 @@
     owner: "{{ username }}"
     group: "{{ username }}"
 
+- name: GRAPHITE-EXPORTER - Pre-pull image
+  community.docker.docker_image:
+    name: "{{ image }}"
+    source: pull
+    force_source: true
+  vars:
+    image: prom/graphite-exporter:v0.17.0
+
 - name: GRAPHITE-EXPORTER - Create container
   community.docker.docker_container:
     name: graphite-exporter
     image: prom/graphite-exporter:v0.17.0
     restart_policy: always
     state: started
-    pull: true
+    pull: false
     networks:
       - name: homelab
     ports:

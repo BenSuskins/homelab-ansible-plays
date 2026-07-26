@@ -8,13 +8,21 @@
     group: "{{ username }}"
     mode: "0750"
 
+- name: WORKBOARD-MCP - Pre-pull image
+  community.docker.docker_image:
+    name: "{{ image }}"
+    source: pull
+    force_source: true
+  vars:
+    image: ghcr.io/bensuskins/workboard:latest
+
 - name: WORKBOARD-MCP - Create container
   community.docker.docker_container:
     name: workboard-mcp
     image: ghcr.io/bensuskins/workboard:latest
     restart_policy: always
     state: started
-    pull: true
+    pull: false
     networks:
       - name: homelab
     command: npx tsx packages/mcp/src/http.ts

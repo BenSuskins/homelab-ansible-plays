@@ -10,13 +10,21 @@
   loop:
     - "{{ base_dir }}/prowlarr"
 
+- name: PROWLARR - Pre-pull image
+  community.docker.docker_image:
+    name: "{{ image }}"
+    source: pull
+    force_source: true
+  vars:
+    image: ghcr.io/linuxserver/prowlarr:2.5.2
+
 - name: PROWLARR - Create container
   community.docker.docker_container:
     name: prowlarr
     image: ghcr.io/linuxserver/prowlarr:2.5.2
     restart_policy: always
     state: started
-    pull: true
+    pull: false
     networks:
       - name: homelab
     ports:

@@ -10,13 +10,21 @@
   loop:
     - "{{ base_dir }}/calibre-web-automated"
 
+- name: CALIBRE WEB AUTOMATED - Pre-pull image
+  community.docker.docker_image:
+    name: "{{ image }}"
+    source: pull
+    force_source: true
+  vars:
+    image: crocodilestick/calibre-web-automated:v4.0.6
+
 - name: CALIBRE WEB AUTOMATED - Create container
   community.docker.docker_container:
     name: calibre-web-automated
     image: crocodilestick/calibre-web-automated:v4.0.6
     restart_policy: always
     state: started
-    pull: true
+    pull: false
     networks:
       - name: homelab
     ports:

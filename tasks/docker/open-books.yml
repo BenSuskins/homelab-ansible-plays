@@ -1,11 +1,19 @@
 ---
+- name: OPEN BOOKS - Pre-pull image
+  community.docker.docker_image:
+    name: "{{ image }}"
+    source: pull
+    force_source: true
+  vars:
+    image: evanbuss/openbooks:4.5.0
+
 - name: OPEN BOOKS - Create container
   community.docker.docker_container:
     name: open-books
     image: evanbuss/openbooks:4.5.0
     restart_policy: always
     state: started
-    pull: true
+    pull: false
     networks:
       - name: homelab
     ports:

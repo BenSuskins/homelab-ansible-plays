@@ -32,19 +32,16 @@
     - name: UPDATE - Update packages
       ansible.builtin.apt:
         update_cache: true
-      register: apt_update_res
       tags: [packages]
 
     - name: UPDATE - Upgrade packages
       ansible.builtin.apt:
         upgrade: dist
-      register: apt_upgrade_res
       tags: [packages]
 
     - name: UPDATE - Update firewall
       ansible.builtin.include_tasks:
         file: "../tasks/other/firewall.yml"
-      register: firewall_results
       when: firewall | default(false) | bool
       tags: [firewall]
 
@@ -83,7 +80,6 @@
           loop: "{{ core_containers | default([]) }}"
           loop_control:
             loop_var: container
-          register: core_results
 
         - name: UPDATE - Update Docker Containers
           ansible.builtin.include_tasks:
@@ -91,7 +87,6 @@
           loop: "{{ containers | default([]) }}"
           loop_control:
             loop_var: container
-          register: containers_results
 
         - name: UPDATE - Update Special Containers
           ansible.builtin.include_tasks:
@@ -99,7 +94,6 @@
           loop: "{{ special_containers | default([]) }}"
           loop_control:
             loop_var: container
-          register: special_results
 
         - name: UPDATE - Get all containers
           community.docker.docker_host_info:
@@ -114,7 +108,6 @@
           loop_control:
             label: "{{ item.Names[0] | default('unknown') }}"
           when: (item.Names[0] | regex_replace('^/', '')) not in expected_containers
-          register: remove_results
       rescue:
         - name: UPDATE - Report docker failure
           ansible.builtin.fail:
@@ -133,21 +126,18 @@
       run_once: true
       tags: [docs]
 
-    - name: UPDATE - Set reboot_required if important tasks changed
-      ansible.builtin.set_fact:
-        reboot_required: true
-      when: >
-        (apt_update_res.changed | default(false)) or
-        (apt_upgrade_res.changed | default(false)) or
-        (firewall_results.changed | default(false)) or
-        (core_results.changed | default(false)) or
-        (containers_results.changed | default(false)) or
-        (special_results.changed | default(false)) or
-        (remove_results.changed | default(false))
+    - name: UPDATE - Check if the OS requires a reboot
+      ansible.builtin.stat:
+        path: /var/run/reboot-required
+      register: reboot_required_file
       tags: [reboot]
 
+    # throttle keeps reboots to one host at a time so the rest of the lab
+    # stays reachable; serial can't be used because service aggregation
+    # needs docker_services facts from every host in the same batch.
     - name: UPDATE - Reboot server
       ansible.builtin.reboot:
         msg: "Rebooting server after update"
-      when: reboot_required | default(false)
+      when: reboot_required_file.stat.exists
+      throttle: 1
       tags: [reboot]
