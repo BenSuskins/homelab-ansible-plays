@@ -11,7 +11,7 @@ locals {
     pubgolf = {
       zone_id           = data.cloudflare_zone.pubgolf.zone_id
       hostname          = "pubgolf.me"
-      allowed_countries = ["GB"]
+      allowed_countries = ["GB", "FR"]
     }
   }
 }
