@@ -40,7 +40,7 @@ resource "cloudflare_ruleset" "waf" {
   rules = [
     {
       description = "Block countries outside the allowed list"
-      expression  = "(not ip.src.country in {${join(" ", [for c in each.value.allowed_countries : "\"${c}\""])}})"
+      expression  = "(not ip.src.country in {${join(" ", [for c in each.value.allowed_countries : "\"${c}\""])}}) and not cf.client.bot"
       action      = "block"
       enabled     = true
     },
@@ -58,7 +58,7 @@ resource "cloudflare_ruleset" "waf" {
     },
     {
       description = "Managed Challenge for suspicious requests (high threat score or Tor)"
-      expression  = "(cf.threat_score gt 10) or (ip.src.country eq \"T1\")"
+      expression  = "((cf.threat_score gt 10) or (ip.src.country eq \"T1\")) and not cf.client.bot"
       action      = "managed_challenge"
       enabled     = true
     },
