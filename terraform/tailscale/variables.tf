@@ -18,6 +18,13 @@ variable "tailscale_tailnet" {
 variable "tailscale_tag_owner" {
   description = "Tailnet user allowed to own subnet_router_tag (e.g. an email, or autogroup:admin)"
   type        = string
+
+  # A missing GitHub secret arrives as an empty string rather than an error, which
+  # would otherwise write a policy file with an unusable tag owner. Fail loudly.
+  validation {
+    condition     = length(trimspace(var.tailscale_tag_owner)) > 0
+    error_message = "tailscale_tag_owner must be set (GitHub secret TAILSCALE_TAG_OWNER)."
+  }
 }
 
 variable "subnet_router_tag" {
