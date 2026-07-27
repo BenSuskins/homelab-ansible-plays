@@ -5,7 +5,6 @@ module "ai" {
   node_name       = var.proxmox_node
   cores           = 8
   memory          = 8192
-  memory_floating = 4096
   disk_size       = 128
   ip_address      = "192.168.0.206/24"
   ssh_public_keys = [trimspace(file("~/.ssh/homelab.pub"))]

@@ -41,7 +41,10 @@
 #   # cpu_type            = "host"
 #   # cpu_numa            = false
 #   # cpu_flags           = []
-#   # memory_floating     = 0             # set = memory to enable ballooning
+#   # memory_floating     = 0             # 0 = fixed RAM (default); set = memory to balloon.
+#   #                                     # Left at 0 deliberately: ballooning lets the host
+#   #                                     # reclaim guest RAM under pressure, which stalls
+#   #                                     # busy guests. Only enable if the node is short on RAM.
 #   #
 #   # bios                = "ovmf"        # or "seabios"
 #   # machine             = "q35"         # or "pc"
