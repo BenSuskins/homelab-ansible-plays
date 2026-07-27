@@ -226,8 +226,8 @@ identity_providers:
         public: false
         authorization_policy: two_factor
         redirect_uris:
-          - 'https://trek.{{ domain }}/auth/oidc/callback'
           - 'https://trek.{{ domain }}/api/auth/oidc/login'
+          - 'https://trek.{{ domain }}/api/auth/oidc/callback'
         scopes:
           - openid
           - profile
