@@ -206,8 +206,9 @@
       ]
     }
   ],
+  "refresh": "1m",
   "schemaVersion": 39,
-  "tags": ["homelab", "proxmox"],
+  "tags": ["homelab", "infrastructure", "proxmox"],
   "templating": {
     "list": [
       {

@@ -9,3 +9,4 @@ containers:
   - grafana
   - loki
   - graphite-exporter
+  - pve-exporter

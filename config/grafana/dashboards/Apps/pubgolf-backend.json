@@ -341,8 +341,9 @@
       ]
     }
   ],
+  "refresh": "1m",
   "schemaVersion": 39,
-  "tags": ["homelab", "pubgolf"],
+  "tags": ["homelab", "apps", "pubgolf"],
   "templating": {
     "list": [
       {

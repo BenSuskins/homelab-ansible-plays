@@ -1,0 +1,52 @@
+---
+- name: PVE-EXPORTER - Validate variables
+  ansible.builtin.assert:
+    that:
+      - PVE_EXPORTER_TOKEN_VALUE is defined
+      - PVE_EXPORTER_TOKEN_VALUE | length > 0
+    fail_msg: PVE_EXPORTER_TOKEN_VALUE must be set in vault.yml
+
+- name: PVE-EXPORTER - Pre-pull image
+  community.docker.docker_image:
+    name: "{{ image }}"
+    source: pull
+    force_source: true
+  vars:
+    image: prompve/prometheus-pve-exporter:3.9.0
+
+- name: PVE-EXPORTER - Create container
+  community.docker.docker_container:
+    name: pve-exporter
+    image: prompve/prometheus-pve-exporter:3.9.0
+    restart_policy: always
+    state: started
+    pull: false
+    networks:
+      - name: homelab
+    ports:
+      - "9221:9221"
+    env:
+      PVE_USER: "prometheus@pve"
+      PVE_TOKEN_NAME: "exporter"
+      PVE_TOKEN_VALUE: "{{ PVE_EXPORTER_TOKEN_VALUE }}"
+      PVE_VERIFY_SSL: "false"
+
+- name: PVE-EXPORTER - Define service entry
+  ansible.builtin.set_fact:
+    pve_exporter_entry:
+      name: pve-exporter
+      description: Proxmox metrics exporter
+      icon: proxmox
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 9221
+      scheme: http
+      secured: false
+      metrics: true
+      metrics_path: /pve
+      metrics_params:
+        target: "192.168.0.253"
+
+- name: PVE-EXPORTER - Append to docker_services
+  ansible.builtin.set_fact:
+    docker_services: "{{ docker_services + [pve_exporter_entry] }}"

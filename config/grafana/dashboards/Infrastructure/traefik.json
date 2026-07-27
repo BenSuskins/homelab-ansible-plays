@@ -1384,7 +1384,7 @@
   "refresh": false,
   "schemaVersion": 37,
   "style": "dark",
-  "tags": [],
+  "tags": ["homelab", "infrastructure"],
   "templating": {
     "list": [
       {

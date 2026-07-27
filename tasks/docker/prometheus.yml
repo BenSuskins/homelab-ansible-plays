@@ -22,13 +22,12 @@
     dest: "{{ base_dir }}/prometheus/config/prometheus.yml"
     owner: "{{ username }}"
     group: "{{ username }}"
+  register: prometheus_config
 
-- name: PROMETHEUS - Create alert rules
-  ansible.builtin.copy:
-    src: ../config/prometheus/alerts.rule.yml
-    dest: "{{ base_dir }}/prometheus/config/alert.rules.yml"
-    owner: "{{ username }}"
-    group: "{{ username }}"
+- name: PROMETHEUS - Remove stale alert rules file
+  ansible.builtin.file:
+    path: "{{ base_dir }}/prometheus/config/alert.rules.yml"
+    state: absent
 
 - name: PROMETHEUS - Pre-pull image
   community.docker.docker_image:
@@ -48,6 +47,7 @@
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--web.enable-remote-write-receiver"
+      - "--storage.tsdb.retention.time=90d"
     networks:
       - name: homelab
     ports:
@@ -55,3 +55,8 @@
     volumes:
       - "{{ base_dir }}/prometheus/config:/etc/prometheus"
       - "{{ base_dir }}/prometheus/data:/prometheus"
+
+- name: PROMETHEUS - Restart to apply config changes
+  ansible.builtin.command: docker restart prometheus
+  when: prometheus_config.changed
+  changed_when: true

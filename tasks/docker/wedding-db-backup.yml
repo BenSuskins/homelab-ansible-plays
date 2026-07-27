@@ -23,6 +23,7 @@
         > "$OUT"
       echo "[backup] wrote $OUT"
       find "$BACKUP_DIR" -name "pgdump-*.dump" -mtime +"$RETENTION_DAYS" -delete
+      echo "wedding_backup_last_success_timestamp_seconds $(date +%s)" > "{{ base_dir }}/alloy/textfile/wedding_backup.prom"
 
 - name: WEDDING-DB-BACKUP - Schedule nightly cron job
   ansible.builtin.cron:

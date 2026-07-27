@@ -147,8 +147,9 @@
       ]
     }
   ],
+  "refresh": "1m",
   "schemaVersion": 39,
-  "tags": ["homelab", "docker"],
+  "tags": ["homelab", "infrastructure", "docker"],
   "templating": {
     "list": [
       {
