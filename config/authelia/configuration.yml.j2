@@ -227,6 +227,9 @@ identity_providers:
         authorization_policy: two_factor
         redirect_uris:
           - 'https://trek.{{ domain }}/api/auth/oidc/login'
+          # TREK's README documents /auth/oidc/callback, but the app actually
+          # sends the /api-prefixed path — confirmed from an Authelia
+          # invalid_request rejection naming the exact redirect_uri.
           - 'https://trek.{{ domain }}/api/auth/oidc/callback'
         scopes:
           - openid
