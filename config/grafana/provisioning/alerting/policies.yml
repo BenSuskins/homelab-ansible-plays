@@ -3,5 +3,10 @@ policies:
   - orgId: 1
     receiver: grafana-default-email
     group_by: [grafana_folder, alertname]
-    mute_time_intervals:
-      - always
+    routes:
+      - receiver: grafana-default-email
+        matchers:
+          - grafana_folder =~ ".*"
+        mute_time_intervals:
+          - always
+        continue: false
