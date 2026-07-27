@@ -225,6 +225,9 @@ identity_providers:
         client_secret: '{{ AUTHELIA_OIDC_TREK_SECRET }}'
         public: false
         authorization_policy: two_factor
+        # TREK always sends an S256 challenge, so enforce PKCE for this client.
+        require_pkce: true
+        pkce_challenge_method: S256
         redirect_uris:
           - 'https://trek.{{ domain }}/api/auth/oidc/login'
           # TREK's README documents /auth/oidc/callback, but the app actually
@@ -242,7 +245,9 @@ identity_providers:
           - authorization_code
         access_token_signed_response_alg: none
         userinfo_signed_response_alg: none
-        token_endpoint_auth_method: client_secret_basic
+        # TREK posts client_id/client_secret in the token request body rather
+        # than using HTTP Basic, so basic auth here fails the exchange with 401.
+        token_endpoint_auth_method: client_secret_post
 
       - client_id: wedding-admin
         client_name: Wedding Admin
