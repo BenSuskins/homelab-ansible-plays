@@ -44,6 +44,7 @@ containers:
   - wedding-db
   - wedding-db-backup
   - wedding
+  - trek
   # Infrastructure
   - adguard
   - cloudflare-ddns

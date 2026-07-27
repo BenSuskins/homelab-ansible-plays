@@ -1,0 +1,81 @@
+---
+- name: TREK - Create directory and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0750"
+  loop:
+    - "{{ base_dir }}/trek/data"
+    - "{{ base_dir }}/trek/uploads"
+
+- name: TREK - Pre-pull image
+  community.docker.docker_image:
+    name: "{{ image }}"
+    source: pull
+    force_source: true
+  vars:
+    image: mauriceboe/trek:3.4.1
+
+- name: TREK - Create container
+  community.docker.docker_container:
+    name: trek
+    image: mauriceboe/trek:3.4.1
+    restart_policy: always
+    state: started
+    pull: false
+    networks:
+      - name: homelab
+    ports:
+      - "3005:3000"
+    volumes:
+      # Only /app/data and /app/uploads may be mounted — mounting /app itself
+      # shadows the bundled application and breaks the container.
+      - "{{ base_dir }}/trek/data:/app/data"
+      - "{{ base_dir }}/trek/uploads:/app/uploads"
+    env:
+      NODE_ENV: production
+      TZ: "{{ timezone }}"
+      LOG_LEVEL: info
+      APP_URL: "https://trek.{{ domain }}"
+      # At-rest key for secrets stored in the SQLite DB. Must stay stable
+      # across redeploys or previously encrypted values become unreadable.
+      ENCRYPTION_KEY: "{{ TREK_ENCRYPTION_KEY }}"
+      # One reverse proxy hop (Traefik) for X-Forwarded-For/-Proto.
+      TRUST_PROXY: "1"
+      # SSO against Authelia. Password auth stays enabled (OIDC_ONLY unset) so
+      # the local admin remains a way in if the OIDC round trip breaks.
+      OIDC_ISSUER: "https://authelia.{{ domain }}"
+      OIDC_CLIENT_ID: trek
+      OIDC_CLIENT_SECRET: "{{ AUTHELIA_OIDC_TREK_SECRET }}"
+      OIDC_DISPLAY_NAME: Authelia
+      # OIDC_SCOPE replaces the defaults outright, so the three standard
+      # scopes have to be repeated alongside groups.
+      OIDC_SCOPE: "openid email profile groups"
+      OIDC_ADMIN_CLAIM: groups
+      OIDC_ADMIN_VALUE: suskins_admin
+
+- name: TREK - Define service entry
+  ansible.builtin.set_fact:
+    trek_entry:
+      name: trek
+      description: Travel planner
+      # No dashboard-icons entry for TREK; fall back to a Material Design icon.
+      icon: mdi-map-marker-path
+      host: "trek.{{ domain }}"
+      ip: "{{ inventory_hostname }}"
+      friendly_name: "{{ friendly_name }}"
+      port: 3005
+      scheme: http
+      # TREK has its own login; Authelia forward-auth would double up on it.
+      secured: false
+      healthcheck: true
+      healthcheck_path: /api/health
+      homepage: true
+      proxied: true
+
+- name: TREK - Append to docker_services
+  ansible.builtin.set_fact:
+    docker_services: "{{ docker_services + [trek_entry] }}"
