@@ -9,6 +9,7 @@
     mode: "0750"
   loop:
     - "{{ base_dir }}/alloy/config"
+    - "{{ base_dir }}/alloy/textfile"
 
 - name: ALLOY - Create config
   ansible.builtin.copy:
@@ -79,6 +80,10 @@
         procfs_path = "/host/proc"
         sysfs_path  = "/host/sys"
         rootfs_path = "/rootfs"
+
+        textfile {
+          directory = "/textfile"
+        }
       }
 
       prometheus.scrape "unix" {
@@ -94,6 +99,10 @@
           target_label = "instance"
           replacement  = "{{ inventory_hostname }}"
         }
+        rule {
+          target_label = "host"
+          replacement  = "{{ friendly_name }}"
+        }
       }
 
       prometheus.remote_write "default" {
@@ -104,6 +113,7 @@
     dest: "{{ base_dir }}/alloy/config/config.alloy"
     owner: "{{ username }}"
     group: "{{ username }}"
+  register: alloy_config
 
 - name: ALLOY - Pre-pull image
   community.docker.docker_image:
@@ -122,9 +132,12 @@
     pull: false
     networks:
       - name: homelab
-    command: run /etc/alloy/config/config.alloy
+    command: run /etc/alloy/config/config.alloy --server.http.listen-addr=0.0.0.0:12345
+    ports:
+      - "12345:12345"
     volumes:
       - "{{ base_dir }}/alloy/config:/etc/alloy/config"
+      - "{{ base_dir }}/alloy/textfile:/textfile:ro"
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "/:/rootfs:ro"
       - "/var/run:/var/run:ro"
@@ -134,12 +147,23 @@
       - "/dev/disk/:/dev/disk:ro"
       - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
 
+- name: ALLOY - Restart to apply config changes
+  ansible.builtin.command: docker restart alloy
+  when: alloy_config.changed
+  changed_when: true
+
 - name: ALLOY - Define service entry
   ansible.builtin.set_fact:
     alloy_entry:
       name: alloy
       ip: "{{ inventory_hostname }}"
       friendly_name: "{{ friendly_name }}"
+      port: 12345
+      scheme: http
+      secured: false
+      healthcheck: true
+      healthcheck_path: /-/ready
+      metrics: true
 
 - name: ALLOY - Append to docker_services
   ansible.builtin.set_fact:

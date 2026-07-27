@@ -47,9 +47,19 @@
 
       limits_config:
         reject_old_samples: false
+        retention_period: 30d
+
+      compactor:
+        working_directory: /loki/compactor
+        compaction_interval: 10m
+        retention_enabled: true
+        retention_delete_delay: 2h
+        retention_delete_worker_count: 50
+        delete_request_store: filesystem
     dest: "{{ base_dir }}/loki/config/local-config.yaml"
     owner: "{{ username }}"
     group: "{{ username }}"
+  register: loki_config
 
 - name: LOKI - Pre-pull image
   community.docker.docker_image:
@@ -74,6 +84,11 @@
       - "{{ base_dir }}/loki/config:/etc/loki"
       - "{{ base_dir }}/loki/data:/loki"
 
+- name: LOKI - Restart to apply config changes
+  ansible.builtin.command: docker restart loki
+  when: loki_config.changed
+  changed_when: true
+
 - name: LOKI - Define service entry
   ansible.builtin.set_fact:
     loki_entry:
@@ -86,6 +101,7 @@
       healthcheck: true
       healthcheck_path: "/ready"
       secured: false
+      metrics: true
 
 - name: LOKI - Append to docker_services
   ansible.builtin.set_fact:

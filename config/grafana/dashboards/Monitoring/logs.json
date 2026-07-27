@@ -71,8 +71,9 @@
       ]
     }
   ],
+  "refresh": "1m",
   "schemaVersion": 39,
-  "tags": ["homelab", "logs"],
+  "tags": ["homelab", "monitoring", "logs"],
   "templating": {
     "list": [
       {

@@ -1,24 +1,31 @@
 global:
   scrape_interval: 15s
 
-rule_files:
-  - "alerts.rule.yml"
-
 scrape_configs:
 
-{% for svc in all_services %}
-{% if svc.metrics | default(false) %}
-  - job_name: "{{ svc.name }}"
+{% for name, group in (all_services | selectattr('metrics', 'defined') | selectattr('metrics') | list) | groupby('name') %}
+  - job_name: "{{ name }}"
     scrape_interval: 60s
-{% if svc.metrics_path is defined %}
-    metrics_path: {{ svc.metrics_path }}
+{% if group[0].metrics_path is defined %}
+    metrics_path: {{ group[0].metrics_path }}
+{% endif %}
+{% if group[0].metrics_params is defined %}
+    params:
+{% for k, v in group[0].metrics_params.items() %}
+      {{ k }}: ["{{ v }}"]
+{% endfor %}
 {% endif %}
     static_configs:
+{% for svc in group %}
       - targets: ["{{ svc.ip }}:{{ svc.metrics_port | default(svc.port) }}"]
-{% endif %}
+        labels:
+          host: "{{ svc.friendly_name | default('') }}"
+{% endfor %}
 {% endfor %}
 
   - job_name: "prometheus"
     scrape_interval: 5s
     static_configs:
       - targets: ["localhost:9090"]
+        labels:
+          host: "Monitoring"

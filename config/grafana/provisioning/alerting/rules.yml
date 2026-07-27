@@ -1,0 +1,408 @@
+apiVersion: 1
+groups:
+  - orgId: 1
+    name: infrastructure
+    folder: Alerts
+    interval: 1m
+    rules:
+      - uid: host-down
+        title: Host down (node metrics absent)
+        condition: C
+        for: 5m
+        noDataState: OK
+        execErrState: Error
+        isPaused: false
+        labels: { severity: critical }
+        annotations: { summary: "A host stopped reporting node metrics via Alloy remote-write" }
+        data:
+          - refId: A
+            relativeTimeRange: { from: 600, to: 0 }
+            datasourceUid: prometheus
+            model:
+              refId: A
+              instant: true
+              intervalMs: 1000
+              maxDataPoints: 43200
+              expr: count by (host) (last_over_time(node_load1[1h])) unless count by (host) (node_load1)
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: gt, params: [0] }
+
+      - uid: disk-space-low
+        title: Disk space low
+        condition: C
+        for: 15m
+        noDataState: OK
+        execErrState: Error
+        isPaused: false
+        labels: { severity: warning }
+        annotations: { summary: "A filesystem has less than 10% free space" }
+        data:
+          - refId: A
+            relativeTimeRange: { from: 600, to: 0 }
+            datasourceUid: prometheus
+            model:
+              refId: A
+              instant: true
+              intervalMs: 1000
+              maxDataPoints: 43200
+              expr: min by (host, mountpoint) (node_filesystem_avail_bytes{fstype=~"ext4|xfs"} / node_filesystem_size_bytes{fstype=~"ext4|xfs"})
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: lt, params: [0.10] }
+
+      - uid: disk-fill-predicted-24h
+        title: Disk predicted to fill within 24h
+        condition: C
+        for: 30m
+        noDataState: OK
+        execErrState: Error
+        isPaused: false
+        labels: { severity: warning }
+        annotations: { summary: "Linear projection shows a filesystem below 25% free running out of space within 24h" }
+        data:
+          - refId: A
+            relativeTimeRange: { from: 600, to: 0 }
+            datasourceUid: prometheus
+            model:
+              refId: A
+              instant: true
+              intervalMs: 1000
+              maxDataPoints: 43200
+              expr: predict_linear(node_filesystem_avail_bytes{fstype=~"ext4|xfs"}[6h], 86400) and (node_filesystem_avail_bytes{fstype=~"ext4|xfs"} / node_filesystem_size_bytes{fstype=~"ext4|xfs"} < 0.25)
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: lt, params: [0] }
+
+      - uid: memory-high
+        title: Memory usage high
+        condition: C
+        for: 10m
+        noDataState: OK
+        execErrState: Error
+        isPaused: false
+        labels: { severity: warning }
+        annotations: { summary: "A host is using more than 90% of available memory" }
+        data:
+          - refId: A
+            relativeTimeRange: { from: 600, to: 0 }
+            datasourceUid: prometheus
+            model:
+              refId: A
+              instant: true
+              intervalMs: 1000
+              maxDataPoints: 43200
+              expr: 1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: gt, params: [0.90] }
+
+      - uid: container-restarting
+        title: Container restarting repeatedly
+        condition: C
+        for: 0m
+        noDataState: OK
+        execErrState: Error
+        isPaused: false
+        labels: { severity: warning }
+        annotations: { summary: "A container has restarted more than 3 times in the last 30 minutes" }
+        data:
+          - refId: A
+            relativeTimeRange: { from: 1800, to: 0 }
+            datasourceUid: prometheus
+            model:
+              refId: A
+              instant: true
+              intervalMs: 1000
+              maxDataPoints: 43200
+              expr: changes(container_start_time_seconds{name!=""}[30m])
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: gt, params: [3] }
+
+      - uid: container-oom
+        title: Container OOM killed
+        condition: C
+        for: 0m
+        noDataState: OK
+        execErrState: Error
+        isPaused: false
+        labels: { severity: critical }
+        annotations: { summary: "A container has been OOM-killed in the last 30 minutes" }
+        data:
+          - refId: A
+            relativeTimeRange: { from: 1800, to: 0 }
+            datasourceUid: prometheus
+            model:
+              refId: A
+              instant: true
+              intervalMs: 1000
+              maxDataPoints: 43200
+              expr: increase(container_oom_events_total{name!=""}[30m])
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: gt, params: [0] }
+
+      - uid: backup-stale
+        title: Wedding DB backup stale
+        condition: C
+        for: 0m
+        noDataState: Alerting
+        execErrState: Error
+        isPaused: false
+        labels: { severity: critical }
+        annotations: { summary: "wedding-db backup has not succeeded in over 26 hours (or the metric is missing entirely)" }
+        data:
+          - refId: A
+            relativeTimeRange: { from: 600, to: 0 }
+            datasourceUid: prometheus
+            model:
+              refId: A
+              instant: true
+              intervalMs: 1000
+              maxDataPoints: 43200
+              expr: time() - wedding_backup_last_success_timestamp_seconds
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: gt, params: [93600] }
+
+  - orgId: 1
+    name: applications
+    folder: Alerts
+    interval: 1m
+    rules:
+      - uid: pubgolf-5xx-rate
+        title: PubGolf backend 5xx rate high
+        condition: C
+        for: 2m
+        noDataState: OK
+        execErrState: Error
+        isPaused: false
+        labels: { severity: warning }
+        annotations: { summary: "More than 5% of pubgolf-backend requests are failing with 5xx responses" }
+        data:
+          - refId: A
+            relativeTimeRange: { from: 600, to: 0 }
+            datasourceUid: prometheus
+            model:
+              refId: A
+              instant: true
+              intervalMs: 1000
+              maxDataPoints: 43200
+              expr: sum(rate(http_server_requests_seconds_count{job="pubgolf-backend", status=~"5.."}[5m]))
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: gt, params: [0.05] }
+
+      - uid: pubgolf-latency-p95
+        title: PubGolf backend p95 latency high
+        condition: C
+        for: 2m
+        noDataState: OK
+        execErrState: Error
+        isPaused: false
+        labels: { severity: warning }
+        annotations: { summary: "pubgolf-backend 95th percentile response time is over 1 second" }
+        data:
+          - refId: A
+            relativeTimeRange: { from: 600, to: 0 }
+            datasourceUid: prometheus
+            model:
+              refId: A
+              instant: true
+              intervalMs: 1000
+              maxDataPoints: 43200
+              expr: histogram_quantile(0.95, sum by (le) (rate(http_server_requests_seconds_bucket{job="pubgolf-backend"}[5m])))
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: gt, params: [1] }
+
+      - uid: pubgolf-jvm-heap
+        title: PubGolf backend JVM heap usage high
+        condition: C
+        for: 3m
+        noDataState: OK
+        execErrState: Error
+        isPaused: false
+        labels: { severity: warning }
+        annotations: { summary: "pubgolf-backend heap usage is above 85%" }
+        data:
+          - refId: A
+            relativeTimeRange: { from: 600, to: 0 }
+            datasourceUid: prometheus
+            model:
+              refId: A
+              instant: true
+              intervalMs: 1000
+              maxDataPoints: 43200
+              expr: max(jvm_memory_used_bytes{job="pubgolf-backend", area="heap"} / (jvm_memory_max_bytes{job="pubgolf-backend", area="heap"} > 0))
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: gt, params: [0.85] }
+
+  - orgId: 1
+    name: monitoring
+    folder: Alerts
+    interval: 1m
+    rules:
+      - uid: scrape-target-down
+        title: Scrape target down
+        condition: C
+        for: 5m
+        noDataState: OK
+        execErrState: Error
+        isPaused: false
+        labels: { severity: warning }
+        annotations: { summary: "A Prometheus scrape target has been down" }
+        data:
+          - refId: A
+            relativeTimeRange: { from: 600, to: 0 }
+            datasourceUid: prometheus
+            model:
+              refId: A
+              instant: true
+              intervalMs: 1000
+              maxDataPoints: 43200
+              expr: min by (job, instance) (up)
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: lt, params: [1] }
+
+      - uid: prometheus-ingest-stalled
+        title: Prometheus ingest stalled
+        condition: C
+        for: 10m
+        noDataState: OK
+        execErrState: Error
+        isPaused: false
+        labels: { severity: critical }
+        annotations: { summary: "Prometheus TSDB has appended fewer than 1 sample/s for 10 minutes" }
+        data:
+          - refId: A
+            relativeTimeRange: { from: 600, to: 0 }
+            datasourceUid: prometheus
+            model:
+              refId: A
+              instant: true
+              intervalMs: 1000
+              maxDataPoints: 43200
+              expr: rate(prometheus_tsdb_head_samples_appended_total[10m])
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: lt, params: [1] }
+
+      - uid: prometheus-compaction-failures
+        title: Prometheus compaction failures
+        condition: C
+        for: 0m
+        noDataState: OK
+        execErrState: Error
+        isPaused: false
+        labels: { severity: warning }
+        annotations: { summary: "Prometheus TSDB compaction has failed in the last 3 hours" }
+        data:
+          - refId: A
+            relativeTimeRange: { from: 600, to: 0 }
+            datasourceUid: prometheus
+            model:
+              refId: A
+              instant: true
+              intervalMs: 1000
+              maxDataPoints: 43200
+              expr: increase(prometheus_tsdb_compactions_failed_total[3h])
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: gt, params: [0] }
+
+      - uid: loki-ingest-stalled
+        title: Loki ingest stalled
+        condition: C
+        for: 15m
+        noDataState: OK
+        execErrState: Error
+        isPaused: false
+        labels: { severity: warning }
+        annotations: { summary: "Loki has received fewer than 1 line/s for 15 minutes" }
+        data:
+          - refId: A
+            relativeTimeRange: { from: 600, to: 0 }
+            datasourceUid: prometheus
+            model:
+              refId: A
+              instant: true
+              intervalMs: 1000
+              maxDataPoints: 43200
+              expr: sum(rate(loki_distributor_lines_received_total[15m]))
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: lt, params: [1] }

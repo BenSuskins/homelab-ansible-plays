@@ -55,9 +55,11 @@
       healthcheck: true
       proxied: true
       healthcheck_path: "/health"
-      # path_prefix: /api/v1
-      # metrics_port: 8080
-      # metrics_path: /actuator/prometheus
+      # metrics: not enabled — GET /actuator/prometheus returns a Go-style
+      # "404 page not found" (not Spring Boot's JSON 404), confirmed live
+      # against 192.168.0.202:8081 during the grafana-monitoring-overhaul PR.
+      # The app does not expose Micrometer/actuator endpoints; re-check if
+      # family-hub ever adds them.
 
 - name: FAMILY-HUB - Append to docker_services
   ansible.builtin.set_fact:
