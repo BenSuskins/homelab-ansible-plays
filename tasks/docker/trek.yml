@@ -45,6 +45,17 @@
       ENCRYPTION_KEY: "{{ TREK_ENCRYPTION_KEY }}"
       # One reverse proxy hop (Traefik) for X-Forwarded-For/-Proto.
       TRUST_PROXY: "1"
+      # SSO against Authelia. Password auth stays enabled (OIDC_ONLY unset) so
+      # the local admin remains a way in if the OIDC round trip breaks.
+      OIDC_ISSUER: "https://authelia.{{ domain }}"
+      OIDC_CLIENT_ID: trek
+      OIDC_CLIENT_SECRET: "{{ AUTHELIA_OIDC_TREK_SECRET }}"
+      OIDC_DISPLAY_NAME: Authelia
+      # OIDC_SCOPE replaces the defaults outright, so the three standard
+      # scopes have to be repeated alongside groups.
+      OIDC_SCOPE: "openid email profile groups"
+      OIDC_ADMIN_CLAIM: groups
+      OIDC_ADMIN_VALUE: suskins_admin
 
 - name: TREK - Define service entry
   ansible.builtin.set_fact:
