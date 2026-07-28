@@ -41,17 +41,20 @@
 #   # cpu_type            = "host"
 #   # cpu_numa            = false
 #   # cpu_flags           = []
-#   # memory_floating     = 0             # 0 = fixed RAM (default); set = memory to balloon.
-#   #                                     # Left at 0 deliberately: ballooning lets the host
-#   #                                     # reclaim guest RAM under pressure, which stalls
-#   #                                     # busy guests. Only enable if the node is short on RAM.
+#   # memory_floating     = 0             # 0 = fixed RAM (module default); below `memory`
+#   #                                     # enables ballooning down to that floor.
+#   #                                     # SET THIS on every VM here. The node has 31 GiB and
+#   #                                     # guests are committed well past that, so ballooning
+#   #                                     # is what keeps the host from running out. Pick a
+#   #                                     # floor the guest can actually work at, not an
+#   #                                     # arbitrary fraction.
 #   #
 #   # bios                = "ovmf"        # or "seabios"
 #   # machine             = "q35"         # or "pc"
 #   # tablet_device       = true
 #   #
-#   # disk_ssd            = false
-#   # disk_discard        = "ignore"      # "on" to pass TRIM to local-zfs
+#   # disk_ssd            = true          # local-zfs is a single SSD
+#   # disk_discard        = "on"          # passes guest fstrim down to ZFS
 #   # disk_iothread       = false
 #   # disk_cache          = "none"
 #   # disk_backup         = true          # include in vzdump backups

@@ -193,15 +193,15 @@ variable "memory_floating" {
 # --- Disk ---
 
 variable "disk_ssd" {
-  description = "Present the disk as an SSD to the guest"
+  description = "Present the disk as an SSD to the guest (rotational=0, so guest IO schedulers stop seek-optimising). Correct here: local-zfs is backed by a single SSD."
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "disk_discard" {
-  description = "TRIM/discard handling: on or ignore"
+  description = "TRIM/discard handling: on or ignore. On passes guest fstrim down to ZFS, so freed guest blocks are released rather than held forever — this is what keeps pool free space coalescing into large contiguous runs."
   type        = string
-  default     = "ignore"
+  default     = "on"
 }
 
 variable "disk_iothread" {
