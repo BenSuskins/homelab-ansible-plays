@@ -41,5 +41,10 @@
     src: //{{ nas_ip }}/media
     path: /mnt/media
     fstype: cifs
-    opts: "username=mediaserver,password={{ mediaserver_password }},uid=1000,gid=1000,rw,exec,_netdev,nofail,soft,echo_interval=15"
+    # actimeo caches file attributes for 60s instead of the CIFS default of 1s.
+    # The *arr stack and Plex stat the library constantly, and every expired
+    # entry is a round trip to a 5400rpm drive, so the default turns library
+    # scans into a seek storm. All writes go through this same mount, so the
+    # client cache stays self-consistent and new files still appear promptly.
+    opts: "username=mediaserver,password={{ mediaserver_password }},uid=1000,gid=1000,rw,exec,_netdev,nofail,soft,echo_interval=15,actimeo=60"
     state: mounted
