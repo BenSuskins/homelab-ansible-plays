@@ -43,11 +43,13 @@
 #   # cpu_flags           = []
 #   # memory_floating     = 0             # 0 = fixed RAM (module default); below `memory`
 #   #                                     # enables ballooning down to that floor.
-#   #                                     # SET THIS on every VM here. The node has 31 GiB and
-#   #                                     # guests are committed well past that, so ballooning
-#   #                                     # is what keeps the host from running out. Pick a
-#   #                                     # floor the guest can actually work at, not an
-#   #                                     # arbitrary fraction.
+#   #                                     # SET THIS on every VM here, and keep the sum of all
+#   #                                     # `memory` values under ~28 GiB — the node has 31 GiB
+#   #                                     # and PVE plus the ZFS ARC need the rest. Commit past
+#   #                                     # that and the balloon sits permanently inflated,
+#   #                                     # which starves the busiest guests rather than
+#   #                                     # relieving them. Pick a floor the guest can actually
+#   #                                     # work at, not an arbitrary fraction.
 #   #
 #   # bios                = "ovmf"        # or "seabios"
 #   # machine             = "q35"         # or "pc"
