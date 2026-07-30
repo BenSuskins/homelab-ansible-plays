@@ -15,6 +15,10 @@ scrape_configs:
       {{ k }}: ["{{ v }}"]
 {% endfor %}
 {% endif %}
+{% if group[0].metrics_bearer_token is defined %}
+    authorization:
+      credentials: "{{ group[0].metrics_bearer_token }}"
+{% endif %}
     static_configs:
 {% for svc in group %}
       - targets: ["{{ svc.ip }}:{{ svc.metrics_port | default(svc.port) }}"]
