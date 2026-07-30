@@ -372,14 +372,41 @@
       "type": "table",
       "gridPos": { "h": 6, "w": 24, "x": 0, "y": 35 },
       "datasource": { "type": "prometheus", "uid": "prometheus" },
-      "fieldConfig": { "defaults": {}, "overrides": [] },
-      "options": { "showHeader": true },
+      "fieldConfig": {
+        "defaults": { "custom": { "align": "left", "cellOptions": { "type": "auto" } } },
+        "overrides": [
+          { "matcher": { "id": "byName", "options": "Group" }, "properties": [{ "id": "custom.width", "value": 160 }] }
+        ]
+      },
+      "options": { "showHeader": true, "cellHeight": "sm" },
       "targets": [
         {
           "expr": "gatus_results_endpoint_success{group=~\"$host\"} == 0",
           "instant": true,
           "format": "table",
           "refId": "A"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "host": true,
+              "instance": true,
+              "job": true,
+              "key": true,
+              "type": true,
+              "Value": true
+            },
+            "indexByName": {},
+            "renameByName": {
+              "group": "Group",
+              "name": "Endpoint"
+            }
+          }
         }
       ]
     },
@@ -433,7 +460,7 @@
         },
         "overrides": []
       },
-      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "options": { "textMode": "value_and_name", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
       "targets": [
         {
           "expr": "count by (host) (container_last_seen{name!=\"\", host=~\"$host\"})",
