@@ -21,8 +21,8 @@
       "options": { "legend": { "displayMode": "table", "calcs": ["mean", "max"], "sortBy": "Mean", "sortDesc": true }, "tooltip": { "mode": "multi" } },
       "targets": [
         {
-          "expr": "rate(container_cpu_usage_seconds_total{instance=~\"$host\",name=~\"$container\",name!=\"\"}[$__rate_interval])",
-          "legendFormat": "{{ name }}",
+          "expr": "rate(container_cpu_usage_seconds_total{host=~\"$host\",name=~\"$container\",name!=\"\"}[$__rate_interval])",
+          "legendFormat": "{{ name }} ({{ host }})",
           "refId": "A"
         }
       ]
@@ -42,8 +42,8 @@
       "options": { "legend": { "displayMode": "table", "calcs": ["mean", "max"], "sortBy": "Mean", "sortDesc": true }, "tooltip": { "mode": "multi" } },
       "targets": [
         {
-          "expr": "container_memory_usage_bytes{instance=~\"$host\",name=~\"$container\",name!=\"\"}",
-          "legendFormat": "{{ name }}",
+          "expr": "container_memory_usage_bytes{host=~\"$host\",name=~\"$container\",name!=\"\"}",
+          "legendFormat": "{{ name }} ({{ host }})",
           "refId": "A"
         }
       ]
@@ -63,8 +63,8 @@
       "options": { "legend": { "displayMode": "table", "calcs": ["mean"], "sortBy": "Mean", "sortDesc": true }, "tooltip": { "mode": "multi" } },
       "targets": [
         {
-          "expr": "rate(container_network_receive_bytes_total{instance=~\"$host\",name=~\"$container\",name!=\"\"}[$__rate_interval])",
-          "legendFormat": "{{ name }}",
+          "expr": "rate(container_network_receive_bytes_total{host=~\"$host\",name=~\"$container\",name!=\"\"}[$__rate_interval])",
+          "legendFormat": "{{ name }} ({{ host }})",
           "refId": "A"
         }
       ]
@@ -84,8 +84,8 @@
       "options": { "legend": { "displayMode": "table", "calcs": ["mean"], "sortBy": "Mean", "sortDesc": true }, "tooltip": { "mode": "multi" } },
       "targets": [
         {
-          "expr": "rate(container_network_transmit_bytes_total{instance=~\"$host\",name=~\"$container\",name!=\"\"}[$__rate_interval])",
-          "legendFormat": "{{ name }}",
+          "expr": "rate(container_network_transmit_bytes_total{host=~\"$host\",name=~\"$container\",name!=\"\"}[$__rate_interval])",
+          "legendFormat": "{{ name }} ({{ host }})",
           "refId": "A"
         }
       ]
@@ -156,7 +156,7 @@
         "name": "host",
         "type": "query",
         "datasource": { "type": "prometheus", "uid": "prometheus" },
-        "query": "label_values(container_cpu_usage_seconds_total{name!=\"\"}, instance)",
+        "query": "label_values(container_cpu_usage_seconds_total{name!=\"\"}, host)",
         "includeAll": true,
         "allValue": ".*",
         "current": { "selected": true, "text": "All", "value": "$__all" },
@@ -166,7 +166,7 @@
         "name": "container",
         "type": "query",
         "datasource": { "type": "prometheus", "uid": "prometheus" },
-        "query": "label_values(container_cpu_usage_seconds_total{instance=~\"$host\",name!=\"\"}, name)",
+        "query": "label_values(container_cpu_usage_seconds_total{host=~\"$host\",name!=\"\"}, name)",
         "includeAll": true,
         "allValue": ".*",
         "current": { "selected": true, "text": "All", "value": "$__all" },

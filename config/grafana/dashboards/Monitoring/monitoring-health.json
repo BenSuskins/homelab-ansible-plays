@@ -290,7 +290,7 @@
       "targets": [
         {
           "expr": "container_memory_working_set_bytes{name=\"alloy\"}",
-          "legendFormat": "{{ instance }}",
+          "legendFormat": "{{ host }}",
           "refId": "A"
         }
       ]

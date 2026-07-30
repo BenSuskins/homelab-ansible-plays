@@ -41,9 +41,15 @@
       }
     },
     {
+      "title": "Fleet Health",
+      "type": "row",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 8 },
+      "collapsed": false
+    },
+    {
       "title": "Hosts Reporting",
       "type": "stat",
-      "gridPos": { "h": 4, "w": 12, "x": 0, "y": 8 },
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 9 },
       "datasource": { "type": "prometheus", "uid": "prometheus" },
       "fieldConfig": {
         "defaults": {
@@ -64,9 +70,9 @@
       ]
     },
     {
-      "title": "Scrape Targets Up",
+      "title": "Scrape Jobs Up",
       "type": "stat",
-      "gridPos": { "h": 4, "w": 12, "x": 12, "y": 8 },
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 9 },
       "datasource": { "type": "prometheus", "uid": "prometheus" },
       "fieldConfig": {
         "defaults": {
@@ -92,9 +98,70 @@
       ]
     },
     {
+      "title": "NAS Storage Free",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 9 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "decimals": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "dark-red", "value": null },
+              { "color": "#EAB839", "value": 10737418240 },
+              { "color": "dark-green", "value": 53687091200 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "targets": [
+        {
+          "expr": "min(truenas_dataset_df_complex_free)",
+          "legendFormat": "Free",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "Tailscale Health Warnings",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 9 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 1 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "targets": [
+        {
+          "expr": "tailscaled_health_messages{type=\"warning\"} OR on() vector(0)",
+          "legendFormat": "Warnings",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "Resource Usage",
+      "type": "row",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 13 },
+      "collapsed": false
+    },
+    {
       "title": "CPU Usage",
       "type": "timeseries",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 12 },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 14 },
       "datasource": { "type": "prometheus", "uid": "prometheus" },
       "fieldConfig": {
         "defaults": {
@@ -108,8 +175,8 @@
       "options": { "legend": { "displayMode": "table", "calcs": ["mean", "max"] }, "tooltip": { "mode": "multi" } },
       "targets": [
         {
-          "expr": "1 - avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\", host=~\"$host\"}[$__rate_interval]))",
-          "legendFormat": "{{ instance }}",
+          "expr": "1 - avg by (host) (rate(node_cpu_seconds_total{mode=\"idle\", host=~\"$host\"}[$__rate_interval]))",
+          "legendFormat": "{{ host }}",
           "refId": "A"
         }
       ]
@@ -117,7 +184,7 @@
     {
       "title": "Memory Usage",
       "type": "timeseries",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 12 },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 14 },
       "datasource": { "type": "prometheus", "uid": "prometheus" },
       "fieldConfig": {
         "defaults": {
@@ -132,7 +199,7 @@
       "targets": [
         {
           "expr": "1 - (node_memory_MemAvailable_bytes{host=~\"$host\"} / node_memory_MemTotal_bytes{host=~\"$host\"})",
-          "legendFormat": "{{ instance }}",
+          "legendFormat": "{{ host }}",
           "refId": "A"
         }
       ]
@@ -140,7 +207,7 @@
     {
       "title": "Disk Usage",
       "type": "timeseries",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 20 },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 22 },
       "datasource": { "type": "prometheus", "uid": "prometheus" },
       "fieldConfig": {
         "defaults": {
@@ -155,7 +222,7 @@
       "targets": [
         {
           "expr": "1 - (node_filesystem_avail_bytes{fstype=~\"ext4|xfs\", host=~\"$host\"} / node_filesystem_size_bytes{fstype=~\"ext4|xfs\", host=~\"$host\"})",
-          "legendFormat": "{{ instance }} {{ mountpoint }}",
+          "legendFormat": "{{ host }} {{ mountpoint }}",
           "refId": "A"
         }
       ]
@@ -163,7 +230,7 @@
     {
       "title": "Network Throughput",
       "type": "timeseries",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 20 },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 22 },
       "datasource": { "type": "prometheus", "uid": "prometheus" },
       "fieldConfig": {
         "defaults": {
@@ -175,21 +242,157 @@
       "options": { "legend": { "displayMode": "table", "calcs": ["mean", "max"] }, "tooltip": { "mode": "multi" } },
       "targets": [
         {
-          "expr": "sum by (instance) (rate(node_network_receive_bytes_total{device!~\"lo|veth.*|br-.*|docker.*\", host=~\"$host\"}[$__rate_interval]))",
-          "legendFormat": "{{ instance }} - rx",
+          "expr": "sum by (host) (rate(node_network_receive_bytes_total{device!~\"lo|veth.*|br-.*|docker.*\", host=~\"$host\"}[$__rate_interval]))",
+          "legendFormat": "{{ host }} - rx",
           "refId": "A"
         },
         {
-          "expr": "sum by (instance) (rate(node_network_transmit_bytes_total{device!~\"lo|veth.*|br-.*|docker.*\", host=~\"$host\"}[$__rate_interval]))",
-          "legendFormat": "{{ instance }} - tx",
+          "expr": "sum by (host) (rate(node_network_transmit_bytes_total{device!~\"lo|veth.*|br-.*|docker.*\", host=~\"$host\"}[$__rate_interval]))",
+          "legendFormat": "{{ host }} - tx",
           "refId": "B"
         }
       ]
     },
     {
+      "title": "Service Health",
+      "type": "row",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 30 },
+      "collapsed": false
+    },
+    {
+      "title": "Endpoints Down",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 31 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 1 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "targets": [
+        {
+          "expr": "count(gatus_results_endpoint_success{group=~\"$host\"} == 0) OR on() vector(0)",
+          "legendFormat": "Down",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "Guests Running",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 31 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{ "color": "green", "value": null }]
+          }
+        },
+        "overrides": []
+      },
+      "options": { "textMode": "value_and_name", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "targets": [
+        {
+          "expr": "sum(pve_up)",
+          "legendFormat": "Running",
+          "refId": "A"
+        },
+        {
+          "expr": "count(pve_up)",
+          "legendFormat": "Total",
+          "refId": "B"
+        }
+      ]
+    },
+    {
+      "title": "Traefik Instances",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 31 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "green", "value": 1 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "targets": [
+        {
+          "expr": "count(traefik_config_reloads_total) OR on() vector(0)",
+          "legendFormat": "Instances",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "Traefik Error Rate",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 31 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "orange", "value": 0.01 },
+              { "color": "red", "value": 0.05 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "targets": [
+        {
+          "expr": "(sum(rate(traefik_service_requests_total{code=~\"5..\"}[$__rate_interval])) / sum(rate(traefik_service_requests_total[$__rate_interval]))) OR on() vector(0)",
+          "legendFormat": "Errors",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "Failing Checks",
+      "type": "table",
+      "gridPos": { "h": 6, "w": 24, "x": 0, "y": 35 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": { "defaults": {}, "overrides": [] },
+      "options": { "showHeader": true },
+      "targets": [
+        {
+          "expr": "gatus_results_endpoint_success{group=~\"$host\"} == 0",
+          "instant": true,
+          "format": "table",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "Fleet Detail",
+      "type": "row",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 41 },
+      "collapsed": false
+    },
+    {
       "title": "Uptime",
       "type": "stat",
-      "gridPos": { "h": 4, "w": 24, "x": 0, "y": 28 },
+      "gridPos": { "h": 4, "w": 24, "x": 0, "y": 42 },
       "datasource": { "type": "prometheus", "uid": "prometheus" },
       "fieldConfig": {
         "defaults": {
@@ -209,7 +412,7 @@
       "targets": [
         {
           "expr": "time() - node_boot_time_seconds{host=~\"$host\"}",
-          "legendFormat": "{{ instance }}",
+          "legendFormat": "{{ host }}",
           "refId": "A"
         }
       ]
@@ -217,7 +420,7 @@
     {
       "title": "Running Containers",
       "type": "stat",
-      "gridPos": { "h": 4, "w": 24, "x": 0, "y": 32 },
+      "gridPos": { "h": 4, "w": 24, "x": 0, "y": 46 },
       "datasource": { "type": "prometheus", "uid": "prometheus" },
       "fieldConfig": {
         "defaults": {
@@ -233,8 +436,8 @@
       "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
       "targets": [
         {
-          "expr": "count by (instance) (container_last_seen{name!=\"\", host=~\"$host\"})",
-          "legendFormat": "{{ instance }}",
+          "expr": "count by (host) (container_last_seen{name!=\"\", host=~\"$host\"})",
+          "legendFormat": "{{ host }}",
           "refId": "A"
         }
       ]
@@ -262,5 +465,5 @@
   "timezone": "",
   "title": "Homelab Overview",
   "uid": "homelab-overview",
-  "version": 1
+  "version": 2
 }

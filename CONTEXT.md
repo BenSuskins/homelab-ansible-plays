@@ -38,6 +38,16 @@ _Avoid_: Service list, service registry
 **Secured**:
 A Service Entry flag meaning the service's Traefik route requires Authelia authentication. Distinct from `proxied`, which only controls whether the service is routed through Traefik at all.
 
+### Monitoring & Metrics
+
+**Host Label**:
+The Prometheus label `host`, set to a host's Friendly Name on every metric series — either via a Service Entry's `host: "{{ svc.friendly_name }}"` static scrape label, or via Alloy's `set_instance` relabel rule for pushed metrics. This is the only label dashboards should filter or group by when the axis is "which host". Distinct from the `instance` label, which holds the host's raw IP and exists for Prometheus's own target bookkeeping, not for display.
+_Avoid_: `instance` label (for host identification or display), IP-based filtering
+
+**Remote-Written Metric**:
+A metric series that reaches Prometheus via Alloy's `remote_write` push (host metrics like `node_*`, container metrics like `container_*`) rather than by being scraped directly. Remote-written series never produce a corresponding `up` series, so `up` cannot be used to test liveness, enumerate hosts, or build template variables for anything in this category — query the metric itself instead. Contrast with a **Scraped Metric** (an app's own `/metrics` endpoint, opted into via a Service Entry's `metrics: true`), which does get an `up` series.
+_Avoid_: using `up` as a stand-in for "is this host/container reporting"
+
 ### Infrastructure as Code
 
 **Terraform Root**:
