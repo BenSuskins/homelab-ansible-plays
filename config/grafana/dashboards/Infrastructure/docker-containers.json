@@ -177,7 +177,7 @@
   "time": { "from": "now-6h", "to": "now" },
   "timepicker": {},
   "timezone": "",
-  "title": "Docker Containers",
+  "title": "Containers",
   "uid": "docker-containers",
   "version": 1
 }
