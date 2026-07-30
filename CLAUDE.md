@@ -162,3 +162,13 @@ A Tailscale subnet router runs on the `docker` host (`tasks/docker/tailscale.yml
 ### Docker Image Updates
 
 Renovate monitors `tasks/docker/*.yml` for Docker image versions and creates PRs for updates. Images are pinned to specific versions (not `latest`).
+
+## Agent skills
+
+### Issue tracker
+
+Issues live in this repo's GitHub Issues (via the `gh` CLI). See `docs/agents/issue-tracker.md`.
+
+### Domain docs
+
+Single-context layout — `CONTEXT.md` + `docs/adr/` at the repo root (created lazily as terms/decisions get resolved). See `docs/agents/domain.md`.
