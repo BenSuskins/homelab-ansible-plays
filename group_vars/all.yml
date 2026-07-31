@@ -151,7 +151,7 @@ static_services:
     proxied: true
     metrics: true
     metrics_path: /api/prometheus
-    metrics_bearer_token: "{{ vault_ha_prometheus_token }}"
+    metrics_bearer_token: "{{ HOMEASSISTANT_API_TOKEN }}"
 
   # Games
   - name: games
