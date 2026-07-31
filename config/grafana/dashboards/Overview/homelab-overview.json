@@ -98,35 +98,6 @@
       ]
     },
     {
-      "title": "NAS Storage Free",
-      "type": "stat",
-      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 9 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "bytes",
-          "decimals": 1,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              { "color": "dark-red", "value": null },
-              { "color": "#EAB839", "value": 10737418240 },
-              { "color": "dark-green", "value": 53687091200 }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
-      "targets": [
-        {
-          "expr": "min(truenas_dataset_df_complex_free)",
-          "legendFormat": "Free",
-          "refId": "A"
-        }
-      ]
-    },
-    {
       "title": "Tailscale Health Warnings",
       "type": "stat",
       "gridPos": { "h": 4, "w": 6, "x": 18, "y": 9 },
