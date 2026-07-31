@@ -1,0 +1,239 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "title": "Home Assistant Host",
+      "type": "row",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "collapsed": false
+    },
+    {
+      "title": "Memory Usage",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 1 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "decimals": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "dark-green", "value": null },
+              { "color": "#EAB839", "value": 70 },
+              { "color": "dark-red", "value": 85 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "targets": [
+        {
+          "expr": "homeassistant_sensor_unit_percent{entity=\"sensor.system_monitor_memory_usage\"}",
+          "legendFormat": "Memory Usage",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "Memory Free",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 1 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "decimals": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "dark-red", "value": null },
+              { "color": "#EAB839", "value": 209715200 },
+              { "color": "dark-green", "value": 524288000 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "targets": [
+        {
+          "expr": "homeassistant_sensor_data_size_mib{entity=\"sensor.system_monitor_memory_free\"} * 1024 * 1024",
+          "legendFormat": "Free",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "Disk Usage",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 1 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "decimals": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "dark-green", "value": null },
+              { "color": "#EAB839", "value": 70 },
+              { "color": "dark-red", "value": 85 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "targets": [
+        {
+          "expr": "homeassistant_sensor_unit_percent{entity=\"sensor.system_monitor_disk_usage\"}",
+          "legendFormat": "Disk Usage",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "Disk Free",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 1 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "decimals": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "dark-red", "value": null },
+              { "color": "#EAB839", "value": 5368709120 },
+              { "color": "dark-green", "value": 10737418240 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "targets": [
+        {
+          "expr": "homeassistant_sensor_data_size_gib{entity=\"sensor.system_monitor_disk_free\"} * 1024 * 1024 * 1024",
+          "legendFormat": "Free",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "CPU Pressure",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 12, "x": 0, "y": 5 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "decimals": 2,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "dark-green", "value": null },
+              { "color": "#EAB839", "value": 5 },
+              { "color": "dark-red", "value": 20 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "targets": [
+        {
+          "expr": "homeassistant_sensor_unit_percent{entity=\"sensor.system_monitor_cpu_pressure_some_10s_average\"}",
+          "legendFormat": "CPU Pressure (10s avg)",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "Load (1 min)",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 12, "x": 12, "y": 5 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "decimals": 2,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "dark-green", "value": null },
+              { "color": "#EAB839", "value": 1 },
+              { "color": "dark-red", "value": 2 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "targets": [
+        {
+          "expr": "homeassistant_sensor_state{entity=\"sensor.system_monitor_load_1_min\"}",
+          "legendFormat": "Load (1 min)",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "Usage Over Time",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 9 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "custom": { "fillOpacity": 20, "lineWidth": 2 }
+        },
+        "overrides": []
+      },
+      "options": { "legend": { "displayMode": "table", "calcs": ["mean", "max"] }, "tooltip": { "mode": "multi" } },
+      "targets": [
+        {
+          "expr": "homeassistant_sensor_unit_percent{entity=\"sensor.system_monitor_memory_usage\"}",
+          "legendFormat": "Memory Usage",
+          "refId": "A"
+        },
+        {
+          "expr": "homeassistant_sensor_unit_percent{entity=\"sensor.system_monitor_disk_usage\"}",
+          "legendFormat": "Disk Usage",
+          "refId": "B"
+        },
+        {
+          "expr": "homeassistant_sensor_unit_percent{entity=\"sensor.system_monitor_cpu_pressure_some_10s_average\"}",
+          "legendFormat": "CPU Pressure",
+          "refId": "C"
+        }
+      ]
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 39,
+  "tags": ["homelab", "infrastructure", "homeassistant"],
+  "templating": { "list": [] },
+  "time": { "from": "now-6h", "to": "now" },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Home Assistant",
+  "uid": "homeassistant",
+  "version": 1
+}
