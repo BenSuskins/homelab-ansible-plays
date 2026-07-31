@@ -260,7 +260,7 @@
         match_type: "regex"
         name: "cpu_temperature"
         labels:
-          cpu: "cpu${2}"
+          cpu: "${2}"
 
       - match: 'truenas\.(.*)\.cpu\.core_throttling\.(.*)'
         match_type: "regex"
@@ -448,6 +448,12 @@
         labels:
           type: "${2}"
           subtype: "${3}"
+
+      - match: 'truenas\.(.*)\.truenas_meminfo\.(.*)\.(.*)'
+        match_type: "regex"
+        name: "truenas_meminfo"
+        labels:
+          kind: "${2}"
 
       ################################################
       # disk by ID mapping
