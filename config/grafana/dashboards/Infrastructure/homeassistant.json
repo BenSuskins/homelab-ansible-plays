@@ -133,9 +133,9 @@
       ]
     },
     {
-      "title": "CPU Pressure",
+      "title": "CPU Pressure (10s avg)",
       "type": "stat",
-      "gridPos": { "h": 4, "w": 12, "x": 0, "y": 5 },
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 5 },
       "datasource": { "type": "prometheus", "uid": "prometheus" },
       "fieldConfig": {
         "defaults": {
@@ -164,9 +164,40 @@
       ]
     },
     {
+      "title": "Processor Use",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 5 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "decimals": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "dark-green", "value": null },
+              { "color": "#EAB839", "value": 70 },
+              { "color": "dark-red", "value": 85 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "targets": [
+        {
+          "expr": "homeassistant_sensor_unit_percent{entity=\"sensor.system_monitor_processor_use\"}",
+          "legendFormat": "Processor Use",
+          "refId": "A"
+        }
+      ]
+    },
+    {
       "title": "Load (1 min)",
       "type": "stat",
-      "gridPos": { "h": 4, "w": 12, "x": 12, "y": 5 },
+      "gridPos": { "h": 4, "w": 4, "x": 12, "y": 5 },
       "datasource": { "type": "prometheus", "uid": "prometheus" },
       "fieldConfig": {
         "defaults": {
@@ -188,6 +219,64 @@
         {
           "expr": "homeassistant_sensor_state{entity=\"sensor.system_monitor_load_1_min\"}",
           "legendFormat": "Load (1 min)",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "Load (5 min)",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 16, "y": 5 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "decimals": 2,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "dark-green", "value": null },
+              { "color": "#EAB839", "value": 1 },
+              { "color": "dark-red", "value": 2 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "targets": [
+        {
+          "expr": "homeassistant_sensor_state{entity=\"sensor.system_monitor_load_5_min\"}",
+          "legendFormat": "Load (5 min)",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "Load (15 min)",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 20, "y": 5 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "decimals": 2,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "dark-green", "value": null },
+              { "color": "#EAB839", "value": 1 },
+              { "color": "dark-red", "value": 2 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "targets": [
+        {
+          "expr": "homeassistant_sensor_state{entity=\"sensor.system_monitor_load_15_min\"}",
+          "legendFormat": "Load (15 min)",
           "refId": "A"
         }
       ]
@@ -222,6 +311,37 @@
           "expr": "homeassistant_sensor_unit_percent{entity=\"sensor.system_monitor_cpu_pressure_some_10s_average\"}",
           "legendFormat": "CPU Pressure",
           "refId": "C"
+        },
+        {
+          "expr": "homeassistant_sensor_unit_percent{entity=\"sensor.system_monitor_processor_use\"}",
+          "legendFormat": "Processor Use",
+          "refId": "D"
+        }
+      ]
+    },
+    {
+      "title": "Network Throughput",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 17 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "custom": { "fillOpacity": 20, "lineWidth": 2 }
+        },
+        "overrides": []
+      },
+      "options": { "legend": { "displayMode": "table", "calcs": ["mean", "max"] }, "tooltip": { "mode": "multi" } },
+      "targets": [
+        {
+          "expr": "homeassistant_sensor_data_rate_mb_per_s{entity=\"sensor.system_monitor_network_throughput_in_hassio\"} * 1000000",
+          "legendFormat": "In",
+          "refId": "A"
+        },
+        {
+          "expr": "homeassistant_sensor_data_rate_mb_per_s{entity=\"sensor.system_monitor_network_throughput_out_hassio\"} * 1000000",
+          "legendFormat": "Out",
+          "refId": "B"
         }
       ]
     }
