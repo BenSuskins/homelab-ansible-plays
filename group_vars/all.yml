@@ -149,6 +149,9 @@ static_services:
     healthcheck: true
     homepage: true
     proxied: true
+    metrics: true
+    metrics_path: /api/prometheus
+    metrics_bearer_token: "{{ HOMEASSISTANT_API_TOKEN }}"
 
   # Games
   - name: games
