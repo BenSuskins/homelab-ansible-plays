@@ -142,7 +142,7 @@
       },
       "targets": [
         {
-          "expr": "pubgolf_game_created_total{job=\"pubgolf-backend\"} - pubgolf_game_completed_total{job=\"pubgolf-backend\"}",
+          "expr": "pubgolf_game_started_total{job=\"pubgolf-backend\"} - pubgolf_game_completed_total{job=\"pubgolf-backend\"}",
           "refId": "A",
           "legendFormat": "In Progress"
         }
@@ -411,7 +411,7 @@
       },
       "targets": [
         {
-          "expr": "increase(pubgolf_game_created_total{job=\"pubgolf-backend\"}[1d])",
+          "expr": "increase(pubgolf_game_started_total{job=\"pubgolf-backend\"}[1d])",
           "refId": "A",
           "legendFormat": "Games Created"
         }
@@ -994,7 +994,7 @@
       },
       "targets": [
         {
-          "expr": "increase(pubgolf_game_created_total{job=\"pubgolf-backend\"}[90d])",
+          "expr": "increase(pubgolf_game_started_total{job=\"pubgolf-backend\"}[90d])",
           "refId": "A",
           "legendFormat": "Games Created"
         },
