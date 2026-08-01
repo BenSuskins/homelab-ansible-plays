@@ -1,538 +1,1070 @@
 {
-  "annotations": { "list": [] },
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": null,
-  "links": [],
+  "links": [
+    {
+      "type": "link",
+      "title": "Overview",
+      "url": "/d/homelab-overview",
+      "keepTime": true,
+      "icon": "dashboard"
+    },
+    {
+      "type": "dashboards",
+      "title": "Infrastructure",
+      "tags": [
+        "infrastructure"
+      ],
+      "asDropdown": true,
+      "keepTime": true
+    },
+    {
+      "type": "dashboards",
+      "title": "Apps",
+      "tags": [
+        "apps"
+      ],
+      "asDropdown": true,
+      "keepTime": true
+    },
+    {
+      "type": "dashboards",
+      "title": "Monitoring",
+      "tags": [
+        "monitoring"
+      ],
+      "asDropdown": true,
+      "keepTime": true
+    }
+  ],
   "panels": [
     {
-      "title": "System Status (Live)",
+      "title": "Status",
       "type": "row",
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
-      "collapsed": false
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "panels": []
     },
     {
       "title": "Service Up",
       "type": "stat",
-      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 1 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 1
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
-          "unit": "none",
-          "mappings": [
-            { "type": "value", "options": { "0": { "text": "DOWN" }, "1": { "text": "UP" } } }
-          ],
           "thresholds": {
             "mode": "absolute",
-            "steps": [{ "color": "red", "value": null }, { "color": "green", "value": 1 }]
-          }
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
         },
         "overrides": []
       },
-      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "options": {
+        "textMode": "value",
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
       "targets": [
         {
           "expr": "up{job=\"pubgolf-backend\"}",
-          "legendFormat": "Up",
           "refId": "A",
-          "instant": true
+          "legendFormat": "Up"
         }
       ]
     },
     {
       "title": "Games In Progress",
       "type": "stat",
-      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 1 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 4,
+        "y": 1
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
           "thresholds": {
             "mode": "absolute",
-            "steps": [{ "color": "blue", "value": null }]
-          }
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
         },
         "overrides": []
       },
-      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "options": {
+        "textMode": "value",
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
       "targets": [
         {
           "expr": "pubgolf_game_created_total{job=\"pubgolf-backend\"} - pubgolf_game_completed_total{job=\"pubgolf-backend\"}",
-          "legendFormat": "In Progress",
           "refId": "A",
-          "instant": true
+          "legendFormat": "In Progress"
         }
       ]
     },
     {
-      "title": "Error Rate (5xx, 5m)",
+      "title": "Error Rate (5xx)",
       "type": "stat",
-      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 1 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 1
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
-          "unit": "reqps",
           "thresholds": {
             "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }, { "color": "orange", "value": 0.01 }, { "color": "red", "value": 0.1 }]
-          }
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 0.01
+              },
+              {
+                "color": "red",
+                "value": 0.05
+              }
+            ]
+          },
+          "unit": "percentunit"
         },
         "overrides": []
       },
-      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "options": {
+        "textMode": "value",
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
       "targets": [
         {
-          "expr": "sum(rate(http_server_requests_seconds_count{status=~\"5..\",job=\"pubgolf-backend\"}[5m]))",
-          "legendFormat": "5xx/s",
+          "expr": "(sum(rate(http_server_requests_seconds_count{job=\"pubgolf-backend\",status=~\"5..\"}[5m])) / sum(rate(http_server_requests_seconds_count{job=\"pubgolf-backend\"}[5m]))) OR on() vector(0)",
           "refId": "A",
-          "instant": true
+          "legendFormat": "5xx"
         }
       ]
     },
     {
-      "title": "P95 Latency (5m)",
+      "title": "P95 Latency",
       "type": "stat",
-      "gridPos": { "h": 4, "w": 4, "x": 12, "y": 1 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 12,
+        "y": 1
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
-          "unit": "s",
           "thresholds": {
             "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }, { "color": "orange", "value": 0.3 }, { "color": "red", "value": 1 }]
-          }
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 0.3
+              },
+              {
+                "color": "red",
+                "value": 1.2
+              }
+            ]
+          },
+          "unit": "s"
         },
         "overrides": []
       },
-      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "options": {
+        "textMode": "value",
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
       "targets": [
         {
           "expr": "histogram_quantile(0.95, sum by (le) (rate(http_server_requests_seconds_bucket{job=\"pubgolf-backend\"}[5m])))",
-          "legendFormat": "p95",
           "refId": "A",
-          "instant": true
+          "legendFormat": "p95"
         }
       ]
     },
     {
       "title": "JVM Heap Used",
       "type": "stat",
-      "gridPos": { "h": 4, "w": 4, "x": 16, "y": 1 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 1
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
-          "unit": "percentunit",
           "thresholds": {
             "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }, { "color": "orange", "value": 0.75 }, { "color": "red", "value": 0.9 }]
-          }
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 0.8
+              },
+              {
+                "color": "red",
+                "value": 0.9
+              }
+            ]
+          },
+          "unit": "percentunit"
         },
         "overrides": []
       },
-      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "options": {
+        "textMode": "value",
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
       "targets": [
         {
           "expr": "sum(jvm_memory_used_bytes{area=\"heap\",job=\"pubgolf-backend\"}) / sum(jvm_memory_max_bytes{area=\"heap\",job=\"pubgolf-backend\"})",
-          "legendFormat": "Heap %",
           "refId": "A",
-          "instant": true
+          "legendFormat": "Heap"
         }
       ]
     },
     {
       "title": "Process CPU",
       "type": "stat",
-      "gridPos": { "h": 4, "w": 4, "x": 20, "y": 1 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 1
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
-          "unit": "percentunit",
           "thresholds": {
             "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }, { "color": "orange", "value": 0.7 }, { "color": "red", "value": 0.9 }]
-          }
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 0.8
+              },
+              {
+                "color": "red",
+                "value": 0.9
+              }
+            ]
+          },
+          "unit": "percentunit"
         },
         "overrides": []
       },
-      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "options": {
+        "textMode": "value",
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
       "targets": [
         {
           "expr": "process_cpu_usage{job=\"pubgolf-backend\"}",
-          "legendFormat": "CPU",
           "refId": "A",
-          "instant": true
+          "legendFormat": "CPU"
         }
       ]
     },
     {
-      "title": "Product Metrics (90 Days)",
+      "title": "Product Metrics",
       "type": "row",
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 },
-      "collapsed": false
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      },
+      "panels": []
     },
     {
       "title": "Games Created / Day",
       "type": "barchart",
-      "gridPos": { "h": 6, "w": 8, "x": 0, "y": 6 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 6
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "custom": { "fillOpacity": 80, "lineWidth": 1 }
+          "custom": {
+            "fillOpacity": 20,
+            "lineWidth": 2
+          }
         },
         "overrides": []
       },
-      "options": { "legend": { "displayMode": "list" }, "tooltip": { "mode": "single" } },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
         {
           "expr": "increase(pubgolf_game_created_total{job=\"pubgolf-backend\"}[1d])",
-          "legendFormat": "Games Created",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "Games Created"
         }
       ]
     },
     {
       "title": "Players Joined / Day",
       "type": "barchart",
-      "gridPos": { "h": 6, "w": 8, "x": 8, "y": 6 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 6
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "custom": { "fillOpacity": 80, "lineWidth": 1 }
+          "custom": {
+            "fillOpacity": 20,
+            "lineWidth": 2
+          }
         },
         "overrides": []
       },
-      "options": { "legend": { "displayMode": "list" }, "tooltip": { "mode": "single" } },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
         {
           "expr": "increase(pubgolf_player_joined_total{job=\"pubgolf-backend\"}[1d])",
-          "legendFormat": "Players Joined",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "Players Joined"
         }
       ]
     },
     {
       "title": "Games Completed / Day",
       "type": "barchart",
-      "gridPos": { "h": 6, "w": 8, "x": 16, "y": 6 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 6
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "custom": { "fillOpacity": 80, "lineWidth": 1 }
+          "custom": {
+            "fillOpacity": 20,
+            "lineWidth": 2
+          }
         },
         "overrides": []
       },
-      "options": { "legend": { "displayMode": "list" }, "tooltip": { "mode": "single" } },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
         {
           "expr": "increase(pubgolf_game_completed_total{job=\"pubgolf-backend\"}[1d])",
-          "legendFormat": "Games Completed",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "Games Completed"
         }
       ]
     },
     {
       "title": "Scores Submitted by Hole (Daily)",
       "type": "timeseries",
-      "gridPos": { "h": 6, "w": 12, "x": 0, "y": 12 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 14
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "custom": { "fillOpacity": 10, "lineWidth": 2 }
+          "custom": {
+            "fillOpacity": 20,
+            "lineWidth": 2
+          }
         },
         "overrides": []
       },
-      "options": { "legend": { "displayMode": "table", "calcs": ["sum"] }, "tooltip": { "mode": "multi" } },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
         {
           "expr": "increase(pubgolf_score_submitted_total{job=\"pubgolf-backend\"}[1d])",
-          "legendFormat": "Hole {{ hole }}",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "Hole {{ hole }}"
         }
       ]
     },
     {
       "title": "Randomise Used (Daily)",
       "type": "timeseries",
-      "gridPos": { "h": 6, "w": 12, "x": 12, "y": 12 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": { "fillOpacity": 20, "lineWidth": 2 }
-        },
-        "overrides": []
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 14
       },
-      "options": { "legend": { "displayMode": "list" }, "tooltip": { "mode": "single" } },
-      "targets": [
-        {
-          "expr": "increase(pubgolf_game_randomise_total{job=\"pubgolf-backend\"}[1d])",
-          "legendFormat": "Randomise Used",
-          "refId": "A"
-        }
-      ]
-    },
-    {
-      "title": "Totals (Last 90 Days)",
-      "type": "stat",
-      "gridPos": { "h": 4, "w": 24, "x": 0, "y": 18 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "blue", "value": null }]
+          "custom": {
+            "fillOpacity": 20,
+            "lineWidth": 2
           }
         },
         "overrides": []
       },
-      "options": { "textMode": "value_and_name", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "mean",
+            "max"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
         {
-          "expr": "increase(pubgolf_game_created_total{job=\"pubgolf-backend\"}[90d])",
-          "legendFormat": "Games Created",
+          "expr": "increase(pubgolf_game_randomise_total{job=\"pubgolf-backend\"}[1d])",
           "refId": "A",
-          "instant": true
-        },
-        {
-          "expr": "increase(pubgolf_player_joined_total{job=\"pubgolf-backend\"}[90d])",
-          "legendFormat": "Players Joined",
-          "refId": "B",
-          "instant": true
-        },
-        {
-          "expr": "sum(increase(pubgolf_score_submitted_total{job=\"pubgolf-backend\"}[90d]))",
-          "legendFormat": "Scores Submitted",
-          "refId": "C",
-          "instant": true
-        },
-        {
-          "expr": "increase(pubgolf_game_completed_total{job=\"pubgolf-backend\"}[90d])",
-          "legendFormat": "Games Completed",
-          "refId": "D",
-          "instant": true
+          "legendFormat": "Randomise Used"
         }
       ]
     },
     {
-      "title": "HTTP / JVM",
+      "title": "HTTP",
       "type": "row",
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 22 },
-      "collapsed": false
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 22
+      },
+      "panels": []
     },
     {
       "title": "Request Rate",
       "type": "timeseries",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 23 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 23
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "unit": "reqps",
-          "custom": { "fillOpacity": 20, "lineWidth": 2 }
+          "custom": {
+            "fillOpacity": 20,
+            "lineWidth": 2
+          }
         },
         "overrides": []
       },
-      "options": { "legend": { "displayMode": "table", "calcs": ["mean", "max"] }, "tooltip": { "mode": "multi" } },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
         {
           "expr": "sum by (uri, method) (rate(http_server_requests_seconds_count{job=\"pubgolf-backend\",uri=~\"$uri\",method=~\"$method\"}[$__rate_interval]))",
-          "legendFormat": "{{ method }} {{ uri }}",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "{{ method }} {{ uri }}"
         }
       ]
     },
     {
       "title": "Error Rate (5xx)",
       "type": "timeseries",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 23 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 23
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "unit": "reqps",
-          "custom": { "fillOpacity": 20, "lineWidth": 2 },
-          "color": { "fixedColor": "red", "mode": "fixed" }
+          "custom": {
+            "fillOpacity": 20,
+            "lineWidth": 2
+          }
         },
         "overrides": []
       },
-      "options": { "legend": { "displayMode": "table", "calcs": ["mean", "sum"] }, "tooltip": { "mode": "multi" } },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
         {
           "expr": "sum by (uri) (rate(http_server_requests_seconds_count{job=\"pubgolf-backend\",status=~\"5..\",uri=~\"$uri\"}[$__rate_interval]))",
-          "legendFormat": "{{ uri }}",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "{{ uri }}"
         }
       ]
     },
     {
       "title": "Response Latency (p50 / p95 / p99)",
       "type": "timeseries",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 31 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 31
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "unit": "s",
-          "custom": { "fillOpacity": 10, "lineWidth": 2 }
+          "custom": {
+            "fillOpacity": 20,
+            "lineWidth": 2
+          }
         },
         "overrides": []
       },
-      "options": { "legend": { "displayMode": "table", "calcs": ["mean", "max"] }, "tooltip": { "mode": "multi" } },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "mean",
+            "max"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
         {
           "expr": "histogram_quantile(0.50, sum by (le) (rate(http_server_requests_seconds_bucket{job=\"pubgolf-backend\",uri=~\"$uri\"}[$__rate_interval])))",
-          "legendFormat": "p50",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "p50"
         },
         {
           "expr": "histogram_quantile(0.95, sum by (le) (rate(http_server_requests_seconds_bucket{job=\"pubgolf-backend\",uri=~\"$uri\"}[$__rate_interval])))",
-          "legendFormat": "p95",
-          "refId": "B"
+          "refId": "B",
+          "legendFormat": "p95"
         },
         {
           "expr": "histogram_quantile(0.99, sum by (le) (rate(http_server_requests_seconds_bucket{job=\"pubgolf-backend\",uri=~\"$uri\"}[$__rate_interval])))",
-          "legendFormat": "p99",
-          "refId": "C"
+          "refId": "C",
+          "legendFormat": "p99"
         }
       ]
     },
     {
-      "title": "JVM Heap Usage",
+      "title": "JVM",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 39
+      },
+      "panels": []
+    },
+    {
+      "title": "Heap Usage",
       "type": "timeseries",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 31 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 40
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "unit": "bytes",
-          "custom": { "fillOpacity": 20, "lineWidth": 2 }
+          "custom": {
+            "fillOpacity": 20,
+            "lineWidth": 2
+          }
         },
         "overrides": []
       },
-      "options": { "legend": { "displayMode": "table", "calcs": ["lastNotNull"] }, "tooltip": { "mode": "multi" } },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "mean",
+            "max"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
         {
           "expr": "jvm_memory_used_bytes{job=\"pubgolf-backend\",area=\"heap\"}",
-          "legendFormat": "Used",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "Used"
         },
         {
           "expr": "jvm_memory_committed_bytes{job=\"pubgolf-backend\",area=\"heap\"}",
-          "legendFormat": "Committed",
-          "refId": "B"
+          "refId": "B",
+          "legendFormat": "Committed"
         },
         {
           "expr": "jvm_memory_max_bytes{job=\"pubgolf-backend\",area=\"heap\"}",
-          "legendFormat": "Max",
-          "refId": "C"
+          "refId": "C",
+          "legendFormat": "Max"
         }
       ]
     },
     {
       "title": "GC Pause Time",
       "type": "timeseries",
-      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 39 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 40
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "unit": "s",
-          "custom": { "fillOpacity": 20, "lineWidth": 2 }
+          "custom": {
+            "fillOpacity": 20,
+            "lineWidth": 2
+          }
         },
         "overrides": []
       },
-      "options": { "legend": { "displayMode": "list" }, "tooltip": { "mode": "multi" } },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "mean",
+            "max"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
         {
           "expr": "rate(jvm_gc_pause_seconds_sum{job=\"pubgolf-backend\"}[$__rate_interval])",
-          "legendFormat": "GC Pause/s",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "GC Pause/s"
         }
       ]
     },
     {
       "title": "Thread Count",
       "type": "timeseries",
-      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 39 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 40
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
-          "custom": { "fillOpacity": 20, "lineWidth": 2 }
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 20,
+            "lineWidth": 2
+          }
         },
         "overrides": []
       },
-      "options": { "legend": { "displayMode": "list" }, "tooltip": { "mode": "multi" } },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "mean",
+            "max"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
         {
           "expr": "jvm_threads_live_threads{job=\"pubgolf-backend\"}",
-          "legendFormat": "Live Threads",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "Live Threads"
         },
         {
           "expr": "jvm_threads_daemon_threads{job=\"pubgolf-backend\"}",
-          "legendFormat": "Daemon Threads",
-          "refId": "B"
+          "refId": "B",
+          "legendFormat": "Daemon Threads"
         }
       ]
     },
     {
       "title": "Process CPU Usage",
       "type": "timeseries",
-      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 39 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 48
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "unit": "percentunit",
+          "custom": {
+            "fillOpacity": 20,
+            "lineWidth": 2
+          },
           "min": 0,
-          "max": 1,
-          "custom": { "fillOpacity": 20, "lineWidth": 2 }
+          "max": 1
         },
         "overrides": []
       },
-      "options": { "legend": { "displayMode": "list" }, "tooltip": { "mode": "single" } },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "mean",
+            "max"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
         {
           "expr": "process_cpu_usage{job=\"pubgolf-backend\"}",
-          "legendFormat": "Process CPU",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "Process CPU"
         },
         {
           "expr": "system_cpu_usage{job=\"pubgolf-backend\"}",
-          "legendFormat": "System CPU",
-          "refId": "B"
+          "refId": "B",
+          "legendFormat": "System CPU"
+        }
+      ]
+    },
+    {
+      "title": "Detail",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 56
+      },
+      "panels": []
+    },
+    {
+      "title": "Totals (Last 90 Days)",
+      "type": "stat",
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 57
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "options": {
+        "textMode": "value_and_name",
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
+      "targets": [
+        {
+          "expr": "increase(pubgolf_game_created_total{job=\"pubgolf-backend\"}[90d])",
+          "refId": "A",
+          "legendFormat": "Games Created"
+        },
+        {
+          "expr": "increase(pubgolf_player_joined_total{job=\"pubgolf-backend\"}[90d])",
+          "refId": "B",
+          "legendFormat": "Players Joined"
+        },
+        {
+          "expr": "sum(increase(pubgolf_score_submitted_total{job=\"pubgolf-backend\"}[90d]))",
+          "refId": "C",
+          "legendFormat": "Scores Submitted"
+        },
+        {
+          "expr": "increase(pubgolf_game_completed_total{job=\"pubgolf-backend\"}[90d])",
+          "refId": "D",
+          "legendFormat": "Games Completed"
         }
       ]
     }
   ],
   "refresh": "1m",
   "schemaVersion": 39,
-  "tags": ["homelab", "apps", "pubgolf"],
+  "tags": [
+    "homelab",
+    "apps",
+    "pubgolf"
+  ],
   "templating": {
     "list": [
       {
         "name": "uri",
         "type": "query",
-        "datasource": { "type": "prometheus", "uid": "prometheus" },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
         "query": "label_values(http_server_requests_seconds_count{job=\"pubgolf-backend\"}, uri)",
         "includeAll": true,
         "allValue": ".*",
-        "current": { "selected": true, "text": "All", "value": "$__all" },
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
         "multi": true
       },
       {
         "name": "method",
         "type": "query",
-        "datasource": { "type": "prometheus", "uid": "prometheus" },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
         "query": "label_values(http_server_requests_seconds_count{job=\"pubgolf-backend\"}, method)",
         "includeAll": true,
         "allValue": ".*",
-        "current": { "selected": true, "text": "All", "value": "$__all" },
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
         "multi": true
       }
     ]
   },
-  "time": { "from": "now-90d", "to": "now" },
+  "time": {
+    "from": "now-90d",
+    "to": "now"
+  },
   "timepicker": {},
   "timezone": "",
   "title": "Pubgolf",

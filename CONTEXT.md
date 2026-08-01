@@ -44,9 +44,34 @@ A Service Entry flag meaning the service's Traefik route requires Authelia authe
 The Prometheus label `host`, set to a host's Friendly Name on every metric series — either via a Service Entry's `host: "{{ svc.friendly_name }}"` static scrape label, or via Alloy's `set_instance` relabel rule for pushed metrics. This is the only label dashboards should filter or group by when the axis is "which host". Distinct from the `instance` label, which holds the host's raw IP and exists for Prometheus's own target bookkeeping, not for display.
 _Avoid_: `instance` label (for host identification or display), IP-based filtering
 
+**PVE Node**:
+A Proxmox hypervisor, identified by the `node` label on `pve_*` metrics. Not a Host — it is the machine the Hosts run *on*, and it has no Host Label. This is why the Proxmox dashboard filters by `$node` rather than `$host`.
+_Avoid_: calling a PVE Node a host or a server
+
+**Guest**:
+A VM or container managed by Proxmox, identified by the `id` label on `pve_*` metrics in the form `qemu/101`. The six Guests happen to be the same machines as the six Hosts, but they carry no Host Label — pve-exporter knows them only by numeric id. Filtering Guests uses `$guest`, and Guest panels legend by id, not by Friendly Name.
+_Avoid_: VM (ambiguous — a Guest may be a container), treating a Guest id as a Host Label
+
 **Remote-Written Metric**:
 A metric series that reaches Prometheus via Alloy's `remote_write` push (host metrics like `node_*`, container metrics like `container_*`) rather than by being scraped directly. Remote-written series never produce a corresponding `up` series, so `up` cannot be used to test liveness, enumerate hosts, or build template variables for anything in this category — query the metric itself instead. Contrast with a **Scraped Metric** (an app's own `/metrics` endpoint, opted into via a Service Entry's `metrics: true`), which does get an `up` series.
 _Avoid_: using `up` as a stand-in for "is this host/container reporting"
+
+### Dashboard Structure
+
+**Status Strip**:
+The row of equal-width stat tiles at the top of a dashboard, answering "is this thing OK right now" without requiring interpretation. Exactly one per dashboard, always the first section. Distinct from a topic-scoped strip, which sits inside a Topic Section and is narrower in scope.
+_Avoid_: header row, summary row
+
+**Topic Section**:
+A row grouping the charts for one subject — `Resource Usage`, `Storage`, `Latency`, `Traffic`. Named for what it shows, never for the dashboard it lives on. May open with its own KPI strip before its charts.
+_Avoid_: category, group
+
+**Detail Section**:
+The last expanded row on a dashboard, holding tables and per-entity fan-outs (one series per host, container or disk) rather than time series.
+
+**Deep Dive**:
+The single optional collapsed row permitted at the very end of a dashboard, holding internals that are genuinely rare to need — ZFS ARC breakdown, NFS RPC, per-disk latency. Capped at one per dashboard so that collapsing does not become the default habit, which is what made the imported TrueNAS and Traefik dashboards unreadable.
+_Avoid_: Advanced, Misc, Other
 
 ### Infrastructure as Code
 

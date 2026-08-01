@@ -1,67 +1,374 @@
 {
-  "annotations": { "list": [] },
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": null,
-  "links": [],
+  "links": [
+    {
+      "type": "link",
+      "title": "Overview",
+      "url": "/d/homelab-overview",
+      "keepTime": true,
+      "icon": "dashboard"
+    },
+    {
+      "type": "dashboards",
+      "title": "Infrastructure",
+      "tags": [
+        "infrastructure"
+      ],
+      "asDropdown": true,
+      "keepTime": true
+    },
+    {
+      "type": "dashboards",
+      "title": "Apps",
+      "tags": [
+        "apps"
+      ],
+      "asDropdown": true,
+      "keepTime": true
+    },
+    {
+      "type": "dashboards",
+      "title": "Monitoring",
+      "tags": [
+        "monitoring"
+      ],
+      "asDropdown": true,
+      "keepTime": true
+    }
+  ],
   "panels": [
     {
-      "title": "Log Volume",
-      "type": "barchart",
-      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 0 },
-      "datasource": { "type": "loki", "uid": "loki" },
+      "title": "Status",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "panels": []
+    },
+    {
+      "title": "Lines / s",
+      "type": "stat",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 1
+      },
+      "datasource": {
+        "type": "loki",
+        "uid": "loki"
+      },
       "fieldConfig": {
         "defaults": {
-          "custom": { "stacking": { "mode": "normal" } }
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "cps",
+          "decimals": 1
         },
         "overrides": []
       },
-      "options": { "legend": { "displayMode": "table", "calcs": ["sum"], "sortBy": "Total", "sortDesc": true }, "tooltip": { "mode": "multi" } },
+      "options": {
+        "textMode": "value",
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum(rate({container=~\"$container\"} |~ \"$search\" [$__auto]))",
+          "refId": "A",
+          "legendFormat": "Lines"
+        }
+      ]
+    },
+    {
+      "title": "Errors / s",
+      "type": "stat",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 1
+      },
+      "datasource": {
+        "type": "loki",
+        "uid": "loki"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "cps",
+          "decimals": 2
+        },
+        "overrides": []
+      },
+      "options": {
+        "textMode": "value",
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum(rate({container=~\"$container\"} |~ \"(?i)error|exception|fatal|panic\" [$__auto]))",
+          "refId": "A",
+          "legendFormat": "Errors"
+        }
+      ]
+    },
+    {
+      "title": "Warnings / s",
+      "type": "stat",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 1
+      },
+      "datasource": {
+        "type": "loki",
+        "uid": "loki"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "cps",
+          "decimals": 2
+        },
+        "overrides": []
+      },
+      "options": {
+        "textMode": "value",
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum(rate({container=~\"$container\"} |~ \"(?i)warn\" [$__auto]))",
+          "refId": "A",
+          "legendFormat": "Warnings"
+        }
+      ]
+    },
+    {
+      "title": "Containers Logging",
+      "type": "stat",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
+      "datasource": {
+        "type": "loki",
+        "uid": "loki"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "options": {
+        "textMode": "value",
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
+      "targets": [
+        {
+          "expr": "count(count by (container) (count_over_time({container=~\"$container\"} [$__auto])))",
+          "refId": "A",
+          "legendFormat": "Containers"
+        }
+      ]
+    },
+    {
+      "title": "Volume",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      },
+      "panels": []
+    },
+    {
+      "title": "Log Volume",
+      "type": "barchart",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 6
+      },
+      "datasource": {
+        "type": "loki",
+        "uid": "loki"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "fillOpacity": 20,
+            "lineWidth": 2
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
         {
           "expr": "sum by (container) (count_over_time({container=~\"$container\"} |~ \"$search\" [$__auto]))",
-          "legendFormat": "{{ container }}",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "{{ container }}"
         }
       ]
     },
     {
       "title": "Error Log Volume",
       "type": "timeseries",
-      "gridPos": { "h": 6, "w": 24, "x": 0, "y": 8 },
-      "datasource": { "type": "loki", "uid": "loki" },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 6
+      },
+      "datasource": {
+        "type": "loki",
+        "uid": "loki"
+      },
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "color": { "fixedColor": "red", "mode": "fixed" },
-          "custom": { "fillOpacity": 30, "lineWidth": 2 }
+          "custom": {
+            "fillOpacity": 20,
+            "lineWidth": 2
+          }
         },
         "overrides": []
       },
-      "options": { "legend": { "displayMode": "table", "calcs": ["sum"], "sortBy": "Total", "sortDesc": true }, "tooltip": { "mode": "multi" } },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
         {
           "expr": "sum by (container) (count_over_time({container=~\"$container\"} |~ \"(?i)error|exception|fatal|panic\" [$__auto]))",
-          "legendFormat": "{{ container }}",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "{{ container }}"
         }
       ]
     },
     {
+      "title": "Detail",
+      "type": "row",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "panels": []
+    },
+    {
       "title": "Log Stream",
       "type": "logs",
-      "gridPos": { "h": 16, "w": 24, "x": 0, "y": 14 },
-      "datasource": { "type": "loki", "uid": "loki" },
+      "gridPos": {
+        "h": 16,
+        "w": 24,
+        "x": 0,
+        "y": 15
+      },
+      "datasource": {
+        "type": "loki",
+        "uid": "loki"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "options": {
         "showTime": true,
-        "showLabels": true,
-        "showCommonLabels": false,
         "wrapLogMessage": true,
-        "prettifyLogMessage": false,
-        "enableLogDetails": true,
         "sortOrder": "Descending",
-        "dedupStrategy": "none"
+        "enableLogDetails": true,
+        "dedupStrategy": "none",
+        "prettifyLogMessage": false
       },
       "targets": [
         {
@@ -73,42 +380,82 @@
   ],
   "refresh": "1m",
   "schemaVersion": 39,
-  "tags": ["homelab", "monitoring", "logs"],
+  "tags": [
+    "homelab",
+    "monitoring",
+    "logs"
+  ],
   "templating": {
     "list": [
       {
         "name": "container",
         "type": "query",
-        "datasource": { "type": "loki", "uid": "loki" },
+        "datasource": {
+          "type": "loki",
+          "uid": "loki"
+        },
         "query": "label_values({container=~\".+\"}, container)",
         "includeAll": true,
-        "allValue": ".+",
-        "current": { "selected": true, "text": "All", "value": "$__all" },
+        "allValue": ".*",
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
         "multi": true
       },
       {
         "name": "search",
         "type": "textbox",
-        "current": { "selected": false, "text": "", "value": "" },
+        "query": "",
+        "current": {
+          "text": "",
+          "value": ""
+        },
+        "options": [],
         "label": "Search"
       },
       {
         "name": "level_filter",
         "type": "custom",
+        "label": "Level",
         "query": " ,|~ \"(?i)error|exception|fatal|panic\",|~ \"(?i)warn\",|~ \"(?i)info\"",
-        "current": { "selected": true, "text": "All", "value": " " },
-        "options": [
-          { "text": "All", "value": " ", "selected": true },
-          { "text": "Errors", "value": "|~ \"(?i)error|exception|fatal|panic\"", "selected": false },
-          { "text": "Warnings", "value": "|~ \"(?i)warn\"", "selected": false },
-          { "text": "Info", "value": "|~ \"(?i)info\"", "selected": false }
-        ],
+        "multi": false,
         "includeAll": false,
-        "multi": false
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": " "
+        },
+        "options": [
+          {
+            "selected": true,
+            "text": "All",
+            "value": " "
+          },
+          {
+            "selected": false,
+            "text": "Error",
+            "value": "|~ \"(?i)error|exception|fatal|panic\""
+          },
+          {
+            "selected": false,
+            "text": "Warn",
+            "value": "|~ \"(?i)warn\""
+          },
+          {
+            "selected": false,
+            "text": "Info",
+            "value": "|~ \"(?i)info\""
+          }
+        ]
       }
     ]
   },
-  "time": { "from": "now-1h", "to": "now" },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
   "timepicker": {},
   "timezone": "",
   "title": "Logs",

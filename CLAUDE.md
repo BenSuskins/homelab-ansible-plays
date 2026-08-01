@@ -159,6 +159,16 @@ Each Terraform root has its own R2 state key. A single `terraform.yml` workflow 
 
 A Tailscale subnet router runs on the `docker` host (`tasks/docker/tailscale.yml`) advertising `192.168.0.0/24`, so every homelab service is reachable remotely with no inbound port forwards. Tailnet split DNS points `suskins.co.uk` at AdGuard Home on the same host, whose `*.suskins.co.uk` rewrite resolves to Traefik — so remote clients get the identical name resolution and TLS path as LAN clients. There is no `tailscale` binary on the host; use `docker exec tailscale tailscale status`.
 
+### Grafana Dashboards
+
+Dashboards live in `config/grafana/dashboards/<Folder>/<uid>.json` and are provisioned from the directory structure (`foldersFromFilesStructure: true`), so the folder is the Grafana folder and the filename must match the dashboard's `uid`.
+
+**Read `docs/grafana-dashboard-style.md` before adding or editing a dashboard.** It is the design system every dashboard follows — top-bar nav block, `Status → Topic… → Detail` section grammar, KPI tile geometry, the two legend modes, threshold ladders, and the locked dashboard defaults. There is no linter, so that document is the only thing preventing drift; it ends with a checklist.
+
+Two dashboards (`traefik.json`, `truenas.json`) were previously community imports and are now hand-maintained — do not re-import them from grafana.com. See `docs/adr/0002-hand-built-traefik-and-truenas-dashboards.md`.
+
+Host identification is governed by `docs/adr/0001-host-label-canonical-for-dashboards.md`: filter and display by the `host` label, never `instance`, and never use `up` to test whether a host is alive.
+
 ### Docker Image Updates
 
 Renovate monitors `tasks/docker/*.yml` for Docker image versions and creates PRs for updates. Images are pinned to specific versions (not `latest`).
