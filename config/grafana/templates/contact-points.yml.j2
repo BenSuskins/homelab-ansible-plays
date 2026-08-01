@@ -1,6 +1,17 @@
-{# Grafana's notification templates use {{ }} too, so everything Grafana must
-   evaluate at alert time is wrapped in {% raw %}. Only GRAFANA_ALERT_DISCORD_URL
-   is substituted by Ansible. #}
+{# Grafana's notification templates use {{ }} too, so the whole payload block is
+   wrapped in {% raw %}. Only GRAFANA_ALERT_DISCORD_URL is substituted by Ansible.
+
+   Keep {% raw %}/{% endraw %} on lines of their own. Ansible renders with
+   trim_blocks, so a Jinja tag at the end of a line swallows the newline after it
+   and folds the following YAML key into the previous value - that is what
+   silently dropped the `message` setting and left Grafana using its default
+   (very verbose) notification template. A tag on its own line leaves one blank
+   line at the top of the block scalar below, which the leading `{{-` trims away.
+
+   Discord is wired as a `webhook` receiver rather than Grafana's `discord` one:
+   the discord receiver always builds an embed with its own colour bar, footer
+   and field list, whereas a custom webhook payload posts Discord's plain
+   `content` field, so what arrives is exactly the text below and nothing else. #}
 apiVersion: 1
 contactPoints:
   - orgId: 1
@@ -16,14 +27,39 @@ contactPoints:
     name: discord
     receivers:
       - uid: discord
-        type: discord
+        type: webhook
         settings:
           url: {{ GRAFANA_ALERT_DISCORD_URL }}
-          use_discord_username: false
-          title: >-
-            {% raw %}{{ if eq .Status "firing" }}🔴{{ else }}🟢 Resolved ·{{ end }} {{ .CommonLabels.alertname }}{{ if gt (len .Alerts) 1 }} ×{{ len .Alerts }}{{ end }}{% endraw %}
-          message: |-
-            {% raw %}{{ range .Alerts.Firing }}{{ $first := true }}{{ range .Labels.SortedPairs }}{{ if and (ne .Name "alertname") (ne .Name "grafana_folder") (ne .Name "severity") }}{{ if $first }}🔴 {{ else }} · {{ end }}{{ $first = false }}{{ .Value }}{{ end }}{{ end }}
-            {{ end }}{{ range .Alerts.Resolved }}{{ $first := true }}{{ range .Labels.SortedPairs }}{{ if and (ne .Name "alertname") (ne .Name "grafana_folder") (ne .Name "severity") }}{{ if $first }}🟢 {{ else }} · {{ end }}{{ $first = false }}{{ .Value }}{{ end }}{{ end }}
-            {{ end }}{% endraw %}
+          httpMethod: POST
+          maxAlerts: 10
+          payload:
+            template: |-
+{% raw %}
+              {{- $icon := "🟠" -}}
+              {{- if eq .CommonLabels.severity "critical" -}}{{- $icon = "🔴" -}}{{- end -}}
+              {{- $body := printf "%s **%s**" $icon .CommonLabels.alertname -}}
+              {{- if ne .Status "firing" -}}
+                {{- $body = printf "🟢 **%s** resolved" .CommonLabels.alertname -}}
+              {{- end -}}
+              {{- range .Alerts -}}
+                {{- $line := "" -}}
+                {{- range .Labels.SortedPairs -}}
+                  {{- if and (ne .Name "alertname") (ne .Name "grafana_folder") (ne .Name "severity") -}}
+                    {{- if eq $line "" -}}
+                      {{- $line = .Value -}}
+                    {{- else -}}
+                      {{- $line = printf "%s · %s" $line .Value -}}
+                    {{- end -}}
+                  {{- end -}}
+                {{- end -}}
+                {{- if ne $line "" -}}
+                  {{- if eq .Status "firing" -}}
+                    {{- $body = printf "%s\n%s %s" $body $icon $line -}}
+                  {{- else -}}
+                    {{- $body = printf "%s\n🟢 %s" $body $line -}}
+                  {{- end -}}
+                {{- end -}}
+              {{- end -}}
+              {{ coll.Dict "content" $body | data.ToJSON }}
+{% endraw %}
 {% endif %}
