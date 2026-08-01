@@ -44,11 +44,33 @@
 # `copy` never deletes, so a dashboard renamed or removed in the repo would
 # linger on the host forever and be provisioned alongside its replacement -
 # two dashboards, one stale. Reconcile the host against the repo every run.
+# `fileglob` cannot do multi-level globs like */*.json - it silently returns an
+# empty list, which made the reconcile below classify every dashboard on the
+# host as stale and delete all of them. Enumerate the repo with `find` on the
+# controller instead, and refuse to reconcile against an empty list.
+- name: GRAFANA - Find dashboards in the repo
+  ansible.builtin.find:
+    paths: "{{ playbook_dir }}/../config/grafana/dashboards"
+    recurse: true
+    patterns: "*.json"
+  delegate_to: localhost
+  become: false
+  changed_when: false
+  register: grafana_repo_dashboards
+
+- name: GRAFANA - Refuse to reconcile against an empty repo dashboard list
+  ansible.builtin.assert:
+    that: grafana_repo_dashboards.files | length > 0
+    fail_msg: >-
+      Found no dashboards under config/grafana/dashboards. Refusing to
+      reconcile, because that would delete every dashboard on the host.
+
 - name: GRAFANA - Find dashboards present on the host
   ansible.builtin.find:
     paths: "{{ base_dir }}/grafana/dashboards"
     recurse: true
     patterns: "*.json"
+  changed_when: false
   register: grafana_host_dashboards
 
 - name: GRAFANA - Remove dashboards no longer in the repo
@@ -60,9 +82,7 @@
        | reject('in', repo_dashboards) | list }}
   vars:
     repo_dashboards: >-
-      {{ lookup('ansible.builtin.fileglob',
-                playbook_dir ~ '/../config/grafana/dashboards/*/*.json',
-                wantlist=True)
+      {{ grafana_repo_dashboards.files | map(attribute='path')
          | map('regex_replace', '^.*/config/grafana/dashboards/',
                base_dir ~ '/grafana/dashboards/') | list }}
   loop_control:
