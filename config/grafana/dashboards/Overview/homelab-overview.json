@@ -1,28 +1,40 @@
 {
-  "annotations": { "list": [] },
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": null,
   "links": [
     {
+      "type": "link",
+      "title": "Overview",
+      "url": "/d/homelab-overview",
+      "keepTime": true,
+      "icon": "dashboard"
+    },
+    {
       "type": "dashboards",
       "title": "Infrastructure",
-      "tags": ["infrastructure"],
+      "tags": [
+        "infrastructure"
+      ],
       "asDropdown": true,
       "keepTime": true
     },
     {
       "type": "dashboards",
       "title": "Apps",
-      "tags": ["apps"],
+      "tags": [
+        "apps"
+      ],
       "asDropdown": true,
       "keepTime": true
     },
     {
       "type": "dashboards",
       "title": "Monitoring",
-      "tags": ["monitoring"],
+      "tags": [
+        "monitoring"
+      ],
       "asDropdown": true,
       "keepTime": true
     }
@@ -31,11 +43,22 @@
     {
       "title": "Active Alerts",
       "type": "alertlist",
-      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 0 },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
       "options": {
         "maxItems": 20,
         "sortOrder": 1,
-        "stateFilter": { "firing": true, "pending": true, "noData": false, "normal": false, "error": true },
+        "stateFilter": {
+          "firing": true,
+          "pending": true,
+          "noData": false,
+          "normal": false,
+          "error": true
+        },
         "viewMode": "list",
         "dashboardAlerts": false
       }
@@ -43,319 +66,618 @@
     {
       "title": "Fleet Health",
       "type": "row",
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 8 },
-      "collapsed": false
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "panels": []
     },
     {
       "title": "Hosts Reporting",
       "type": "stat",
-      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 9 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 0,
+        "y": 9
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "thresholds": {
             "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }]
-          }
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
         },
         "overrides": []
       },
-      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "options": {
+        "textMode": "value",
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
       "targets": [
         {
           "expr": "count(count by (host) (node_load1{host=~\"$host\"}))",
-          "legendFormat": "Hosts",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "Hosts"
         }
       ]
     },
     {
       "title": "Scrape Jobs Up",
       "type": "stat",
-      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 9 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 8,
+        "y": 9
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "thresholds": {
             "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }]
-          }
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
         },
         "overrides": []
       },
-      "options": { "textMode": "value_and_name", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "options": {
+        "textMode": "value_and_name",
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
       "targets": [
         {
           "expr": "sum(up{host=~\"$host\"})",
-          "legendFormat": "Up",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "Up"
         },
         {
           "expr": "count(up{host=~\"$host\"})",
-          "legendFormat": "Total",
-          "refId": "B"
+          "refId": "B",
+          "legendFormat": "Total"
         }
       ]
     },
     {
       "title": "Tailscale Health Warnings",
       "type": "stat",
-      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 9 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 16,
+        "y": 9
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "red", "value": 1 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
             ]
-          }
+          },
+          "unit": "short"
         },
         "overrides": []
       },
-      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "options": {
+        "textMode": "value",
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
       "targets": [
         {
           "expr": "tailscaled_health_messages{type=\"warning\"} OR on() vector(0)",
-          "legendFormat": "Warnings",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "Warnings"
         }
       ]
     },
     {
       "title": "Resource Usage",
       "type": "row",
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 13 },
-      "collapsed": false
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 13
+      },
+      "panels": []
     },
     {
       "title": "CPU Usage",
       "type": "timeseries",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 14 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 14
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "unit": "percentunit",
+          "custom": {
+            "fillOpacity": 20,
+            "lineWidth": 2
+          },
           "min": 0,
-          "max": 1,
-          "custom": { "fillOpacity": 20, "lineWidth": 2 }
+          "max": 1
         },
         "overrides": []
       },
-      "options": { "legend": { "displayMode": "table", "calcs": ["mean", "max"] }, "tooltip": { "mode": "multi" } },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "mean",
+            "max"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
         {
           "expr": "1 - avg by (host) (rate(node_cpu_seconds_total{mode=\"idle\", host=~\"$host\"}[$__rate_interval]))",
-          "legendFormat": "{{ host }}",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "{{ host }}"
         }
       ]
     },
     {
       "title": "Memory Usage",
       "type": "timeseries",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 14 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 14
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "unit": "percentunit",
+          "custom": {
+            "fillOpacity": 20,
+            "lineWidth": 2
+          },
           "min": 0,
-          "max": 1,
-          "custom": { "fillOpacity": 20, "lineWidth": 2 }
+          "max": 1
         },
         "overrides": []
       },
-      "options": { "legend": { "displayMode": "table", "calcs": ["mean", "max"] }, "tooltip": { "mode": "multi" } },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "mean",
+            "max"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
         {
           "expr": "1 - (node_memory_MemAvailable_bytes{host=~\"$host\"} / node_memory_MemTotal_bytes{host=~\"$host\"})",
-          "legendFormat": "{{ host }}",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "{{ host }}"
         }
       ]
     },
     {
       "title": "Disk Usage",
       "type": "timeseries",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 22 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 22
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "unit": "percentunit",
+          "custom": {
+            "fillOpacity": 20,
+            "lineWidth": 2
+          },
           "min": 0,
-          "max": 1,
-          "custom": { "fillOpacity": 20, "lineWidth": 2 }
+          "max": 1
         },
         "overrides": []
       },
-      "options": { "legend": { "displayMode": "table", "calcs": ["lastNotNull"] }, "tooltip": { "mode": "multi" } },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
         {
           "expr": "1 - (node_filesystem_avail_bytes{fstype=~\"ext4|xfs\", host=~\"$host\"} / node_filesystem_size_bytes{fstype=~\"ext4|xfs\", host=~\"$host\"})",
-          "legendFormat": "{{ host }} {{ mountpoint }}",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "{{ host }} {{ mountpoint }}"
         }
       ]
     },
     {
       "title": "Network Throughput",
       "type": "timeseries",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 22 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 22
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "unit": "Bps",
-          "custom": { "fillOpacity": 20, "lineWidth": 2 }
+          "custom": {
+            "fillOpacity": 20,
+            "lineWidth": 2
+          }
         },
         "overrides": []
       },
-      "options": { "legend": { "displayMode": "table", "calcs": ["mean", "max"] }, "tooltip": { "mode": "multi" } },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "mean",
+            "max"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
       "targets": [
         {
           "expr": "sum by (host) (rate(node_network_receive_bytes_total{device!~\"lo|veth.*|br-.*|docker.*\", host=~\"$host\"}[$__rate_interval]))",
-          "legendFormat": "{{ host }} - rx",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "{{ host }} - rx"
         },
         {
           "expr": "sum by (host) (rate(node_network_transmit_bytes_total{device!~\"lo|veth.*|br-.*|docker.*\", host=~\"$host\"}[$__rate_interval]))",
-          "legendFormat": "{{ host }} - tx",
-          "refId": "B"
+          "refId": "B",
+          "legendFormat": "{{ host }} - tx"
         }
       ]
     },
     {
       "title": "Service Health",
       "type": "row",
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 30 },
-      "collapsed": false
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 30
+      },
+      "panels": []
     },
     {
       "title": "Endpoints Down",
       "type": "stat",
-      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 31 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 31
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "red", "value": 1 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
             ]
-          }
+          },
+          "unit": "short"
         },
         "overrides": []
       },
-      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "options": {
+        "textMode": "value",
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
       "targets": [
         {
           "expr": "count(gatus_results_endpoint_success{group=~\"$host\"} == 0) OR on() vector(0)",
-          "legendFormat": "Down",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "Down"
         }
       ]
     },
     {
       "title": "Guests Running",
       "type": "stat",
-      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 31 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 31
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "thresholds": {
             "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }]
-          }
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
         },
         "overrides": []
       },
-      "options": { "textMode": "value_and_name", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "options": {
+        "textMode": "value_and_name",
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
       "targets": [
         {
           "expr": "sum(pve_up)",
-          "legendFormat": "Running",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "Running"
         },
         {
           "expr": "count(pve_up)",
-          "legendFormat": "Total",
-          "refId": "B"
+          "refId": "B",
+          "legendFormat": "Total"
         }
       ]
     },
     {
       "title": "Traefik Instances",
       "type": "stat",
-      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 31 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 31
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "red", "value": null },
-              { "color": "green", "value": 1 }
+              {
+                "color": "green",
+                "value": null
+              }
             ]
-          }
+          },
+          "unit": "short"
         },
         "overrides": []
       },
-      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "options": {
+        "textMode": "value",
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
       "targets": [
         {
           "expr": "count(traefik_config_reloads_total) OR on() vector(0)",
-          "legendFormat": "Instances",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "Instances"
         }
       ]
     },
     {
       "title": "Traefik Error Rate",
       "type": "stat",
-      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 31 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 31
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
-          "unit": "percentunit",
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "orange", "value": 0.01 },
-              { "color": "red", "value": 0.05 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 0.01
+              },
+              {
+                "color": "red",
+                "value": 0.05
+              }
             ]
-          }
+          },
+          "unit": "percentunit"
         },
         "overrides": []
       },
-      "options": { "textMode": "value", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "options": {
+        "textMode": "value",
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
       "targets": [
         {
           "expr": "(sum(rate(traefik_service_requests_total{code=~\"5..\"}[$__rate_interval])) / sum(rate(traefik_service_requests_total[$__rate_interval]))) OR on() vector(0)",
-          "legendFormat": "Errors",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "Errors"
         }
       ]
     },
     {
       "title": "Failing Checks",
       "type": "table",
-      "gridPos": { "h": 6, "w": 24, "x": 0, "y": 35 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 35
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
-        "defaults": { "custom": { "align": "left", "cellOptions": { "type": "auto" } } },
+        "defaults": {
+          "custom": {
+            "align": "left",
+            "cellOptions": {
+              "type": "auto"
+            }
+          }
+        },
         "overrides": [
-          { "matcher": { "id": "byName", "options": "Group" }, "properties": [{ "id": "custom.width", "value": 160 }] }
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Group"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 160
+              }
+            ]
+          }
         ]
       },
-      "options": { "showHeader": true, "cellHeight": "sm" },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
       "targets": [
         {
           "expr": "gatus_results_endpoint_success{group=~\"$host\"} == 0",
+          "refId": "A",
           "instant": true,
-          "format": "table",
-          "refId": "A"
+          "format": "table"
         }
       ],
       "transformations": [
@@ -384,113 +706,204 @@
     {
       "title": "Fleet Detail",
       "type": "row",
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 41 },
-      "collapsed": false
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 41
+      },
+      "panels": []
     },
     {
       "title": "Uptime",
       "type": "stat",
-      "gridPos": { "h": 4, "w": 24, "x": 0, "y": 42 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 42
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
-          "unit": "s",
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "red", "value": null },
-              { "color": "orange", "value": 86400 },
-              { "color": "green", "value": 604800 }
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 86400
+              },
+              {
+                "color": "green",
+                "value": 604800
+              }
             ]
-          }
+          },
+          "unit": "s"
         },
         "overrides": []
       },
-      "options": { "textMode": "value_and_name", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "options": {
+        "textMode": "value_and_name",
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
       "targets": [
         {
           "expr": "time() - node_boot_time_seconds{host=~\"$host\"}",
-          "legendFormat": "{{ host }}",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "{{ host }}"
         }
       ]
     },
     {
       "title": "Running Containers",
       "type": "stat",
-      "gridPos": { "h": 4, "w": 24, "x": 0, "y": 46 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 46
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null }
+              {
+                "color": "green",
+                "value": null
+              }
             ]
-          }
+          },
+          "unit": "short"
         },
         "overrides": []
       },
-      "options": { "textMode": "value_and_name", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "options": {
+        "textMode": "value_and_name",
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
       "targets": [
         {
           "expr": "count by (host) (container_last_seen{name!=\"\", host=~\"$host\"})",
-          "legendFormat": "{{ host }}",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "{{ host }}"
         }
       ]
     },
     {
       "title": "Free Disk Space",
       "type": "stat",
-      "gridPos": { "h": 4, "w": 24, "x": 0, "y": 50 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 50
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
-          "unit": "bytes",
-          "decimals": 1,
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "dark-red", "value": null },
-              { "color": "#EAB839", "value": 5368709120 },
-              { "color": "dark-green", "value": 21474836480 }
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 10737418240
+              },
+              {
+                "color": "green",
+                "value": 53687091200
+              }
             ]
-          }
+          },
+          "unit": "bytes"
         },
         "overrides": []
       },
-      "options": { "textMode": "value_and_name", "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"] } },
+      "options": {
+        "textMode": "value_and_name",
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
       "targets": [
         {
           "expr": "min by (host) (node_filesystem_avail_bytes{fstype=~\"ext4|xfs\", host=~\"$host\"})",
-          "legendFormat": "{{ host }}",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "{{ host }}"
         }
       ]
     }
   ],
   "refresh": "1m",
   "schemaVersion": 39,
-  "tags": ["homelab", "overview"],
+  "tags": [
+    "homelab",
+    "overview"
+  ],
   "templating": {
     "list": [
       {
         "name": "host",
         "type": "query",
-        "datasource": { "type": "prometheus", "uid": "prometheus" },
-        "query": "label_values(up, host)",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "query": "label_values(node_boot_time_seconds, host)",
         "includeAll": true,
         "allValue": ".*",
-        "current": { "selected": true, "text": "All", "value": "$__all" },
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
         "multi": true
       }
     ]
   },
-  "time": { "from": "now-6h", "to": "now" },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
   "timepicker": {},
   "timezone": "",
   "title": "Overview",
   "uid": "homelab-overview",
-  "version": 2
+  "version": 1
 }
