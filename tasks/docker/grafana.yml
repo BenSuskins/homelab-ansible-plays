@@ -41,6 +41,34 @@
     mode: "0644"
   register: grafana_dashboards
 
+# `copy` never deletes, so a dashboard renamed or removed in the repo would
+# linger on the host forever and be provisioned alongside its replacement -
+# two dashboards, one stale. Reconcile the host against the repo every run.
+- name: GRAFANA - Find dashboards present on the host
+  ansible.builtin.find:
+    paths: "{{ base_dir }}/grafana/dashboards"
+    recurse: true
+    patterns: "*.json"
+  register: grafana_host_dashboards
+
+- name: GRAFANA - Remove dashboards no longer in the repo
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop: >-
+    {{ grafana_host_dashboards.files | map(attribute='path')
+       | reject('in', repo_dashboards) | list }}
+  vars:
+    repo_dashboards: >-
+      {{ lookup('ansible.builtin.fileglob',
+                playbook_dir ~ '/../config/grafana/dashboards/*/*.json',
+                wantlist=True)
+         | map('regex_replace', '^.*/config/grafana/dashboards/',
+               base_dir ~ '/grafana/dashboards/') | list }}
+  loop_control:
+    label: "{{ item }}"
+  register: grafana_removed_dashboards
+
 - name: GRAFANA - Copy provisioning
   ansible.builtin.copy:
     src: "{{ playbook_dir }}/../config/grafana/provisioning/"
@@ -49,6 +77,22 @@
     group: "472"
     mode: "0644"
   register: grafana_provisioning
+
+# Contact points and notification policies hold the Discord webhook, so they are
+# templated from config/grafana/templates/ rather than copied with the rest of
+# the provisioning tree. Both render fine when GRAFANA_ALERT_DISCORD_URL is
+# absent - Grafana falls back to the email contact point.
+- name: GRAFANA - Template alerting contact points and policies
+  ansible.builtin.template:
+    src: "{{ playbook_dir }}/../config/grafana/templates/{{ item }}.j2"
+    dest: "{{ base_dir }}/grafana/provisioning/alerting/{{ item }}"
+    owner: "472"
+    group: "472"
+    mode: "0640"
+  loop:
+    - contact-points.yml
+    - policies.yml
+  register: grafana_alerting
 
 - name: GRAFANA - Pre-pull image
   community.docker.docker_image:
@@ -96,7 +140,9 @@
 
 - name: GRAFANA - Restart to apply provisioning changes
   ansible.builtin.command: docker restart grafana
-  when: grafana_provisioning.changed or grafana_dashboards.changed
+  when: >-
+    grafana_provisioning.changed or grafana_dashboards.changed
+    or grafana_alerting.changed or grafana_removed_dashboards.changed
   changed_when: true
 
 - name: GRAFANA - Define service entry

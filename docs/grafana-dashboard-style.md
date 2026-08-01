@@ -218,7 +218,7 @@ written down here:
 | Dashboard | Range | Why |
 |---|---|---|
 | Pubgolf | `now-90d` | product metrics are counted per day |
-| Gatus SLO | `now-24h` | the SLO window is 24h / 30d |
+| Health Checks | `now-24h` | the SLO window is 24h / 30d |
 | Logs | `now-1h` | log volume at 6h is unreadable |
 
 ## 7. Template variables
@@ -250,8 +250,11 @@ is a `qemu/NNN` id — neither is a Host Label, so Proxmox keeps `$node` and
 - **Dashboard title** is short and unqualified — `Containers`, `Health`,
   `Traefik`. The folder supplies the context, so `Docker Containers` in the
   `Infrastructure` folder is redundant.
-- **`uid`** is stable, kebab-case, and never changes — it is in URLs, in the
-  Overview nav link, and in anything you have bookmarked.
+- **`uid`** is stable, kebab-case, and matches the filename. It changes only
+  when a dashboard is deliberately renamed, and that costs every bookmark and
+  saved link to it — `Gatus SLO`/`gatus-slo` became `Health Checks`/`health-checks`
+  and `Health`/`monitoring-health` became `Observability`/`observability` on
+  exactly those terms. Never change it incidentally.
 - **Panel titles** say what the number is, not which metric produced it.
 
 ## 9. Checklist

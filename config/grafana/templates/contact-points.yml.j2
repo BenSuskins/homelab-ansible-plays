@@ -1,0 +1,36 @@
+{# Grafana's notification templates use {{ }} too, so everything Grafana must
+   evaluate at alert time is wrapped in {% raw %}. Only GRAFANA_ALERT_DISCORD_URL
+   is substituted by Ansible. #}
+apiVersion: 1
+contactPoints:
+  - orgId: 1
+    name: grafana-default-email
+    receivers:
+      - uid: grafana-default-email
+        type: email
+        settings:
+          addresses: root@localhost
+          singleEmail: true
+{% if GRAFANA_ALERT_DISCORD_URL is defined and GRAFANA_ALERT_DISCORD_URL %}
+  - orgId: 1
+    name: discord
+    receivers:
+      - uid: discord
+        type: discord
+        settings:
+          url: {{ GRAFANA_ALERT_DISCORD_URL }}
+          use_discord_username: false
+          title: >-
+            {% raw %}{{ if eq .Status "firing" }}🔴 FIRING{{ if gt (len .Alerts.Firing) 1 }} ×{{ len .Alerts.Firing }}{{ end }}{{ else }}✅ RESOLVED{{ end }} · {{ .CommonLabels.alertname }}{% endraw %}
+          message: |-
+            {% raw %}{{ range .Alerts.Firing }}{{ .Annotations.summary }}
+
+            {{ range .Labels.SortedPairs }}{{ if and (ne .Name "alertname") (ne .Name "grafana_folder") }}`{{ .Name }}: {{ .Value }}`  {{ end }}{{ end }}
+            Firing since {{ .StartsAt.Format "15:04 on 2 Jan" }}
+            [Alert]({{ .GeneratorURL }}){{ if .DashboardURL }} · [Dashboard]({{ .DashboardURL }}){{ end }}{{ if .SilenceURL }} · [Silence]({{ .SilenceURL }}){{ end }}
+
+            {{ end }}{{ range .Alerts.Resolved }}{{ .Annotations.summary }}
+            Recovered after {{ .EndsAt.Sub .StartsAt }}
+
+            {{ end }}{% endraw %}
+{% endif %}

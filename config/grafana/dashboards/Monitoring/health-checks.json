@@ -664,7 +664,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Gatus SLO",
-  "uid": "gatus-slo",
+  "title": "Health Checks",
+  "uid": "health-checks",
   "version": 1
 }

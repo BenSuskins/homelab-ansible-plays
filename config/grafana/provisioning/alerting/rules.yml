@@ -341,7 +341,7 @@ groups:
               instant: true
               intervalMs: 1000
               maxDataPoints: 43200
-              expr: rate(prometheus_tsdb_head_samples_appended_total[10m])
+              expr: sum(rate(prometheus_tsdb_head_samples_appended_total[10m]))
           - refId: C
             datasourceUid: __expr__
             model:
@@ -398,6 +398,34 @@ groups:
               intervalMs: 1000
               maxDataPoints: 43200
               expr: sum(rate(loki_distributor_lines_received_total[15m]))
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: lt, params: [1] }
+
+      - uid: gatus-endpoint-down
+        title: Gatus endpoint down
+        condition: C
+        for: 5m
+        noDataState: OK
+        execErrState: Error
+        isPaused: false
+        labels: { severity: warning }
+        annotations: { summary: "Gatus health check {{ $labels.name }} ({{ $labels.group }}) has been failing for 5 minutes" }
+        data:
+          - refId: A
+            relativeTimeRange: { from: 600, to: 0 }
+            datasourceUid: prometheus
+            model:
+              refId: A
+              instant: true
+              intervalMs: 1000
+              maxDataPoints: 43200
+              expr: min by (group, name) (gatus_results_endpoint_success)
           - refId: C
             datasourceUid: __expr__
             model:
