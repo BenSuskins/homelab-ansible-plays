@@ -407,15 +407,19 @@ groups:
               conditions:
                 - evaluator: { type: lt, params: [1] }
 
+      # `for: 2m` mirrors Gatus's own failure-threshold of 3 probes at a 60s
+      # interval: the group evaluates every 60s, so the alert must be failing
+      # across 3 consecutive evaluations before it fires, the same span of
+      # sustained failure Gatus requires before it notifies.
       - uid: gatus-endpoint-down
         title: Gatus endpoint down
         condition: C
-        for: 5m
+        for: 2m
         noDataState: OK
         execErrState: Error
         isPaused: false
         labels: { severity: warning }
-        annotations: { summary: "Gatus health check {{ $labels.name }} ({{ $labels.group }}) has been failing for 5 minutes" }
+        annotations: { summary: "Gatus health check {{ $labels.name }} ({{ $labels.group }}) is failing" }
         data:
           - refId: A
             relativeTimeRange: { from: 600, to: 0 }
