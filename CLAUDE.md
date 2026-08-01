@@ -167,6 +167,10 @@ Dashboards live in `config/grafana/dashboards/<Folder>/<uid>.json` and are provi
 
 Two dashboards (`traefik.json`, `truenas.json`) were previously community imports and are now hand-maintained — do not re-import them from grafana.com. See `docs/adr/0002-hand-built-traefik-and-truenas-dashboards.md`.
 
+Dashboards are copied to the host with `copy`, which never deletes — so `grafana.yml` reconciles the host against the repo each run and removes dashboards that no longer exist here. Renaming a dashboard therefore means changing title, `uid` **and** filename together.
+
+Alerting is provisioned from `config/grafana/provisioning/alerting/` (rules, mute times), except **contact points and notification policies**, which are templated from `config/grafana/templates/*.j2` because they carry the Discord webhook. Set `GRAFANA_ALERT_DISCORD_URL` in vault to route alerts to Discord; without it both templates fall back to the email contact point. Grafana's notification templates use `{{ }}` too, so anything Grafana must evaluate is wrapped in `{% raw %}`.
+
 Host identification is governed by `docs/adr/0001-host-label-canonical-for-dashboards.md`: filter and display by the `host` label, never `instance`, and never use `up` to test whether a host is alive.
 
 ### Docker Image Updates

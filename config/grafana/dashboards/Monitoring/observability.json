@@ -348,7 +348,7 @@
       },
       "targets": [
         {
-          "expr": "rate(prometheus_tsdb_head_samples_appended_total[$__rate_interval])",
+          "expr": "sum(rate(prometheus_tsdb_head_samples_appended_total[$__rate_interval]))",
           "refId": "A",
           "legendFormat": "Samples/s"
         }
@@ -719,7 +719,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Health",
-  "uid": "monitoring-health",
+  "title": "Observability",
+  "uid": "observability",
   "version": 1
 }

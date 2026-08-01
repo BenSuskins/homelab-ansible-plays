@@ -1,0 +1,16 @@
+{# Root policy is the route - every alert matches it. There is deliberately no
+   child route: the one that used to be here existed only to attach the
+   `always` mute time, which silenced every notification Grafana ever produced. #}
+{% if GRAFANA_ALERT_DISCORD_URL is defined and GRAFANA_ALERT_DISCORD_URL %}
+{% set receiver = "discord" %}
+{% else %}
+{% set receiver = "grafana-default-email" %}
+{% endif %}
+apiVersion: 1
+policies:
+  - orgId: 1
+    receiver: {{ receiver }}
+    group_by: [grafana_folder, alertname]
+    group_wait: 30s
+    group_interval: 5m
+    repeat_interval: 4h

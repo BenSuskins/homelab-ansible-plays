@@ -63,9 +63,9 @@ fork the two vendored dashboards is recorded in
 | Home Assistant | drop vanity row; fix mixed 6w/4w strip; sections |
 | Proxmox | add sections + Status strip |
 | Tailscale | drop vanity row; sections |
-| Gatus SLO | drop vanity row; `$group` → `$host`; Status strip |
+| Gatus SLO → **Health Checks** | drop vanity row; `$group` → `$host`; Status strip; renamed (uid `health-checks`) |
 | Logs | add sections + Status strip |
-| Health | Status strip promoted above the three existing rows |
+| Health → **Observability** | Status strip promoted above the three existing rows; renamed (uid `observability`) |
 | Pubgolf | nav; rename rows to the grammar |
 | **Traefik** | **rebuild** — golden signals; `$interval` → `$__rate_interval` |
 | **TrueNAS** | **rebuild** — NAS-first; 6,304 lines → ~450 |

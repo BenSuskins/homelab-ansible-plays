@@ -53,7 +53,7 @@
       "panels": []
     },
     {
-      "title": "Nodes Up",
+      "title": "Node Up",
       "type": "stat",
       "gridPos": {
         "h": 4,
@@ -71,8 +71,12 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "red",
                 "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
               }
             ]
           },
@@ -81,7 +85,7 @@
         "overrides": []
       },
       "options": {
-        "textMode": "value_and_name",
+        "textMode": "value",
         "colorMode": "background",
         "graphMode": "none",
         "reduceOptions": {
@@ -92,14 +96,9 @@
       },
       "targets": [
         {
-          "expr": "sum(pve_up{node=~\"$node\",id=\"\"})",
+          "expr": "pve_up{id=~\"node/.*\"}",
           "refId": "A",
-          "legendFormat": "Up"
-        },
-        {
-          "expr": "count(pve_up{node=~\"$node\",id=\"\"})",
-          "refId": "B",
-          "legendFormat": "Total"
+          "legendFormat": "Node"
         }
       ]
     },
@@ -143,12 +142,12 @@
       },
       "targets": [
         {
-          "expr": "sum(pve_up{node=~\"$node\",id!=\"\"})",
+          "expr": "sum(pve_up{id=~\"(qemu|lxc)/.*\"})",
           "refId": "A",
           "legendFormat": "Running"
         },
         {
-          "expr": "count(pve_up{node=~\"$node\",id!=\"\"})",
+          "expr": "count(pve_up{id=~\"(qemu|lxc)/.*\"})",
           "refId": "B",
           "legendFormat": "Total"
         }
@@ -202,7 +201,7 @@
       },
       "targets": [
         {
-          "expr": "avg(pve_cpu_usage_ratio{node=~\"$node\",id=\"\"})",
+          "expr": "avg(pve_cpu_usage_ratio{id=~\"node/.*\"})",
           "refId": "A",
           "legendFormat": "CPU"
         }
@@ -256,14 +255,14 @@
       },
       "targets": [
         {
-          "expr": "sum(pve_memory_usage_bytes{node=~\"$node\",id=\"\"}) / sum(pve_memory_size_bytes{node=~\"$node\",id=\"\"})",
+          "expr": "sum(pve_memory_usage_bytes{id=~\"node/.*\"}) / sum(pve_memory_size_bytes{id=~\"node/.*\"})",
           "refId": "A",
           "legendFormat": "Memory"
         }
       ]
     },
     {
-      "title": "Nodes",
+      "title": "Node",
       "type": "row",
       "collapsed": false,
       "gridPos": {
@@ -314,9 +313,9 @@
       },
       "targets": [
         {
-          "expr": "pve_cpu_usage_ratio{node=~\"$node\",id=\"\"}",
+          "expr": "pve_cpu_usage_ratio{id=~\"node/.*\"}",
           "refId": "A",
-          "legendFormat": "{{ node }}"
+          "legendFormat": "{{ id }}"
         }
       ]
     },
@@ -358,14 +357,14 @@
       },
       "targets": [
         {
-          "expr": "pve_memory_usage_bytes{node=~\"$node\",id=\"\"}",
+          "expr": "pve_memory_usage_bytes{id=~\"node/.*\"}",
           "refId": "A",
-          "legendFormat": "{{ node }} - Used"
+          "legendFormat": "used"
         },
         {
-          "expr": "pve_memory_size_bytes{node=~\"$node\",id=\"\"} - pve_memory_usage_bytes{node=~\"$node\",id=\"\"}",
+          "expr": "pve_memory_size_bytes{id=~\"node/.*\"} - pve_memory_usage_bytes{id=~\"node/.*\"}",
           "refId": "B",
-          "legendFormat": "{{ node }} - Free"
+          "legendFormat": "free"
         }
       ]
     },
@@ -417,9 +416,9 @@
       },
       "targets": [
         {
-          "expr": "pve_cpu_usage_ratio{node=~\"$node\",id=~\"$guest\",id!=\"\"}",
+          "expr": "pve_cpu_usage_ratio{id=~\"(qemu|lxc)/.*\"} * on(id) group_left(name) pve_guest_info{name=~\"$guest\"}",
           "refId": "A",
-          "legendFormat": "{{ id }}"
+          "legendFormat": "{{ name }}"
         }
       ]
     },
@@ -458,9 +457,9 @@
       },
       "targets": [
         {
-          "expr": "pve_memory_usage_bytes{node=~\"$node\",id=~\"$guest\",id!=\"\"}",
+          "expr": "pve_memory_usage_bytes{id=~\"(qemu|lxc)/.*\"} * on(id) group_left(name) pve_guest_info{name=~\"$guest\"}",
           "refId": "A",
-          "legendFormat": "{{ id }}"
+          "legendFormat": "{{ name }}"
         }
       ]
     },
@@ -499,9 +498,9 @@
       },
       "targets": [
         {
-          "expr": "pve_disk_usage_bytes{node=~\"$node\",id=~\"$guest\",id!=\"\"}",
+          "expr": "pve_disk_usage_bytes{id=~\"(qemu|lxc)/.*\"} * on(id) group_left(name) pve_guest_info{name=~\"$guest\"}",
           "refId": "A",
-          "legendFormat": "{{ id }}"
+          "legendFormat": "{{ name }}"
         }
       ]
     },
@@ -540,14 +539,14 @@
       },
       "targets": [
         {
-          "expr": "rate(pve_network_receive_bytes{node=~\"$node\",id=~\"$guest\",id!=\"\"}[$__rate_interval])",
+          "expr": "rate(pve_network_receive_bytes{id=~\"(qemu|lxc)/.*\"}[$__rate_interval]) * on(id) group_left(name) pve_guest_info{name=~\"$guest\"}",
           "refId": "A",
-          "legendFormat": "{{ id }} - rx"
+          "legendFormat": "{{ name }} - rx"
         },
         {
-          "expr": "rate(pve_network_transmit_bytes{node=~\"$node\",id=~\"$guest\",id!=\"\"}[$__rate_interval])",
+          "expr": "rate(pve_network_transmit_bytes{id=~\"(qemu|lxc)/.*\"}[$__rate_interval]) * on(id) group_left(name) pve_guest_info{name=~\"$guest\"}",
           "refId": "B",
-          "legendFormat": "{{ id }} - tx"
+          "legendFormat": "{{ name }} - tx"
         }
       ]
     },
@@ -591,7 +590,22 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "Stopped",
+                  "index": 0
+                },
+                "1": {
+                  "text": "Running",
+                  "index": 1
+                }
+              }
+            }
+          ]
         },
         "overrides": []
       },
@@ -607,9 +621,9 @@
       },
       "targets": [
         {
-          "expr": "pve_up{node=~\"$node\",id=~\"$guest\",id!=\"\"}",
+          "expr": "pve_up{id=~\"(qemu|lxc)/.*\"} * on(id) group_left(name) pve_guest_info{name=~\"$guest\"}",
           "refId": "A",
-          "legendFormat": "{{ id }}"
+          "legendFormat": "{{ name }}"
         }
       ]
     },
@@ -662,9 +676,9 @@
       },
       "targets": [
         {
-          "expr": "pve_storage_usage_bytes{node=~\"$node\"} / pve_storage_size_bytes{node=~\"$node\"}",
+          "expr": "pve_disk_usage_bytes{id=~\"storage/.*\"} / pve_disk_size_bytes{id=~\"storage/.*\"}",
           "refId": "A",
-          "legendFormat": "{{ node }} - {{ storage }}"
+          "legendFormat": "{{ id }}"
         }
       ]
     }
@@ -679,30 +693,13 @@
   "templating": {
     "list": [
       {
-        "name": "node",
-        "type": "query",
-        "datasource": {
-          "type": "prometheus",
-          "uid": "prometheus"
-        },
-        "query": "label_values(pve_up, node)",
-        "includeAll": true,
-        "allValue": ".*",
-        "current": {
-          "selected": true,
-          "text": "All",
-          "value": "$__all"
-        },
-        "multi": true
-      },
-      {
         "name": "guest",
         "type": "query",
         "datasource": {
           "type": "prometheus",
           "uid": "prometheus"
         },
-        "query": "label_values(pve_up{node=~\"$node\",id!=\"\"}, id)",
+        "query": "label_values(pve_guest_info, name)",
         "includeAll": true,
         "allValue": ".*",
         "current": {

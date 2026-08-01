@@ -396,7 +396,7 @@
         },
         "query": "label_values({container=~\".+\"}, container)",
         "includeAll": true,
-        "allValue": ".*",
+        "allValue": ".+",
         "current": {
           "selected": true,
           "text": "All",
@@ -419,19 +419,19 @@
         "name": "level_filter",
         "type": "custom",
         "label": "Level",
-        "query": " ,|~ \"(?i)error|exception|fatal|panic\",|~ \"(?i)warn\",|~ \"(?i)info\"",
+        "query": "All : |~ \".*\",Error : |~ \"(?i)error|exception|fatal|panic\",Warn : |~ \"(?i)warn\",Info : |~ \"(?i)info\"",
         "multi": false,
         "includeAll": false,
         "current": {
           "selected": true,
           "text": "All",
-          "value": " "
+          "value": "|~ \".*\""
         },
         "options": [
           {
             "selected": true,
             "text": "All",
-            "value": " "
+            "value": "|~ \".*\""
           },
           {
             "selected": false,
