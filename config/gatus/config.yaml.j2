@@ -1,14 +1,10 @@
+# Gatus probes endpoints and exports the results; it deliberately does not
+# notify. Grafana's `gatus-endpoint-down` rule alerts on the
+# gatus_results_endpoint_success metric this exports, so notification lives in
+# one place instead of Gatus and Grafana both posting to Discord for the same
+# outage. `metrics: true` is therefore load-bearing - without it that rule has
+# no data, and its `noDataState: OK` means it would go quiet rather than error.
 metrics: true
-
-alerting:
-  discord:
-    webhook-url: "{{ GATUS_DISCORD_WEBHOOK | default('') }}"
-    title: "Gatus"
-    default-alert:
-      description: "Health check failed"
-      send-on-resolved: true
-      failure-threshold: 3
-      success-threshold: 2
 
 ui:
   default-sort-by: group
@@ -25,9 +21,7 @@ endpoints:
     group: {{ svc.friendly_name }}
     conditions:
       - "[STATUS] == 200"
-    alerts:
-      - type: discord
-{% if svc.scheme == 'https' %}      
+{% if svc.scheme == 'https' %}
     client:
       insecure: true
 {% endif %}
