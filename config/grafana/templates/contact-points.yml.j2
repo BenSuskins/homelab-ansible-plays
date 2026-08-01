@@ -11,7 +11,15 @@
    Discord is wired as a `webhook` receiver rather than Grafana's `discord` one:
    the discord receiver always builds an embed with its own colour bar, footer
    and field list, whereas a custom webhook payload posts Discord's plain
-   `content` field, so what arrives is exactly the text below and nothing else. #}
+   `content` field, so what arrives is exactly the text below and nothing else.
+
+   Every Go template variable below is written `$$name`, not `$name`. Grafana
+   interpolates environment variables into provisioning files before parsing
+   them, so a bare `$icon` is expanded to the empty string - it reaches the
+   template engine as `{{- := "..." -}}` and the contact point fails at delivery
+   with `unexpected ":=" in command`. `$$` is Grafana's escape for a literal
+   dollar and is consumed during that interpolation, so the stored template holds
+   the single `$` the Go template needs. #}
 apiVersion: 1
 contactPoints:
   - orgId: 1
@@ -35,31 +43,31 @@ contactPoints:
           payload:
             template: |-
 {% raw %}
-              {{- $icon := "🟠" -}}
-              {{- if eq .CommonLabels.severity "critical" -}}{{- $icon = "🔴" -}}{{- end -}}
-              {{- $body := printf "%s **%s**" $icon .CommonLabels.alertname -}}
+              {{- $$icon := "🟠" -}}
+              {{- if eq .CommonLabels.severity "critical" -}}{{- $$icon = "🔴" -}}{{- end -}}
+              {{- $$body := printf "%s **%s**" $$icon .CommonLabels.alertname -}}
               {{- if ne .Status "firing" -}}
-                {{- $body = printf "🟢 **%s** resolved" .CommonLabels.alertname -}}
+                {{- $$body = printf "🟢 **%s** resolved" .CommonLabels.alertname -}}
               {{- end -}}
               {{- range .Alerts -}}
-                {{- $line := "" -}}
+                {{- $$line := "" -}}
                 {{- range .Labels.SortedPairs -}}
                   {{- if and (ne .Name "alertname") (ne .Name "grafana_folder") (ne .Name "severity") -}}
-                    {{- if eq $line "" -}}
-                      {{- $line = .Value -}}
+                    {{- if eq $$line "" -}}
+                      {{- $$line = .Value -}}
                     {{- else -}}
-                      {{- $line = printf "%s · %s" $line .Value -}}
+                      {{- $$line = printf "%s · %s" $$line .Value -}}
                     {{- end -}}
                   {{- end -}}
                 {{- end -}}
-                {{- if ne $line "" -}}
+                {{- if ne $$line "" -}}
                   {{- if eq .Status "firing" -}}
-                    {{- $body = printf "%s\n%s %s" $body $icon $line -}}
+                    {{- $$body = printf "%s\n%s %s" $$body $$icon $$line -}}
                   {{- else -}}
-                    {{- $body = printf "%s\n🟢 %s" $body $line -}}
+                    {{- $$body = printf "%s\n🟢 %s" $$body $$line -}}
                   {{- end -}}
                 {{- end -}}
               {{- end -}}
-              {{ coll.Dict "content" $body | data.ToJSON }}
+              {{ coll.Dict "content" $$body | data.ToJSON }}
 {% endraw %}
 {% endif %}
