@@ -21,16 +21,9 @@ contactPoints:
           url: {{ GRAFANA_ALERT_DISCORD_URL }}
           use_discord_username: false
           title: >-
-            {% raw %}{{ if eq .Status "firing" }}🔴 FIRING{{ if gt (len .Alerts.Firing) 1 }} ×{{ len .Alerts.Firing }}{{ end }}{{ else }}✅ RESOLVED{{ end }} · {{ .CommonLabels.alertname }}{% endraw %}
+            {% raw %}{{ if eq .Status "firing" }}🔴{{ else }}🟢 Resolved ·{{ end }} {{ .CommonLabels.alertname }}{{ if gt (len .Alerts) 1 }} ×{{ len .Alerts }}{{ end }}{% endraw %}
           message: |-
-            {% raw %}{{ range .Alerts.Firing }}{{ .Annotations.summary }}
-
-            {{ range .Labels.SortedPairs }}{{ if and (ne .Name "alertname") (ne .Name "grafana_folder") }}`{{ .Name }}: {{ .Value }}`  {{ end }}{{ end }}
-            Firing since {{ .StartsAt.Format "15:04 on 2 Jan" }}
-            [Alert]({{ .GeneratorURL }}){{ if .DashboardURL }} · [Dashboard]({{ .DashboardURL }}){{ end }}{{ if .SilenceURL }} · [Silence]({{ .SilenceURL }}){{ end }}
-
-            {{ end }}{{ range .Alerts.Resolved }}{{ .Annotations.summary }}
-            Recovered after {{ .EndsAt.Sub .StartsAt }}
-
+            {% raw %}{{ range .Alerts.Firing }}{{ $first := true }}{{ range .Labels.SortedPairs }}{{ if and (ne .Name "alertname") (ne .Name "grafana_folder") (ne .Name "severity") }}{{ if $first }}🔴 {{ else }} · {{ end }}{{ $first = false }}{{ .Value }}{{ end }}{{ end }}
+            {{ end }}{{ range .Alerts.Resolved }}{{ $first := true }}{{ range .Labels.SortedPairs }}{{ if and (ne .Name "alertname") (ne .Name "grafana_folder") (ne .Name "severity") }}{{ if $first }}🟢 {{ else }} · {{ end }}{{ $first = false }}{{ .Value }}{{ end }}{{ end }}
             {{ end }}{% endraw %}
 {% endif %}
