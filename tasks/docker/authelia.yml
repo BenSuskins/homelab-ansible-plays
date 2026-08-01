@@ -43,6 +43,7 @@
     pull: false
     ports:
       - "9091:9091"
+      - "9959:9959"
     networks:
       - name: homelab
     volumes:
@@ -61,14 +62,21 @@
       name: authelia
       description: Authentication portal
       host: "authelia.{{ domain }}"
-      ip: "authelia"
+      ip: "{{ inventory_hostname }}"
+      # Traefik shares the homelab bridge with Authelia and reaches it by
+      # container name; UFW's default-deny blocks docker subnets from dialling
+      # the host's LAN IP, so ip: here is only for Gatus/Prometheus off-host.
+      proxy_target: authelia
       friendly_name: "{{ friendly_name }}"
       port: 9091
       scheme: http
       secured: false
       healthcheck: true
+      healthcheck_path: /api/health
       homepage: true
       proxied: true
+      metrics: true
+      metrics_port: 9959
 
 - name: AUTHELIA - Append to docker_services
   ansible.builtin.set_fact:

@@ -36,7 +36,7 @@ http:
         serversTransport: httpsTransport
 {% endif %}
         servers:
-          - url: "{{ svc.scheme }}://{{ svc.ip }}:{{ svc.port }}"
+          - url: "{{ svc.scheme }}://{{ svc.proxy_target | default(svc.ip) }}:{{ svc.port }}"
 {% endif %}
 {% endfor %}
 

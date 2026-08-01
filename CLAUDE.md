@@ -94,6 +94,7 @@ Each service entry is a unified definition that controls Homepage, Traefik, Gatu
 | `homepage` | boolean | `false` | Show on Homepage dashboard |
 | `proxied` | boolean | `false` | Include in Traefik routing |
 | `path_prefix` | string | none | Restrict Traefik routing to specific path (e.g., `/api/v1`) |
+| `proxy_target` | string | `ip` | Override the address Traefik dials for this backend. Only needed when the proxy must reach the container over a shared docker network rather than the host IP — `ip` stays the host address so Gatus/Prometheus keep working from other hosts. |
 | `middleware` | string | none | Additional Traefik middleware (e.g., `unifi-headers`) |
 
 #### Gatus Health Monitoring

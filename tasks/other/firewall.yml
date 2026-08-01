@@ -17,6 +17,7 @@
     - 8082 # Traefik metrics
     - 3100 # Loki
     - 9091 # Authelia
+    - 9959 # Authelia metrics
 
 - name: Allow traffic from Docker Subnets to port 9000
   community.general.ufw:
