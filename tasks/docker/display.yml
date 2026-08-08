@@ -46,7 +46,8 @@
       scheme: http
       secured: false
       healthcheck: true
-      healthcheck_path: /health
+      # /healthz is the one route ahead of the bearer check, so Gatus needs no token.
+      healthcheck_path: /healthz
       homepage: true
       proxied: true
 
