@@ -33,6 +33,7 @@ special_containers:
 
 containers:
   # Apps
+  - display
   - family-hub
   # - marginalia-postgres
   # - marginalia-api
