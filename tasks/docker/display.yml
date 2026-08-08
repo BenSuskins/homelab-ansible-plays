@@ -25,6 +25,8 @@
       # Traefik, so this is the only thing standing in front of /frame.
       DEVICE_TOKEN: "{{ DISPLAY_DEVICE_TOKEN }}"
       DARWIN_ACCESS_TOKEN: "{{ DISPLAY_DARWIN_ACCESS_TOKEN }}"
+      HUB_ACCESS_TOKEN: "{{ DISPLAY_HUB_TOKEN }}"
+      MET_ACCESS_TOKEN: "{{ DISPLAY_MET_TOKEN }}"
       HUXLEY_BASE_URL: https://huxley2.azurewebsites.net
       STATION_ORIGIN: KEL
       STATION_DESTINATION: LST
