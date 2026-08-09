@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.6"
+  required_version = ">= 1.10"
 
   required_providers {
     tailscale = {
@@ -24,6 +24,7 @@ terraform {
     skip_region_validation      = true
     skip_s3_checksum            = true
     use_path_style              = true
+    use_lockfile                = true
   }
 }
 
