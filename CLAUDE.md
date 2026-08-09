@@ -178,6 +178,14 @@ Host identification is governed by `docs/adr/0001-host-label-canonical-for-dashb
 
 Renovate monitors `tasks/docker/*.yml` for Docker image versions and creates PRs for updates. Images are pinned to specific versions (not `latest`).
 
+### Menu Bar App (`apps/homelab-menubar/`)
+
+A native macOS SwiftUI menu bar app that shows the state of the three dispatchable workflows, triggers/cancels them, lists and squash-merges open PRs, and links to Homepage. It is a Swift package — `make test`, `make bundle`, `make install`; see `apps/homelab-menubar/README.md`.
+
+It authenticates by shelling out to `gh`, so it holds no token. All GitHub access goes through the `CommandRunner` protocol, which is the only seam tests fake.
+
+**`update.yml` and `build-mcp-arr.yml` carry `paths-ignore: ['apps/**']`.** Both trigger on every push to `main`; without those blocks a commit touching only Swift code runs Ansible against all six hosts. Do not remove them. See `docs/adr/0003-menu-bar-app-lives-in-this-repo.md`.
+
 ## Agent skills
 
 ### Issue tracker

@@ -3,6 +3,10 @@ name: Clean Homelab
 on:
   workflow_dispatch:
 
+concurrency:
+  group: clean-homelab
+  cancel-in-progress: false
+
 jobs:
   clean:
     runs-on: self-hosted

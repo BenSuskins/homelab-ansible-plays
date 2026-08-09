@@ -3,6 +3,8 @@ name: Update Homelab
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'apps/**'
   workflow_dispatch:
 
 concurrency:

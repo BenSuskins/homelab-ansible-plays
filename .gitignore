@@ -73,4 +73,9 @@ terraform/**/*.tfvars
 terraform/**/crash.log
 terraform/**/tfplan
 
+# Swift / SwiftPM (apps/homelab-menubar)
+apps/**/.build/
+apps/**/.swiftpm/
+apps/**/Package.resolved
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,visualstudiocode,ansible,ssh

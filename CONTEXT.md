@@ -82,3 +82,25 @@ _Avoid_: Terraform module, stack
 **Subnet Router**:
 The Tailscale node running on the `docker` host that advertises the home LAN CIDR (`192.168.0.0/24`) to the tailnet, so any tailnet device can reach homelab services without inbound port forwarding.
 _Avoid_: VPN gateway, relay
+
+### Menu Bar App
+
+**Dispatchable Workflow**:
+One of the three workflows the menu bar app is allowed to start on demand — `update.yml`, `terraform.yml`, `clean.yml`. The repository holds other workflows (`build-mcp-arr.yml`); a workflow is Dispatchable only if starting it by hand is a thing you'd deliberately do. Distinct from merely carrying a `workflow_dispatch` trigger.
+_Avoid_: job, action, pipeline
+
+**Run Row**:
+One line of the menu describing the most recent run of a Dispatchable Workflow on `main`, together with whether it can currently be triggered or cancelled. A Run Row is always present for all three workflows even when one has never run, so rows never appear or disappear between refreshes.
+_Avoid_: workflow row, status row
+
+**Glyph State**:
+What the menu bar icon shows while the menu is closed, collapsed from every Run Row to the worst thing any of them is doing: `failed` beats `running` beats `ok`. It answers one question — "do I need to open this?" — and deliberately does not distinguish which workflow is responsible. A run Awaiting Approval does not raise it.
+_Avoid_: icon state, badge
+
+**Awaiting Approval**:
+A run that has reached an environment gate with required reviewers and stopped. Terraform does this on every run, between plan and apply. It is not running (nothing is executing) and not finished (no conclusion), but it still owns the workflow, so triggering another would race it.
+_Avoid_: pending, blocked, waiting (ambiguous with queued)
+
+**Menu Snapshot**:
+The immutable value describing everything the menu renders at one moment. Produced from fetched data, consumed by the view, and cached to disk verbatim so the menu paints instantly at launch. Every question the view can ask is answered on the Snapshot, so the view holds no logic.
+_Avoid_: view model, menu state
