@@ -17,6 +17,11 @@ struct HomelabMenuBarApp: App {
         .onChange(of: scenePhaseHasStarted, initial: true) { _, _ in
             state.start()
         }
+
+        Settings {
+            SettingsView()
+                .environment(state)
+        }
     }
 
     /// `MenuBarExtra` has no scene phase of its own; this exists purely to give

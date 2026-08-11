@@ -15,6 +15,7 @@ requests, and jump to Homepage / Actions / the repo.
 │  #141 chore(deps): ansible…  │  [Merge]
 │ ──────────────────────────── │
 │ Homepage ↗  Actions ↗  Repo ↗│
+│ Updated 1m ago  Refresh  Settings  Quit
 └──────────────────────────────┘
 ```
 
@@ -48,8 +49,21 @@ swift test --skip Contract    # fakes only, no network
 swift test --filter Contract  # real `gh`, read-only
 ```
 
-To launch at login, add `/Applications/Homelab.app` under
-System Settings → General → Login Items.
+## Settings
+
+**Settings** in the menu footer opens a standard settings window. It holds one
+option today — **Launch at login** — and its sections are where anything else
+goes.
+
+Launch at login registers with `SMAppService`, so the entry appears under System
+Settings → General → Login Items like any other app.
+
+`make bundle` ad-hoc signs, so every build carries a different signature and
+macOS can drop the registration on reinstall. The app re-asserts it at launch
+whenever you asked for it and the system says otherwise, so a rebuild does not
+silently stop it starting. The one state it will not override is
+`requiresApproval` — you switched it off in System Settings by hand, and only
+you can switch it back on there.
 
 ## Design
 
@@ -57,7 +71,7 @@ Data flows one way, and every layer above the process boundary is a pure
 function of the layer below:
 
 ```
-GitHubCommandLineRunner   ← the only impure thing; spawns `gh`
+GitHubCommandLineRunner   ← the only impure thing on this path; spawns `gh`
       ↓ Data
 GitHubClient              ← decodes, maps onto domain types
       ↓ WorkflowRunSummary / PullRequestSummary
@@ -69,6 +83,10 @@ MenuView
 `MenuSnapshot` is the seam. It answers every question the view can ask — what
 colour a row is, whether its button is enabled, what the subtitle says — so the
 view holds no logic and the logic needs no view to test.
+
+`LoginItemControlling` is the other process boundary — `SMAppService` behind a
+protocol, faked the same way, so the reconcile-at-launch logic is tested without
+touching your real login items.
 
 Tests fake `CommandRunner`, the process boundary, which means decoding, mapping
 and snapshot construction all run for real. A handful of read-only contract
@@ -87,5 +105,13 @@ its output.
   it, so a notification always means something broke.
 - **A run awaiting approval does not raise the glyph or tighten polling.** It
   will sit there until a human acts.
+- **Launch at login is stored twice.** The system status is the truth about
+  what will happen at boot; the stored preference is the truth about what you
+  asked for. Keeping both is what lets a reinstall be distinguished from a
+  deliberate switch-off, and only the first one gets repaired.
+- **The launch-at-login switch is never disabled.** `SMAppService.mainApp`
+  reports `.notFound` in cases where registering nonetheless succeeds, so
+  gating the control on the status produces a switch that refuses to move for
+  no visible reason. The attempt decides, and a refusal says what macOS said.
 - **Squash merge, always.** One commit on `main` per PR is one Update Homelab
   run is one line in the deploy log. Merging here deploys.

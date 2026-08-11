@@ -10,24 +10,32 @@ public final class AppState {
     /// show a spinner and refuse a second click before the next poll lands.
     public internal(set) var busyWorkflows: Set<DispatchableWorkflow> = []
     public internal(set) var busyPullRequests: Set<Int> = []
+    public internal(set) var loginItemStatus: LoginItemStatus = .disabled
+    public internal(set) var launchAtLoginError: String?
 
     public let repository: RepositoryReference
 
     let client: GitHubClient
     let cache: SnapshotCache
     let notifier: any FailureNotifying
+    let loginItem: any LoginItemControlling
+    let launchAtLoginPreference: LaunchAtLoginPreference
     var pollingTask: Task<Void, Never>?
 
     public init(
         client: GitHubClient,
         repository: RepositoryReference = .homelab,
         cache: SnapshotCache = SnapshotCache(),
-        notifier: any FailureNotifying = FailureNotifier()
+        notifier: any FailureNotifying = FailureNotifier(),
+        loginItem: any LoginItemControlling = LoginItemService(),
+        launchAtLoginPreference: LaunchAtLoginPreference = LaunchAtLoginPreference()
     ) {
         self.client = client
         self.repository = repository
         self.cache = cache
         self.notifier = notifier
+        self.loginItem = loginItem
+        self.launchAtLoginPreference = launchAtLoginPreference
         self.snapshot = cache.load() ?? .placeholder
     }
 

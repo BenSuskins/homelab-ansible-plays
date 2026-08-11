@@ -3,6 +3,7 @@ import Foundation
 extension AppState {
     public func start() {
         Task { await notifier.requestAuthorization() }
+        reconcileLaunchAtLogin()
         restartPolling()
     }
 

@@ -103,6 +103,18 @@ public struct MenuView: View {
             .font(.caption2)
             .foregroundStyle(.secondary)
 
+            // An `LSUIElement` app is never frontmost, so the settings window
+            // opens behind everything unless the app is activated by hand.
+            SettingsLink {
+                Text("Settings")
+            }
+            .simultaneousGesture(TapGesture().onEnded {
+                NSApp.activate(ignoringOtherApps: true)
+            })
+            .buttonStyle(.plain)
+            .font(.caption2)
+            .foregroundStyle(.secondary)
+
             Button("Quit") {
                 NSApplication.shared.terminate(nil)
             }
