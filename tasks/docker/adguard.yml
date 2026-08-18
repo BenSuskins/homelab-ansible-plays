@@ -52,12 +52,12 @@
     source: pull
     force_source: true
   vars:
-    image: adguard/adguardhome:v0.107.78
+    image: adguard/adguardhome:v0.107.79
 
 - name: ADGUARD - Create container
   community.docker.docker_container:
     name: adguard
-    image: adguard/adguardhome:v0.107.78
+    image: adguard/adguardhome:v0.107.79
     restart_policy: always
     state: started
     pull: false
