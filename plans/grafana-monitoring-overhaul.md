@@ -4,7 +4,7 @@
 
 ## Context
 
-Audit of the Grafana setup in `homelab-ansible-plays` found a working but gappy observability stack:
+Audit of the Grafana setup in `homelab` found a working but gappy observability stack:
 
 - **7 dashboards** in a flat General folder: 5 hand-made (`homelab-overview`, `docker-containers`, `logs`, `proxmox`, `pubgolf-backend`), 2 imported (`traefik` gnetId 17346, `truenas`).
 - **`proxmox.json` is dead** — all 8 panels query `pve_*` metrics but no `prometheus-pve-exporter` exists anywhere. The hypervisor is unmonitored.

@@ -23,7 +23,7 @@ public struct RepositoryReference: Sendable, Equatable, Codable {
 
     public static let homelab = RepositoryReference(
         owner: "BenSuskins",
-        name: "homelab-ansible-plays"
+        name: "homelab"
     )
 }
 

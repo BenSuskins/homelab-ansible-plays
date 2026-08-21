@@ -117,7 +117,7 @@ struct GitHubClientTests {
 
         let arguments = try #require(runner.invokedArguments.first)
         #expect(arguments.contains("POST"))
-        #expect(arguments.contains("repos/BenSuskins/homelab-ansible-plays/actions/workflows/clean.yml/dispatches"))
+        #expect(arguments.contains("repos/BenSuskins/homelab/actions/workflows/clean.yml/dispatches"))
         #expect(arguments.contains("ref=main"))
     }
 
@@ -130,7 +130,7 @@ struct GitHubClientTests {
         let arguments = try #require(runner.invokedArguments.first)
         #expect(arguments.contains("PUT"))
         #expect(arguments.contains("merge_method=squash"))
-        #expect(arguments.contains("repos/BenSuskins/homelab-ansible-plays/pulls/141/merge"))
+        #expect(arguments.contains("repos/BenSuskins/homelab/pulls/141/merge"))
     }
 
     @Test("reports a missing gh binary as a distinct failure")

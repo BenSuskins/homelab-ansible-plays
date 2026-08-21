@@ -99,7 +99,7 @@
   block:
     - name: RUNNER - Generate registration token
       ansible.builtin.uri:
-        url: "https://api.github.com/repos/BenSuskins/homelab-ansible-plays/actions/runners/registration-token"
+        url: "https://api.github.com/repos/BenSuskins/homelab/actions/runners/registration-token"
         method: POST
         headers:
           Accept: application/vnd.github.v3+json
@@ -112,7 +112,7 @@
       ansible.builtin.command:
         cmd: >
           ./config.sh
-          --url https://github.com/BenSuskins/homelab-ansible-plays
+          --url https://github.com/BenSuskins/homelab
           --token {{ registration_token_response.json.token }}
           --name {{ inventory_hostname_short }}
           --unattended

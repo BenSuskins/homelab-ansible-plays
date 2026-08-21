@@ -19,7 +19,7 @@ enum Samples {
               "head_branch": "main",
               "status": "\(status)",
               "conclusion": \(conclusionField),
-              "html_url": "https://github.com/BenSuskins/homelab-ansible-plays/actions/runs/\(identifier)",
+              "html_url": "https://github.com/BenSuskins/homelab/actions/runs/\(identifier)",
               "run_started_at": "2026-08-09T10:00:00Z",
               "updated_at": "2026-08-09T10:04:01Z"
             }
@@ -41,7 +41,7 @@ enum Samples {
         "isDraft": false,
         "mergeable": "MERGEABLE",
         "createdAt": "2026-08-06T09:15:00Z",
-        "url": "https://github.com/BenSuskins/homelab-ansible-plays/pull/141"
+        "url": "https://github.com/BenSuskins/homelab/pull/141"
       },
       {
         "number": 139,
@@ -50,7 +50,7 @@ enum Samples {
         "isDraft": true,
         "mergeable": "CONFLICTING",
         "createdAt": "2026-08-01T09:15:00Z",
-        "url": "https://github.com/BenSuskins/homelab-ansible-plays/pull/139"
+        "url": "https://github.com/BenSuskins/homelab/pull/139"
       }
     ]
     """

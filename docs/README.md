@@ -1,4 +1,4 @@
-# homelab-ansible-plays
+# homelab
 
 > Ansible-driven infrastructure-as-code for a multi-host homelab.
 
@@ -63,8 +63,8 @@ Renovate.
 ### Setup
 
 ```bash
-git clone git@github.com:bensuskins/homelab-ansible-plays.git
-cd homelab-ansible-plays
+git clone git@github.com:bensuskins/homelab.git
+cd homelab
 
 # Update inventory and group_vars/ to match your hosts and domain
 vim inventory group_vars/all.yml
