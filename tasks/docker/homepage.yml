@@ -61,7 +61,9 @@
       HOMEPAGE_ALLOWED_HOSTS: "{{ docker_ip }}:3000,home.{{ domain }}"
       # Homepage v2 adds its own password/OIDC gate behind HOMEPAGE_AUTH_ENABLED.
       # Leave it off: Traefik already sends home.{{ domain }} through the authelia
-      # middleware, so enabling it would ask for a second login.
+      # middleware. Note this gates the proxied host only, not port 3000 on the
+      # LAN or tailnet. To close that, add homepage as an authelia OIDC client
+      # rather than using password mode, which would ask for a second login.
     networks:
       - name: homelab
     ports:
