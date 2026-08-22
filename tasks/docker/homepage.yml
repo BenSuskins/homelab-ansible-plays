@@ -59,6 +59,9 @@
     pull: false
     env:
       HOMEPAGE_ALLOWED_HOSTS: "{{ docker_ip }}:3000,home.{{ domain }}"
+      # Homepage v2 adds its own password/OIDC gate behind HOMEPAGE_AUTH_ENABLED.
+      # Leave it off: Traefik already sends home.{{ domain }} through the authelia
+      # middleware, so enabling it would ask for a second login.
     networks:
       - name: homelab
     ports:
